@@ -1,0 +1,23 @@
+﻿<Window x:Class="Pronets.Viev.StartWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Pronets.Viev"
+        xmlns:vm="clr-namespace:Pronets.VievModel"
+         mc:Ignorable="d"
+        Title="Pronets" Height="210" Width="206.667" ResizeMode="NoResize" KeyDown="Window_KeyDown" WindowStartupLocation="CenterScreen">
+    <Window.DataContext>
+        <vm:StartWindowVM/>
+    </Window.DataContext>
+    <Grid Margin="5">
+        <TextBox x:Name="tbxLogin" HorizontalAlignment="Left" Height="22" Margin="35,45,-147,-67" TextWrapping="Wrap"  VerticalAlignment="Top" Width="112" RenderTransformOrigin="0.5,0.5"/>
+        <PasswordBox x:Name="tbxPassword" HorizontalAlignment="Left" Height="22" Margin="35,104,-147,-126"  VerticalAlignment="Top" Width="112" RenderTransformOrigin="0.5,0.5" />
+        <Button x:Name="button" Content="Вход" HorizontalAlignment="Left" Height="24" Margin="58,139,-124,-163" VerticalAlignment="Top" Width="66" RenderTransformOrigin="0.5,0.5" Click="Button_Click" />
+        <Label x:Name="label" Content="Имя Пользователя" HorizontalAlignment="Left" Height="24" Margin="31,16,-151,-40" VerticalAlignment="Top" Width="120"/>
+        <Label x:Name="label1" Content="Пароль" HorizontalAlignment="Left" Height="32" Margin="38,72,-144,-104" VerticalAlignment="Top" Width="106"/>
+       
+        
+        <Button x:Name="button1" Content="Login" HorizontalAlignment="Left" Height="25" Margin="148,147,0,0" VerticalAlignment="Top" Width="43" RenderTransformOrigin="0.519,0.781" Click="Start_Click"/>
+    </Grid>
+</Window>

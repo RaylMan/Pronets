@@ -1,0 +1,62 @@
+﻿<Window x:Class="Pronets.Viev.Users_f.AddUser"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+         xmlns:vm="clr-namespace:Pronets.VievModel.Users_f"
+        xmlns:local="clr-namespace:Pronets.Viev.Users_f"
+        mc:Ignorable="d"
+         Title="Добавить работника" Height="400" Width="380" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Background="LightSlateGray">
+    <Window.DataContext>
+        <vm:AddUserVM/>
+    </Window.DataContext>
+    <Grid Margin="5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"></ColumnDefinition>
+            <ColumnDefinition ></ColumnDefinition>
+
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Column="0" Grid.Row="0" Text="Логин" Margin="10" TextAlignment="Center" />
+        <TextBlock Grid.Column="0" Grid.Row="1" Text="Пароль" Margin="10" TextAlignment="Center"/>
+        <TextBlock Grid.Column="0" Grid.Row="2" Text="Уровень доступа" Margin="0,10" TextAlignment="Center"/>
+        <TextBlock Grid.Column="0" Grid.Row="3" Text="Имя" TextAlignment="Center" Margin="10"/>
+        <TextBlock Grid.Column="0" Grid.Row="4" Text="Фамилия" TextAlignment="Center" Margin="10"/>
+        <TextBlock Grid.Column="0" Grid.Row="5" Text="Отчество" TextAlignment="Center" Margin="10"/>
+        <TextBlock Grid.Column="0" Grid.Row="6" Text="Дата рождения" TextAlignment="Center"/>
+        <TextBlock Grid.Column="0" Grid.Row="6" Text="Формат (День/Месяц/Год)" FontSize="8" Margin="0,20,0,0" TextAlignment="Center"/>
+        <TextBlock Grid.Column="0" Grid.Row="7" Text="Телефон" TextAlignment="Center" Margin="10"/>
+        <TextBlock Grid.Column="0" Grid.Row="8" Text="Адрес" TextAlignment="Center" Margin="10"/>
+
+        <TextBox x:Name="txbLogin" Grid.Column="1" Grid.Row="0" Margin="5" Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}" MaxLength="50" Grid.ColumnSpan="2" />
+        <TextBox x:Name="txbPassword"  Grid.Column="1" Grid.Row="1" Margin="5" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" MaxLength="50" Grid.ColumnSpan="2"/>
+        <ComboBox x:Name="cbxPosition" Grid.Column="1" Margin="5" Grid.Row="2" ItemsSource="{Binding Positions, UpdateSourceTrigger=PropertyChanged}" SelectedValue="{Binding SelItem}" Grid.ColumnSpan="2">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Position}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        <TextBox x:Name="txbFirstName"  Grid.Column="1" Grid.Row="3" Margin="5" Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}" MaxLength="50" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="txbLastName"  Grid.Column="1" Grid.Row="4" Margin="5" Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}" MaxLength="50" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="txbPatronymic"  Grid.Column="1" Grid.Row="5" Margin="5" Text="{Binding Patronymic, UpdateSourceTrigger=PropertyChanged}" MaxLength="50" Grid.ColumnSpan="2"/>
+        <DatePicker HorizontalAlignment="Left" Grid.Column="1" Margin="5,3,0,0" Grid.Row="6" VerticalAlignment="Top" Width="254" Height="26" SelectedDate="{Binding Path=Birthday, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
+                  ValidatesOnExceptions=true, NotifyOnValidationError=true}"/>
+        <TextBox x:Name="txbTelephone"  Grid.Column="1" Grid.Row="7" Margin="5" Text="{Binding Telephone, UpdateSourceTrigger=PropertyChanged}" MaxLength="50" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="txbAdress" Grid.Column="1" Grid.Row="8" Margin="5" Text="{Binding Adress, UpdateSourceTrigger=PropertyChanged}" MaxLength="50" Grid.ColumnSpan="2"/>
+
+        <Button x:Name="btnAdd" Content="Добавить работника" Grid.Column="1" Grid.Row="9" Margin="5" Command="{Binding AddCommand}" Grid.ColumnSpan="2"/>
+
+    </Grid>
+</Window>

@@ -1,0 +1,34 @@
+﻿<Window x:Class="Pronets.Viev.Nomenclature_f.Nomenclature_TypesWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Pronets.Viev.Nomenclature_f"
+        xmlns:vm="clr-namespace:Pronets.VievModel.Nomenclature_f"
+        mc:Ignorable="d"
+       Title="Типы оборудования" Height="250" Width="400" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="SingleBorderWindow" >
+    <Window.DataContext>
+        <vm:Nomenclature_TypesVM/>
+    </Window.DataContext>
+    <Grid Margin="5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <GroupBox x:Name="groupBox" Header="Редактировать" Grid.Column="1" Margin="5,0,0,0">
+            <StackPanel Margin="0,0,0,0">
+                <TextBox x:Name="tbxAddType" Text="{Binding NomType, UpdateSourceTrigger=PropertyChanged}" MaxLength="50"  Margin="10,10,10,0" TextWrapping="NoWrap" VerticalAlignment="Top" />
+                <Button x:Name="btnAddType"  Command="{Binding AddCommand}" Content="Добавить" CommandParameter="{Binding ElementName=tbxAddType}" Margin="30,10,30,10" />
+                <Button x:Name="btnDelete" Content="Удалить" Command="{Binding RemoveCommand}"  Margin="30,0,30,10"/>
+            </StackPanel>
+        </GroupBox>
+        <ListBox x:Name="listBox" ItemsSource="{Binding Nomenclatures_Types}" Grid.Column="0" SelectedIndex="{Binding SelectedIndex}" SelectedValue="{Binding SelectedItem}"  ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Type}"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+</Window>

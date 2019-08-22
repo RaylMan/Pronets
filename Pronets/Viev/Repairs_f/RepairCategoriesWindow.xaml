@@ -1,0 +1,38 @@
+﻿<Window x:Class="Pronets.Viev.Repairs_f.RepairCategoriesWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Pronets.Viev.Repairs_f"
+        xmlns:vm="clr-namespace:Pronets.VievModel.Repairs_f"
+        mc:Ignorable="d"
+         Title="Категории ремонтов" Height="400" Width="600" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" >
+    <Window.DataContext>
+        <vm:RepairCategoriesVM/>
+    </Window.DataContext>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"></ColumnDefinition>
+            <ColumnDefinition>
+            </ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <DataGrid x:Name="dataGrid" Grid.Column="0" ItemsSource="{Binding Repair_Categories}" Margin="5" AutoGenerateColumns="False" SelectedIndex="{Binding SelectedIndex}" SelectedValue="{Binding SelectedItem}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Категория ремонта" Binding="{Binding Path=Category}"  IsReadOnly="True" />
+                <DataGridTextColumn Header="Цена" Binding="{Binding Path=Price}" IsReadOnly="True"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <TextBox x:Name="textBox" Grid.Column="1" Text="{Binding Category, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="25" Margin="80,46,0,0" TextWrapping="NoWrap" MaxLength="50" VerticalAlignment="Top" Width="185"/>
+        <TextBox x:Name="textBox1" Grid.Column="1" Text="{Binding Price, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="25" Margin="80,76,0,0" TextWrapping="NoWrap" MaxLength="50" VerticalAlignment="Top" Width="185"/>
+
+        <Label x:Name="label" Content="Добавить категорию ремонта" Grid.Column="1" FontSize="15" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.002,0.404"/>
+        <Label x:Name="label1" Content="Категория" Grid.Column="1" HorizontalAlignment="Left" Margin="10,47,0,0" VerticalAlignment="Top" Height="25"/>
+        <Label x:Name="label2" Content="Цена" Grid.Column="1" HorizontalAlignment="Left" Margin="24,77,0,0" VerticalAlignment="Top" Height="25"/>
+        <Button x:Name="button" Content="Добавить" Command="{Binding AddCommand}" Grid.Column="1" HorizontalAlignment="Left" Margin="110,106,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button x:Name="button1" Content="Удалить" Command="{Binding RemoveCommand}" Grid.Column="1" HorizontalAlignment="Left" Margin="110,156,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button x:Name="button2" Content="Обновить" Command="{Binding FillListCommand}" Grid.Column="1" HorizontalAlignment="Left" Margin="110,131,0,0" VerticalAlignment="Top" Width="75"/>
+    </Grid>
+
+</Window>
+
+    
