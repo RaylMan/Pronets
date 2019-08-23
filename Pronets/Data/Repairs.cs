@@ -34,8 +34,8 @@ namespace Pronets.Data
         public string Note { get; set; }
     
         public virtual Clients Clients { get; set; }
-        public virtual Warrantys Warrantys { get; set; }
         public virtual Nomenclature Nomenclature1 { get; set; }
+        public virtual Warrantys Warrantys { get; set; }
         public virtual ReceiptDocument ReceiptDocument { get; set; }
         public virtual Repair_Categories Repair_Categories { get; set; }
         public virtual Statuses Statuses { get; set; }

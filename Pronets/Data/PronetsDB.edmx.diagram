@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="4b21c312a8554a60a1c1b898758cc961" Name="Diagram1">
+      <Diagram DiagramId="27fea833c3d946bd8d0092eed289e3d7" Name="Diagram1">
         <EntityTypeShape EntityType="PronetsDBModel.Clients" Width="1.5" PointX="0.75" PointY="2.375" IsExpanded="true" />
         <EntityTypeShape EntityType="PronetsDBModel.No_in_Repairs" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="PronetsDBModel.Nomenclature" Width="1.5" PointX="3" PointY="15.625" IsExpanded="true" />
@@ -15,7 +15,6 @@
         <EntityTypeShape EntityType="PronetsDBModel.Repair_Categories" Width="1.5" PointX="3" PointY="9.375" IsExpanded="true" />
         <EntityTypeShape EntityType="PronetsDBModel.Repairs" Width="1.5" PointX="5.25" PointY="1.125" IsExpanded="true" />
         <EntityTypeShape EntityType="PronetsDBModel.Statuses" Width="1.5" PointX="3" PointY="6.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="PronetsDBModel.sysdiagrams" Width="1.5" PointX="5.75" PointY="7.75" IsExpanded="true" />
         <EntityTypeShape EntityType="PronetsDBModel.Users" Width="1.5" PointX="0.75" PointY="7.125" IsExpanded="true" />
         <AssociationConnector Association="PronetsDBModel.FK_ReceiptDocument_Clients" ManuallyRouted="false" />
         <AssociationConnector Association="PronetsDBModel.FK_Repairs_Clients" ManuallyRouted="false" />

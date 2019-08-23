@@ -1,12 +1,7 @@
 ﻿using Pronets.Data;
+using Pronets.EntityRequests.Repairs_f;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -14,11 +9,11 @@ namespace Pronets.VievModel.Repairs_f
 {
     class RepairCategoriesVM : VievModelBase
     {
-        static string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["PronetsDBEntities"].ConnectionString;
-        SqlConnection con = new SqlConnection(connectionString);
-        SqlDataAdapter adapter;
-        SqlCommand cmd;
-        DataSet ds;
+        public RepairCategoriesVM()
+        {
+            repair_Categories = RepairCategoriesRequests.FillList();
+        }
+
         #region Property
         private ObservableCollection<Repair_Categories> repair_Categories;
         public ObservableCollection<Repair_Categories> Repair_Categories
@@ -62,43 +57,7 @@ namespace Pronets.VievModel.Repairs_f
             }
         }
         #endregion
-        public RepairCategoriesVM()
-        {
-            FillList();
-        }
-        void FillList()
-        {
-            try
-            {
-                con.Open();
-                cmd = new SqlCommand("select * from Repair_Categories", con);
-                adapter = new SqlDataAdapter(cmd);
-                ds = new DataSet();
-                adapter.Fill(ds, "Repair_Categories");
-                if (repair_Categories == null)
-                    repair_Categories = new ObservableCollection<Repair_Categories>();
-                foreach (DataRow dr in ds.Tables[0].Rows)
-                {
-                    repair_Categories.Add(new Repair_Categories
-                    {
-                        Category = (dr[0] is DBNull) ? null : dr[0].ToString(),
-                        Price = Convert.ToDecimal(dr[1])
-                    });
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                ds = null;
-                adapter.Dispose();
-                con.Close();
-                con.Dispose();
-            }
-        }
-
+        
         #region AddCommand
         private ICommand addItem;
         public ICommand AddCommand
@@ -119,53 +78,31 @@ namespace Pronets.VievModel.Repairs_f
         }
         public void AddItem(object Parameter)
         {
-            string sql;
-            if (category != null && category != "" && category != "")
+            if (category != null && category != "" && category != " ")
             {
-                sql = "Insert into Repair_Categories values(" +
-                          "'" + Category + "'," +
-                           +Price + ")";
-
-
+                Repair_Categories rc = new Repair_Categories
+                {
+                    Category = category,
+                    Price = price
+                };
                 var result = MessageBox.Show("Вы Действительно хотете добавить?\nПроверьте правильность данных!", "Создание экземпляра", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
                 {
-                    try
+                    RepairCategoriesRequests.AddToBase(rc, out bool ex);
+                    if(ex) //если ex == true, нет копии в базе, происходит запись в таблицу viev
                     {
-                        con = new SqlConnection(connectionString);
-                        SqlCommand command = new SqlCommand(sql, con);
-                        adapter = new SqlDataAdapter(command);
-                        adapter.InsertCommand = new SqlCommand(sql, con);
-                        con.Open();
-                        ds = new DataSet();
-                        adapter.Fill(ds, "Repair_Categories");
-                        repair_Categories.Add(new Repair_Categories
-                        {
-                            Category = Category,
-                            Price = Price
-                        });
+                        repair_Categories.Add(rc);
                     }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
-                    finally
-                    {
-                        ds = null;
-                        adapter.Dispose();
-                        con.Close();
-                        con.Dispose();
-                        Category = string.Empty;
-                        Price = 0;
-                    }
-
-
+                    Category = string.Empty;
+                    Price = 0;
                 }
             }
+            else
+                MessageBox.Show("Необходимо заполнить все поля!", "Ошибка");
         }
         #endregion
 
-        #region FillLost button
+        #region FillList button
         protected ICommand fillItems;
         public ICommand FillListCommand
         {
@@ -186,36 +123,7 @@ namespace Pronets.VievModel.Repairs_f
         void FillList(object Parameter)
         {
             repair_Categories.Clear();
-            try
-            {
-                con = new SqlConnection(connectionString);
-                con.Open();
-                cmd = new SqlCommand("select * from Repair_Categories", con);
-                adapter = new SqlDataAdapter(cmd);
-                ds = new DataSet();
-                adapter.Fill(ds, "Repair_Categories");
-                if (repair_Categories == null)
-                    repair_Categories = new ObservableCollection<Repair_Categories>();
-                foreach (DataRow dr in ds.Tables[0].Rows)
-                {
-                    repair_Categories.Add(new Repair_Categories
-                    {
-                        Category = (dr[0] is DBNull) ? null : dr[0].ToString(),
-                        Price = Convert.ToDecimal(dr[1])
-                    });
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                ds = null;
-                adapter.Dispose();
-                con.Close();
-                con.Dispose();
-            }
+            repair_Categories = RepairCategoriesRequests.FillList();
         }
         #endregion
 
@@ -241,35 +149,13 @@ namespace Pronets.VievModel.Repairs_f
         {
             if (selectedItem != null)
             {
-                string sql = "delete from Repair_Categories where Category='" + SelectedItem.Category.ToString() + "'";
                 var result = MessageBox.Show("Вы Действительно хотете удалить?", "Удаление", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    try
-                    {
-                        con = new SqlConnection(connectionString);
-                        SqlCommand command = new SqlCommand(sql, con);
-                        adapter = new SqlDataAdapter(command);
-                        adapter.InsertCommand = new SqlCommand(sql, con);
-                        con.Open();
-                        ds = new DataSet();
-                        adapter.Fill(ds, "Repair_Categories");
-                        repair_Categories.RemoveAt(selectedIndex);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
-                    finally
-                    {
-                        ds = null;
-                        adapter.Dispose();
-                        con.Close();
-                        con.Dispose();
-                    }
+                    RepairCategoriesRequests.RemoveFromBase(SelectedItem);
+                    repair_Categories.RemoveAt(SelectedIndex);
                 }
-
             }
             else
                 MessageBox.Show("Необходимо выбрать элемент в таблице!", "Ошибка");

@@ -1,4 +1,5 @@
 ﻿using Pronets.Data;
+using Pronets.EntityRequests.Users_f;
 using Pronets.Navigation.WindowsNavigation;
 using System;
 using System.Collections.Generic;
@@ -160,85 +161,13 @@ namespace Pronets.VievModel.Users_f
 
         public UsersVM()
         {
+           
             OpenWindowCommand = new OpenWindowCommand();
-            FillList();
-            //FillUsers();
         }
-        protected ObservableCollection<Users> users1;
-        public ObservableCollection<Users> Users1
+        public UsersVM(string name)
         {
-            get { return users1; }
-
-            set
-            {
-                users1 = value;
-                RaisedPropertyChanged("Users1");
-            }
+            users = UsersRequest.FillList();
         }
-        //private void FillUsers()
-        //{
-        //    using (var context = new PronetsDBEntities())
-        //    {
-        //        foreach (Users user in context.Users)
-        //        {
-        //            users1.Add(new Users
-        //            {
-        //                UserId = user.UserId,
-        //                Login = user.Login,
-        //                Password = user.Password,
-        //                Position = user.Position,
-        //                FirstName = user.FirstName,
-        //                LastName = user.LastName,
-        //                Patronymic = user.Patronymic,
-        //                Birthday = user.Birthday,
-        //                Telephone = user.Telephone,
-        //                Adress = user.Adress
-        //            });
-        //        }
-
-        //    }
-        //}
-        protected void FillList()
-        {
-            try
-            {
-                con.Open();
-                cmd = new SqlCommand("select * from Users", con);
-                adapter = new SqlDataAdapter(cmd);
-                ds = new DataSet();
-                adapter.Fill(ds, "Users");
-                if (users == null)
-                    users = new ObservableCollection<Users>();
-                foreach (DataRow dr in ds.Tables[0].Rows)
-                {
-                    users.Add(new Users
-                    {
-                        UserId = Convert.ToInt32(dr[0]),
-                        Login = dr[1].ToString(),
-                        Password = dr[2].ToString(),
-                        Position = dr[3].ToString(),
-                        FirstName = (dr[4] is DBNull) ? null : dr[4].ToString(),
-                        LastName = (dr[5] is DBNull) ? null : dr[5].ToString(),
-                        Patronymic = (dr[6] is DBNull) ? null : dr[6].ToString(),
-                        Birthday = (dr[7] is DBNull) ? DateTime.MinValue : Convert.ToDateTime(dr[7]),
-                        Telephone = (dr[8] is DBNull) ? null : dr[8].ToString(),
-                        Adress = (dr[9] is DBNull) ? null : dr[9].ToString()
-                    });
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                ds = null;
-                adapter.Dispose();
-                con.Close();
-                con.Dispose();
-            }
-        }
-
         #region Delete Command
 
         protected ICommand removeItem;
@@ -262,33 +191,12 @@ namespace Pronets.VievModel.Users_f
         {
             if (selectedItem != null)
             {
-                string sql = "delete from Users where UserId=" + SelectedItem.UserId.ToString();
                 var result = MessageBox.Show("Вы Действительно хотете удалить?", "Удаление", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    try
-                    {
-                        con = new SqlConnection(connectionString);
-                        SqlCommand command = new SqlCommand(sql, con);
-                        adapter = new SqlDataAdapter(command);
-                        adapter.InsertCommand = new SqlCommand(sql, con);
-                        con.Open();
-                        ds = new DataSet();
-                        adapter.Fill(ds, "Users");
-                        users.RemoveAt(selectedIndex);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
-                    finally
-                    {
-                        ds = null;
-                        adapter.Dispose();
-                        con.Close();
-                        con.Dispose();
-                    }
+                    UsersRequest.RemoveFromBase(selectedItem);
+                    users.RemoveAt(SelectedIndex);
                 }
 
             }
@@ -318,65 +226,35 @@ namespace Pronets.VievModel.Users_f
         }
         public void EditItem(object Parameter)
         {
-            string sql;
+            Users modifiedUser = null;
             if (selectedItem != null)
             {
                 if (SelectedItem.UserId != 0)
                 {
-                    sql = "Update Users set " +
-                                   "Login ='" + selectedItem.Login + "'," +
-                                   "Password ='" + selectedItem.Password + "'," +
-                                   "Position ='" + selectedItem.Position + "'," +
-                                   "FirstName ='" + selectedItem.FirstName + "'," +
-                                   "LastName ='" + selectedItem.LastName + "'," +
-                                   "Patronymic ='" + selectedItem.Patronymic + "'," +
-                                   "Birthday = '" + selectedItem.Birthday.ToString("yyyy/MM/dd") + "'," +
-                                   "Telephone ='" + selectedItem.Telephone + "'," +
-                                   "Adress ='" + selectedItem.Adress + "'" +
-                                   "where UserID=" + SelectedItem.UserId.ToString();
-                }
-                else
-                {
-                    sql = "Insert into Users values(" +
-                                   "'" + selectedItem.Login + "'," +
-                                   "'" + selectedItem.Password + "'," +
-                                   "'" + selectedItem.Position + "'," +
-                                   "'" + selectedItem.FirstName + "'," +
-                                   "'" + selectedItem.LastName + "'," +
-                                   "'" + selectedItem.Patronymic + "'," +
-                                   "'" + selectedItem.Birthday.ToString("yyyy/MM/dd") + "'," +
-                                   "'" + selectedItem.Telephone + "'," +
-                                   "'" + selectedItem.Adress + "')";
-                }
-
-                var result = MessageBox.Show("Вы Действительно хотете редактировать?", "Редактирование", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                if (result == MessageBoxResult.Yes)
-                {
-
-                    try
+                    modifiedUser = new Users
                     {
-                        con = new SqlConnection(connectionString);
-                        SqlCommand command = new SqlCommand(sql, con);
-                        adapter = new SqlDataAdapter(command);
-                        adapter.InsertCommand = new SqlCommand(sql, con);
-                        con.Open();
-                        ds = new DataSet();
-                        adapter.Fill(ds, "Users");
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
-                    finally
-                    {
-                        ds = null;
-                        adapter.Dispose();
-                        con.Close();
-                        con.Dispose();
-                    }
+                        UserId = SelectedItem.UserId,
+                        Login = selectedItem.Login,
+                        Password = selectedItem.Password,
+                        Position = selectedItem.Position,
+                        FirstName = selectedItem.FirstName,
+                        LastName = selectedItem.LastName,
+                        Patronymic = selectedItem.Patronymic,
+                        Birthday = selectedItem.Birthday,
+                        Telephone = selectedItem.Telephone,
+                        Adress = selectedItem.Adress
+                    };
 
+
+                    var result = MessageBox.Show("Вы Действительно хотете редактировать?", "Редактирование", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        if (modifiedUser != null)
+                        {
+                            UsersRequest.EditItem(modifiedUser);
+                        }
+                    }
                 }
-
             }
             else
                 MessageBox.Show("Необходимо выбрать элемент", "Ошибка");
@@ -405,44 +283,7 @@ namespace Pronets.VievModel.Users_f
         void FillList(object Parameter)
         {
             users.Clear();
-            try
-            {
-                con = new SqlConnection(connectionString);
-                con.Open();
-                cmd = new SqlCommand("select * from Users", con);
-                adapter = new SqlDataAdapter(cmd);
-                ds = new DataSet();
-                adapter.Fill(ds, "Users");
-                if (users == null)
-                    users = new ObservableCollection<Users>();
-                foreach (DataRow dr in ds.Tables[0].Rows)
-                {
-                    users.Add(new Users
-                    {
-                        UserId = Convert.ToInt32(dr[0]),
-                        Login = dr[1].ToString(),
-                        Password = dr[2].ToString(),
-                        Position = dr[3].ToString(),
-                        FirstName = (dr[4] is DBNull) ? null : dr[4].ToString(),
-                        LastName = (dr[5] is DBNull) ? null : dr[5].ToString(),
-                        Patronymic = (dr[6] is DBNull) ? null : dr[6].ToString(),
-                        Birthday = (dr[7] is DBNull) ? DateTime.MinValue : Convert.ToDateTime(dr[7]),
-                        Telephone = (dr[8] is DBNull) ? null : dr[8].ToString(),
-                        Adress = (dr[9] is DBNull) ? null : dr[9].ToString()
-                    });
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                ds = null;
-                adapter.Dispose();
-                con.Close();
-                con.Dispose();
-            }
+            users = UsersRequest.FillList();
         }
 
         #endregion

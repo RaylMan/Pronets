@@ -1,4 +1,5 @@
 ﻿using Pronets.Data;
+using Pronets.EntityRequests.Clients_f;
 using Pronets.Navigation.WindowsNavigation;
 using System;
 using System.Collections.ObjectModel;
@@ -12,7 +13,7 @@ namespace Pronets.VievModel.Clients_f
     public class ClientsVM : VievModelBase
     {
         public OpenWindowCommand OpenWindowCommand { get; set; } //Команда открытия нового окна
-        
+
         static string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["PronetsDBEntities"].ConnectionString;
         SqlConnection con = new SqlConnection(connectionString);
         SqlDataAdapter adapter;
@@ -148,88 +149,7 @@ namespace Pronets.VievModel.Clients_f
         public ClientsVM()
         {
             OpenWindowCommand = new OpenWindowCommand(); // создание экземпляра открытия окна
-           FillList();
-        }
-
-        protected void FillList()
-        {
-            try
-            {
-                con.Open();
-                cmd = new SqlCommand("select * from Clients", con);
-                adapter = new SqlDataAdapter(cmd);
-                ds = new DataSet();
-                adapter.Fill(ds, "Clients");
-                if (clients == null)
-                    clients = new ObservableCollection<Clients>();
-                foreach (DataRow dr in ds.Tables[0].Rows)
-                {
-                    clients.Add(new Clients
-                    {
-                        ClientId = Convert.ToInt32(dr[0]),
-                        ClientName = (dr[1] is DBNull) ? null : dr[1].ToString(),
-                        Inn = (dr[2] is DBNull) ? null : dr[2].ToString(),
-                        Contact_Person = (dr[3] is DBNull) ? null : dr[3].ToString(),
-                        Telephone_1 = (dr[4] is DBNull) ? null : dr[4].ToString(),
-                        Telephone_2 = (dr[5] is DBNull) ? null : dr[5].ToString(),
-                        Telephone_3 = (dr[6] is DBNull) ? null : dr[6].ToString(),
-                        Email = (dr[7] is DBNull) ? null : dr[7].ToString(),
-                        Adress = (dr[8] is DBNull) ? null : dr[8].ToString()
-                    });
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                ds = null;
-                adapter.Dispose();
-                con.Close();
-                con.Dispose();
-            }
-        }
-        protected void FillList(object Parameter)
-        {
-            clients.Clear();
-            try
-            {
-                con = new SqlConnection(connectionString);
-                con.Open();
-                cmd = new SqlCommand("select * from Clients", con);
-                adapter = new SqlDataAdapter(cmd);
-                ds = new DataSet();
-                adapter.Fill(ds, "Clients");
-                if (clients == null)
-                    clients = new ObservableCollection<Clients>();
-                foreach (DataRow dr in ds.Tables[0].Rows)
-                {
-                    clients.Add(new Clients
-                    {
-                        ClientId = Convert.ToInt32(dr[0]),
-                        ClientName = (dr[1] is DBNull) ? null : dr[1].ToString(),
-                        Inn = (dr[2] is DBNull) ? null : dr[2].ToString(),
-                        Contact_Person = (dr[3] is DBNull) ? null : dr[3].ToString(),
-                        Telephone_1 = (dr[4] is DBNull) ? null : dr[4].ToString(),
-                        Telephone_2 = (dr[5] is DBNull) ? null : dr[5].ToString(),
-                        Telephone_3 = (dr[6] is DBNull) ? null : dr[6].ToString(),
-                        Email = (dr[7] is DBNull) ? null : dr[7].ToString(),
-                        Adress = (dr[8] is DBNull) ? null : dr[8].ToString()
-                    });
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                ds = null;
-                adapter.Dispose();
-                con.Close();
-                con.Dispose();
-            }
+            clients = ClientsRequests.FillList();
         }
 
         #region Delete Command
@@ -255,33 +175,12 @@ namespace Pronets.VievModel.Clients_f
         {
             if (selectedItem != null)
             {
-                string sql = "delete from Clients where ClientId=" + SelectedItem.ClientId.ToString();
                 var result = MessageBox.Show("Вы Действительно хотете удалить?", "Удаление", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    try
-                    {
-                        con = new SqlConnection(connectionString);
-                        SqlCommand command = new SqlCommand(sql, con);
-                        adapter = new SqlDataAdapter(command);
-                        adapter.InsertCommand = new SqlCommand(sql, con);
-                        con.Open();
-                        ds = new DataSet();
-                        adapter.Fill(ds, "Clients");
-                        clients.RemoveAt(selectedIndex);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
-                    finally
-                    {
-                        ds = null;
-                        adapter.Dispose();
-                        con.Close();
-                        con.Dispose();
-                    }
+                    ClientsRequests.RemoveFromBase(selectedItem);
+                    clients.RemoveAt(selectedIndex);
                 }
 
             }
@@ -311,63 +210,33 @@ namespace Pronets.VievModel.Clients_f
         }
         public void EditItem(object Parameter)
         {
-            string sql;
+            Clients modifiedClient = null;
             if (selectedItem != null)
             {
                 if (SelectedItem.ClientId != 0)
                 {
-                    sql = "Update Clients set " +
-                                   "ClientName ='" + selectedItem.ClientName + "'," +
-                                   "Inn ='" + selectedItem.Inn + "'," +
-                                   "Contact_Person ='" + selectedItem.Contact_Person + "'," +
-                                   "Telephone_1 ='" + selectedItem.Telephone_1 + "'," +
-                                   "Telephone_2 ='" + selectedItem.Telephone_2 + "'," +
-                                   "Telephone_3 ='" + selectedItem.Telephone_3 + "'," +
-                                   "Email ='" + selectedItem.Email + "'," +
-                                   "Adress ='" + selectedItem.Adress + "'" +
-                                   "where ClientId=" + SelectedItem.ClientId.ToString();
+                    modifiedClient = new Clients
+                    {
+                        ClientId = SelectedItem.ClientId,
+                        ClientName = selectedItem.ClientName,
+                        Inn = selectedItem.Inn,
+                        Contact_Person = selectedItem.Contact_Person,
+                        Telephone_1 = selectedItem.Telephone_1,
+                        Telephone_2 = selectedItem.Telephone_2,
+                        Telephone_3 = selectedItem.Telephone_3,
+                        Email = selectedItem.Email,
+                        Adress = selectedItem.Adress
+                    };
                 }
-                else
-                {
-                    sql = "Insert into Clients values(" +
-                                   "'" + selectedItem.ClientName + "'," +
-                                   "'" + selectedItem.Inn + "'," +
-                                   "'" + selectedItem.Contact_Person + "'," +
-                                   "'" + selectedItem.Telephone_1 + "'," +
-                                   "'" + selectedItem.Telephone_2 + "'," +
-                                   "'" + selectedItem.Telephone_3 + "'," +
-                                   "'" + selectedItem.Email + "'," +
-                                   "'" + selectedItem.Adress + "')";
-                }
-
+               
                 var result = MessageBox.Show("Вы Действительно хотете редактировать?", "Редактирование", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
                 {
-
-                    try
+                    if(modifiedClient != null)
                     {
-                        con = new SqlConnection(connectionString);
-                        SqlCommand command = new SqlCommand(sql, con);
-                        adapter = new SqlDataAdapter(command);
-                        adapter.InsertCommand = new SqlCommand(sql, con);
-                        con.Open();
-                        ds = new DataSet();
-                        adapter.Fill(ds, "Clients");
+                        ClientsRequests.EditItem(modifiedClient);
                     }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
-                    finally
-                    {
-                        ds = null;
-                        adapter.Dispose();
-                        con.Close();
-                        con.Dispose();
-                    }
-
                 }
-
             }
             else
                 MessageBox.Show("Необходимо выбрать элемент!", "Ошибка");
@@ -391,6 +260,11 @@ namespace Pronets.VievModel.Clients_f
                 editItem = value;
                 RaisedPropertyChanged("FillListCommand");
             }
+        }
+        protected void FillList(object Parameter)
+        {
+            clients.Clear();
+            clients = ClientsRequests.FillList();
         }
         #endregion
 
@@ -416,6 +290,7 @@ namespace Pronets.VievModel.Clients_f
         public void SearchItem(object Parameter)
         {
             clients.Clear();
+            //clients = ClientsRequests.SearchItem(searchText);
             string sql = "SELECT * FROM Clients where ClientName = '" + searchText + "' or Inn = '" + searchText + "' or Contact_Person = '"
                 + searchText + "' or Telephone_1 = '" + searchText + "' or Telephone_2 = '" + searchText + "' or Telephone_3 = '" + searchText + "' or Email = '"
                 + searchText + "' or Adress = '" + searchText + "'";

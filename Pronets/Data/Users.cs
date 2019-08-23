@@ -30,7 +30,6 @@ namespace Pronets.Data
         public string LastName { get; set; }
         public string Patronymic { get; set; }
         public System.DateTime Birthday { get; set; }
-       // public Nullable<System.DateTime> Birthday { get; set; }
         public string Telephone { get; set; }
         public string Adress { get; set; }
     

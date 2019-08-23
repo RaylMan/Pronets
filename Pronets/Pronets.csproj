@@ -116,20 +116,25 @@
     <Compile Include="Data\Statuses.cs">
       <DependentUpon>PronetsDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="Data\sysdiagrams.cs">
-      <DependentUpon>PronetsDB.tt</DependentUpon>
-    </Compile>
     <Compile Include="Data\Users.cs">
       <DependentUpon>PronetsDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\Warrantys.cs" />
+    <Compile Include="EntityRequests\Clients_f\ClientsRequests.cs" />
+    <Compile Include="EntityRequests\FullTextSearch\DbContext.cs" />
+    <Compile Include="EntityRequests\FullTextSearch\FullTextIndexAttribute.cs" />
+    <Compile Include="EntityRequests\FullTextSearch\IndexAttribute.cs" />
+    <Compile Include="EntityRequests\FullTextSearch\IQueryableExtension.cs" />
+    <Compile Include="EntityRequests\Repairs_f\RepairCategoriesRequests.cs" />
+    <Compile Include="EntityRequests\Repairs_f\StatusesRequests.cs" />
+    <Compile Include="EntityRequests\Users_f\UsersRequest.cs" />
     <Compile Include="Model\RepairsModel.cs" />
     <Compile Include="Navigation\IPageResolver.cs" />
     <Compile Include="Navigation\Navigation.cs" />
     <Compile Include="Navigation\PagesResolver.cs" />
     <Compile Include="Navigation\WindowsNavigation\OpenWindowCommand.cs" />
     <Compile Include="VievModel\Clients_f\AddClientVM.cs" />
-    <Compile Include="VievModel\Clients_f\ClintsVM.cs" />
+    <Compile Include="VievModel\Clients_f\ClientsVM.cs" />
     <Compile Include="VievModel\MainWindows\Pages\AddRecipeDocumentVM.cs" />
     <Compile Include="VievModel\MainWindows\Pages\DefectsPageVM.cs" />
     <Compile Include="VievModel\MainWindows\Pages\Page404VM.cs" />
@@ -227,20 +232,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="EntityRequests\MainWindows\" />
+    <Folder Include="EntityRequests\Nomenclature_f\" />
+    <Folder Include="EntityRequests\Other\" />
     <Folder Include="VievModel\Other\" />
     <Folder Include="Viev\Other\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Data\PronetsDB.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>PronetsDB.Context.cs</LastGenOutput>
-      <DependentUpon>PronetsDB.edmx</DependentUpon>
-    </Content>
-    <Content Include="Data\PronetsDB.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>PronetsDB.edmx</DependentUpon>
-      <LastGenOutput>PronetsDB.cs</LastGenOutput>
-    </Content>
     <Resource Include="Viev\Nomenclature_f\reset.png" />
     <Resource Include="photo.ico" />
   </ItemGroup>
@@ -308,6 +306,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Data\PronetsDB.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>PronetsDB.edmx</DependentUpon>
+      <LastGenOutput>PronetsDB.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Data\PronetsDB.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>PronetsDB.edmx</DependentUpon>
+      <LastGenOutput>PronetsDB.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
