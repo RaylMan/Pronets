@@ -20,7 +20,7 @@ namespace Pronets.VievModel.Clients_f
         SqlCommand cmd;
         DataSet ds;
         #region Properties
-        protected ObservableCollection<Clients> clients;
+        protected ObservableCollection<Clients> clients = new ObservableCollection<Clients>();
         public ObservableCollection<Clients> Clients
         {
             get { return clients; }
@@ -148,8 +148,9 @@ namespace Pronets.VievModel.Clients_f
 
         public ClientsVM()
         {
-            OpenWindowCommand = new OpenWindowCommand(); // создание экземпляра открытия окна
+            //clients.Clear();
             clients = ClientsRequests.FillList();
+            OpenWindowCommand = new OpenWindowCommand(); // создание экземпляра открытия окна
         }
 
         #region Delete Command
@@ -290,50 +291,52 @@ namespace Pronets.VievModel.Clients_f
         public void SearchItem(object Parameter)
         {
             clients.Clear();
-            //clients = ClientsRequests.SearchItem(searchText);
-            string sql = "SELECT * FROM Clients where ClientName = '" + searchText + "' or Inn = '" + searchText + "' or Contact_Person = '"
-                + searchText + "' or Telephone_1 = '" + searchText + "' or Telephone_2 = '" + searchText + "' or Telephone_3 = '" + searchText + "' or Email = '"
-                + searchText + "' or Adress = '" + searchText + "'";
+            clients = ClientsRequests.SearchItem(searchText);
+            //clients = new ObservableCollection<Clients>(ClientsRequests.SearchItem(searchText)) ;
+            int a = clients.Count;
+            //string sql = "SELECT * FROM Clients where ClientName = '" + searchText + "' or Inn = '" + searchText + "' or Contact_Person = '"
+            //    + searchText + "' or Telephone_1 = '" + searchText + "' or Telephone_2 = '" + searchText + "' or Telephone_3 = '" + searchText + "' or Email = '"
+            //    + searchText + "' or Adress = '" + searchText + "'";
 
-            try
-            {
-                con = new SqlConnection(connectionString);
-                SqlCommand command = new SqlCommand(sql, con);
-                adapter = new SqlDataAdapter(command);
-                adapter.InsertCommand = new SqlCommand(sql, con);
-                con.Open();
-                ds = new DataSet();
-                adapter.Fill(ds, "Clients");
-                if (clients == null)
-                    clients = new ObservableCollection<Clients>();
-                foreach (DataRow dr in ds.Tables[0].Rows)
-                {
-                    clients.Add(new Clients
-                    {
-                        ClientId = Convert.ToInt32(dr[0]),
-                        ClientName = (dr[1] is DBNull) ? null : dr[1].ToString(),
-                        Inn = (dr[2] is DBNull) ? null : dr[2].ToString(),
-                        Contact_Person = (dr[3] is DBNull) ? null : dr[3].ToString(),
-                        Telephone_1 = (dr[4] is DBNull) ? null : dr[4].ToString(),
-                        Telephone_2 = (dr[5] is DBNull) ? null : dr[5].ToString(),
-                        Telephone_3 = (dr[6] is DBNull) ? null : dr[6].ToString(),
-                        Email = (dr[8] is DBNull) ? null : dr[8].ToString(),
-                        Adress = (dr[8] is DBNull) ? null : dr[8].ToString()
-                    });
-                    searchText = string.Empty;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                ds = null;
-                adapter.Dispose();
-                con.Close();
-                con.Dispose();
-            }
+            //try
+            //{
+            //    con = new SqlConnection(connectionString);
+            //    SqlCommand command = new SqlCommand(sql, con);
+            //    adapter = new SqlDataAdapter(command);
+            //    adapter.InsertCommand = new SqlCommand(sql, con);
+            //    con.Open();
+            //    ds = new DataSet();
+            //    adapter.Fill(ds, "Clients");
+            //    if (clients == null)
+            //        clients = new ObservableCollection<Clients>();
+            //    foreach (DataRow dr in ds.Tables[0].Rows)
+            //    {
+            //        clients.Add(new Clients
+            //        {
+            //            ClientId = Convert.ToInt32(dr[0]),
+            //            ClientName = (dr[1] is DBNull) ? null : dr[1].ToString(),
+            //            Inn = (dr[2] is DBNull) ? null : dr[2].ToString(),
+            //            Contact_Person = (dr[3] is DBNull) ? null : dr[3].ToString(),
+            //            Telephone_1 = (dr[4] is DBNull) ? null : dr[4].ToString(),
+            //            Telephone_2 = (dr[5] is DBNull) ? null : dr[5].ToString(),
+            //            Telephone_3 = (dr[6] is DBNull) ? null : dr[6].ToString(),
+            //            Email = (dr[8] is DBNull) ? null : dr[8].ToString(),
+            //            Adress = (dr[8] is DBNull) ? null : dr[8].ToString()
+            //        });
+            //        searchText = string.Empty;
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.Message);
+            //}
+            //finally
+            //{
+            //    ds = null;
+            //    adapter.Dispose();
+            //    con.Close();
+            //    con.Dispose();
+            //}
         }
         #endregion
     }

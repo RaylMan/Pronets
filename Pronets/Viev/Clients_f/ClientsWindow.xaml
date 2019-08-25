@@ -16,11 +16,11 @@
             <RowDefinition ></RowDefinition>
         </Grid.RowDefinitions>
 
-        <TextBox x:Name="txbSearch" Text="{Binding SearchText}"  Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Width="150"></TextBox>
+        <TextBox x:Name="txbSearch" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }"  Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Width="150"></TextBox>
         <Button x:Name="btnSearch" Grid.Row="0" Content="Поиск" Command="{Binding SearchCommand}"  CommandParameter="{Binding ElementName=txbSearch}" HorizontalAlignment="Left" Margin="160,5,0,0" VerticalAlignment="Top" />
         <Button x:Name="btnVievData" Grid.Row="0" Content="Все клиенты" Command="{Binding FillListCommand}" HorizontalAlignment="Left" Margin="205,5,0,0" VerticalAlignment="Top" />
         <Button x:Name="btnAdd" Grid.Row="0" Content="Добавить клиента" HorizontalAlignment="Left" Margin="284,5,0,0" VerticalAlignment="Top" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type local:AddClient}"/>
-        <DataGrid x:Name="dataGrid" ItemsSource="{Binding Clients, Mode=TwoWay}" Grid.Row="0"  Margin="0,35,0,0" AutoGenerateColumns="False" SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}" SelectedValue="{Binding SelectedItem, Mode=TwoWay}" >
+        <DataGrid x:Name="dataGrid" ItemsSource="{Binding Clients}" Grid.Row="0"  Margin="0,35,0,0" AutoGenerateColumns="False" SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}" SelectedValue="{Binding SelectedItem, Mode=TwoWay}" >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding Path=ClientId, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Название организации" Binding="{Binding Path=ClientName, UpdateSourceTrigger=PropertyChanged}" />

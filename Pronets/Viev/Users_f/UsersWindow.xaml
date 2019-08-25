@@ -21,7 +21,7 @@
         <Button x:Name="btnAdd" Grid.Row="0" Content="Добавить работника" HorizontalAlignment="Left" Margin="297,5,0,0" VerticalAlignment="Top" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type local:AddUser}" />
         <Label Grid.Row="0" Content="После редактирования колонок, необходимо нажать Enter, а затем кнопку Редактировать"  HorizontalAlignment="Left" Margin="422,5,-22,0" VerticalAlignment="Top"/>
 
-        <DataGrid x:Name="dataGrid" ItemsSource="{Binding Users}" Grid.Row="0"  Margin="0,35,0,0" AutoGenerateColumns="False" SelectedIndex="{Binding SelectedIndex}" SelectedValue="{Binding SelectedItem}" >
+        <DataGrid x:Name="dataGrid" ItemsSource="{Binding Users, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0"  Margin="0,35,0,0" AutoGenerateColumns="False" SelectedIndex="{Binding SelectedIndex}" SelectedValue="{Binding SelectedItem}" >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding Path=UserId, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Логин" Binding="{Binding Path=Login, UpdateSourceTrigger=PropertyChanged}" />

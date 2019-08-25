@@ -23,7 +23,7 @@ namespace Pronets.VievModel.Users_f
         SqlCommand cmd;
         DataSet ds;
         #region UsersVM Properties
-        protected ObservableCollection<Users> users;
+        protected ObservableCollection<Users> users = new ObservableCollection<Users>();
         public ObservableCollection<Users> Users
         {
             get { return users; }
@@ -161,13 +161,11 @@ namespace Pronets.VievModel.Users_f
 
         public UsersVM()
         {
-           
+            users.Clear();
+            users = UsersRequest.FillList();
             OpenWindowCommand = new OpenWindowCommand();
         }
-        public UsersVM(string name)
-        {
-            users = UsersRequest.FillList();
-        }
+        
         #region Delete Command
 
         protected ICommand removeItem;

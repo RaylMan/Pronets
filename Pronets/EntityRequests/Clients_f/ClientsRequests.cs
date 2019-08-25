@@ -8,6 +8,7 @@ namespace Pronets.EntityRequests.Clients_f
     public static class ClientsRequests
     {
         private static ObservableCollection<Clients> clients = new ObservableCollection<Clients>();
+        private static ObservableCollection<Clients> searchClients = new ObservableCollection<Clients>();
         public static ObservableCollection<Clients> FillList()
         {
             using (var db = new PronetsDataBaseEntities())
@@ -75,14 +76,21 @@ namespace Pronets.EntityRequests.Clients_f
         }
         public static ObservableCollection<Clients> SearchItem(string word)
         {
+            
             using (var db = new PronetsDataBaseEntities())
             {
-                foreach (var item in db.Clients.FullTextSearch(f => f.ClientName == word))
-                {
-                    clients.Add(item);
-                }
+
+                var searchItems = db.Clients.Where(c => c.ClientName.Contains(word) ||
+                                                c.Contact_Person.Contains(word) ||
+                                                c.Inn.Contains(word) ||
+                                                c.Telephone_1.Contains(word) ||
+                                                c.Telephone_2.Contains(word) ||
+                                                c.Telephone_3.Contains(word) ||
+                                                c.Email.Contains(word) ||
+                                                c.Adress.Contains(word));
+                searchClients = new ObservableCollection<Clients>(searchItems);
             }
-            return clients;
+            return searchClients;
         }
     }
 }
