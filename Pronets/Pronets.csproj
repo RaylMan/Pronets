@@ -121,8 +121,11 @@
     </Compile>
     <Compile Include="Data\Warrantys.cs" />
     <Compile Include="EntityRequests\Clients_f\ClientsRequests.cs" />
+    <Compile Include="EntityRequests\Nomenclature_f\NomenclatureRequest.cs" />
     <Compile Include="EntityRequests\Nomenclature_f\Nomenclature_TypesRequest.cs" />
+    <Compile Include="EntityRequests\Other\ReceiptDocumentRequest.cs" />
     <Compile Include="EntityRequests\Repairs_f\RepairCategoriesRequests.cs" />
+    <Compile Include="EntityRequests\Repairs_f\RepairsRequest.cs" />
     <Compile Include="EntityRequests\Repairs_f\StatusesRequests.cs" />
     <Compile Include="EntityRequests\Users_f\UsersRequest.cs" />
     <Compile Include="Model\RepairsModel.cs" />
@@ -230,7 +233,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="EntityRequests\MainWindows\" />
-    <Folder Include="EntityRequests\Other\" />
     <Folder Include="VievModel\Other\" />
     <Folder Include="Viev\Other\" />
   </ItemGroup>

@@ -1,4 +1,5 @@
 ﻿using Pronets.Data;
+using Pronets.EntityRequests.Other;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -96,43 +97,10 @@ namespace Pronets.VievModel.MainWindows.Pages
 
         public ReceiptDocumentPageVM()
         {
-            //FillList();
+            receiptDocuments = ReceiptDocumentRequest.FillList();
         }
-        #region MyRegion
-        //protected void FillList()
-        //{
-        //    try
-        //    {
-        //        con.Open();
-        //        cmd = new SqlCommand("select * from ReceiptDocument", con);
-        //        adapter = new SqlDataAdapter(cmd);
-        //        ds = new DataSet();
-        //        adapter.Fill(ds, "ReceiptDocument");
-        //        if (receiptDocuments == null)
-        //            receiptDocuments = new ObservableCollection<ReceiptDocument>();
-        //        foreach (DataRow dr in ds.Tables[0].Rows)
-        //        {
-        //            receiptDocuments.Add(new ReceiptDocument
-        //            {
-        //                DocumentId = Convert.ToInt32(dr[0]),
-        //                ClientId = Convert.ToInt32(dr[1]),
-        //                InspectorId = Convert.ToInt32(dr[2]),
-        //                Date = (dr[3] is DBNull) ? DateTime.MinValue : Convert.ToDateTime(dr[3])
-        //            });
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show(ex.Message);
-        //    }
-        //    finally
-        //    {
-        //        ds = null;
-        //        adapter.Dispose();
-        //        con.Close();
-        //        con.Dispose();
-        //    }
-        //}
+        #region Open Document
+        
         #endregion
     }
 }

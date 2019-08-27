@@ -6,6 +6,11 @@ using Pronets.Data;
 using Pronets.Model;
 using System.Windows;
 using System.Windows.Input;
+using Pronets.EntityRequests.Clients_f;
+using Pronets.EntityRequests.Users_f;
+using Pronets.EntityRequests.Nomenclature_f;
+using Pronets.EntityRequests.Other;
+using Pronets.EntityRequests.Repairs_f;
 
 namespace Pronets.VievModel.MainWindows.Pages
 {
@@ -268,9 +273,9 @@ namespace Pronets.VievModel.MainWindows.Pages
         #endregion
         public AddRecipeDocumentVM()
         {
-            FillClients();
-            FillUsers();
-            FillNomenclature();
+            clients = ClientsRequests.FillList();
+            users = UsersRequest.FillList();
+            nomenclatures = NomenclatureRequest.FillList();
             GetDocumentId();
             date_Of_Receipt = DateTime.Now;
             repairs = new ObservableCollection<Repairs>();
@@ -282,135 +287,8 @@ namespace Pronets.VievModel.MainWindows.Pages
         #region Document Id
         void GetDocumentId()
         {
-            try
-            {
-                con = new SqlConnection(connectionString);
-                con.Open();
-                cmd = new SqlCommand("SELECT TOP 1 DocumentId FROM ReceiptDocument ORDER BY DocumentId DESC", con);
-                adapter = new SqlDataAdapter(cmd);
-                ds = new DataSet();
-                adapter.Fill(ds, "ReceiptDocument");
-
-                foreach (DataRow dr in ds.Tables[0].Rows)
-                {
-                    DocumentId = Convert.ToInt32(dr[0]);
-                    DocumentId++;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                ds = null;
-                adapter.Dispose();
-                con.Close();
-                con.Dispose();
-            }
-        }
-        #endregion
-
-        #region FillLists
-        public void FillClients()
-        {
-            try
-            {
-                con = new SqlConnection(connectionString);
-                con.Open();
-                cmd = new SqlCommand("select ClientId, ClientName from Clients", con);
-                adapter = new SqlDataAdapter(cmd);
-                ds = new DataSet();
-                adapter.Fill(ds, "Clients");
-                if (clients == null)
-                    clients = new ObservableCollection<Clients>();
-
-                foreach (DataRow dr in ds.Tables[0].Rows)
-                {
-                    clients.Add(new Clients
-                    {
-                        ClientId = Convert.ToInt32(dr[0]),
-                        ClientName = dr[1].ToString()
-                    });
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                ds = null;
-                adapter.Dispose();
-                con.Close();
-                con.Dispose();
-            }
-        }
-        public void FillUsers()
-        {
-            try
-            {
-                con = new SqlConnection(connectionString);
-                con.Open();
-                cmd = new SqlCommand("select UserId, LastName from Users", con);
-                adapter = new SqlDataAdapter(cmd);
-                ds = new DataSet();
-                adapter.Fill(ds, "Users");
-                if (users == null)
-                    users = new ObservableCollection<Users>();
-
-                foreach (DataRow dr in ds.Tables[0].Rows)
-                {
-                    users.Add(new Users
-                    {
-                        UserId = Convert.ToInt32(dr[0]),
-                        LastName = dr[1].ToString()
-                    });
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                ds = null;
-                adapter.Dispose();
-                con.Close();
-                con.Dispose();
-            }
-        }
-        public void FillNomenclature()
-        {
-            try
-            {
-                con = new SqlConnection(connectionString);
-                con.Open();
-                cmd = new SqlCommand("select Name from Nomenclature", con);
-                adapter = new SqlDataAdapter(cmd);
-                ds = new DataSet();
-                adapter.Fill(ds, "Nomenclature");
-                if (nomenclatures == null)
-                    nomenclatures = new ObservableCollection<Nomenclature>();
-                foreach (DataRow dr in ds.Tables[0].Rows)
-                {
-                    nomenclatures.Add(new Nomenclature
-                    {
-                        Name = dr[0].ToString()
-                    });
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                ds = null;
-                adapter.Dispose();
-                con.Close();
-                con.Dispose();
-            }
+            DocumentId = ReceiptDocumentRequest.GetDocumentID();
+            DocumentId++;
         }
         #endregion
 
@@ -440,70 +318,33 @@ namespace Pronets.VievModel.MainWindows.Pages
                 var result = MessageBox.Show("Вы Действительно хотете записать в базу?\nПроверьте правильность данных!", "Создание экземпляра", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
                 {
-                    string sql = "INSERT INTO  ReceiptDocument VALUES (" +
-                         selectClientItem.ClientId + ", " +
-                         selectUserItem.UserId + "," +
-                         "'" + date_Of_Receipt.ToString("yyyy/MM/dd") + "')";
-                    try
+                    ReceiptDocument newReceiptDocument = new ReceiptDocument
                     {
-                        con = new SqlConnection(connectionString);
-                        SqlCommand command = new SqlCommand(sql, con);
-                        adapter = new SqlDataAdapter(command);
-                        adapter.InsertCommand = new SqlCommand(sql, con);
-                        con.Open();
-                        ds = new DataSet();
-                        adapter.Fill(ds, "ReceiptDocument");
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
-                    finally
-                    {
-                        ds = null;
-                        adapter.Dispose();
-                        con.Close();
-                        con.Dispose();
-                    }
-
+                        ClientId = selectClientItem.ClientId,
+                        InspectorId = selectUserItem.UserId,
+                        Date = date_Of_Receipt
+                    };
+                    
                     string sn, cm, nm, wt;
                     for (int i = 0; i < repairs.Count; i++)
                     {
-                        nm = repairs[i].Nomenclature != null ? repairs[i].Nomenclature1.Name.ToString() : "Пусто";
-                        sn = repairs[i].Serial_Number != null ? repairs[i].Serial_Number.ToString() : "";
-                        cm = repairs[i].Claimed_Malfunction != null ? repairs[i].Claimed_Malfunction.ToString() : "";
-                        wt = repairs[i].Warranty != null ? repairs[i].Warrantys.Warranty.ToString() : "нет";
-                        sql = "INSERT INTO Repairs(DocumentId, Nomenclature, Serial_Number, Claimed_Malfunction, Client, Date_Of_Receipt, Inspector, Warranty)  VALUES ("
-                             + documentId + "," +
-                             "'" + nm + "'," +
-                             "'" + sn + "'," +
-                             "'" + cm + "'," +
-                             +selectClientItem.ClientId + "," +
-                             "'" + date_Of_Receipt.ToString("yyyy/MM/dd") + "'," +
-                             +selectUserItem.UserId + "," +
-                             "'" + wt + "')";
-                        try
-                        {
-                            con = new SqlConnection(connectionString);
-                            SqlCommand command = new SqlCommand(sql, con);
-                            adapter = new SqlDataAdapter(command);
-                            adapter.InsertCommand = new SqlCommand(sql, con);
-                            con.Open();
-                            ds = new DataSet();
-                            adapter.Fill(ds, "Repairs");
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show(ex.Message);
-                        }
-                        finally
-                        {
-                            ds = null;
-                            adapter.Dispose();
-                            con.Close();
-                            con.Dispose();
-                        }
+                        nm = repairs[i].Nomenclature1 != null ? repairs[i].Nomenclature1.Name : "Отсутствует";
+                        //sn = repairs[i].Serial_Number != null ? repairs[i].Serial_Number : "Отсутствует";
+                        //cm = repairs[i].Claimed_Malfunction != null ? repairs[i].Claimed_Malfunction : "Отсутствует";
+                        wt = repairs[i].Warrantys != null ? repairs[i].Warrantys.Warranty : "нет";
+
+                        repairs[i].DocumentId = documentId;
+                        repairs[i].Nomenclature = nm;
+                        //repairs[i].Serial_Number = sn;
+                        //repairs[i].Claimed_Malfunction = cm;
+                        repairs[i].Client = selectClientItem.ClientId;
+                        repairs[i].Date_Of_Receipt = date_Of_Receipt;
+                        repairs[i].Inspector = selectUserItem.UserId;
+                        repairs[i].Warranty = wt;
                     }
+                    repairs.GetHashCode();
+                    ReceiptDocumentRequest.AddToBase(newReceiptDocument);
+                    RepairsRequest.AddToBase(repairs);
                     repairs.Clear();
                     GetDocumentId();
                     MessageBox.Show("Произведена успешная запись в базу данных!", "Результат");

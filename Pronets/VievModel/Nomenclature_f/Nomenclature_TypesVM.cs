@@ -2,8 +2,6 @@
 using Pronets.EntityRequests.Nomenclature_f;
 using System;
 using System.Collections.ObjectModel;
-using System.Data;
-using System.Data.SqlClient;
 using System.Windows;
 using System.Windows.Input;
 
@@ -11,11 +9,6 @@ namespace Pronets.VievModel.Nomenclature_f
 {
     public class Nomenclature_TypesVM : VievModelBase
     {
-        static string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["PronetsDBEntities"].ConnectionString;
-        SqlConnection con = new SqlConnection(connectionString);
-        SqlDataAdapter adapter;
-        SqlCommand cmd;
-        DataSet ds;
         #region Properties
         private ObservableCollection<Nomenclature_Types> nomenclatures_Types;
         public ObservableCollection<Nomenclature_Types> Nomenclatures_Types
@@ -133,6 +126,5 @@ namespace Pronets.VievModel.Nomenclature_f
                 MessageBox.Show("Необходимо выбрать элемент в списке!", "Ошибка");
         }
         #endregion
-
     }
 }

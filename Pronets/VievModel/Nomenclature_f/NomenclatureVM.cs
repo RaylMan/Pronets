@@ -1,4 +1,5 @@
 ﻿using Pronets.Data;
+using Pronets.EntityRequests.Nomenclature_f;
 using Pronets.Navigation.WindowsNavigation;
 using System;
 using System.Collections.ObjectModel;
@@ -11,13 +12,8 @@ namespace Pronets.VievModel.Nomenclature_f
 {
     class NomenclatureVM : VievModelBase
     {
-        public OpenWindowCommand OpenWindowCommand { get; private set; }
-        static string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["PronetsDBEntities"].ConnectionString;
-        SqlConnection con = new SqlConnection(connectionString);
-        SqlDataAdapter adapter;
-        SqlCommand cmd;
-        DataSet ds;
         #region Property
+        public OpenWindowCommand OpenWindowCommand { get; private set; }
         private ObservableCollection<Nomenclature> nomenclature;
         public ObservableCollection<Nomenclature> Nomenclature
         {
@@ -95,79 +91,11 @@ namespace Pronets.VievModel.Nomenclature_f
         #endregion
         public NomenclatureVM()
         {
+            nomenclature = NomenclatureRequest.FillList();
+            nomenclature_Types = Nomenclature_TypesRequest.FillList();
             OpenWindowCommand = new OpenWindowCommand();
-            FillList();
-            FillCombobox();
-        }
-        void FillList()
-        {
-            try
-            {
-                con = new SqlConnection(connectionString);
-                con.Open();
-                cmd = new SqlCommand("select * from Nomenclature", con);
-                adapter = new SqlDataAdapter(cmd);
-                ds = new DataSet();
-                adapter.Fill(ds, "Nomenclature");
-                if (nomenclature == null)
-                    nomenclature = new ObservableCollection<Nomenclature>();
-                foreach (DataRow dr in ds.Tables[0].Rows)
-                {
-                    nomenclature.Add(new Nomenclature
-                    {
-                        Name = (dr[0] is DBNull) ? null : dr[0].ToString(),
-                        Type = dr[1].ToString(),
-                        Price = Convert.ToDecimal(dr[2])
-                    });
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                ds = null;
-                adapter.Dispose();
-                con.Close();
-                con.Dispose();
-            }
-        }
-        #region Combobox
-        public void FillCombobox()
-        {
-            try
-            {
-                con = new SqlConnection(connectionString);
-                con.Open();
-                cmd = new SqlCommand("select * from Nomenclature_Types", con);
-                adapter = new SqlDataAdapter(cmd);
-                ds = new DataSet();
-                adapter.Fill(ds, "Nomenclature_Types");
-                if (nomenclature_Types == null)
-                    nomenclature_Types = new ObservableCollection<Nomenclature_Types>();
 
-                foreach (DataRow dr in ds.Tables[0].Rows)
-                {
-                    nomenclature_Types.Add(new Nomenclature_Types
-                    {
-                        Type = dr[0].ToString()
-                    });
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                ds = null;
-                adapter.Dispose();
-                con.Close();
-                con.Dispose();
-            }
         }
-        #endregion
 
         #region AddCommand
         private ICommand addItem;
@@ -189,49 +117,25 @@ namespace Pronets.VievModel.Nomenclature_f
         }
         public void AddItem(object Parameter)
         {
-            string sql;
             if (name != null && name != " " && name != "" && selItem != null)
             {
-                sql = "Insert into Nomenclature values(" +
-                      "'" + Name + "'," +
-                       "'" + selItem.Type.ToString() + "'," +
-                       +Price + ")";
-
+                Nomenclature nom = new Nomenclature
+                {
+                    Name = this.Name,
+                    Type = selItem.Type,
+                    Price = this.Price
+                };
 
                 var result = MessageBox.Show("Вы Действительно хотете добавить?\nПроверьте правильность данных!", "Создание экземпляра", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
                 {
-                    try
+                    NomenclatureRequest.AddToBase(nom, out bool ex);
+                    if (ex) //если ex == true, нет копии в базе, происходит запись в таблицу viev
                     {
-                        con = new SqlConnection(connectionString);
-                        SqlCommand command = new SqlCommand(sql, con);
-                        adapter = new SqlDataAdapter(command);
-                        adapter.InsertCommand = new SqlCommand(sql, con);
-                        con.Open();
-                        ds = new DataSet();
-                        adapter.Fill(ds, "Nomenclature");
-                        nomenclature.Add(new Nomenclature
-                        {
-                            Name = Name,
-                            Type = selItem.Type.ToString(),
-                            Price = Price
-                        });
-
+                        nomenclature.Add(nom);
                     }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
-                    finally
-                    {
-                        ds = null;
-                        adapter.Dispose();
-                        con.Close();
-                        con.Dispose();
-                        Name = string.Empty;
-                        Price = 0;
-                    }
-
+                    Name = string.Empty;
+                    Price = 0;
                 }
             }
             else
@@ -239,7 +143,7 @@ namespace Pronets.VievModel.Nomenclature_f
         }
         #endregion
 
-        #region FillLost button
+        #region FillList button
         protected ICommand fillItems;
         public ICommand FillListCommand
         {
@@ -260,37 +164,7 @@ namespace Pronets.VievModel.Nomenclature_f
         void FillList(object Parameter)
         {
             nomenclature.Clear();
-            try
-            {
-                con = new SqlConnection(connectionString);
-                con.Open();
-                cmd = new SqlCommand("select * from Nomenclature", con);
-                adapter = new SqlDataAdapter(cmd);
-                ds = new DataSet();
-                adapter.Fill(ds, "Nomenclature");
-                if (nomenclature == null)
-                    nomenclature = new ObservableCollection<Nomenclature>();
-                foreach (DataRow dr in ds.Tables[0].Rows)
-                {
-                    nomenclature.Add(new Nomenclature
-                    {
-                        Name = (dr[0] is DBNull) ? null : dr[0].ToString(),
-                        Type = dr[1].ToString(),
-                        Price = Convert.ToDecimal(dr[2])
-                    });
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                ds = null;
-                adapter.Dispose();
-                con.Close();
-                con.Dispose();
-            }
+            nomenclature = NomenclatureRequest.FillList();
         }
         #endregion
 
@@ -314,37 +188,8 @@ namespace Pronets.VievModel.Nomenclature_f
         }
         public void FillComboBox(object Parametr)
         {
-            try
-            {
-                nomenclature_Types.Clear();
-                con = new SqlConnection(connectionString);
-                con.Open();
-                cmd = new SqlCommand("select * from Nomenclature_Types", con);
-                adapter = new SqlDataAdapter(cmd);
-                ds = new DataSet();
-                adapter.Fill(ds, "Nomenclature_Types");
-                if (nomenclature_Types == null)
-                    nomenclature_Types = new ObservableCollection<Nomenclature_Types>();
-
-                foreach (DataRow dr in ds.Tables[0].Rows)
-                {
-                    nomenclature_Types.Add(new Nomenclature_Types
-                    {
-                        Type = dr[0].ToString()
-                    });
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                ds = null;
-                adapter.Dispose();
-                con.Close();
-                con.Dispose();
-            }
+            nomenclature_Types.Clear();
+            nomenclature_Types = Nomenclature_TypesRequest.FillList();
         }
         #endregion
 
@@ -370,35 +215,13 @@ namespace Pronets.VievModel.Nomenclature_f
         {
             if (selectedItem != null)
             {
-                string sql = "delete from Nomenclature where Name='" + SelectedItem.Name.ToString() + "'";
                 var result = MessageBox.Show("Вы Действительно хотете удалить?", "Удаление", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    try
-                    {
-                        con = new SqlConnection(connectionString);
-                        SqlCommand command = new SqlCommand(sql, con);
-                        adapter = new SqlDataAdapter(command);
-                        adapter.InsertCommand = new SqlCommand(sql, con);
-                        con.Open();
-                        ds = new DataSet();
-                        adapter.Fill(ds, "Nomenclature");
-                        nomenclature.RemoveAt(selectedIndex);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
-                    finally
-                    {
-                        ds = null;
-                        adapter.Dispose();
-                        con.Close();
-                        con.Dispose();
-                    }
+                    NomenclatureRequest.RemoveFromBase(SelectedItem);
+                    nomenclature.RemoveAt(SelectedIndex);
                 }
-
             }
             else
                 MessageBox.Show("Необходимо выбрать элемент в таблице!", "Ошибка");
