@@ -20,7 +20,7 @@ namespace Pronets.Data
             this.ReceiptDocument = new HashSet<ReceiptDocument>();
             this.Repairs = new HashSet<Repairs>();
         }
-    
+
         public int ClientId { get; set; }
         public string ClientName { get; set; }
         public string Inn { get; set; }
@@ -30,7 +30,7 @@ namespace Pronets.Data
         public string Telephone_3 { get; set; }
         public string Email { get; set; }
         public string Adress { get; set; }
-    
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ReceiptDocument> ReceiptDocument { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -121,10 +121,6 @@
     </Compile>
     <Compile Include="Data\Warrantys.cs" />
     <Compile Include="EntityRequests\Clients_f\ClientsRequests.cs" />
-    <Compile Include="EntityRequests\FullTextSearch\DbContext.cs" />
-    <Compile Include="EntityRequests\FullTextSearch\FullTextIndexAttribute.cs" />
-    <Compile Include="EntityRequests\FullTextSearch\IndexAttribute.cs" />
-    <Compile Include="EntityRequests\FullTextSearch\IQueryableExtension.cs" />
     <Compile Include="EntityRequests\Repairs_f\RepairCategoriesRequests.cs" />
     <Compile Include="EntityRequests\Repairs_f\StatusesRequests.cs" />
     <Compile Include="EntityRequests\Users_f\UsersRequest.cs" />

@@ -1,6 +1,6 @@
-﻿using EntityFrameworkIndex;
-using Pronets.Data;
+﻿using Pronets.Data;
 using System.Collections.ObjectModel;
+using System.Data.Entity;
 using System.Linq;
 
 namespace Pronets.EntityRequests.Clients_f
@@ -15,6 +15,9 @@ namespace Pronets.EntityRequests.Clients_f
             {
                 if (clients != null)
                     clients.Clear();
+                db.ReceiptDocument.Load();
+                db.Repairs.Load();
+
                 foreach (var item in db.Clients)
                 {
                     clients.Add(new Clients
@@ -27,7 +30,9 @@ namespace Pronets.EntityRequests.Clients_f
                         Telephone_2 = item.Telephone_2,
                         Telephone_3 = item.Telephone_3,
                         Email = item.Email,
-                        Adress = item.Adress
+                        Adress = item.Adress,
+                        ReceiptDocument = item.ReceiptDocument,
+                        Repairs = item.Repairs
                     });
                 }
             }
@@ -42,7 +47,6 @@ namespace Pronets.EntityRequests.Clients_f
                     db.Clients.Add(client);
                     db.SaveChanges();
                 }
-
             }
         }
         public static void RemoveFromBase(Clients client)
@@ -78,10 +82,8 @@ namespace Pronets.EntityRequests.Clients_f
         }
         public static ObservableCollection<Clients> SearchItem(string word)
         {
-            
             using (var db = new PronetsDataBaseEntities())
             {
-
                 var searchItems = db.Clients.Where(c => c.ClientName.Contains(word) ||
                                                 c.Contact_Person.Contains(word) ||
                                                 c.Inn.Contains(word) ||
@@ -89,7 +91,8 @@ namespace Pronets.EntityRequests.Clients_f
                                                 c.Telephone_2.Contains(word) ||
                                                 c.Telephone_3.Contains(word) ||
                                                 c.Email.Contains(word) ||
-                                                c.Adress.Contains(word));
+                                                c.Adress.Contains(word)).ToList();
+                //c.Adress.Contains(word)).Include(rd => rd.ReceiptDocument).Include(r => r.Repairs).ToList();
                 searchClients = new ObservableCollection<Clients>(searchItems);
             }
             return searchClients;

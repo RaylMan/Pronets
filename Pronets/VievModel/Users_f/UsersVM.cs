@@ -16,25 +16,18 @@ namespace Pronets.VievModel.Users_f
 {
     public class UsersVM : VievModelBase
     {
-        public OpenWindowCommand OpenWindowCommand { get; private set; }
-        static string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["PronetsDBEntities"].ConnectionString;
-        SqlConnection con = new SqlConnection(connectionString);
-        SqlDataAdapter adapter;
-        SqlCommand cmd;
-        DataSet ds;
         #region UsersVM Properties
+        public OpenWindowCommand OpenWindowCommand { get; private set; }
         protected ObservableCollection<Users> users = new ObservableCollection<Users>();
         public ObservableCollection<Users> Users
         {
             get { return users; }
-
             set
             {
                 users = value;
                 RaisedPropertyChanged("Users");
             }
         }
-
 
         protected string userId;
         public string UserId
@@ -46,6 +39,7 @@ namespace Pronets.VievModel.Users_f
                 RaisedPropertyChanged("UserId");
             }
         }
+
         protected string login;
         public string Login
         {
@@ -56,6 +50,7 @@ namespace Pronets.VievModel.Users_f
                 RaisedPropertyChanged("Login");
             }
         }
+
         protected string password;
         public string Password
         {
@@ -66,6 +61,7 @@ namespace Pronets.VievModel.Users_f
                 RaisedPropertyChanged("Password");
             }
         }
+
         protected string position;
         public string Position
         {
@@ -76,6 +72,7 @@ namespace Pronets.VievModel.Users_f
                 RaisedPropertyChanged("Position");
             }
         }
+
         protected string lastName;
         public string LastName
         {
@@ -86,6 +83,7 @@ namespace Pronets.VievModel.Users_f
                 RaisedPropertyChanged("LastName");
             }
         }
+
         protected string firstName;
         public string FirstName
         {
@@ -96,6 +94,7 @@ namespace Pronets.VievModel.Users_f
                 RaisedPropertyChanged("FirstName");
             }
         }
+
         protected string patronymic;
         public string Patronymic
         {
@@ -106,6 +105,7 @@ namespace Pronets.VievModel.Users_f
                 RaisedPropertyChanged("Patronymic");
             }
         }
+
         protected DateTime birthday;
         public DateTime Birthday
         {
@@ -116,6 +116,7 @@ namespace Pronets.VievModel.Users_f
                 RaisedPropertyChanged("Birthday");
             }
         }
+
         protected string telephone;
         public string Telephone
         {
@@ -126,6 +127,7 @@ namespace Pronets.VievModel.Users_f
                 RaisedPropertyChanged("Telephone");
             }
         }
+
         protected string adress;
         public string Adress
         {
@@ -136,6 +138,7 @@ namespace Pronets.VievModel.Users_f
                 RaisedPropertyChanged("Adress");
             }
         }
+
         protected string searchText;
         public string SearchText
         {
@@ -146,6 +149,7 @@ namespace Pronets.VievModel.Users_f
                 RaisedPropertyChanged("SearchText");
             }
         }
+
         protected Users selectedItem;
         public Users SelectedItem
         {
@@ -158,10 +162,8 @@ namespace Pronets.VievModel.Users_f
         }
         #endregion
 
-
         public UsersVM()
         {
-            users.Clear();
             users = UsersRequest.FillList();
             OpenWindowCommand = new OpenWindowCommand();
         }
@@ -196,7 +198,6 @@ namespace Pronets.VievModel.Users_f
                     UsersRequest.RemoveFromBase(selectedItem);
                     users.RemoveAt(SelectedIndex);
                 }
-
             }
             else
                 MessageBox.Show("Необходимо выбрать элемент", "Ошибка");
@@ -242,7 +243,6 @@ namespace Pronets.VievModel.Users_f
                         Telephone = selectedItem.Telephone,
                         Adress = selectedItem.Adress
                     };
-
 
                     var result = MessageBox.Show("Вы Действительно хотете редактировать?", "Редактирование", MessageBoxButton.YesNo, MessageBoxImage.Question);
                     if (result == MessageBoxResult.Yes)
@@ -307,50 +307,14 @@ namespace Pronets.VievModel.Users_f
 
         public void SearchItem(object Parameter)
         {
-            users.Clear();
-            string sql = "SELECT * FROM Users where Login = '" + searchText + "' or Password = '" + searchText + "' or Position = '"
-                + searchText + "' or FirstName = '" + searchText + "' or LastName = '" + searchText + "' or Patronymic = '" + searchText + "' or Telephone = '"
-                + searchText + "' or Adress = '" + searchText + "'";
-
-            try
+            if(SearchText != null && SearchText != "")
             {
-                con = new SqlConnection(connectionString);
-                SqlCommand command = new SqlCommand(sql, con);
-                adapter = new SqlDataAdapter(command);
-                adapter.InsertCommand = new SqlCommand(sql, con);
-                con.Open();
-                ds = new DataSet();
-                adapter.Fill(ds, "Users");
-                if (users == null)
-                    users = new ObservableCollection<Users>();
-                foreach (DataRow dr in ds.Tables[0].Rows)
+                users.Clear();
+                foreach (var user in UsersRequest.SearchItem(searchText))
                 {
-                    users.Add(new Users
-                    {
-                        UserId = Convert.ToInt32(dr[0]),
-                        Login = dr[1].ToString(),
-                        Password = dr[2].ToString(),
-                        Position = dr[3].ToString(),
-                        FirstName = (dr[4] is DBNull) ? null : dr[4].ToString(),
-                        LastName = (dr[5] is DBNull) ? null : dr[5].ToString(),
-                        Patronymic = (dr[6] is DBNull) ? null : dr[6].ToString(),
-                        Birthday = (dr[7] is DBNull) ? DateTime.MinValue : Convert.ToDateTime(dr[7]),
-                        Telephone = (dr[8] is DBNull) ? null : dr[8].ToString(),
-                        Adress = (dr[9] is DBNull) ? null : dr[9].ToString()
-                    });
-                    searchText = string.Empty;
+                    users.Add(user);
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                ds = null;
-                adapter.Dispose();
-                con.Close();
-                con.Dispose();
+                SearchText = string.Empty;
             }
         }
         #endregion

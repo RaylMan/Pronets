@@ -10,7 +10,9 @@ namespace Pronets.EntityRequests.Users_f
 {
     public static class UsersRequest
     {
+        private static Users loginUser = new Users();
         private static ObservableCollection<Users> users = new ObservableCollection<Users>();
+        private static ObservableCollection<Users> searchUsers = new ObservableCollection<Users>();
         private static ObservableCollection<Positions> positions = new ObservableCollection<Positions>();
         public static ObservableCollection<Users> FillList()
         {
@@ -39,6 +41,8 @@ namespace Pronets.EntityRequests.Users_f
         }
         public static ObservableCollection<Positions> FillPosoitions()
         {
+            if (positions != null)
+                positions.Clear();
             using (var db = new PronetsDataBaseEntities())
             {
                 foreach (var item in db.Positions)
@@ -91,6 +95,34 @@ namespace Pronets.EntityRequests.Users_f
                     result.Adress = user.Adress;
                     db.SaveChanges();
                 }
+            }
+        }
+        public static ObservableCollection<Users> SearchItem(string word)
+        {
+
+            using (var db = new PronetsDataBaseEntities())
+            {
+                var searchItems = from u in db.Users
+                                  where u.Login.Contains(word) ||
+                                                u.Password.Contains(word) ||
+                                                u.Position.Contains(word) ||
+                                                u.FirstName.Contains(word) ||
+                                                u.LastName.Contains(word) ||
+                                                u.Patronymic.Contains(word) ||
+                                                u.Telephone.Contains(word) ||
+                                               u.Adress.Contains(word)
+                                  select u;
+                searchUsers = new ObservableCollection<Users>(searchItems);
+            }
+            return searchUsers;
+        }
+        public static Users Login(string name, string password)
+        {
+            using (var db = new PronetsDataBaseEntities())
+            {
+                if (loginUser != null)
+                    loginUser = null;
+                return loginUser = db.Users.Where(u => u.Login == name && u.Password == password).FirstOrDefault();
             }
         }
     }

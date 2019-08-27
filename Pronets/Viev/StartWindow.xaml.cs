@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Pronets.Data;
+using Pronets.EntityRequests.Users_f;
 using Pronets.Viev.MainWindows;
 
 namespace Pronets.Viev
@@ -23,67 +24,10 @@ namespace Pronets.Viev
     /// </summary>
     public partial class StartWindow : Window
     {
-        static string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["PronetsDBEntities"].ConnectionString;
-        SqlConnection con = new SqlConnection(connectionString);
-        SqlDataAdapter adapter;
-        SqlCommand cmd;
-        DataSet ds;
-        public List<Users> userLogin = new List<Users>();
+        public Users user;
         public StartWindow()
         {
             InitializeComponent();
-        }
-        public void Select()
-        {
-            try
-            {
-                con.Open();
-                cmd = new SqlCommand("SELECT * FROM[dbo].[Users] WHERE[Login] = '" + tbxLogin.Text + "' AND[password] = '" + tbxPassword.Password + "'", con);
-                adapter = new SqlDataAdapter(cmd);
-                ds = new DataSet();
-                adapter.Fill(ds, "Users");
-
-
-                foreach (DataRow dr in ds.Tables[0].Rows)
-                {
-                    userLogin.Add(new Users
-                    {
-                        UserId = Convert.ToInt32(dr[0]),
-                        Login = dr[1].ToString(),
-                        Password = dr[2].ToString(),
-                        Position = dr[3].ToString(),
-                        FirstName = (dr[4] is DBNull) ? null : dr[4].ToString(),
-                        LastName = (dr[5] is DBNull) ? null : dr[5].ToString(),
-                        Patronymic = (dr[6] is DBNull) ? null : dr[6].ToString(),
-                        Birthday = (dr[7] is DBNull) ? DateTime.MinValue : Convert.ToDateTime(dr[7]),
-                        Telephone = (dr[8] is DBNull) ? null : dr[8].ToString(),
-                        Adress = (dr[9] is DBNull) ? null : dr[9].ToString()
-                    });
-                }
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                ds = null;
-                adapter.Dispose();
-                con.Close();
-                con.Dispose();
-            }
-        }
-        public DataTable Select(string selectSQL)
-        {
-            DataTable dt_user = new DataTable("UserBase");
-            SqlConnection sqlConnection = new SqlConnection(connectionString);
-            sqlConnection.Open();
-            SqlCommand sqlCommand = sqlConnection.CreateCommand();
-            sqlCommand.CommandText = selectSQL;
-            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
-            sqlDataAdapter.Fill(dt_user);
-            return dt_user;
         }
         private void Start_Click(object sender, RoutedEventArgs e)
         {
@@ -95,18 +39,20 @@ namespace Pronets.Viev
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Select();
-            if (userLogin.Count > 0) // если такая запись существует       
+            user = UsersRequest.Login(tbxLogin.Text, tbxPassword.Password);
+            if (user != null)
             {
                 WorkWindowAdmin workWindowAdmin = new WorkWindowAdmin();
-                //WorkWindowAdminVM workWindowAdminVM = new WorkWindowAdminVM();
-                //workWindowAdminVM.user1 = userLogin;
+
                 workWindowAdmin.Show();
                 this.Close();
             }
-
             else
+            {
+                tbxLogin.Clear();
+                tbxPassword.Clear();
                 MessageBox.Show("Введен не правильный логин или пароль");
+            }
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)

@@ -18,6 +18,7 @@ namespace Pronets.Data
         public PronetsDataBaseEntities()
             : base("name=PronetsDataBaseEntities")
         {
+            Configuration.ProxyCreationEnabled = false;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
