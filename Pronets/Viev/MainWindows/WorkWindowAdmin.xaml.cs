@@ -1,4 +1,5 @@
-﻿using Pronets.VievModel.MainWindows;
+﻿using Pronets.Data;
+using Pronets.VievModel.MainWindows;
 using Pronets.VievModel.MainWindows.Pages;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,15 @@ namespace Pronets.Viev.MainWindows
     /// </summary>
     public partial class WorkWindowAdmin : Window
     {
+        Users user;
+        public WorkWindowAdmin(Users loginUser)
+        {
+            if (loginUser != null)
+                this.user = loginUser;
+            InitializeComponent();
+            progOpenLabel.Content = Properties.Settings.Default.ProgOpen.ToString();
+            Loaded += MainWindow_Loaded;
+        }
         public WorkWindowAdmin()
         {
             InitializeComponent();
@@ -29,9 +39,9 @@ namespace Pronets.Viev.MainWindows
         }
         void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            
             Navigation.Navigation.Service = MainFrame.NavigationService;
-
-            DataContext = new WorkWindowAdminVM(new ViewModelsResolver());
+            DataContext = new WorkWindowAdminVM(new ViewModelsResolver(), user);
         }
         private void Exit_Click(object sender, RoutedEventArgs e)
         {

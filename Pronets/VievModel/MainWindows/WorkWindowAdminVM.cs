@@ -11,9 +11,12 @@ namespace Pronets.VievModel.MainWindows
     public class WorkWindowAdminVM : VievModelBase
     {
         public OpenWindowCommand OpenWindowCommand { get; private set; }
+
+
+
         public WorkWindowAdminVM()
         {
-           
+
         }
         public WorkWindowAdminVM(IViewModelsResolver resolver)
         {
@@ -24,10 +27,10 @@ namespace Pronets.VievModel.MainWindows
             repairsPageVM = _resolver.GetViewModelInstance(RepairsPageVMAlias);
             addRecipeDocumentVM = _resolver.GetViewModelInstance(AddRecipeDocumentVMAlias);
             InitializeCommands();
-
         }
+       
         #region Open Window
-        
+
         #endregion
 
         #region Open Page
@@ -58,22 +61,11 @@ namespace Pronets.VievModel.MainWindows
         private readonly INotifyPropertyChanged repairsPageVM;
         private readonly INotifyPropertyChanged addRecipeDocumentVM;
 
-        private string userName;
-
         #endregion
 
 
         #region Properties
 
-        public string UserName
-        {
-            get { return userName; }
-            set
-            {
-                userName = value;
-                RaisedPropertyChanged("UserName");
-            }
-        }
         public ICommand GoToReceiptDocumentCommand
         {
             get { return goToReceiptDocumentCommand; }
@@ -179,6 +171,47 @@ namespace Pronets.VievModel.MainWindows
         {
             Navigation.Navigation.Navigate(Navigation.Navigation.AddRecipeDocumentAlias, AddRecipeDocumentVM);
         }
-        #endregion  
+        #endregion
+
+        #region Cabinet TEST!!
+        public WorkWindowAdminVM(IViewModelsResolver resolver, Users user)
+        {
+            if (user != null)
+                currentUser = user;
+            OpenWindowCommand = new OpenWindowCommand();
+            _resolver = resolver;
+            defectsPageVM = _resolver.GetViewModelInstance(DefectsPageVMAlias);
+            receiptDocumentPageVM = _resolver.GetViewModelInstance(ReceiptDocumentPageVMAlias);
+            repairsPageVM = _resolver.GetViewModelInstance(RepairsPageVMAlias);
+            addRecipeDocumentVM = _resolver.GetViewModelInstance(AddRecipeDocumentVMAlias);
+            InitializeCommands();
+        }
+
+        private Users currentUser;
+        public Users CurrentUser
+        {
+            get { return currentUser; }
+            set
+            {
+                currentUser = value;
+                RaisedPropertyChanged("CurrenUser");
+            }
+        }
+        protected string userName;
+        public string UserName
+        {
+            get
+            {
+                if(currentUser != null)
+                    return currentUser.Login + " " + currentUser.LastName + " " + currentUser.FirstName;
+                return userName = "Error";
+            }
+            set
+            {
+                userName = value;
+                RaisedPropertyChanged("UserName");
+            }
+        }
+        #endregion
     }
 }

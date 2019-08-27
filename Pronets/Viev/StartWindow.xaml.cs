@@ -42,7 +42,7 @@ namespace Pronets.Viev
             user = UsersRequest.Login(tbxLogin.Text, tbxPassword.Password);
             if (user != null)
             {
-                WorkWindowAdmin workWindowAdmin = new WorkWindowAdmin();
+                WorkWindowAdmin workWindowAdmin = new WorkWindowAdmin(user);
 
                 workWindowAdmin.Show();
                 this.Close();
