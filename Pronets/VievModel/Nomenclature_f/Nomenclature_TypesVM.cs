@@ -1,4 +1,5 @@
 ﻿using Pronets.Data;
+using Pronets.EntityRequests.Nomenclature_f;
 using System;
 using System.Collections.ObjectModel;
 using System.Data;
@@ -15,6 +16,7 @@ namespace Pronets.VievModel.Nomenclature_f
         SqlDataAdapter adapter;
         SqlCommand cmd;
         DataSet ds;
+        #region Properties
         private ObservableCollection<Nomenclature_Types> nomenclatures_Types;
         public ObservableCollection<Nomenclature_Types> Nomenclatures_Types
         {
@@ -36,46 +38,24 @@ namespace Pronets.VievModel.Nomenclature_f
                 RaisedPropertyChanged("NomType");
             }
         }
+        private Nomenclature_Types selectedItem;
+        public Nomenclature_Types SelectedItem
+        {
+            get { return selectedItem; }
+            set
+            {
+                selectedItem = value;
+                RaisedPropertyChanged("SelectedItem");
+            }
+        }
+        #endregion
 
         public Nomenclature_TypesVM()
         {
-            FillList();
+            nomenclatures_Types = Nomenclature_TypesRequest.FillList();
         }
 
-        public void FillList()
-        {
-            try
-            {
-                con.Open();
-                cmd = new SqlCommand("select * from Nomenclature_Types", con);
-                adapter = new SqlDataAdapter(cmd);
-                ds = new DataSet();
-                adapter.Fill(ds, "Nomenclature_Types");
-                if (nomenclatures_Types == null)
-                    nomenclatures_Types = new ObservableCollection<Nomenclature_Types>();
-
-                foreach (DataRow dr in ds.Tables[0].Rows)
-                {
-                    nomenclatures_Types.Add(new Nomenclature_Types
-                    {
-                        Type = dr[0].ToString()
-                    });
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                ds = null;
-                adapter.Dispose();
-                con.Close();
-                con.Dispose();
-            }
-        }
-
-
+        #region AddToBase
         private ICommand addItem;
         public ICommand AddCommand
         {
@@ -98,53 +78,27 @@ namespace Pronets.VievModel.Nomenclature_f
         {
             if (nomType != null && nomType.Length > 0)
             {
-                string sql = "INSERT Nomenclature_Types VALUES ('" + nomType + "')";
-
-                try
+                Nomenclature_Types nt = new Nomenclature_Types
                 {
-
-                    con = new SqlConnection(connectionString);
-                    SqlCommand command = new SqlCommand(sql, con);
-                    adapter = new SqlDataAdapter(command);
-                    adapter.InsertCommand = new SqlCommand(sql, con);
-                    con.Open();
-                    ds = new DataSet();
-                    adapter.Fill(ds, "Nomenclature_Types");
-                    nomenclatures_Types.Add(
-                        new Nomenclature_Types
-                        {
-                            Type = nomType
-                        });
+                    Type = nomType
+                };
+                var result = MessageBox.Show("Вы Действительно хотете добавить?\nПроверьте правильность данных!", "Создание экземпляра", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.Yes)
+                {
+                    Nomenclature_TypesRequest.AddToBase(nt, out bool ex);
+                    if (ex) //если ex == true, нет копии в базе, происходит запись в таблицу viev
+                    {
+                        nomenclatures_Types.Add(nt);
+                    }
                     NomType = string.Empty;
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-                finally
-                {
-                    ds = null;
-                    adapter.Dispose();
-                    con.Close();
-                    con.Dispose();
                 }
             }
             else
                 MessageBox.Show("Необходимо ввести название!", "Ошибка");
         }
+        #endregion
 
-        private Nomenclature_Types selectedItem;
-        public Nomenclature_Types SelectedItem
-        {
-            get { return selectedItem; }
-            set
-            {
-                selectedItem = value;
-                RaisedPropertyChanged("SelectedItem");
-            }
-        }
-
-
+        #region Remove Item
         private ICommand removeItem;
         public ICommand RemoveCommand
         {
@@ -163,45 +117,22 @@ namespace Pronets.VievModel.Nomenclature_f
             }
         }
 
-
         public void RemoveItem(object Parameter)
         {
             if (selectedItem != null)
             {
-                string sql = "delete from Nomenclature_Types where Type='" + SelectedItem.Type.ToString() + "'";
                 var result = MessageBox.Show("Вы Действительно хотете удалить?", "Удаление", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    try
-                    {
-
-                        con = new SqlConnection(connectionString);
-                        SqlCommand command = new SqlCommand(sql, con);
-                        adapter = new SqlDataAdapter(command);
-                        adapter.InsertCommand = new SqlCommand(sql, con);
-                        con.Open();
-                        ds = new DataSet();
-                        adapter.Fill(ds, "Nomenclature_Types");
-                        nomenclatures_Types.RemoveAt(selectedIndex);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
-                    finally
-                    {
-
-                        ds = null;
-                        adapter.Dispose();
-                        con.Close();
-                        con.Dispose();
-                    }
+                    Nomenclature_TypesRequest.RemoveFromBase(SelectedItem);
+                    nomenclatures_Types.RemoveAt(SelectedIndex);
                 }
-
             }
             else
                 MessageBox.Show("Необходимо выбрать элемент в списке!", "Ошибка");
         }
+        #endregion
+
     }
 }

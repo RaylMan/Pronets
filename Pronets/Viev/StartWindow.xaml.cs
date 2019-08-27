@@ -24,7 +24,7 @@ namespace Pronets.Viev
     /// </summary>
     public partial class StartWindow : Window
     {
-        public Users user;ин
+        public Users user;
         public StartWindow()
         {
             InitializeComponent();
