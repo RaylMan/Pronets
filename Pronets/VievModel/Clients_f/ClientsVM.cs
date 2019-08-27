@@ -149,6 +149,8 @@ namespace Pronets.VievModel.Clients_f
         public ClientsVM()
         {
             //clients.Clear();
+            if (clients != null)
+                clients.Clear();
             clients = ClientsRequests.FillList();
             OpenWindowCommand = new OpenWindowCommand(); // создание экземпляра открытия окна
         }

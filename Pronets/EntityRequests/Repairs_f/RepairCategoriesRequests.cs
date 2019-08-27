@@ -11,6 +11,8 @@ namespace Pronets.EntityRequests.Repairs_f
         {
             using (var db = new PronetsDataBaseEntities())
             {
+                if (repair_Categories != null)
+                    repair_Categories.Clear();
                 foreach (var item in db.Repair_Categories)
                 {
                     repair_Categories.Add(new Repair_Categories

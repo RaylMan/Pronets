@@ -16,6 +16,8 @@ namespace Pronets.EntityRequests.Users_f
         {
             using (var db = new PronetsDataBaseEntities())
             {
+                if (users != null)
+                    users.Clear();
                 foreach (var item in db.Users)
                 {
                     users.Add(new Users

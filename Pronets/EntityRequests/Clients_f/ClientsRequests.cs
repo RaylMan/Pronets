@@ -13,6 +13,8 @@ namespace Pronets.EntityRequests.Clients_f
         {
             using (var db = new PronetsDataBaseEntities())
             {
+                if (clients != null)
+                    clients.Clear();
                 foreach (var item in db.Clients)
                 {
                     clients.Add(new Clients

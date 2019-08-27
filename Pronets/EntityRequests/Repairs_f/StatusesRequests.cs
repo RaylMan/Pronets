@@ -11,6 +11,8 @@ namespace Pronets.EntityRequests
         {
             using (var db = new PronetsDataBaseEntities())
             {
+                if (statuses != null)
+                    statuses.Clear();
                 foreach (var item in db.Statuses)
                 {
                     statuses.Add(new Statuses
