@@ -244,7 +244,7 @@ namespace Pronets.VievModel.Users_f
                         Adress = selectedItem.Adress
                     };
 
-                    var result = MessageBox.Show("Вы Действительно хотете редактировать?", "Редактирование", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    var result = MessageBox.Show("Вы Действительно хотите редактировать?", "Редактирование", MessageBoxButton.YesNo, MessageBoxImage.Question);
                     if (result == MessageBoxResult.Yes)
                     {
                         if (modifiedUser != null)
