@@ -11,12 +11,9 @@ namespace Pronets.VievModel.MainWindows
     public class WorkWindowAdminVM : VievModelBase
     {
         public OpenWindowCommand OpenWindowCommand { get; private set; }
-
-
-
         public WorkWindowAdminVM()
         {
-
+           
         }
         public WorkWindowAdminVM(IViewModelsResolver resolver)
         {
@@ -29,10 +26,6 @@ namespace Pronets.VievModel.MainWindows
             InitializeCommands();
         }
        
-        #region Open Window
-
-        #endregion
-
         #region Open Page
         #region Constants
 
