@@ -24,5 +24,15 @@ namespace Pronets.Viev.MainWindows.Pages
         {
             InitializeComponent();
         }
+
+        private void EditNomenclature_Click(object sender, RoutedEventArgs e)
+        {
+            for(int i = 0; i < repairsGrid.Items.Count; i++)
+            {
+                //repairsGrid.Items[i] as  SelectedItem = comboBoxNomenclature.SelectedItem;
+                //repairsGrid.SelectedValue = comboBoxNomenclature.SelectedValue;
+                //repairsGrid.SelectedValuePath= comboBoxNomenclature.SelectedValuePath;
+            }
+        }
     }
 }

@@ -11,17 +11,12 @@ using Pronets.EntityRequests.Users_f;
 using Pronets.EntityRequests.Nomenclature_f;
 using Pronets.EntityRequests.Other;
 using Pronets.EntityRequests.Repairs_f;
+using Pronets.Viev.MainWindows.Pages;
 
 namespace Pronets.VievModel.MainWindows.Pages
 {
     public class AddRecipeDocumentVM : VievModelBase
     {
-        static string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["PronetsDBEntities"].ConnectionString;
-        SqlConnection con = new SqlConnection(connectionString);
-        SqlDataAdapter adapter;
-        SqlCommand cmd;
-        DataSet ds;
-
         #region Property
         private ObservableCollection<Repairs> repairs;
         public ObservableCollection<Repairs> Repairs
@@ -311,7 +306,7 @@ namespace Pronets.VievModel.MainWindows.Pages
             }
         }
 
-        public void AddRepair(object Parameter)
+        public void AddRephfair(object Parameter)
         {
             if (selectClientItem != null && selectUserItem != null)
             {
