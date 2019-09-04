@@ -14,7 +14,7 @@ namespace Pronets.VievModel.Repairs_f
     {
         public StatusesVM()
         {
-            statuses = StatusesRequets.FillLst();
+            statuses = StatusesRequets.FillList();
         }
         #region Properties
         private ObservableCollection<Statuses> statuses;

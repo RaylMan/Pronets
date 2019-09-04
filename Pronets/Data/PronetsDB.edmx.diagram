@@ -27,6 +27,7 @@
         <AssociationConnector Association="PronetsDBModel.FK_Repairs_Statuses" ManuallyRouted="false" />
         <AssociationConnector Association="PronetsDBModel.FK_Repairs_Users_Engineer_" ManuallyRouted="false" />
         <AssociationConnector Association="PronetsDBModel.FK_Repairs_Users_Inspector_" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="PronetsDBModel.v_Receipt_Document" Width="1.5" PointX="8" PointY="7.875" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

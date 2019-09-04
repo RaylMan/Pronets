@@ -119,6 +119,9 @@
     <Compile Include="Data\Users.cs">
       <DependentUpon>PronetsDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\v_Receipt_Document.cs">
+      <DependentUpon>PronetsDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\Warrantys.cs" />
     <Compile Include="EntityRequests\Clients_f\ClientsRequests.cs" />
     <Compile Include="EntityRequests\Nomenclature_f\NomenclatureRequest.cs" />
@@ -145,6 +148,7 @@
     <Compile Include="VievModel\Nomenclature_f\NomenclatureVM.cs" />
     <Compile Include="VievModel\Nomenclature_f\Nomenclature_TypesVM.cs" />
     <Compile Include="VievModel\RelayCommand.cs" />
+    <Compile Include="VievModel\Repairs_f\ReceiptDocumentInspectorVM.cs" />
     <Compile Include="VievModel\Repairs_f\RepairCategoriesVM.cs" />
     <Compile Include="VievModel\Repairs_f\StatusesVM.cs" />
     <Compile Include="VievModel\StartWindowVM.cs" />
@@ -180,6 +184,9 @@
     </Compile>
     <Compile Include="Viev\Nomenclature_f\Nomenclature_TypesWindow.xaml.cs">
       <DependentUpon>Nomenclature_TypesWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Viev\Repairs_f\ReceiptDocumentInspector.xaml.cs">
+      <DependentUpon>ReceiptDocumentInspector.xaml</DependentUpon>
     </Compile>
     <Compile Include="Viev\Repairs_f\RepairCategoriesWindow.xaml.cs">
       <DependentUpon>RepairCategoriesWindow.xaml</DependentUpon>
@@ -281,6 +288,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Viev\Nomenclature_f\Nomenclature_TypesWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Viev\Repairs_f\ReceiptDocumentInspector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

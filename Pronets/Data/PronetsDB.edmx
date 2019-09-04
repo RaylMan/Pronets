@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Хранилище PronetsDBModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Хранилище PronetsDBModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Clients">
           <Key>
             <PropertyRef Name="ClientId" />
@@ -123,6 +123,20 @@
           <Property Name="Birthday" Type="date" />
           <Property Name="Telephone" Type="nvarchar" MaxLength="50" />
           <Property Name="Adress" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "PronetsDB.dbo.v_Receipt_Document" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="v_Receipt_Document">
+          <Key>
+            <PropertyRef Name="Document Id" />
+            <PropertyRef Name="Client" />
+          </Key>
+          <Property Name="Document Id" Type="int" Nullable="false" />
+          <Property Name="Client" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Inspector" Type="nvarchar" MaxLength="50" />
+          <Property Name="Date" Type="date" />
+          <Property Name="Status" Type="nvarchar" MaxLength="50" />
+          <Property Name="Note" Type="nvarchar" MaxLength="200" />
         </EntityType>
         <Association Name="FK_Nomenclature_Nomenclature_Types">
           <End Role="Nomenclature_Types" Type="Self.Nomenclature_Types" Multiplicity="1" />
@@ -268,6 +282,16 @@
           <EntitySet Name="Repairs" EntityType="Self.Repairs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Statuses" EntityType="Self.Statuses" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="v_Receipt_Document" EntityType="Self.v_Receipt_Document" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [v_Receipt_Document].[Document Id] AS [Document Id], 
+    [v_Receipt_Document].[Client] AS [Client], 
+    [v_Receipt_Document].[Inspector] AS [Inspector], 
+    [v_Receipt_Document].[Date] AS [Date], 
+    [v_Receipt_Document].[Status] AS [Status], 
+    [v_Receipt_Document].[Note] AS [Note]
+    FROM [dbo].[v_Receipt_Document] AS [v_Receipt_Document]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_Nomenclature_Nomenclature_Types" Association="Self.FK_Nomenclature_Nomenclature_Types">
             <End Role="Nomenclature_Types" EntitySet="Nomenclature_Types" />
             <End Role="Nomenclature" EntitySet="Nomenclature" />
@@ -313,8 +337,7 @@
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="PronetsDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -647,7 +670,20 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="Repairs" EntitySet="Repairs" />
           </AssociationSet>
+          <EntitySet Name="v_Receipt_Document" EntityType="PronetsDBModel.v_Receipt_Document" />
         </EntityContainer>
+        <EntityType Name="v_Receipt_Document">
+          <Key>
+            <PropertyRef Name="Document_Id" />
+            <PropertyRef Name="Client" />
+          </Key>
+          <Property Name="Document_Id" Type="Int32" Nullable="false" />
+          <Property Name="Client" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Inspector" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Note" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -781,6 +817,18 @@
                 <ScalarProperty Name="Birthday" ColumnName="Birthday" />
                 <ScalarProperty Name="Telephone" ColumnName="Telephone" />
                 <ScalarProperty Name="Adress" ColumnName="Adress" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="v_Receipt_Document">
+            <EntityTypeMapping TypeName="PronetsDBModel.v_Receipt_Document">
+              <MappingFragment StoreEntitySet="v_Receipt_Document">
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Inspector" ColumnName="Inspector" />
+                <ScalarProperty Name="Client" ColumnName="Client" />
+                <ScalarProperty Name="Document_Id" ColumnName="Document Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

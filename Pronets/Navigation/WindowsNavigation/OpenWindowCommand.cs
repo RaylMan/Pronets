@@ -6,11 +6,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using Pronets.Data;
 
 namespace Pronets.Navigation.WindowsNavigation
 {
     public class OpenWindowCommand : ICommand
     {
+
         public bool CanExecute(object parameter)
         {
             TypeInfo p = (TypeInfo)parameter;

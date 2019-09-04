@@ -1,13 +1,15 @@
 ﻿using Pronets.Data;
+using System;
 using System.Collections.ObjectModel;
+using System.Data.Entity;
 using System.Linq;
-using System.Windows;
 
 namespace Pronets.EntityRequests.Other
 {
     class ReceiptDocumentRequest
     {
         private static ObservableCollection<ReceiptDocument> receiptDocuments = new ObservableCollection<ReceiptDocument>();
+        private static ObservableCollection<v_Receipt_Document> v_ReceiptDocuments = new ObservableCollection<v_Receipt_Document>();
 
         public static ObservableCollection<ReceiptDocument> FillList()
         {
@@ -31,6 +33,30 @@ namespace Pronets.EntityRequests.Other
                 }
             }
             return receiptDocuments;
+        }
+        public static ObservableCollection<v_Receipt_Document> v_FillList()
+        {
+            using (var db = new PronetsDataBaseEntities())
+            {
+                if (v_ReceiptDocuments != null)
+                    v_ReceiptDocuments.Clear();
+
+                foreach (var item in db.v_Receipt_Document)
+                {
+                    v_ReceiptDocuments.Add(new v_Receipt_Document
+                    {
+                        Document_Id = item.Document_Id,
+                        Client = item.Client,
+                        Inspector = item.Inspector,
+                        Date = item.Date,
+                        Status = item.Status,
+                        Note = item.Note,
+                        Count = db.Repairs.Count(r => r.DocumentId == item.Document_Id)
+                    }); 
+                }
+            }
+            var sorted = new ObservableCollection<v_Receipt_Document>(v_ReceiptDocuments.OrderByDescending(i => i.Document_Id));
+            return sorted;
         }
         public static int GetDocumentID()
         {

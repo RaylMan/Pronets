@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Pronets.Data;
+using Pronets.Viev.Repairs_f;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +25,13 @@ namespace Pronets.Viev.MainWindows.Pages
         public ReceiptDocumentPage()
         {
             InitializeComponent();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            v_Receipt_Document document = (v_Receipt_Document)docunents.SelectedItem;
+            ReceiptDocumentInspector doc = new ReceiptDocumentInspector(document);
+            doc.Show();
         }
     }
 }

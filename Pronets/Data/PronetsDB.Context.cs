@@ -18,7 +18,6 @@ namespace Pronets.Data
         public PronetsDataBaseEntities()
             : base("name=PronetsDataBaseEntities")
         {
-            Configuration.ProxyCreationEnabled = false;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -37,5 +36,6 @@ namespace Pronets.Data
         public virtual DbSet<Repairs> Repairs { get; set; }
         public virtual DbSet<Statuses> Statuses { get; set; }
         public virtual DbSet<Users> Users { get; set; }
+        public virtual DbSet<v_Receipt_Document> v_Receipt_Document { get; set; }
     }
 }

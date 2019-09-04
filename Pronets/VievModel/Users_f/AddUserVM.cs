@@ -37,6 +37,7 @@ namespace Pronets.VievModel.Users_f
         #endregion
         public AddUserVM()
         {
+            Birthday = new DateTime(1980, 1, 1);
             positions = UsersRequest.FillPosoitions();
         }
 

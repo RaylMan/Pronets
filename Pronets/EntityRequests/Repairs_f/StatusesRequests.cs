@@ -7,7 +7,7 @@ namespace Pronets.EntityRequests
     public static class StatusesRequets
     {
         private static ObservableCollection<Statuses> statuses = new ObservableCollection<Statuses>();
-        public static ObservableCollection<Statuses> FillLst()
+        public static ObservableCollection<Statuses> FillList()
         {
             using (var db = new PronetsDataBaseEntities())
             {

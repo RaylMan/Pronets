@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.SqlClient;
 using Pronets.Data;
-using Pronets.Model;
 using System.Windows;
 using System.Windows.Input;
 using Pronets.EntityRequests.Clients_f;
@@ -306,7 +305,7 @@ namespace Pronets.VievModel.MainWindows.Pages
             }
         }
 
-        public void AddRephfair(object Parameter)
+        public void AddRepair(object Parameter)
         {
             if (selectClientItem != null && selectUserItem != null)
             {
@@ -317,7 +316,8 @@ namespace Pronets.VievModel.MainWindows.Pages
                     {
                         ClientId = selectClientItem.ClientId,
                         InspectorId = selectUserItem.UserId,
-                        Date = date_Of_Receipt
+                        Date = date_Of_Receipt,
+                        Status = "Принято"
                     };
                     
                     string sn, cm, nm, wt;

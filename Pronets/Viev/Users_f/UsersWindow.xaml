@@ -30,7 +30,20 @@
                 <DataGridTextColumn Header="Фамилия" Binding="{Binding Path=LastName, UpdateSourceTrigger=PropertyChanged}" />
                 <DataGridTextColumn Header="Имя" Binding="{Binding Path=FirstName, UpdateSourceTrigger=PropertyChanged}" />
                 <DataGridTextColumn Header="Отчество" Binding="{Binding Path=Patronymic, UpdateSourceTrigger=PropertyChanged}" />
-                <DataGridTextColumn Header="Дата Рождения" Binding="{Binding Path=Birthday, UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:yyyy/MM/dd}'}"  />
+                
+                <DataGridTemplateColumn Header="Дата Рождения">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Birthday, UpdateSourceTrigger=PropertyChanged, StringFormat='dd.MM.yyyy'}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <DatePicker SelectedDate="{Binding Birthday,UpdateSourceTrigger=PropertyChanged}" DisplayDateStart="01/01/1950" DisplayDateEnd="12/31/2030"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+               
                 <DataGridTextColumn Header="Телефон" Binding="{Binding Path=Telephone, UpdateSourceTrigger=PropertyChanged}"  />
                 <DataGridTextColumn Header="Адрес" Binding="{Binding Path=Adress, UpdateSourceTrigger=PropertyChanged}" />
                 <DataGridTemplateColumn>

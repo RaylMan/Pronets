@@ -1,18 +1,21 @@
 ﻿using Pronets.Data;
 using Pronets.EntityRequests.Other;
+using Pronets.Navigation.WindowsNavigation;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Pronets.VievModel.MainWindows.Pages
 {
     class ReceiptDocumentPageVM : VievModelBase
     {
-        private ObservableCollection<ReceiptDocument> receiptDocuments;
-        public ObservableCollection<ReceiptDocument> ReceiptDocuments
+        public OpenWindowCommand OpenWindowCommand { get; set; }
+        private ObservableCollection<v_Receipt_Document> receiptDocuments;
+        public ObservableCollection<v_Receipt_Document> ReceiptDocuments
         {
             get { return this.receiptDocuments; }
 
@@ -23,16 +26,6 @@ namespace Pronets.VievModel.MainWindows.Pages
             }
 
         }
-        private int clientId;
-        public int ClientId
-        {
-            get { return clientId; }
-            set
-            {
-                clientId = value;
-                RaisedPropertyChanged("ClientId");
-            }
-        }
         private int documentId;
         public int DocumentId
         {
@@ -40,17 +33,7 @@ namespace Pronets.VievModel.MainWindows.Pages
             set
             {
                 documentId = value;
-                RaisedPropertyChanged("DocumentId");
-            }
-        }
-        private int inspectorId;
-        public int InspectorId
-        {
-            get { return inspectorId; }
-            set
-            {
-                inspectorId = value;
-                RaisedPropertyChanged("InspectorId");
+                RaisedPropertyChanged("Document_Id");
             }
         }
         private DateTime date;
@@ -64,7 +47,7 @@ namespace Pronets.VievModel.MainWindows.Pages
             }
         }
         private string note;
-        public string LNote
+        public string Note
         {
             get { return note; }
             set
@@ -73,34 +56,63 @@ namespace Pronets.VievModel.MainWindows.Pages
                 RaisedPropertyChanged("Note");
             }
         }
-        private string clientName;
-        public string ClientName
+        private string client;
+        public string Client
         {
-            get { return clientName; }
+            get { return client; }
             set
             {
-                clientName = value;
-                RaisedPropertyChanged("ClientName");
+                client = value;
+                RaisedPropertyChanged("Client");
             }
         }
-        private string lastName;
-        public string LastName
+        private string inspector;
+        public string Inspector
         {
-            get { return lastName; }
+            get { return inspector; }
             set
             {
-                lastName = value;
-                RaisedPropertyChanged("LastName");
+                inspector = value;
+                RaisedPropertyChanged("Inspector");
+            }
+        }
+        private string status;
+        public string Status
+        {
+            get { return status; }
+            set
+            {
+                status = value;
+                RaisedPropertyChanged("Status");
+            }
+        }
+        private v_Receipt_Document selectedItem;
+        public v_Receipt_Document SelectedItem
+        {
+            get { return selectedItem; }
+            set
+            {
+                selectedItem = value;
+                RaisedPropertyChanged("SelectedItem");
+            }
+        }
+        private int count;
+        public int Count
+        {
+            get { return count; }
+            set
+            {
+                count = value;
+                RaisedPropertyChanged("Count");
             }
         }
 
 
         public ReceiptDocumentPageVM()
         {
-            receiptDocuments = ReceiptDocumentRequest.FillList();
+            receiptDocuments = ReceiptDocumentRequest.v_FillList();
+           
+            OpenWindowCommand = new OpenWindowCommand();
         }
-        #region Open Document
-        
-        #endregion
     }
 }
