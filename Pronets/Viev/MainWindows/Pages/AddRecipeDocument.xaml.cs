@@ -44,25 +44,36 @@ namespace Pronets.Viev.MainWindows.Pages
             var row = GetDataGridRows(repairsGrid);
             foreach (DataGridRow r in row)
             {
-                elmcbmx = repairsGrid.Columns[1].GetCellContent(r);
-                elmchbx = repairsGrid.Columns[0].GetCellContent(r);
-                ComboBox cbx = ItemTemplateFind.FindChild<ComboBox>(elmcbmx, "cbxGridNom");
-                CheckBox checkBox = ItemTemplateFind.FindChild<CheckBox>(elmchbx, "chkbx");
-                if (checkBox.IsChecked == true)
+                try
                 {
-                    cbx.SelectedIndex = comboBoxNomenclature.SelectedIndex;
+                    elmcbmx = repairsGrid.Columns[1].GetCellContent(r);
+                    elmchbx = repairsGrid.Columns[0].GetCellContent(r);
+                    ComboBox cbx = ItemTemplateFind.FindChild<ComboBox>(elmcbmx, "cbxGridNom");
+                    CheckBox checkBox = ItemTemplateFind.FindChild<CheckBox>(elmchbx, "chkbx");
+                    if (checkBox.IsChecked == true)
+                    {
+                        cbx.SelectedIndex = comboBoxNomenclature.SelectedIndex;
+                    }
                 }
+                catch (System.ArgumentNullException)
+                {
+
+                }
+                
             }
         }
 
         public IEnumerable<DataGridRow> GetDataGridRows(DataGrid grid)
         {
-            var itemsSource = grid.ItemsSource as IEnumerable;
-            if (null == itemsSource) yield return null;
-            foreach (var item in itemsSource)
+            if(grid.ItemsSource != null)
             {
-                var row = grid.ItemContainerGenerator.ContainerFromItem(item) as DataGridRow;
-                if (null != row) yield return row;
+                var itemsSource = grid.ItemsSource as IEnumerable;
+                if (null == itemsSource) yield return null;
+                foreach (var item in itemsSource)
+                {
+                    var row = grid.ItemContainerGenerator.ContainerFromItem(item) as DataGridRow;
+                    if (null != row) yield return row;
+                } 
             }
         }
 
