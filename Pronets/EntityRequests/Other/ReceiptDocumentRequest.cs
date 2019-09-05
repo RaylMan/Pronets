@@ -55,8 +55,8 @@ namespace Pronets.EntityRequests.Other
                     }); 
                 }
             }
-            var sorted = new ObservableCollection<v_Receipt_Document>(v_ReceiptDocuments.OrderByDescending(i => i.Document_Id));
-            return sorted;
+            v_ReceiptDocuments = new ObservableCollection<v_Receipt_Document>(v_ReceiptDocuments.OrderByDescending(i => i.Document_Id));
+            return v_ReceiptDocuments;
         }
         public static int GetDocumentID()
         {

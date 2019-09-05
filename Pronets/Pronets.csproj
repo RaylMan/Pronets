@@ -133,6 +133,7 @@
     <Compile Include="EntityRequests\Users_f\UsersRequest.cs" />
     <Compile Include="Model\RepairsModel.cs" />
     <Compile Include="Navigation\IPageResolver.cs" />
+    <Compile Include="Navigation\ItemTemplateFind.cs" />
     <Compile Include="Navigation\Navigation.cs" />
     <Compile Include="Navigation\PagesResolver.cs" />
     <Compile Include="Navigation\WindowsNavigation\OpenWindowCommand.cs" />

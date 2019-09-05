@@ -14,7 +14,7 @@ namespace Pronets.VievModel.MainWindows.Pages
     class ReceiptDocumentPageVM : VievModelBase
     {
         public OpenWindowCommand OpenWindowCommand { get; set; }
-        private ObservableCollection<v_Receipt_Document> receiptDocuments;
+        private ObservableCollection<v_Receipt_Document> receiptDocuments = new ObservableCollection<v_Receipt_Document>();
         public ObservableCollection<v_Receipt_Document> ReceiptDocuments
         {
             get { return this.receiptDocuments; }
@@ -110,8 +110,8 @@ namespace Pronets.VievModel.MainWindows.Pages
 
         public ReceiptDocumentPageVM()
         {
+            receiptDocuments.Clear();
             receiptDocuments = ReceiptDocumentRequest.v_FillList();
-           
             OpenWindowCommand = new OpenWindowCommand();
         }
     }
