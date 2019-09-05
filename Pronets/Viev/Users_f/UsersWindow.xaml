@@ -45,7 +45,7 @@
                 </DataGridTemplateColumn>
                
                 <DataGridTextColumn Header="Телефон" Binding="{Binding Path=Telephone, UpdateSourceTrigger=PropertyChanged}"  />
-                <DataGridTextColumn Header="Адрес" Binding="{Binding Path=Adress, UpdateSourceTrigger=PropertyChanged}" />
+                <DataGridTextColumn Header="Адрес" Binding="{Binding Path=Adress, UpdateSourceTrigger=PropertyChanged}" Width="*" />
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

@@ -122,7 +122,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTextColumn Header="Заявленная неисправность" Binding="{Binding Path=Claimed_Malfunction, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="400"  >
+                <DataGridTextColumn Header="Заявленная неисправность" Binding="{Binding Path=Claimed_Malfunction, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="*"  >
                     <DataGridTextColumn.ElementStyle>
                         <Style>
                             <Setter Property="TextBlock.TextWrapping" Value="Wrap" />

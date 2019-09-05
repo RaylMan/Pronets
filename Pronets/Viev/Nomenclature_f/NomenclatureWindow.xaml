@@ -18,7 +18,7 @@
         </Grid.ColumnDefinitions>
         <DataGrid x:Name="dataGrid" Grid.Column="0" ItemsSource="{Binding Nomenclature, UpdateSourceTrigger=PropertyChanged}" Margin="5" AutoGenerateColumns="False" SelectedIndex="{Binding SelectedIndex}" SelectedValue="{Binding SelectedItem}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Наименование" Binding="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"  IsReadOnly="True" />
+                <DataGridTextColumn Header="Наименование" Width="*" Binding="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"  IsReadOnly="True" />
                 <DataGridTextColumn Header="Тип" Binding="{Binding Path=Type, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Цена" Binding="{Binding Path=Price, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
             </DataGrid.Columns>

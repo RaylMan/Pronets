@@ -30,7 +30,7 @@
                 <DataGridTextColumn Header="Дата" Binding="{Binding Path=Date, StringFormat='dd.MM.yyyy'}" IsReadOnly="True" />
                 <DataGridTextColumn Header="Статус" Binding="{Binding Path=Status}" IsReadOnly="True" />
                 <DataGridTextColumn Header="Кол-во оборудования" Binding="{Binding Path=Count}" IsReadOnly="True" />
-                <DataGridTextColumn Header="Заметки" Binding="{Binding Path=Note}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Заметки" Binding="{Binding Path=Note}" IsReadOnly="True" Width="*" />
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

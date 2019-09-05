@@ -18,7 +18,7 @@
         </Grid.ColumnDefinitions>
         <DataGrid x:Name="dataGrid" Grid.Column="0" ItemsSource="{Binding Repair_Categories}" Margin="5" AutoGenerateColumns="False" SelectedIndex="{Binding SelectedIndex}" SelectedValue="{Binding SelectedItem}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Категория ремонта" Binding="{Binding Path=Category}"  IsReadOnly="True" />
+                <DataGridTextColumn Header="Категория ремонта" Width="*" Binding="{Binding Path=Category}"  IsReadOnly="True" />
                 <DataGridTextColumn Header="Цена" Binding="{Binding Path=Price}" IsReadOnly="True"/>
             </DataGrid.Columns>
         </DataGrid>
