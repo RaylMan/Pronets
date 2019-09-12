@@ -22,21 +22,12 @@ namespace Pronets.Viev.MainWindows.Pages
     /// </summary>
     public partial class AddRecipeDocument : Page
     {
-        FrameworkElement elmcbmx;
-        FrameworkElement elmchbx;
+       // FrameworkElement elmcbmx;
+       // FrameworkElement elmchbx;
         public AddRecipeDocument()
         {
+            
             InitializeComponent();
-        }
-
-        private void EditNomenclature_Click(object sender, RoutedEventArgs e)
-        {
-            for(int i = 0; i < repairsGrid.Items.Count; i++)
-            {
-                //repairsGrid.Items[i] as  SelectedItem = comboBoxNomenclature.SelectedItem;
-                //repairsGrid.SelectedValue = comboBoxNomenclature.SelectedValue;
-                //repairsGrid.SelectedValuePath= comboBoxNomenclature.SelectedValuePath;
-            }
         }
 
         private void ComboBoxNomenclature_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -46,13 +37,15 @@ namespace Pronets.Viev.MainWindows.Pages
             {
                 try
                 {
-                    elmcbmx = repairsGrid.Columns[1].GetCellContent(r);
-                    elmchbx = repairsGrid.Columns[0].GetCellContent(r);
+                    FrameworkElement elmcbmx = repairsGrid.Columns[1].GetCellContent(r);
+                    FrameworkElement elmchbx = repairsGrid.Columns[0].GetCellContent(r);
                     ComboBox cbx = ItemTemplateFind.FindChild<ComboBox>(elmcbmx, "cbxGridNom");
                     CheckBox checkBox = ItemTemplateFind.FindChild<CheckBox>(elmchbx, "chkbx");
                     if (checkBox.IsChecked == true)
                     {
                         cbx.SelectedIndex = comboBoxNomenclature.SelectedIndex;
+                        label5.Content = cbx.SelectedIndex.GetHashCode();
+                        label6.Content = comboBoxNomenclature.SelectedIndex.GetHashCode();
                     }
                 }
                 catch (System.ArgumentNullException)
@@ -61,6 +54,7 @@ namespace Pronets.Viev.MainWindows.Pages
                 }
                 
             }
+
         }
 
         public IEnumerable<DataGridRow> GetDataGridRows(DataGrid grid)
@@ -83,13 +77,13 @@ namespace Pronets.Viev.MainWindows.Pages
             var row = GetDataGridRows(repairsGrid);
             foreach (DataGridRow r in row)
             {
-                elmcbmx = repairsGrid.Columns[3].GetCellContent(r);
-                elmchbx = repairsGrid.Columns[0].GetCellContent(r);
+                FrameworkElement elmcbmx = repairsGrid.Columns[3].GetCellContent(r);
+                FrameworkElement elmchbx = repairsGrid.Columns[0].GetCellContent(r);
                 ComboBox cbx = ItemTemplateFind.FindChild<ComboBox>(elmcbmx, "cbxGridWar");
                 CheckBox checkBox = ItemTemplateFind.FindChild<CheckBox>(elmchbx, "chkbx");
                 if (checkBox.IsChecked == true)
                 {
-                    cbx.SelectedIndex = comboBoxNomenclature.SelectedIndex;
+                    cbx.SelectedIndex = comboBoxWarranty.SelectedIndex;
                 }
             }
         }
@@ -99,7 +93,7 @@ namespace Pronets.Viev.MainWindows.Pages
             var row = GetDataGridRows(repairsGrid);
             foreach (DataGridRow r in row)
             {
-                elmchbx = repairsGrid.Columns[0].GetCellContent(r);
+                FrameworkElement elmchbx = repairsGrid.Columns[0].GetCellContent(r);
                 CheckBox checkBox = ItemTemplateFind.FindChild<CheckBox>(elmchbx, "chkbx");
                 checkBox.IsChecked = true;
             }
@@ -111,7 +105,7 @@ namespace Pronets.Viev.MainWindows.Pages
             var row = GetDataGridRows(repairsGrid);
             foreach (DataGridRow r in row)
             {
-                elmchbx = repairsGrid.Columns[0].GetCellContent(r);
+                FrameworkElement elmchbx = repairsGrid.Columns[0].GetCellContent(r);
                 CheckBox checkBox = ItemTemplateFind.FindChild<CheckBox>(elmchbx, "chkbx");
                 checkBox.IsChecked = false;
             }

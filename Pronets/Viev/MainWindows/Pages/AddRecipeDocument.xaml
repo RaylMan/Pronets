@@ -133,6 +133,8 @@
             </DataGrid.Columns>
         </DataGrid>
         <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="505,10,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Чтобы удалить строки, необходимо их выделить в крайней левой колонке и нажать кнопку 'DELETE'" VerticalAlignment="Top" Height="50" Width="285"/>
+        <Label x:Name="label5" Content="Label" HorizontalAlignment="Left" Margin="375,10,0,0" Grid.Row="2" VerticalAlignment="Top"/>
+        <Label x:Name="label6" Content="Label" HorizontalAlignment="Left" Margin="375,29,0,0" Grid.Row="2" VerticalAlignment="Top"/>
 
     </Grid>
 </Page>
