@@ -33,7 +33,8 @@ namespace Pronets.VievModel.MainWindows.Pages
         private ObservableCollection<Nomenclature> nomenclatures;
         public ObservableCollection<Nomenclature> Nomenclatures
         {
-            get { return this.nomenclatures; }
+            get
+            { return this.nomenclatures; }
 
             set
             {
