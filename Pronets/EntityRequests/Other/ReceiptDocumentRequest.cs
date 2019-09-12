@@ -10,6 +10,7 @@ namespace Pronets.EntityRequests.Other
     {
         private static ObservableCollection<ReceiptDocument> receiptDocuments = new ObservableCollection<ReceiptDocument>();
         private static ObservableCollection<v_Receipt_Document> v_ReceiptDocuments = new ObservableCollection<v_Receipt_Document>();
+        
 
         public static ObservableCollection<ReceiptDocument> FillList()
         {
@@ -58,6 +59,15 @@ namespace Pronets.EntityRequests.Other
             v_ReceiptDocuments = new ObservableCollection<v_Receipt_Document>(v_ReceiptDocuments.OrderByDescending(i => i.Document_Id));
             return v_ReceiptDocuments;
         }
+
+        public static v_Receipt_Document GetDocument(int documentId)
+        {
+            using (var db = new PronetsDataBaseEntities())
+            {
+                v_Receipt_Document document = (v_Receipt_Document)db.v_Receipt_Document.Where(d => d.Document_Id == documentId);
+                return document;
+            }
+        }
         public static int GetDocumentID()
         {
             using (var db = new PronetsDataBaseEntities())
@@ -92,6 +102,19 @@ namespace Pronets.EntityRequests.Other
                 {
                     db.ReceiptDocument.Attach(document);
                     db.ReceiptDocument.Remove(document);
+                    db.SaveChanges();
+                }
+            }
+        }
+        public static void EditItem(ReceiptDocument document)
+        {
+            using (var db = new PronetsDataBaseEntities())
+            {
+                var result = db.ReceiptDocument.SingleOrDefault(d => d.DocumentId == document.DocumentId);
+                if (result != null)
+                {
+                    result.Status = document.Status;
+                    result.Note = document.Note;
                     db.SaveChanges();
                 }
             }

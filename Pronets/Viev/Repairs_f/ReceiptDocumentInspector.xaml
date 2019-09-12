@@ -15,7 +15,7 @@
         <!--Row 0-->
         <TextBlock  Grid.Row="0" TextAlignment="Center" FontSize="18" Text="{Binding Id}"/>
         <!--Row 1-->
-        <Button x:Name="Edit1" Content="Записать" Grid.Row="1" HorizontalAlignment="Left" Margin="10,16,0,59" RenderTransformOrigin="0.566,-0.08" Width="60" />
+        <Button x:Name="Edit1" Command="{Binding EditCommand}" Content="Записать" Grid.Row="1" HorizontalAlignment="Left" Margin="10,16,0,59" RenderTransformOrigin="0.566,-0.08" Width="60" />
         <TextBlock x:Name="textBlock2" HorizontalAlignment="Left" Margin="381,0,0,0" TextWrapping="Wrap" Text="Заметка" VerticalAlignment="Top" RenderTransformOrigin="-1.286,-0.188" Grid.Row="1"/>
         <ComboBox x:Name="comboBox1" ItemsSource="{Binding Statuses, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedItem="{Binding SelectedStatusItem}" HorizontalAlignment="Left" Margin="75,16,0,0" Grid.Row="1" VerticalAlignment="Top" Width="210" Height="25">
             <ComboBox.ItemTemplate>
@@ -24,7 +24,7 @@
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
-        <TextBox x:Name="textBox1" HorizontalAlignment="Left" Height="57" Margin="294,16,0,0" Grid.Row="1" TextWrapping="Wrap"  MaxLength="200" VerticalAlignment="Top" Width="225"/>
+        <TextBox x:Name="textBox1" Text="{Binding NoteOfDocument, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="57" Margin="294,16,0,0" Grid.Row="1" TextWrapping="Wrap"  MaxLength="200" VerticalAlignment="Top" Width="225"/>
         <TextBlock x:Name="textBlock_Copy1" HorizontalAlignment="Left" Margin="129,0,0,0" TextWrapping="Wrap" Text="Статус документа" VerticalAlignment="Top" RenderTransformOrigin="-1.286,-0.188" Grid.Row="1"/>
         
         <TextBlock x:Name="txtClient" HorizontalAlignment="Left" Margin="547,45,0,0" Grid.Row="1" FontSize="15" VerticalAlignment="Top" Text="{Binding ClientName}"></TextBlock>

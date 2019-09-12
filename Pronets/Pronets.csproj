@@ -328,6 +328,7 @@
       <DependentUpon>PronetsDB.edmx</DependentUpon>
       <LastGenOutput>PronetsDB.cs</LastGenOutput>
     </Content>
+    <Resource Include="Notes.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

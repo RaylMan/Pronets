@@ -107,12 +107,36 @@ namespace Pronets.VievModel.MainWindows.Pages
             }
         }
 
-
         public ReceiptDocumentPageVM()
         {
-            receiptDocuments.Clear();
-            receiptDocuments = ReceiptDocumentRequest.v_FillList();
-            OpenWindowCommand = new OpenWindowCommand();
+            ReceiptDocuments.Clear();
+            ReceiptDocuments = ReceiptDocumentRequest.v_FillList();
+            ReceiptDocuments = new ObservableCollection<v_Receipt_Document>(ReceiptDocuments.OrderByDescending(i => i.Document_Id));
         }
+        #region AddCommand
+        private ICommand fillList;
+        public ICommand FillListCommand
+        {
+            get
+            {
+                if (fillList == null)
+                {
+                    fillList = new RelayCommand(new Action<object>(FillList));
+                }
+                return fillList;
+            }
+            set
+            {
+                fillList = value;
+                RaisedPropertyChanged("FillListCommand");
+            }
+        }
+
+        public void FillList(object Parameter)
+        {
+            ReceiptDocuments.Clear();
+            ReceiptDocuments = ReceiptDocumentRequest.v_FillList();
+        }
+        #endregion
     }
 }

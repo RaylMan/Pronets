@@ -106,5 +106,21 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
             }
         }
+        public static ObservableCollection<Repairs> SearchItem(string word)
+        {
+
+            using (var db = new PronetsDataBaseEntities())
+            {
+                Int32.TryParse(word, out int numericWord);
+                repairs.Clear();
+                var searchItems = from u in db.Repairs
+                                  where u.Serial_Number.Contains(word) ||
+                                  u.DocumentId == numericWord ||
+                                  u.RepairId == numericWord
+                                  select u;
+                repairs = new ObservableCollection<Repairs>(searchItems);
+            }
+            return repairs;
+        }
     }
 }

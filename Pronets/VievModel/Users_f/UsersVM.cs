@@ -294,7 +294,7 @@ namespace Pronets.VievModel.Users_f
             }
             set
             {
-                editItem = value;
+                searchItem = value;
                 RaisedPropertyChanged("SearchCommand");
             }
         }
