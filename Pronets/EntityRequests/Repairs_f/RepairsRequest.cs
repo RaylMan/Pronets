@@ -45,7 +45,7 @@ namespace Pronets.EntityRequests.Repairs_f
                         Users = item.Users,
                         Users1 = item.Users1
 
-                    }) ;
+                    });
                 }
             }
             return repairs;
@@ -76,6 +76,7 @@ namespace Pronets.EntityRequests.Repairs_f
                             DocumentId = repair.DocumentId,
                             Nomenclature = repair.Nomenclature,
                             Serial_Number = repair.Serial_Number,
+                            Claimed_Malfunction = repair.Claimed_Malfunction,
                             Client = repair.Client,
                             Date_Of_Receipt = repair.Date_Of_Receipt,
                             Departure_Date = repair.Departure_Date,
@@ -90,6 +91,31 @@ namespace Pronets.EntityRequests.Repairs_f
                             Note = repair.Note,
                         });
                     }
+                    db.SaveChanges();
+                }
+            }
+        }
+        public static void EditItem(Repairs repair)
+        {
+            using (var db = new PronetsDataBaseEntities())
+            {
+                var result = db.Repairs.SingleOrDefault(r => r.RepairId == repair.RepairId);
+                if (result != null)
+                {
+                    result.Nomenclature = repair.Nomenclature;
+                    result.Serial_Number = repair.Serial_Number;
+                    result.Client = repair.Client;
+                    result.Date_Of_Receipt = repair.Date_Of_Receipt;
+                    result.Departure_Date = repair.Departure_Date;
+                    result.Inspector = repair.Inspector;
+                    result.Warranty = repair.Warranty;
+                    result.Identifie_Fault = repair.Identifie_Fault;
+                    result.Work_Done = repair.Work_Done;
+                    result.Repair_Category = repair.Repair_Category;
+                    result.Engineer = repair.Engineer;
+                    result.Repair_Date = repair.Repair_Date;
+                    result.Status = repair.Status;
+                    result.Note = repair.Note;
                     db.SaveChanges();
                 }
             }

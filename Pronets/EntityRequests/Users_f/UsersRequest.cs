@@ -10,6 +10,7 @@ namespace Pronets.EntityRequests.Users_f
         private static ObservableCollection<Users> users = new ObservableCollection<Users>();
         private static ObservableCollection<Users> searchUsers = new ObservableCollection<Users>();
         private static ObservableCollection<Positions> positions = new ObservableCollection<Positions>();
+        private static Users user;
         public static ObservableCollection<Users> FillList()
         {
             using (var db = new PronetsDataBaseEntities())
@@ -34,6 +35,13 @@ namespace Pronets.EntityRequests.Users_f
                 }
             }
             return users;
+        }
+        public static Users GetUser(int? id)
+        {
+            using (var db = new PronetsDataBaseEntities())
+            {
+                return user = db.Users.Where(u => u.UserId == id).FirstOrDefault();
+            }
         }
         public static ObservableCollection<Positions> FillPosoitions()
         {

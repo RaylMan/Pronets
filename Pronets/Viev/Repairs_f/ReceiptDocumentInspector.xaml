@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pronets.Viev.Repairs_f"
         mc:Ignorable="d"
-        Title="Приходная накладная" Height="595" Width="1020" MinHeight="595" MinWidth="1020" WindowStartupLocation="CenterScreen">
+        Title="Приходная накладная" Height="595" Width="1020" MinHeight="595" MinWidth="1020" Background="Gainsboro" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
@@ -31,7 +31,28 @@
         <TextBlock x:Name="txtInspector" HorizontalAlignment="Left" Margin="547,16,0,0" Grid.Row="1" FontSize="15" VerticalAlignment="Top" Text="{Binding InspectorName}" RenderTransformOrigin="0.492,0.977"></TextBlock>
 
         <!--Row 2-->
-        <DataGrid x:Name="Docunents1" ItemsSource="{Binding Repairs}" Grid.Row="2" Margin="5" AutoGenerateColumns="False">
+        <DataGrid x:Name="Docunents1" ItemsSource="{Binding Repairs}" FrozenColumnCount="3"  Grid.Row="2" Margin="5" AutoGenerateColumns="False">
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Status}" Value="Готов">
+                            <Setter Property="Background" Value="Lime"></Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Status}" Value="Донор">
+                            <Setter Property="Background" Value="Tomato"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Status}" Value="Не смогли починить">
+                            <Setter Property="Background" Value="Tomato"></Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Status}" Value="Утерян">
+                            <Setter Property="Background" Value="Red"></Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Status}" Value="В ремонте">
+                            <Setter Property="Background" Value="#FFF9F14C"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="№" Binding="{Binding RepairId}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Наименование" Binding="{Binding Nomenclature}" IsReadOnly="True"/>

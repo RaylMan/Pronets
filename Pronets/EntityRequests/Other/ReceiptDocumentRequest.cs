@@ -64,7 +64,7 @@ namespace Pronets.EntityRequests.Other
         {
             using (var db = new PronetsDataBaseEntities())
             {
-                v_Receipt_Document document = (v_Receipt_Document)db.v_Receipt_Document.Where(d => d.Document_Id == documentId);
+                v_Receipt_Document document = db.v_Receipt_Document.Where(d => d.Document_Id == documentId).FirstOrDefault();
                 return document;
             }
         }

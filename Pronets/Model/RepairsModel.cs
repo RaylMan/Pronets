@@ -11,6 +11,7 @@ namespace Pronets.Model
 {
     class RepairsModel : VievModelBase
     {
+        protected Repairs repair;
         protected ObservableCollection<Repairs> repairs = new ObservableCollection<Repairs>();
         public ObservableCollection<Repairs> Repairs
         {
@@ -22,8 +23,8 @@ namespace Pronets.Model
                 RaisedPropertyChanged("Repairs");
             }
         }
-        protected int repairId;
-        public int RepairId
+        protected int? repairId;
+        public int? RepairId
         {
             get { return repairId; }
             set
@@ -32,8 +33,8 @@ namespace Pronets.Model
                 RaisedPropertyChanged("RepairId");
             }
         }
-        protected int documentId;
-        public int DocumentId
+        protected int? documentId;
+        public int? DocumentId
         {
             get { return documentId; }
             set
@@ -72,8 +73,8 @@ namespace Pronets.Model
                 RaisedPropertyChanged("Claimed_Malfunction");
             }
         }
-        protected int client;
-        public int Client
+        protected int? client;
+        public int? Client
         {
             get { return client; }
             set
@@ -82,8 +83,8 @@ namespace Pronets.Model
                 RaisedPropertyChanged("Client");
             }
         }
-        protected DateTime date_Of_Receipt;
-        public DateTime Date_Of_Receipt
+        protected DateTime? date_Of_Receipt;
+        public DateTime? Date_Of_Receipt
         {
             get { return date_Of_Receipt; }
             set
@@ -92,8 +93,8 @@ namespace Pronets.Model
                 RaisedPropertyChanged("Date_Of_Receipt");
             }
         }
-        protected DateTime departure_Date;
-        public DateTime Departure_Date
+        protected DateTime? departure_Date;
+        public DateTime? Departure_Date
         {
             get { return departure_Date; }
             set
@@ -102,8 +103,8 @@ namespace Pronets.Model
                 RaisedPropertyChanged("Departure_Date");
             }
         }
-        protected int inspector;
-        public int Inspector
+        protected int? inspector;
+        public int? Inspector
         {
             get { return inspector; }
             set
@@ -162,8 +163,8 @@ namespace Pronets.Model
                 RaisedPropertyChanged("Engineer");
             }
         }
-        protected DateTime repair_Date;
-        public DateTime Repair_Date
+        protected DateTime? repair_Date;
+        public DateTime? Repair_Date
         {
             get { return repair_Date; }
             set
@@ -188,7 +189,7 @@ namespace Pronets.Model
             get { return note; }
             set
             {
-                Note = value;
+                note = value;
                 RaisedPropertyChanged("Note");
             }
         }

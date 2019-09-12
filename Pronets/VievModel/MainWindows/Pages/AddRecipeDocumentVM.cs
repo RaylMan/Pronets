@@ -331,7 +331,7 @@ namespace Pronets.VievModel.MainWindows.Pages
 
                         repairs[i].DocumentId = documentId;
                         repairs[i].Nomenclature = nm;
-                        //repairs[i].Serial_Number = sn;
+                        //repairs[i].Serial_Number = serial_Number;
                         //repairs[i].Claimed_Malfunction = cm;
                         repairs[i].Client = selectClientItem.ClientId;
                         repairs[i].Date_Of_Receipt = date_Of_Receipt;

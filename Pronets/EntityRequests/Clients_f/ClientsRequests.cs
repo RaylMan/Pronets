@@ -9,6 +9,7 @@ namespace Pronets.EntityRequests.Clients_f
     {
         private static ObservableCollection<Clients> clients = new ObservableCollection<Clients>();
         private static ObservableCollection<Clients> searchClients = new ObservableCollection<Clients>();
+        private static Clients client;
         public static ObservableCollection<Clients> FillList()
         {
             using (var db = new PronetsDataBaseEntities())
@@ -37,6 +38,13 @@ namespace Pronets.EntityRequests.Clients_f
                 }
             }
             return clients;
+        }
+        public static Clients GetClient(int? id)
+        {
+            using (var db = new PronetsDataBaseEntities())
+            {
+                return client = db.Clients.Where(c => c.ClientId == id).FirstOrDefault();
+            }
         }
         public static void AddToBase(Clients client)
         {
