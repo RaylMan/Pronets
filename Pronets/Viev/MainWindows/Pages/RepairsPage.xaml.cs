@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Pronets.Data;
+using Pronets.EntityRequests.Other;
+using Pronets.Viev.Repairs_f;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +26,19 @@ namespace Pronets.Viev.MainWindows.Pages
         public RepairsPage()
         {
             InitializeComponent();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (tbxDocimentId.Text != null && tbxDocimentId.Text != "")
+            {
+                Int32.TryParse(tbxDocimentId.Text, out int id);
+                v_Receipt_Document document = ReceiptDocumentRequest.GetDocument(id);
+                ReceiptDocumentInspector doc = new ReceiptDocumentInspector(document);
+                doc.Show();
+            }
+            else
+                MessageBox.Show("Не выбран элемент", "Ошибка");
         }
     }
 }

@@ -22,7 +22,7 @@
             <RowDefinition Height="40"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <DataGrid x:Name="docunents" Margin="5" Grid.Row="1" Grid.Column="0" AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding Path=ReceiptDocuments, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2">
+        <DataGrid x:Name="docunents" ItemsSource="{Binding Path=ReceiptDocuments}" Margin="5"  Grid.Row="1" Grid.Column="0" AutoGenerateColumns="False" Grid.ColumnSpan="2">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="№" Binding="{Binding Path=Document_Id}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Клиент" Binding="{Binding Path=Client}" IsReadOnly="True" />
@@ -34,12 +34,13 @@
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="Открыть" Click="Button_Click" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type window:ReceiptDocumentInspector}"/>
+                            <Button Content="Открыть" Click="Button_Click" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
+        <Button x:Name="button" Command="{Binding FillListCommand}" Content="Обновить" Grid.Column="1" HorizontalAlignment="Right" Margin="0,10,5,0" VerticalAlignment="Top"/>
     </Grid>
 </Page>
 

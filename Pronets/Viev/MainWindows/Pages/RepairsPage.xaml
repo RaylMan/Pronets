@@ -13,31 +13,109 @@
     </Page.DataContext>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="35"></RowDefinition>
+            <RowDefinition Height="200"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <TextBox x:Name="tbxSearch" Text="{Binding SearchText}" Grid.Row="0" HorizontalAlignment="Right" Width="170"  MaxLength="50" Margin="0,5,54,5"/>
-        <Button x:Name="btnSearch" Content="Искать" Command="{Binding SearchCommand}"  CommandParameter="{Binding ElementName=tbxSearch}" Grid.Row="0" HorizontalAlignment="Right"  Margin="5" />
-        <DataGrid x:Name="Docunents" ItemsSource="{Binding Repairs}" Grid.Row="1" Margin="0,0,10,0" AutoGenerateColumns="False">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <TextBox x:Name="tbxSearch" Text="{Binding SearchText}" Grid.Row="0" HorizontalAlignment="Left" Width="170"  MaxLength="50" Margin="5,5,54,5"/>
+        <Button x:Name="btnSearch" Content="Искать" Command="{Binding SearchCommand}"  CommandParameter="{Binding ElementName=tbxSearch}" Grid.Row="0" HorizontalAlignment="Left"  Margin="180,5,0,5" RenderTransformOrigin="-1.503,0.609" />
+        <DataGrid x:Name="Docunents" ItemsSource="{Binding Repairs}" Grid.Row="1" Grid.ColumnSpan="2" Margin="5,5,5,10" AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="№" Binding="{Binding Path=RepairId}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="№ документа" Binding="{Binding Path=DocumentId}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Наименование" Binding="{Binding Path=Nomenclature}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Серийный Номер" Binding="{Binding Path=Serial_Number}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Заявленная неисправность" Binding="{Binding Path=Claimed_Malfunction}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Клиент" Binding="{Binding Path=Client}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Дата приема" Binding="{Binding Path=Date_Of_Receipt}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Дата отправки" Binding="{Binding Path=Departure_Date}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Приемщик" Binding="{Binding Path=Inspector}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Гарантия" Binding="{Binding Path=Warranty}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Выявленная неисправность" Binding="{Binding Path=Identifie_Fault}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Проделанный ремонт" Binding="{Binding Path=Work_Done}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Категория ремонта" Binding="{Binding Path=Repair_Category}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Engineer" Binding="{Binding Path=Engineer}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Дата ремонта" Binding="{Binding Path=Repair_Date}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Статус ремонта" Binding="{Binding Path=Status}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Заментка" Binding="{Binding Path=Note}" IsReadOnly="True"/>
             </DataGrid.Columns>
         </DataGrid>
+        <Grid Grid.Row="2" Background="Gainsboro" Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="165"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="26"></RowDefinition>
+                <RowDefinition Height="26"></RowDefinition>
+                <RowDefinition Height="26"></RowDefinition>
+                <RowDefinition Height="26"></RowDefinition>
+                <RowDefinition Height="26"></RowDefinition>
+                <RowDefinition Height="26"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Label Content="Номер ремонта:" Grid.Column="0" Grid.Row="0"/>
+            <Label Content="Клиент:" Grid.Column="0" Grid.Row="1"/>
+            <Label Content="Серийный Номер:"  Grid.Column="0" Grid.Row="2"/>
+            <Label Content="Номер Документа:"  Grid.Column="0" Grid.Row="3"/>
+            <Label Content="Приемщик:"  Grid.Column="0" Grid.Row="4"/>
+            <Label Content="Гарантия:"  Grid.Column="0" Grid.Row="5"/>
+            <Label Content="Заявленная неисправность:"  Grid.Column="0" Grid.Row="6"/>
+            <TextBox Text="{Binding RepairId}" Grid.Column="1" Grid.Row="0" IsReadOnly="True"/>
+            <TextBox Text="{Binding ClientName}" Grid.Column="1" Grid.Row="1" IsReadOnly="True"/>
+            <TextBox Text="{Binding Serial_Number}" Grid.Column="1" Grid.Row="2" IsReadOnly="True"/>
+            <TextBox x:Name="tbxDocimentId" Text="{Binding DocumentId}" Grid.Column="1" Grid.Row="3" IsReadOnly="True" Margin="0,0,55,0"/>
+            <Button Content="Открыть" Grid.Column="1" Grid.Row="3" Margin="170,0,0,0" Click="Button_Click" />
+            <TextBox Text="{Binding Inspector}" Grid.Column="1" Grid.Row="4" IsReadOnly="True"/>
+            <TextBox Text="{Binding Warranty}" Grid.Column="1" Grid.Row="5" IsReadOnly="True"/>
+            <TextBox Text="{Binding Claimed_Malfunction}" Grid.Column="1" Grid.Row="6" TextWrapping="Wrap" AcceptsReturn="True" IsReadOnly="True"/>
+
+        </Grid>
+        <Grid Grid.Row="2" Grid.Column="1" Margin="5" Background="Gainsboro">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="165"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="26"></RowDefinition>
+                <RowDefinition Height="26"></RowDefinition>
+                <RowDefinition Height="26"></RowDefinition>
+                <RowDefinition Height="26"></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition  Height="40"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Label Content="Выявленная неисправность:" Grid.Column="0" Grid.Row="0"/>
+            <Label Content="Проделанный ремонт:" Grid.Column="0" Grid.Row="1"/>
+            <Label Content="Категория ремонта:"  Grid.Column="0" Grid.Row="2"/>
+            <Label Content="Инженер:"  Grid.Column="0" Grid.Row="3"/>
+            <Label Content="Дата ремонта:"  Grid.Column="0" Grid.Row="4"/>
+            <Label  Content="Статус ремонта:"  Grid.Column="0" Grid.Row="5"/>
+            <Label  Content="Заментка:"  Grid.Column="0" Grid.Row="6"/>
+            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Identifie_Fault}" TextWrapping="Wrap" AcceptsReturn="True" MaxLength="100"/>
+            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Work_Done}" TextWrapping="Wrap" AcceptsReturn="True" MaxLength="100"/>
+
+            <ComboBox  ItemsSource="{Binding RepairCategories}" SelectedValue="{Binding SelectedCategory}"  Grid.Column="1" Grid.Row="2" >
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Category}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <ComboBox  ItemsSource="{Binding Users}" SelectedValue="{Binding SelectedUser}"  Grid.Column="1" Grid.Row="3" >
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding LastName}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <DatePicker Grid.Column="1" Grid.Row="4"/>
+            <ComboBox  ItemsSource="{Binding Statuses}" SelectedValue="{Binding SelectedStatus}"  Grid.Column="1" Grid.Row="5">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Status}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <TextBox Grid.Column="1" Grid.Row="6" Text="{Binding Note}" TextWrapping="Wrap" AcceptsReturn="True" MaxLength="100"/>
+            <Button Grid.Column="1" Grid.Row="7" Command="{Binding AddCommand}" HorizontalAlignment="Right" Margin="5" Content="Записать" Width="85"/>
+        </Grid>
     </Grid>
+
 </Page>
