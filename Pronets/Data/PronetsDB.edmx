@@ -19,6 +19,14 @@
           <Property Name="Email" Type="nvarchar" MaxLength="50" />
           <Property Name="Adress" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="Defects">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Defect" Type="nvarchar" MaxLength="100" />
+          <Property Name="Work" Type="nvarchar" MaxLength="100" />
+        </EntityType>
         <EntityType Name="No_in_Repairs">
           <Key>
             <PropertyRef Name="RepairId" />
@@ -162,6 +170,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ReceiptDocument_ReceiptDocument">
+          <End Role="ReceiptDocument" Type="Self.ReceiptDocument" Multiplicity="1" />
+          <End Role="ReceiptDocument1" Type="Self.ReceiptDocument" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="ReceiptDocument">
+              <PropertyRef Name="DocumentId" />
+            </Principal>
+            <Dependent Role="ReceiptDocument1">
+              <PropertyRef Name="DocumentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ReceiptDocument_Users">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
           <End Role="ReceiptDocument" Type="Self.ReceiptDocument" Multiplicity="*" />
@@ -272,6 +292,7 @@
         </Association>
         <EntityContainer Name="Хранилище PronetsDBModelContainer">
           <EntitySet Name="Clients" EntityType="Self.Clients" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Defects" EntityType="Self.Defects" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="No_in_Repairs" EntityType="Self.No_in_Repairs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Nomenclature" EntityType="Self.Nomenclature" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Nomenclature_Types" EntityType="Self.Nomenclature_Types" Schema="dbo" store:Type="Tables" />
@@ -299,6 +320,10 @@
           <AssociationSet Name="FK_ReceiptDocument_Clients" Association="Self.FK_ReceiptDocument_Clients">
             <End Role="Clients" EntitySet="Clients" />
             <End Role="ReceiptDocument" EntitySet="ReceiptDocument" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReceiptDocument_ReceiptDocument" Association="Self.FK_ReceiptDocument_ReceiptDocument">
+            <End Role="ReceiptDocument" EntitySet="ReceiptDocument" />
+            <End Role="ReceiptDocument1" EntitySet="ReceiptDocument" />
           </AssociationSet>
           <AssociationSet Name="FK_ReceiptDocument_Users" Association="Self.FK_ReceiptDocument_Users">
             <End Role="Users" EntitySet="Users" />
@@ -418,6 +443,8 @@
           <NavigationProperty Name="Clients" Relationship="Self.FK_ReceiptDocument_Clients" FromRole="ReceiptDocument" ToRole="Clients" />
           <NavigationProperty Name="Users" Relationship="Self.FK_ReceiptDocument_Users" FromRole="ReceiptDocument" ToRole="Users" />
           <NavigationProperty Name="Repairs" Relationship="Self.FK_Repairs_ReceiptDocument" FromRole="ReceiptDocument" ToRole="Repairs" />
+          <NavigationProperty Name="ReceiptDocument1" Relationship="PronetsDBModel.FK_ReceiptDocument_ReceiptDocument" FromRole="ReceiptDocument" ToRole="ReceiptDocument1" />
+          <NavigationProperty Name="ReceiptDocument2" Relationship="PronetsDBModel.FK_ReceiptDocument_ReceiptDocument" FromRole="ReceiptDocument1" ToRole="ReceiptDocument" />
         </EntityType>
         <EntityType Name="Repair_Categories">
           <Key>
@@ -671,6 +698,11 @@
             <End Role="Repairs" EntitySet="Repairs" />
           </AssociationSet>
           <EntitySet Name="v_Receipt_Document" EntityType="PronetsDBModel.v_Receipt_Document" />
+          <EntitySet Name="Defects" EntityType="PronetsDBModel.Defects" />
+          <AssociationSet Name="FK_ReceiptDocument_ReceiptDocument" Association="PronetsDBModel.FK_ReceiptDocument_ReceiptDocument">
+            <End Role="ReceiptDocument" EntitySet="ReceiptDocument" />
+            <End Role="ReceiptDocument1" EntitySet="ReceiptDocument" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="v_Receipt_Document">
           <Key>
@@ -684,6 +716,26 @@
           <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Note" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="Defects">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Defect" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Work" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_ReceiptDocument_ReceiptDocument">
+          <End Type="PronetsDBModel.ReceiptDocument" Role="ReceiptDocument" Multiplicity="1" />
+          <End Type="PronetsDBModel.ReceiptDocument" Role="ReceiptDocument1" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="ReceiptDocument">
+              <PropertyRef Name="DocumentId" />
+            </Principal>
+            <Dependent Role="ReceiptDocument1">
+              <PropertyRef Name="DocumentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -829,6 +881,15 @@
                 <ScalarProperty Name="Inspector" ColumnName="Inspector" />
                 <ScalarProperty Name="Client" ColumnName="Client" />
                 <ScalarProperty Name="Document_Id" ColumnName="Document Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Defects">
+            <EntityTypeMapping TypeName="PronetsDBModel.Defects">
+              <MappingFragment StoreEntitySet="Defects">
+                <ScalarProperty Name="Work" ColumnName="Work" />
+                <ScalarProperty Name="Defect" ColumnName="Defect" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

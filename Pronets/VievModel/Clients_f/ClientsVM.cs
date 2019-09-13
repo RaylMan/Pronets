@@ -171,8 +171,9 @@ namespace Pronets.VievModel.Clients_f
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    ClientsRequests.RemoveFromBase(selectedItem);
-                    clients.RemoveAt(selectedIndex);
+                    ClientsRequests.RemoveFromBase(selectedItem, out bool ex);
+                    if (ex)
+                        clients.RemoveAt(selectedIndex);
                 }
             }
             else
@@ -219,11 +220,11 @@ namespace Pronets.VievModel.Clients_f
                         Adress = selectedItem.Adress
                     };
                 }
-               
+
                 var result = MessageBox.Show("Вы Действительно хотите редактировать?", "Редактирование", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
                 {
-                    if(modifiedClient != null)
+                    if (modifiedClient != null)
                     {
                         ClientsRequests.EditItem(modifiedClient);
                     }

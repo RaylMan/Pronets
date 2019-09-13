@@ -1,4 +1,5 @@
-﻿using Pronets.Navigation;
+﻿using Pronets.Model;
+using Pronets.Navigation;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -22,11 +23,11 @@ namespace Pronets.Viev.MainWindows.Pages
     /// </summary>
     public partial class AddRecipeDocument : Page
     {
-       // FrameworkElement elmcbmx;
-       // FrameworkElement elmchbx;
+        // FrameworkElement elmcbmx;
+        // FrameworkElement elmchbx;
         public AddRecipeDocument()
         {
-            
+
             InitializeComponent();
         }
 
@@ -52,14 +53,14 @@ namespace Pronets.Viev.MainWindows.Pages
                 {
 
                 }
-                
+
             }
 
         }
 
         public IEnumerable<DataGridRow> GetDataGridRows(DataGrid grid)
         {
-            if(grid.ItemsSource != null)
+            if (grid.ItemsSource != null)
             {
                 var itemsSource = grid.ItemsSource as IEnumerable;
                 if (null == itemsSource) yield return null;
@@ -67,13 +68,13 @@ namespace Pronets.Viev.MainWindows.Pages
                 {
                     var row = grid.ItemContainerGenerator.ContainerFromItem(item) as DataGridRow;
                     if (null != row) yield return row;
-                } 
+                }
             }
         }
 
         private void ComboBoxWarranty_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
+
             var row = GetDataGridRows(repairsGrid);
             foreach (DataGridRow r in row)
             {

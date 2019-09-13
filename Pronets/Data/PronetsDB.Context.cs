@@ -37,5 +37,6 @@ namespace Pronets.Data
         public virtual DbSet<Statuses> Statuses { get; set; }
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<v_Receipt_Document> v_Receipt_Document { get; set; }
+        public virtual DbSet<Defects> Defects { get; set; }
     }
 }

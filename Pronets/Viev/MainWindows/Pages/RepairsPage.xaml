@@ -21,7 +21,7 @@
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <TextBox x:Name="tbxSearch" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" HorizontalAlignment="Left" Width="170"  MaxLength="50" Margin="5,5,54,5">
+        <TextBox x:Name="tbxSearch" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" HorizontalAlignment="Left" Width="170" SelectionChanged="TbxSearch_SelectionChanged" GotFocus="TbxSearch_GotFocus" MaxLength="50" Margin="5,5,54,5">
             <TextBox.InputBindings>
                 <KeyBinding 
             Key="Enter" 
@@ -55,11 +55,11 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="№" Binding="{Binding Path=RepairId}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="№ документа" Binding="{Binding Path=DocumentId}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Наименование" Binding="{Binding Path=Nomenclature}" Width="*" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Наименование" Binding="{Binding Path=Nomenclature}"  IsReadOnly="True"/>
                 <DataGridTextColumn Header="Серийный Номер" Binding="{Binding Path=Serial_Number}" Width="*" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Дата приема" Binding="{Binding Path=Date_Of_Receipt, StringFormat='dd.MM.yyyy'}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Гарантия" Binding="{Binding Path=Warranty}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Статус ремонта" Binding="{Binding Path=Status}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Статус ремонта" Binding="{Binding Path=Status}" Width="*" IsReadOnly="True"/>
             </DataGrid.Columns>
         </DataGrid>
         <Grid Grid.Row="2" Background="Gainsboro" Margin="5">
@@ -91,9 +91,9 @@
             <TextBox Text="{Binding InspectorName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Background="Gainsboro" Grid.Column="1" Grid.Row="4" IsReadOnly="True"/>
             <TextBox Text="{Binding Warranty, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Background="Gainsboro" Grid.Column="1" Grid.Row="5" IsReadOnly="True"/>
             <TextBox Text="{Binding Claimed_Malfunction, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Background="Gainsboro" Grid.Column="1" Grid.Row="6" TextWrapping="Wrap" AcceptsReturn="True" IsReadOnly="True"/>
-
+            
         </Grid>
-        
+
         <Grid Grid.Row="2" Grid.Column="1" Margin="0,5,5,5" Background="Gainsboro">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="165"></ColumnDefinition>
@@ -116,8 +116,8 @@
             <Label Content="Дата ремонта:"  Grid.Column="0" Grid.Row="4"/>
             <Label  Content="Статус ремонта:"  Grid.Column="0" Grid.Row="5"/>
             <Label  Content="Заментка:"  Grid.Column="0" Grid.Row="6"/>
-            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Identifie_Fault, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" AcceptsReturn="True" MaxLength="100"/>
-            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Work_Done, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" AcceptsReturn="True" MaxLength="100"/>
+            <TextBox x:Name="tbxDefect" Grid.Column="1" Grid.Row="0" Text="{Binding Identifie_Fault, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" AcceptsReturn="True" MaxLength="100"/>
+            <TextBox x:Name="tbxWork" Grid.Column="1" Grid.Row="1" Text="{Binding Work_Done, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  TextWrapping="Wrap" AcceptsReturn="True" MaxLength="100"/>
 
             <ComboBox  ItemsSource="{Binding Categories}" SelectedValue="{Binding SelectedCategory}"  Grid.Column="1" Grid.Row="2" >
                 <ComboBox.ItemTemplate>
@@ -145,6 +145,7 @@
             <TextBox Grid.Column="1" Grid.Row="6" Text="{Binding Note, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" AcceptsReturn="True" MaxLength="100"/>
             <Button Grid.Column="1" Grid.Row="7" Command="{Binding EditCommand}" HorizontalAlignment="Right" Margin="5" Content="Записать" Width="85"/>
         </Grid>
+        <CheckBox x:Name="checkBox" Content="Искать с русскими символами" IsChecked="{Binding IsChecked}" HorizontalAlignment="Left" Margin="243,10,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="194"/>
     </Grid>
 
 </Page>

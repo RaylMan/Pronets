@@ -14,7 +14,6 @@ namespace Pronets.Data
     
     public partial class Repairs
     {
-        public bool IsChecked { get; set; }
         public int RepairId { get; set; }
         public Nullable<int> DocumentId { get; set; }
         public string Nomenclature { get; set; }
@@ -35,7 +34,6 @@ namespace Pronets.Data
     
         public virtual Clients Clients { get; set; }
         public virtual Nomenclature Nomenclature1 { get; set; }
-        public virtual Warrantys Warrantys { get; set; }
         public virtual ReceiptDocument ReceiptDocument { get; set; }
         public virtual Repair_Categories Repair_Categories { get; set; }
         public virtual Statuses Statuses { get; set; }

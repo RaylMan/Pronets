@@ -1,4 +1,5 @@
 ﻿using Pronets.Data;
+using System;
 using System.Collections.ObjectModel;
 using System.Windows;
 
@@ -37,22 +38,31 @@ namespace Pronets.EntityRequests.Nomenclature_f
                     });
                     db.SaveChanges();
                 }
-                catch (System.Data.Entity.Infrastructure.DbUpdateException)
+                catch (Exception e)
                 {
                     MessageBox.Show("Элемент уже существует в базе!", "Ошибка");
                     isExeption = false;
                 }
             }
         }
-        public static void RemoveFromBase(Nomenclature_Types type)
+        public static void RemoveFromBase(Nomenclature_Types type, out bool isExeption)
         {
+            isExeption = true;
             using (var db = new PronetsDataBaseEntities())
             {
                 if (type != null)
                 {
-                    db.Nomenclature_Types.Attach(type);
-                    db.Nomenclature_Types.Remove(type);
-                    db.SaveChanges();
+                    try
+                    {
+                        db.Nomenclature_Types.Attach(type);
+                        db.Nomenclature_Types.Remove(type);
+                        db.SaveChanges();
+                    }
+                    catch (System.Data.Entity.Infrastructure.DbUpdateException)
+                    {
+                        MessageBox.Show("Невозможно удалить , так как есть связи с данными!", "Ошибка");
+                        isExeption = false;
+                    }
                 }
             }
         }

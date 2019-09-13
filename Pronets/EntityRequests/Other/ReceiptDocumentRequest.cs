@@ -3,6 +3,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.Linq;
+using System.Windows;
 
 namespace Pronets.EntityRequests.Other
 {
@@ -94,15 +95,24 @@ namespace Pronets.EntityRequests.Other
                 }
             }
         }
-        public static void RemoveFromBase(ReceiptDocument document)
+        public static void RemoveFromBase(ReceiptDocument document, out bool isExeption)
         {
+            isExeption = true;
             using (var db = new PronetsDataBaseEntities())
             {
                 if (document != null)
                 {
-                    db.ReceiptDocument.Attach(document);
-                    db.ReceiptDocument.Remove(document);
-                    db.SaveChanges();
+                    try
+                    {
+                        db.ReceiptDocument.Attach(document);
+                        db.ReceiptDocument.Remove(document);
+                        db.SaveChanges();
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show("Невозможно удалить , так как есть связи с данными!", "Ошибка");
+                        isExeption = false;
+                    }
                 }
             }
         }

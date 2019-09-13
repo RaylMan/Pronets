@@ -31,5 +31,7 @@ namespace Pronets.Data
         public virtual Users Users { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Repairs> Repairs { get; set; }
+        public virtual ReceiptDocument ReceiptDocument1 { get; set; }
+        public virtual ReceiptDocument ReceiptDocument2 { get; set; }
     }
 }

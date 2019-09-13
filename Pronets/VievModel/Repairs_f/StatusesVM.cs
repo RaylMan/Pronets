@@ -116,8 +116,9 @@ namespace Pronets.VievModel.Repairs_f
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    StatusesRequets.RemoveFromBase(SelectedItem);
-                    statuses.RemoveAt(selectedIndex);
+                    StatusesRequets.RemoveFromBase(SelectedItem, out bool ex);
+                    if (ex)
+                        statuses.RemoveAt(selectedIndex);
                 }
 
             }

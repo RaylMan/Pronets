@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Pronets.EntityRequests.Repairs_f
 {
@@ -120,15 +121,24 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
             }
         }
-        public static void RemoveFromBase(Repairs repair)
+        public static void RemoveFromBase(Repairs repair, out bool isExeption)
         {
+            isExeption = true;
             using (var db = new PronetsDataBaseEntities())
             {
                 if (repair != null)
                 {
-                    db.Repairs.Attach(repair);
-                    db.Repairs.Remove(repair);
-                    db.SaveChanges();
+                    try
+                    {
+                        db.Repairs.Attach(repair);
+                        db.Repairs.Remove(repair);
+                        db.SaveChanges();
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show("Невозможно удалить , так как есть связи с данными!", "Ошибка");
+                        isExeption = false;
+                    }
                 }
             }
         }

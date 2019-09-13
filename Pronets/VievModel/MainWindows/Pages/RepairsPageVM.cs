@@ -21,7 +21,7 @@ namespace Pronets.VievModel.MainWindows.Pages
         private Repairs repair = new Data.Repairs();
         private Clients client;
         private Users user;
-
+        private ObservableCollection<Defects> defects = new ObservableCollection<Defects>();
         private ObservableCollection<Repair_Categories> categories = new ObservableCollection<Repair_Categories>();
         public ObservableCollection<Repair_Categories> Categories
         {
@@ -153,11 +153,21 @@ namespace Pronets.VievModel.MainWindows.Pages
             }
         }
 
-
+        private bool isChecked;
+        public bool IsChecked
+        {
+            get { return isChecked; }
+            set
+            {
+                isChecked = value;
+                RaisedPropertyChanged("IsChecked");
+            }
+        }
         #endregion
 
         public RepairsPageVM()
         {
+            defects = DefectsRequests.FillList();
             Date_Of_Receipt = DateTime.Now;
             categories = RepairCategoriesRequests.FillList();
             users = UsersRequest.FillList();
@@ -189,13 +199,16 @@ namespace Pronets.VievModel.MainWindows.Pages
             if (SearchText != null && SearchText != "")
             {
                 repairs.Clear();
-                foreach (var repair in RepairsRequest.SearchItem(searchText))
+                string engWord = IsChecked != true ? EditChars.ToEnglish(SearchText) : SearchText;
+                foreach (var repair in RepairsRequest.SearchItem(engWord))
                 {
                     repairs.Add(repair);
                 }
-                SearchText = string.Empty;
+                //SearchText = string.Empty;
             }
         }
+
+        
         #endregion
 
         #region EditCommand
@@ -246,6 +259,7 @@ namespace Pronets.VievModel.MainWindows.Pages
                 MessageBox.Show("Необходимо выбрать элемент!", "Ошибка");
         }
         #endregion
+
         #region Selectitems
         //Устанавливает значение по умолчанию Combobox "статус документа" в соответствии с БД
         public void GetStatus()

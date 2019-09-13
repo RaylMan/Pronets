@@ -1,42 +1,48 @@
 ﻿using Pronets.Data;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace Pronets.EntityRequests.Repairs_f
 {
-    public static class RepairCategoriesRequests
+    public static class DefectsRequests
     {
-        private static ObservableCollection<Repair_Categories> repair_Categories = new ObservableCollection<Repair_Categories>();
-        public static ObservableCollection<Repair_Categories> FillList()
+        private static ObservableCollection<Defects> defects = new ObservableCollection<Defects>();
+        public static ObservableCollection<Defects> FillList()
         {
             using (var db = new PronetsDataBaseEntities())
             {
-                if (repair_Categories != null)
-                    repair_Categories.Clear();
-                foreach (var item in db.Repair_Categories)
+                if (defects != null)
+                    defects.Clear();
+                foreach (var item in db.Defects)
                 {
-                    repair_Categories.Add(new Repair_Categories
+                    defects.Add(new Defects
                     {
-                        Category = item.Category,
-                        Price = item.Price
+                        Id = item.Id,
+                        Defect = item.Defect,
+                        Work = item.Work
                     });
                 }
             }
-            return repair_Categories;
+            return defects;
         }
-        
-        public static void AddToBase(Repair_Categories category, out bool isExeption)
+
+        public static void AddToBase(Defects defect, out bool isExeption)
         {
             isExeption = true;
             using (var db = new PronetsDataBaseEntities())
             {
                 try
                 {
-                    db.Repair_Categories.Add(new Repair_Categories
+                    db.Defects.Add(new Defects
                     {
-                        Category = category.Category,
-                        Price = category.Price
+                        Id = defect.Id,
+                        Defect = defect.Defect,
+                        Work = defect.Work
                     });
                     db.SaveChanges();
                 }
@@ -47,17 +53,17 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
             }
         }
-        public static void RemoveFromBase(Repair_Categories category, out bool isExeption)
+        public static void RemoveFromBase(Defects defect, out bool isExeption)
         {
             isExeption = true;
             using (var db = new PronetsDataBaseEntities())
             {
-                if (category != null)
+                if (defect != null)
                 {
                     try
                     {
-                        db.Repair_Categories.Attach(category);
-                        db.Repair_Categories.Remove(category);
+                        db.Defects.Attach(defect);
+                        db.Defects.Remove(defect);
                         db.SaveChanges();
                     }
                     catch (Exception e)

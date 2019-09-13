@@ -11,6 +11,7 @@ using Pronets.EntityRequests.Nomenclature_f;
 using Pronets.EntityRequests.Other;
 using Pronets.EntityRequests.Repairs_f;
 using Pronets.Viev.MainWindows.Pages;
+using Pronets.Model;
 
 namespace Pronets.VievModel.MainWindows.Pages
 {

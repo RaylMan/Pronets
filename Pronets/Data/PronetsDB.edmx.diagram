@@ -28,6 +28,8 @@
         <AssociationConnector Association="PronetsDBModel.FK_Repairs_Users_Engineer_" ManuallyRouted="false" />
         <AssociationConnector Association="PronetsDBModel.FK_Repairs_Users_Inspector_" ManuallyRouted="false" />
         <EntityTypeShape EntityType="PronetsDBModel.v_Receipt_Document" Width="1.5" PointX="8" PointY="7.875" />
+        <EntityTypeShape EntityType="PronetsDBModel.Defects" Width="1.5" PointX="10.375" PointY="0.75" />
+        <AssociationConnector Association="PronetsDBModel.FK_ReceiptDocument_ReceiptDocument" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -74,6 +74,9 @@
     <Compile Include="Data\Clients.cs">
       <DependentUpon>PronetsDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\Defects.cs">
+      <DependentUpon>PronetsDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\Nomenclature.cs">
       <DependentUpon>PronetsDB.tt</DependentUpon>
     </Compile>
@@ -110,6 +113,7 @@
     <Compile Include="Data\Repairs.cs">
       <DependentUpon>PronetsDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\RepairsMe.cs" />
     <Compile Include="Data\Repair_Categories.cs">
       <DependentUpon>PronetsDB.tt</DependentUpon>
     </Compile>
@@ -127,10 +131,12 @@
     <Compile Include="EntityRequests\Nomenclature_f\NomenclatureRequest.cs" />
     <Compile Include="EntityRequests\Nomenclature_f\Nomenclature_TypesRequest.cs" />
     <Compile Include="EntityRequests\Other\ReceiptDocumentRequest.cs" />
+    <Compile Include="EntityRequests\Repairs_f\DefectsRequests.cs" />
     <Compile Include="EntityRequests\Repairs_f\RepairCategoriesRequests.cs" />
     <Compile Include="EntityRequests\Repairs_f\RepairsRequest.cs" />
     <Compile Include="EntityRequests\Repairs_f\StatusesRequests.cs" />
     <Compile Include="EntityRequests\Users_f\UsersRequest.cs" />
+    <Compile Include="Model\EditChars.cs" />
     <Compile Include="Model\RepairsModel.cs" />
     <Compile Include="Navigation\IPageResolver.cs" />
     <Compile Include="Navigation\ItemTemplateFind.cs" />

@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows;
 using Pronets.Data;
 
@@ -43,16 +44,24 @@ namespace Pronets.EntityRequests
                 }
             }
         }
-        public static void RemoveFromBase(Statuses status)
+        public static void RemoveFromBase(Statuses status, out bool isExeption)
         {
+            isExeption = true;
             using (var db = new PronetsDataBaseEntities())
             {
                 if (status != null)
                 {
-                    db.Statuses.Attach(status);
-                    db.Statuses.Remove(status);
-                    db.SaveChanges();
-
+                    try
+                    {
+                        db.Statuses.Attach(status);
+                        db.Statuses.Remove(status);
+                        db.SaveChanges();
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show("Невозможно удалить , так как есть связи с данными!","Ошибка");
+                        isExeption = false;
+                    }
                 }
             }
         }

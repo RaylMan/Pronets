@@ -40,5 +40,22 @@ namespace Pronets.Viev.MainWindows.Pages
             else
                 MessageBox.Show("Не выбран элемент", "Ошибка");
         }
+
+        #region Выделить текст в текстбоксе
+        private bool isFocused = false;
+        private void TbxSearch_GotFocus(object sender, RoutedEventArgs e)
+        {
+            isFocused = true;
+        }
+
+        private void TbxSearch_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            if (isFocused)
+            {
+                isFocused = false;
+                (sender as TextBox).SelectAll();
+            }
+        }
+        #endregion
     }
 }

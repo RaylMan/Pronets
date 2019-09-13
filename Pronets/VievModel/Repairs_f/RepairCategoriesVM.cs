@@ -57,7 +57,7 @@ namespace Pronets.VievModel.Repairs_f
             }
         }
         #endregion
-        
+
         #region AddCommand
         private ICommand addItem;
         public ICommand AddCommand
@@ -89,7 +89,7 @@ namespace Pronets.VievModel.Repairs_f
                 if (result == MessageBoxResult.Yes)
                 {
                     RepairCategoriesRequests.AddToBase(rc, out bool ex);
-                    if(ex) //если ex == true, нет копии в базе, происходит запись в таблицу viev
+                    if (ex) //если ex == true, нет копии в базе, происходит запись в таблицу viev
                     {
                         repair_Categories.Add(rc);
                     }
@@ -153,8 +153,9 @@ namespace Pronets.VievModel.Repairs_f
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    RepairCategoriesRequests.RemoveFromBase(SelectedItem);
-                    repair_Categories.RemoveAt(SelectedIndex);
+                    RepairCategoriesRequests.RemoveFromBase(SelectedItem, out bool ex);
+                    if (ex)
+                        repair_Categories.RemoveAt(SelectedIndex);
                 }
             }
             else

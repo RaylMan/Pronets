@@ -219,8 +219,9 @@ namespace Pronets.VievModel.Nomenclature_f
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    NomenclatureRequest.RemoveFromBase(SelectedItem);
-                    nomenclature.RemoveAt(SelectedIndex);
+                    NomenclatureRequest.RemoveFromBase(SelectedItem, out bool ex);
+                    if (ex)
+                        nomenclature.RemoveAt(SelectedIndex);
                 }
             }
             else

@@ -161,7 +161,7 @@ namespace Pronets.VievModel.Users_f
             users = UsersRequest.FillList();
             OpenWindowCommand = new OpenWindowCommand();
         }
-        
+
         #region Delete Command
 
         protected ICommand removeItem;
@@ -189,8 +189,9 @@ namespace Pronets.VievModel.Users_f
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    UsersRequest.RemoveFromBase(selectedItem);
-                    users.RemoveAt(SelectedIndex);
+                    UsersRequest.RemoveFromBase(selectedItem, out bool ex);
+                    if (ex)
+                        users.RemoveAt(SelectedIndex);
                 }
             }
             else
@@ -301,7 +302,7 @@ namespace Pronets.VievModel.Users_f
 
         public void SearchItem(object Parameter)
         {
-            if(SearchText != null && SearchText != "")
+            if (SearchText != null && SearchText != "")
             {
                 users.Clear();
                 foreach (var user in UsersRequest.SearchItem(searchText))
