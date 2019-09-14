@@ -22,16 +22,28 @@ namespace Pronets.Viev.MainWindows.Pages
     /// </summary>
     public partial class ReceiptDocumentPage : Page
     {
+        
         public ReceiptDocumentPage()
         {
             InitializeComponent();
         }
-
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             v_Receipt_Document document = (v_Receipt_Document)docunents.SelectedItem;
             ReceiptDocumentInspector doc = new ReceiptDocumentInspector(document);
             doc.Show();
+        }
+        NewReceiptDocument win = null;
+        private void BtnCreate_Click(object sender, RoutedEventArgs e)
+        {
+            
+
+            if (win == null)
+            {
+                win = new NewReceiptDocument();
+            }
+            win.Activate();
+            win.Show();
         }
     }
 }

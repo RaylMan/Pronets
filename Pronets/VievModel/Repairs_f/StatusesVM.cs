@@ -12,10 +12,7 @@ namespace Pronets.VievModel.Repairs_f
 {
     public class StatusesVM : VievModelBase
     {
-        public StatusesVM()
-        {
-            statuses = StatusesRequets.FillList();
-        }
+        
         #region Properties
         private ObservableCollection<Statuses> statuses;
         public ObservableCollection<Statuses> Statuses
@@ -49,6 +46,10 @@ namespace Pronets.VievModel.Repairs_f
             }
         }
         #endregion
+        public StatusesVM()
+        {
+            statuses = StatusesRequets.FillList();
+        }
 
         #region Add To Base
         private ICommand addItem;

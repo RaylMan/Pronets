@@ -29,9 +29,10 @@
         
         <TextBlock x:Name="txtClient" HorizontalAlignment="Left" Margin="547,45,0,0" Grid.Row="1" FontSize="15" VerticalAlignment="Top" Text="{Binding ClientName}"></TextBlock>
         <TextBlock x:Name="txtInspector" HorizontalAlignment="Left" Margin="547,16,0,0" Grid.Row="1" FontSize="15" VerticalAlignment="Top" Text="{Binding InspectorName}" RenderTransformOrigin="0.492,0.977"></TextBlock>
-
+        <Button x:Name="btnDelete" Content=" Удалить выделенный эмлемент " Command="{Binding RemoveCommand}" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10"/>
+        
         <!--Row 2-->
-        <DataGrid x:Name="Docunents1" ItemsSource="{Binding Repairs}" FrozenColumnCount="3"  Grid.Row="2" Margin="5" AutoGenerateColumns="False">
+        <DataGrid x:Name="Docunents1" ItemsSource="{Binding Repairs}" SelectedIndex="{Binding SelectedIndex}" SelectedValue="{Binding SelectedItem}" FrozenColumnCount="3"  Grid.Row="2" Margin="5" AutoGenerateColumns="False" SelectionMode="Single" HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999" >
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
                     <Style.Triggers>

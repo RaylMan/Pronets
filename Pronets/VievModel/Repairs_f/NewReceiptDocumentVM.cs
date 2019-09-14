@@ -14,9 +14,9 @@ using Pronets.Viev.MainWindows.Pages;
 using Pronets.Model;
 using Pronets.Navigation.WindowsNavigation;
 
-namespace Pronets.VievModel.MainWindows.Pages
+namespace Pronets.VievModel.Repairs_f
 {
-    public class AddRecipeDocumentVM : VievModelBase
+    class NewReceiptDocumentVM : VievModelBase
     {
         #region Property
         public OpenWindowCommand OpenWindowCommand { get; set; }
@@ -163,6 +163,16 @@ namespace Pronets.VievModel.MainWindows.Pages
                 RaisedPropertyChanged("DocumentId");
             }
         }
+        private string textDocumentId;
+        public string TextDocumentId
+        {
+            get { return textDocumentId; }
+            set
+            {
+                textDocumentId = "Приходная накладная № " + value;
+                RaisedPropertyChanged("TextDocumentId");
+            }
+        }
         private int userId;
         public int UserId
         {
@@ -257,7 +267,6 @@ namespace Pronets.VievModel.MainWindows.Pages
             }
         }
 
-
         private Repairs selectedItem;
         public Repairs SelectedItem
         {
@@ -269,7 +278,7 @@ namespace Pronets.VievModel.MainWindows.Pages
             }
         }
         #endregion
-        public AddRecipeDocumentVM()
+        public NewReceiptDocumentVM()
         {
             clients = ClientsRequests.FillList();
             users = UsersRequest.FillList();
@@ -283,11 +292,14 @@ namespace Pronets.VievModel.MainWindows.Pages
             warrantys.Add(new Warrantys { Warranty = "Наша Гарантия" });
             OpenWindowCommand = new OpenWindowCommand();
         }
+        
         #region Document Id
         void GetDocumentId()
         {
             DocumentId = ReceiptDocumentRequest.GetDocumentID();
             DocumentId++;
+            TextDocumentId = Convert.ToString(DocumentId);
+
         }
         #endregion
 
@@ -324,7 +336,7 @@ namespace Pronets.VievModel.MainWindows.Pages
                         Date = date_Of_Receipt,
                         Status = "Принято"
                     };
-                    
+
                     string sn, cm, nm, wt;
                     for (int i = 0; i < repairs.Count; i++)
                     {

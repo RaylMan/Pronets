@@ -64,6 +64,21 @@ namespace Pronets.EntityRequests.Repairs_f
             }
             return repairs;
         }
+
+        public static ObservableCollection<Repairs> FillListClient(int clientId)
+        {
+            using (var db = new PronetsDataBaseEntities())
+            {
+                if (repairs != null)
+                    repairs.Clear();
+                var result = from repair in db.Repairs
+                             where repair.Client == clientId
+                             select repair;
+                repairs = new ObservableCollection<Repairs>(result);
+            }
+            return repairs;
+        }
+
         public static void AddToBase(ObservableCollection<Repairs> repairs)
         {
             using (var db = new PronetsDataBaseEntities())
@@ -137,6 +152,27 @@ namespace Pronets.EntityRequests.Repairs_f
                     catch (Exception e)
                     {
                         MessageBox.Show("Невозможно удалить , так как есть связи с данными!", "Ошибка");
+                        isExeption = false;
+                    }
+                }
+            }
+        }
+        public static void RemoveFromBase(int documentId, out bool isExeption)
+        {
+            isExeption = true;
+            using (var db = new PronetsDataBaseEntities())
+            {
+                if (documentId != 0)
+                {
+                    try
+                    {
+                        //db.Repairs.AttachRange(db.Repairs.Where(r=>r.DocumentId == documentId));
+                        db.Repairs.RemoveRange(db.Repairs.Where(r => r.DocumentId == documentId));
+                        db.SaveChanges();
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(e.Message, "Ошибка");
                         isExeption = false;
                     }
                 }

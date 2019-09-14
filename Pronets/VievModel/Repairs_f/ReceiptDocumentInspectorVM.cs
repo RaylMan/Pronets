@@ -81,7 +81,16 @@ namespace Pronets.VievModel.Repairs_f
                 RaisedPropertyChanged("ClientName");
             }
         }
-
+        private Repairs selectedItem;
+        public Repairs SelectedItem
+        {
+            get { return selectedItem; }
+            set
+            {
+                selectedItem = value;
+                RaisedPropertyChanged("SelectedItem");
+            }
+        }
         #endregion
         public ReceiptDocumentInspectorVM(v_Receipt_Document document)
         {
@@ -113,6 +122,7 @@ namespace Pronets.VievModel.Repairs_f
             }
         }
         #endregion
+
         #region EditCommand
         private ICommand editItem;
         public ICommand EditCommand
@@ -173,6 +183,43 @@ namespace Pronets.VievModel.Repairs_f
                     MessageBox.Show(e.Message);
                 }
             }
+        }
+        #endregion
+
+        #region Remove From Base
+        private ICommand removeItem;
+        public ICommand RemoveCommand
+        {
+            get
+            {
+                if (removeItem == null)
+                {
+                    removeItem = new RelayCommand(new Action<object>(RemoveItem));
+                }
+                return removeItem;
+            }
+            set
+            {
+                removeItem = value;
+                RaisedPropertyChanged("RemoveCommand");
+            }
+        }
+        private void RemoveItem(object Parameter)
+        {
+            if (selectedItem != null)
+            {
+                var result = MessageBox.Show("Вы Действительно хотете удалить?", "Удаление", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    RepairsRequest.RemoveFromBase(SelectedItem, out bool ex);
+                    if (ex)
+                        repairs.RemoveAt(selectedIndex);
+                }
+
+            }
+            else
+                MessageBox.Show("Необходимо выбрать элемент в списке!", "Ошибка");
         }
         #endregion
     }

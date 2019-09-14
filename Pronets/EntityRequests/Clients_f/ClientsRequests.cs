@@ -12,6 +12,10 @@ namespace Pronets.EntityRequests.Clients_f
         private static ObservableCollection<Clients> clients = new ObservableCollection<Clients>();
         private static ObservableCollection<Clients> searchClients = new ObservableCollection<Clients>();
         private static Clients client;
+
+        /// <summary>
+        /// <para> List all customers</para>
+        /// </summary>
         public static ObservableCollection<Clients> FillList()
         {
             using (var db = new PronetsDataBaseEntities())
@@ -41,6 +45,9 @@ namespace Pronets.EntityRequests.Clients_f
             }
             return clients;
         }
+        /// <summary>
+        /// <para>Returns a client instance by Id</para>
+        /// </summary>
         public static Clients GetClient(int? id)
         {
             using (var db = new PronetsDataBaseEntities())
@@ -48,6 +55,9 @@ namespace Pronets.EntityRequests.Clients_f
                 return client = db.Clients.Where(c => c.ClientId == id).FirstOrDefault();
             }
         }
+        /// <summary>
+        /// <para>Write a new client to the DataBase</para>
+        /// </summary>
         public static void AddToBase(Clients client)
         {
             using (var db = new PronetsDataBaseEntities())
@@ -59,6 +69,9 @@ namespace Pronets.EntityRequests.Clients_f
                 }
             }
         }
+        /// <summary>
+        /// <para> Removes a client instance from the database</para>
+        /// </summary>
         public static void RemoveFromBase(Clients client, out bool isExeption)
         {
             isExeption = true;
@@ -80,6 +93,10 @@ namespace Pronets.EntityRequests.Clients_f
                 }
             }
         }
+
+        /// <summary>
+        /// <para>Modifies a received customer</para>
+        /// </summary>
         public static void EditItem(Clients client)
         {
             using (var db = new PronetsDataBaseEntities())
@@ -99,6 +116,9 @@ namespace Pronets.EntityRequests.Clients_f
                 }
             }
         }
+        /// <summary>
+        /// <para>Returns a list of customers</para>
+        /// </summary>
         public static ObservableCollection<Clients> SearchItem(string word)
         {
             using (var db = new PronetsDataBaseEntities())

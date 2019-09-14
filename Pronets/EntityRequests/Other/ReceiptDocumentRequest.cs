@@ -11,8 +11,8 @@ namespace Pronets.EntityRequests.Other
     {
         private static ObservableCollection<ReceiptDocument> receiptDocuments = new ObservableCollection<ReceiptDocument>();
         private static ObservableCollection<v_Receipt_Document> v_ReceiptDocuments = new ObservableCollection<v_Receipt_Document>();
-        
 
+        #region FillLists
         public static ObservableCollection<ReceiptDocument> FillList()
         {
             using (var db = new PronetsDataBaseEntities())
@@ -36,7 +36,36 @@ namespace Pronets.EntityRequests.Other
             }
             return receiptDocuments;
         }
-        public static ObservableCollection<v_Receipt_Document> v_FillList()
+
+        public static ObservableCollection<ReceiptDocument> FillListClient(int clientId) // сортировка по клиенту
+        {
+            using (var db = new PronetsDataBaseEntities())
+            {
+                if (receiptDocuments != null)
+                    receiptDocuments.Clear();
+                var result = from document in db.ReceiptDocument
+                             where document.ClientId == clientId
+                             select document;
+                receiptDocuments = new ObservableCollection<ReceiptDocument>(result);
+            }
+            return receiptDocuments;
+        }
+
+        public static ObservableCollection<ReceiptDocument> FillListWithStatus(string status) // сортировка по статусу ремонта
+        {
+            using (var db = new PronetsDataBaseEntities())
+            {
+                if (receiptDocuments != null)
+                    receiptDocuments.Clear();
+                var result = from document in db.ReceiptDocument
+                             where document.Status == status
+                             select document;
+                receiptDocuments = new ObservableCollection<ReceiptDocument>(result);
+            }
+            return receiptDocuments;
+        }
+
+        public static ObservableCollection<v_Receipt_Document> v_FillList() // Представление(вместо Id - имена)
         {
             using (var db = new PronetsDataBaseEntities())
             {
@@ -54,12 +83,14 @@ namespace Pronets.EntityRequests.Other
                         Status = item.Status,
                         Note = item.Note,
                         Count = db.Repairs.Count(r => r.DocumentId == item.Document_Id)
-                    }); 
+                    });
                 }
             }
             v_ReceiptDocuments = new ObservableCollection<v_Receipt_Document>(v_ReceiptDocuments.OrderByDescending(i => i.Document_Id));
             return v_ReceiptDocuments;
         }
+
+        #endregion
 
         public static v_Receipt_Document GetDocument(int documentId)
         {
@@ -106,6 +137,29 @@ namespace Pronets.EntityRequests.Other
                     {
                         db.ReceiptDocument.Attach(document);
                         db.ReceiptDocument.Remove(document);
+                        db.SaveChanges();
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show("Невозможно удалить , так как есть связи с данными!", "Ошибка");
+                        isExeption = false;
+                    }
+                }
+            }
+        }
+        public static void RemoveFromBase(int documentId, out bool isExeption)
+        {
+            isExeption = true;
+            using (var db = new PronetsDataBaseEntities())
+            {
+                if (documentId != 0)
+                {
+                    try
+                    {
+                        var result = db.ReceiptDocument.Where(d => d.DocumentId == documentId).FirstOrDefault();
+                        ReceiptDocument removableDocument = (ReceiptDocument)result;
+                        db.ReceiptDocument.Attach(removableDocument);
+                        db.ReceiptDocument.Remove(removableDocument);
                         db.SaveChanges();
                     }
                     catch (Exception e)

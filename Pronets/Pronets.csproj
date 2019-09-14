@@ -144,6 +144,7 @@
     <Compile Include="Navigation\PagesResolver.cs" />
     <Compile Include="Navigation\WindowsNavigation\OpenWindowCommand.cs" />
     <Compile Include="VievModel\Clients_f\AddClientVM.cs" />
+    <Compile Include="VievModel\Clients_f\ClientInfoWIndowVM.cs" />
     <Compile Include="VievModel\Clients_f\ClientsVM.cs" />
     <Compile Include="VievModel\MainWindows\Pages\AddRecipeDocumentVM.cs" />
     <Compile Include="VievModel\MainWindows\Pages\DefectsPageVM.cs" />
@@ -155,6 +156,7 @@
     <Compile Include="VievModel\Nomenclature_f\NomenclatureVM.cs" />
     <Compile Include="VievModel\Nomenclature_f\Nomenclature_TypesVM.cs" />
     <Compile Include="VievModel\RelayCommand.cs" />
+    <Compile Include="VievModel\Repairs_f\NewReceiptDocumentVM.cs" />
     <Compile Include="VievModel\Repairs_f\ReceiptDocumentInspectorVM.cs" />
     <Compile Include="VievModel\Repairs_f\RepairCategoriesVM.cs" />
     <Compile Include="VievModel\Repairs_f\StatusesVM.cs" />
@@ -164,6 +166,9 @@
     <Compile Include="VievModel\VievModelBase.cs" />
     <Compile Include="Viev\Clients_f\AddClient.xaml.cs">
       <DependentUpon>AddClient.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Viev\Clients_f\ClientInfoWindow.xaml.cs">
+      <DependentUpon>ClientInfoWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Viev\Clients_f\ClientsWindow.xaml.cs">
       <DependentUpon>ClientsWindow.xaml</DependentUpon>
@@ -191,6 +196,9 @@
     </Compile>
     <Compile Include="Viev\Nomenclature_f\Nomenclature_TypesWindow.xaml.cs">
       <DependentUpon>Nomenclature_TypesWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Viev\Repairs_f\NewReceiptDocument.xaml.cs">
+      <DependentUpon>NewReceiptDocument.xaml</DependentUpon>
     </Compile>
     <Compile Include="Viev\Repairs_f\ReceiptDocumentInspector.xaml.cs">
       <DependentUpon>ReceiptDocumentInspector.xaml</DependentUpon>
@@ -262,6 +270,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Viev\Clients_f\ClientInfoWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Viev\Clients_f\ClientsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -295,6 +307,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Viev\Nomenclature_f\Nomenclature_TypesWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Viev\Repairs_f\NewReceiptDocument.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
