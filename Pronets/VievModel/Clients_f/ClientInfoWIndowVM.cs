@@ -1,4 +1,5 @@
 ﻿using Pronets.Data;
+using Pronets.EntityRequests.Repairs_f;
 using Pronets.Model;
 using System;
 using System.Collections.Generic;
@@ -206,10 +207,42 @@ namespace Pronets.VievModel.Clients_f
             }
         }
         #endregion
-
-        public ClientInfoWIndowVM()
+        private Clients clientInstance;
+        private string name;
+        public string Name
         {
+            get { return name; }
+            set
+            {
+                name = value;
+                RaisedPropertyChanged("Name");
+            }
+        }
+        private string titleName;
+        public string TitleName
+        {
+            get { return titleName; }
+            set
+            {
+                titleName = value;
+                RaisedPropertyChanged("TitleName");
+            }
+        }
 
+        public ClientInfoWIndowVM(Clients client)
+        {
+            clientInstance = client;
+            TitleName = "Информация о клиенте " + client.ClientName;
+            Name = $"{client.ClientName} [{client.ClientId}]";
+            ClientName = client.ClientName;
+            Contact_Person = client.Contact_Person;
+            Email = client.Email;
+            Inn = client.Inn;
+            Telephone_1 = client.Telephone_1;
+            Telephone_2 = client.Telephone_2;
+            Telephone_3 = client.Telephone_3;
+            Adress = client.Adress;
+            repairs = RepairsRequest.FillListClient(client.ClientId);
         }
     }
 }

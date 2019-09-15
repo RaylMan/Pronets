@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Pronets.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,14 @@ namespace Pronets.Viev.Clients_f
         public ClientsWindow()
         {
             InitializeComponent();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Clients client = (Clients)dataGrid.SelectedItem;
+            ClientInfoWindow win = new ClientInfoWindow(client);
+            win.Show();
+            this.Close();
         }
     }
 }

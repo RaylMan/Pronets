@@ -51,6 +51,16 @@ namespace Pronets.VievModel.Repairs_f
                 RaisedPropertyChanged("Id");
             }
         }
+        private string titleName;
+        public string TitleName
+        {
+            get { return titleName; }
+            set
+            {
+                titleName = "Приходная накладная №" + value;
+                RaisedPropertyChanged("TitleName");
+            }
+        }
         private string noteOfDocument;
         public string NoteOfDocument
         {
@@ -100,7 +110,7 @@ namespace Pronets.VievModel.Repairs_f
                 var date = DateTime.MinValue;
                 if (document.Date != null)
                     date = (DateTime)document.Date;
-                Id = document.Document_Id.ToString() + " От " + document.Date.ToString(/*"dd.MM.yyyy"*/);
+                TitleName = Id = document.Document_Id.ToString() + " От " + document.Date.ToString(/*"dd.MM.yyyy"*/);
                 InspectorName = document.Inspector != null ? document.Inspector : "Отсутствует";
                 ClientName = document.Client != null ? document.Client : "Отсутствует";
                 NoteOfDocument = document.Note;

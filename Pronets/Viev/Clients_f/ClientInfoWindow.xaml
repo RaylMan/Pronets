@@ -3,14 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:vm="clr-namespace:Pronets.VievModel.Clients_f"
         xmlns:local="clr-namespace:Pronets.Viev.Clients_f"
         mc:Ignorable="d"
-        Title="Информация о клиенте" Height="595" Width="1020" MinHeight="595" MinWidth="1020" Background="Gainsboro" WindowStartupLocation="CenterScreen">
-    <Window.DataContext>
-        <vm:ClientInfoWIndowVM/>
-    </Window.DataContext>
-    <Grid>
+        Title="{Binding TitleName}" Height="595" Width="1020" MinHeight="595" MinWidth="1020" Background="Gainsboro" WindowStartupLocation="CenterScreen">
+
+    <Grid Margin="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="35"></RowDefinition>
             <RowDefinition Height="150"></RowDefinition>
@@ -64,6 +61,11 @@
 
             </Grid>
 
+            <GroupBox Grid.Column="1" Header="Сортировка" Margin="0,0,5,0">
+                <Grid>
+                    
+                </Grid>
+            </GroupBox>
         </Grid>
         <!--Row 2-->
         <DataGrid x:Name="Repairs" ItemsSource="{Binding Repairs}" SelectedIndex="{Binding SelectedIndex}" SelectedValue="{Binding SelectedRepairItem}"
@@ -94,6 +96,7 @@
                 <DataGridTextColumn Header="№" Binding="{Binding RepairId}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Наименование" Binding="{Binding Nomenclature}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Серийный Номер" Binding="{Binding Serial_Number}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="№ Документа" Binding="{Binding DocumentId}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Заявленная неисправность" Binding="{Binding Claimed_Malfunction}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Дата приема" Binding="{Binding Date_Of_Receipt}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Дата отправки" Binding="{Binding Departure_Date}" IsReadOnly="True"/>

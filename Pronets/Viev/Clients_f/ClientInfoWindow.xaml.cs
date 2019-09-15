@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Pronets.Data;
+using Pronets.Viev.Repairs_f;
+using Pronets.VievModel.Clients_f;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,11 +20,17 @@ namespace Pronets.Viev.Clients_f
     /// <summary>
     /// Логика взаимодействия для ClientInfoWindow.xaml
     /// </summary>
+    
     public partial class ClientInfoWindow : Window
     {
-        public ClientInfoWindow()
+        private Clients client;
+
+        public ClientInfoWindow(Clients client)
         {
             InitializeComponent();
+            if (client != null)
+                this.client = client;
+            DataContext = new ClientInfoWIndowVM(client);
         }
     }
 }
