@@ -64,7 +64,6 @@ namespace Pronets.EntityRequests.Repairs_f
             }
             return repairs;
         }
-
         public static ObservableCollection<Repairs> FillListClient(int clientId)
         {
             using (var db = new PronetsDataBaseEntities())
@@ -78,6 +77,60 @@ namespace Pronets.EntityRequests.Repairs_f
             }
             return repairs;
         }
+        public static ObservableCollection<Repairs> FillList(int clientId,string status)
+        {
+            using (var db = new PronetsDataBaseEntities())
+            {
+                if (repairs != null)
+                    repairs.Clear();
+                var result = from repair in db.Repairs
+                             where repair.Client == clientId && repair.Status == status
+                             select repair;
+                repairs = new ObservableCollection<Repairs>(result);
+            }
+            return repairs;
+        }
+        public static ObservableCollection<Repairs> FillList(int clientId, string status, int documentId)
+        {
+            using (var db = new PronetsDataBaseEntities())
+            {
+                if (repairs != null)
+                    repairs.Clear();
+                var result = from repair in db.Repairs
+                             where repair.Client == clientId && repair.Status == status && repair.DocumentId == documentId
+                             select repair;
+                repairs = new ObservableCollection<Repairs>(result);
+            }
+            return repairs;
+        }
+        public static ObservableCollection<Repairs> FillList(int clientId, string status, string nomenclature)
+        {
+            using (var db = new PronetsDataBaseEntities())
+            {
+                if (repairs != null)
+                    repairs.Clear();
+                var result = from repair in db.Repairs
+                             where repair.Client == clientId && repair.Status == status && repair.Nomenclature == nomenclature
+                             select repair;
+                repairs = new ObservableCollection<Repairs>(result);
+            }
+            return repairs;
+        }
+        public static ObservableCollection<Repairs> FillList(int clientId, string status, int documentId,  string nomenclature)
+        {
+            using (var db = new PronetsDataBaseEntities())
+            {
+                if (repairs != null)
+                    repairs.Clear();
+                var result = from repair in db.Repairs
+                             where repair.Client == clientId && repair.Status == status && repair.DocumentId == documentId && repair.Nomenclature == nomenclature
+                             select repair;
+                repairs = new ObservableCollection<Repairs>(result);
+            }
+            return repairs;
+        }
+
+
 
         public static void AddToBase(ObservableCollection<Repairs> repairs)
         {

@@ -27,10 +27,17 @@ namespace Pronets.Viev.Clients_f
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Clients client = (Clients)dataGrid.SelectedItem;
-            ClientInfoWindow win = new ClientInfoWindow(client);
-            win.Show();
-            this.Close();
+            try
+            {
+                Clients client = (Clients)dataGrid.SelectedItem;
+                ClientInfoWindow win = new ClientInfoWindow(client);
+                win.Show();
+                this.Close();
+            }
+            catch (System.InvalidCastException)
+            {
+                MessageBox.Show("Как вы собираетесь открыть строку без клиента?", "Ошибка");
+            }
         }
     }
 }

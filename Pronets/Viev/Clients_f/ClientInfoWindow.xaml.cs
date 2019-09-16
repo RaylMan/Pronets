@@ -32,5 +32,15 @@ namespace Pronets.Viev.Clients_f
                 this.client = client;
             DataContext = new ClientInfoWIndowVM(client);
         }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            cbxAllDocument.IsChecked = false;
+        }
+
+        private void CmbDucuments_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            cbxAllNomenclature.IsChecked = false;
+        }
     }
 }

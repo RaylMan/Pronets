@@ -13,6 +13,9 @@ using Pronets.EntityRequests.Repairs_f;
 using Pronets.Viev.MainWindows.Pages;
 using Pronets.Model;
 using Pronets.Navigation.WindowsNavigation;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Linq;
 
 namespace Pronets.VievModel.Repairs_f
 {
@@ -292,7 +295,7 @@ namespace Pronets.VievModel.Repairs_f
             warrantys.Add(new Warrantys { Warranty = "Наша Гарантия" });
             OpenWindowCommand = new OpenWindowCommand();
         }
-        
+
         #region Document Id
         void GetDocumentId()
         {
@@ -350,6 +353,7 @@ namespace Pronets.VievModel.Repairs_f
                         //repairs[i].Serial_Number = serial_Number;
                         //repairs[i].Claimed_Malfunction = cm;
                         repairs[i].Client = selectClientItem.ClientId;
+                        repairs[i].Status = "Принято";
                         repairs[i].Date_Of_Receipt = date_Of_Receipt;
                         repairs[i].Inspector = selectUserItem.UserId;
                         repairs[i].Warranty = wt;
@@ -366,5 +370,6 @@ namespace Pronets.VievModel.Repairs_f
                 MessageBox.Show("Необходимо выбрать клиента и приемщика!", "Ошибка");
         }
         #endregion
+
     }
 }

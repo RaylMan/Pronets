@@ -19,7 +19,7 @@
         </Grid.RowDefinitions>
         <!--ROW 0-->
         <TextBlock Text="{Binding TextDocumentId, Mode=TwoWay}" HorizontalAlignment="Center" FontSize="18"/>
-        
+
         <!--ROW 1-->
         <Button x:Name="Write" Grid.Row="1" Command="{Binding AddCommand}"  Content="Записать" Margin="5,0,0,0" HorizontalAlignment="Left" Width="65"/>
         <Label x:Name="label1" Content="Клиент" Grid.Row="1" HorizontalAlignment="Left" Margin="75,0,0,0" RenderTransformOrigin="0.556,0.467"/>

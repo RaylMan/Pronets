@@ -110,6 +110,7 @@
     <Compile Include="Data\ReceiptDocument.cs">
       <DependentUpon>PronetsDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\ReceiptDocumentsMe.cs" />
     <Compile Include="Data\Repairs.cs">
       <DependentUpon>PronetsDB.tt</DependentUpon>
     </Compile>

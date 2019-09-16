@@ -1,5 +1,7 @@
 ﻿using Pronets.Data;
 using Pronets.EntityRequests;
+using Pronets.EntityRequests.Nomenclature_f;
+using Pronets.EntityRequests.Other;
 using Pronets.EntityRequests.Repairs_f;
 using Pronets.Model;
 using System;
@@ -212,7 +214,7 @@ namespace Pronets.VievModel.Clients_f
         #region Other Properties
         private Clients clientInstance;
 
-        protected ObservableCollection<Statuses> statuses = new ObservableCollection<Statuses>();
+        private ObservableCollection<Statuses> statuses = new ObservableCollection<Statuses>();
         public ObservableCollection<Statuses> Statuses
         {
             get { return statuses; }
@@ -223,6 +225,59 @@ namespace Pronets.VievModel.Clients_f
                 RaisedPropertyChanged("Statuses");
             }
         }
+        private ObservableCollection<ReceiptDocument> receiptDocuments = new ObservableCollection<ReceiptDocument>();
+        public ObservableCollection<ReceiptDocument> ReceiptDocuments
+        {
+            get { return receiptDocuments; }
+
+            set
+            {
+                receiptDocuments = value;
+                RaisedPropertyChanged("ReceiptDocuments");
+            }
+        }
+        private ReceiptDocument selectedDocument;
+        public ReceiptDocument SelectedDocument
+        {
+            get { return selectedDocument; }
+            set
+            {
+                selectedDocument = value;
+                RaisedPropertyChanged("SelectedDocument");
+            }
+        }
+        private string documentName;
+        public string DocumentName
+        {
+            get { return documentName; }
+            set
+            {
+                documentName = value;
+                RaisedPropertyChanged("DocumentName");
+            }
+        }
+        private ObservableCollection<Nomenclature> nomenclaturesList = new ObservableCollection<Nomenclature>();
+        public ObservableCollection<Nomenclature> NomenclaturesList
+        {
+            get { return nomenclaturesList; }
+
+            set
+            {
+                nomenclaturesList = value;
+                RaisedPropertyChanged("NomenclaturesList");
+            }
+        }
+        private Nomenclature selectedNomenclature;
+        public Nomenclature SelectedNomenclature
+        {
+            get { return selectedNomenclature; }
+            set
+            {
+                selectedNomenclature = value;
+                RaisedPropertyChanged("SelectedNomenclature");
+            }
+        }
+
         private bool isSelected;
         public bool IsSelected
         {
@@ -253,6 +308,27 @@ namespace Pronets.VievModel.Clients_f
                 RaisedPropertyChanged("TitleName");
             }
         }
+
+        private bool allDocuments = true;
+        public bool AllDocuments
+        {
+            get { return allDocuments; }
+            set
+            {
+                allDocuments = value;
+                RaisedPropertyChanged("AllDocuments");
+            }
+        }
+        private bool allNomenclature = true;
+        public bool AllNomenclature
+        {
+            get { return allNomenclature; }
+            set
+            {
+                allNomenclature = value;
+                RaisedPropertyChanged("AllNomenclature");
+            }
+        }
         #endregion
 
 
@@ -269,8 +345,11 @@ namespace Pronets.VievModel.Clients_f
             Telephone_2 = client.Telephone_2;
             Telephone_3 = client.Telephone_3;
             Adress = client.Adress;
+            nomenclaturesList = NomenclatureRequest.FillList();
             repairs = RepairsRequest.FillListClient(client.ClientId);
             statuses = StatusesRequests.FillList();
+            receiptDocuments = ReceiptDocumentRequest.FillListClient(client.ClientId);
+            AddDocumentName();
         }
 
         #region Sort by status 
@@ -293,8 +372,55 @@ namespace Pronets.VievModel.Clients_f
         }
         protected void SortRepairs(object Parameter)
         {
+            repairs.Clear();
+            foreach (var status in statuses)
+            {
+                if (status.IsSelected)
+                {
+                    if (!AllDocuments && !AllNomenclature && selectedDocument != null && selectedNomenclature != null)
+                    {
+                        foreach (var item in RepairsRequest.FillList(clientInstance.ClientId, status.Status, selectedDocument.DocumentId, selectedNomenclature.Name))
+                        {
+                            repairs.Add(item);
+                        }
+                    }
+                    else if (AllDocuments && !AllNomenclature && selectedNomenclature != null)
+                    {
+                        foreach (var item in RepairsRequest.FillList(clientInstance.ClientId, status.Status, selectedNomenclature.Name))
+                        {
+                            repairs.Add(item);
+                        }
+                    }
+                    else if (!AllDocuments && AllNomenclature && selectedDocument != null)
+                    {
+                        foreach (var item in RepairsRequest.FillList(clientInstance.ClientId, status.Status, selectedDocument.DocumentId))
+                        {
+                            repairs.Add(item);
+                        }
+                    }
+                    else
+                    {
+                        foreach (var item in RepairsRequest.FillList(clientInstance.ClientId, status.Status))
+                        {
+                            repairs.Add(item);
+                        }
+                    }
+
+                }
+            }
+        }
+        #endregion
+        #region Other
+        private void AddDocumentName()
+        {
+            foreach (var item in receiptDocuments)
+            {
+                DateTime updatedTime = item.Date ?? DateTime.MinValue;
+                item.DocumentName = $"№:{item.DocumentId}  От: {updatedTime.ToString("dd/MM/yyyy")}";
+            }
 
         }
         #endregion
+
     }
 }

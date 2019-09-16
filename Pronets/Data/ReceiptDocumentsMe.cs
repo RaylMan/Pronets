@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Pronets.Data
 {
-    public partial class Statuses
+    public partial class ReceiptDocument
     {
-        public bool IsSelected { get; set; }
+        public string DocumentName { get; set; }
     }
 }

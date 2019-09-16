@@ -13,6 +13,7 @@ using Pronets.EntityRequests.Repairs_f;
 using Pronets.Viev.MainWindows.Pages;
 using Pronets.Model;
 using Pronets.Navigation.WindowsNavigation;
+using System.Linq;
 
 namespace Pronets.VievModel.MainWindows.Pages
 {
@@ -352,6 +353,39 @@ namespace Pronets.VievModel.MainWindows.Pages
             }
             else
                 MessageBox.Show("Необходимо выбрать клиента и приемщика!", "Ошибка");
+        }
+        #endregion
+
+        #region test
+        private ICommand testCommand;
+        public ICommand TestCommand
+        {
+            get
+            {
+                if (testCommand == null)
+                {
+                    testCommand = new RelayCommand(new Action<object>(Test));
+                }
+                return testCommand;
+            }
+            set
+            {
+                testCommand = value;
+                RaisedPropertyChanged("TestCommand");
+            }
+        }
+
+        public void Test(object Parameter)
+        {
+            using (var db = new PronetsDataBaseEntities())
+            {
+                var rep = db.Repairs.Where(r => r.Status == null).ToList();
+                rep.ForEach(s => s.Status = "Принято");
+                db.SaveChanges();
+
+            }
+           
+            MessageBox.Show("test succesful", "Ошибка");
         }
         #endregion
     }
