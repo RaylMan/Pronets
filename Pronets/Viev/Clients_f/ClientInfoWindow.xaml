@@ -76,9 +76,9 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-                <Label Content="По документу" Grid.Column="1" HorizontalAlignment="Left" Margin="10,-7,0,0" VerticalAlignment="Top"/>
+                <Label Content="По документу" Grid.Column="1" HorizontalAlignment="Right" Margin="0,-7,199,0" VerticalAlignment="Top"/>
 
-                <ComboBox x:Name="cmbDucuments" Grid.Column="1" Margin="6,15,0,0" ItemsSource="{Binding ReceiptDocuments}" SelectionChanged="ComboBox_SelectionChanged" Width="162" HorizontalAlignment="Left" VerticalAlignment="Top" SelectedValue="{Binding SelectedDocument}">
+                <ComboBox x:Name="cmbDucuments" Grid.Column="1" Margin="0,15,128,0" ItemsSource="{Binding ReceiptDocuments}" SelectionChanged="ComboBox_SelectionChanged" Width="162" HorizontalAlignment="Right" VerticalAlignment="Top" SelectedValue="{Binding SelectedDocument}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding DocumentName}"/>
@@ -86,10 +86,9 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
                 <CheckBox x:Name="cbxAllDocument" Content="Все документы" IsChecked="{Binding AllDocuments}" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" RenderTransformOrigin="0.461,0.689" Margin="0,18,18,0"/>
-                <Button Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Content=" Сортировать " Height="25" Command="{Binding SortCommand}"/>
                 
-                <Label Content="По Номенклатуре" Grid.Column="1" HorizontalAlignment="Left" Margin="10,31,0,0" VerticalAlignment="Top"/>
-                <ComboBox x:Name="cmbNomenclature" Grid.Column="1" Margin="6,52,0,0" ItemsSource="{Binding NomenclaturesList}" SelectionChanged="CmbDucuments_SelectionChanged" Width="162" HorizontalAlignment="Left" VerticalAlignment="Top" SelectedValue="{Binding SelectedNomenclature}">
+                <Label Content="По Номенклатуре" Grid.Column="1" HorizontalAlignment="Right" Margin="0,30,177,0" VerticalAlignment="Top"/>
+                <ComboBox x:Name="cmbNomenclature" Grid.Column="1" Margin="0,51,128,0" ItemsSource="{Binding NomenclaturesList}" SelectionChanged="CmbDucuments_SelectionChanged" Width="162" HorizontalAlignment="Right" VerticalAlignment="Top" SelectedValue="{Binding SelectedNomenclature}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Name}"/>
@@ -97,6 +96,8 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
                 <CheckBox x:Name="cbxAllNomenclature" Content="Вся номенклатура" IsChecked="{Binding AllNomenclature}" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" RenderTransformOrigin="0.461,0.689" Margin="0,55,0,0"/>
+                <TextBlock Grid.Column="1" Text="{Binding RepairsCount}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5"/>
+                <Button Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Content=" Сортировать " Height="25" Command="{Binding SortCommand}"/>
 
             </Grid>
 

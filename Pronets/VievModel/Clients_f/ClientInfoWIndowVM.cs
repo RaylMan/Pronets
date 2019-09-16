@@ -329,6 +329,17 @@ namespace Pronets.VievModel.Clients_f
                 RaisedPropertyChanged("AllNomenclature");
             }
         }
+        private string repairsCount;
+        public string RepairsCount
+        {
+            get { return repairsCount; }
+            set
+            {
+                repairsCount = " Количество " + value;
+                RaisedPropertyChanged("RepairsCount");
+            }
+        }
+
         #endregion
 
 
@@ -350,6 +361,7 @@ namespace Pronets.VievModel.Clients_f
             statuses = StatusesRequests.FillList();
             receiptDocuments = ReceiptDocumentRequest.FillListClient(client.ClientId);
             AddDocumentName();
+            RepairsCount = repairs.Count.ToString();
         }
 
         #region Sort by status 
@@ -408,6 +420,7 @@ namespace Pronets.VievModel.Clients_f
 
                 }
             }
+            RepairsCount = repairs.Count.ToString();
         }
         #endregion
         #region Other
