@@ -48,7 +48,7 @@ namespace Pronets.VievModel.Repairs_f
         #endregion
         public StatusesVM()
         {
-            statuses = StatusesRequets.FillList();
+            statuses = StatusesRequests.FillList();
         }
 
         #region Add To Base
@@ -78,7 +78,7 @@ namespace Pronets.VievModel.Repairs_f
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    StatusesRequets.AddToBase(status, out bool ex);
+                    StatusesRequests.AddToBase(status, out bool ex);
                     if (ex) //если ex == true, нет копии в базе, происходит запись в таблицу viev
                     {
                         statuses.Add(new Statuses { Status = status });
@@ -117,7 +117,7 @@ namespace Pronets.VievModel.Repairs_f
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    StatusesRequets.RemoveFromBase(SelectedItem, out bool ex);
+                    StatusesRequests.RemoveFromBase(SelectedItem, out bool ex);
                     if (ex)
                         statuses.RemoveAt(selectedIndex);
                 }

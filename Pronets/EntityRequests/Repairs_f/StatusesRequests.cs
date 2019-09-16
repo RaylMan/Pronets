@@ -5,7 +5,7 @@ using Pronets.Data;
 
 namespace Pronets.EntityRequests
 {
-    public static class StatusesRequets
+    public static class StatusesRequests
     {
         private static ObservableCollection<Statuses> statuses = new ObservableCollection<Statuses>();
         public static ObservableCollection<Statuses> FillList()

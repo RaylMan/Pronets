@@ -171,7 +171,7 @@ namespace Pronets.VievModel.MainWindows.Pages
             Date_Of_Receipt = DateTime.Now;
             categories = RepairCategoriesRequests.FillList();
             users = UsersRequest.FillList();
-            statuses = StatusesRequets.FillList();
+            statuses = StatusesRequests.FillList();
         }
 
 

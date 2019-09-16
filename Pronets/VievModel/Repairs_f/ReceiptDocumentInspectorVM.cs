@@ -114,7 +114,7 @@ namespace Pronets.VievModel.Repairs_f
                 InspectorName = document.Inspector != null ? document.Inspector : "Отсутствует";
                 ClientName = document.Client != null ? document.Client : "Отсутствует";
                 NoteOfDocument = document.Note;
-                statuses = StatusesRequets.FillList();
+                statuses = StatusesRequests.FillList();
                 GetStatus();
                 repairs = RepairsRequest.FillList(document.Document_Id);
             }

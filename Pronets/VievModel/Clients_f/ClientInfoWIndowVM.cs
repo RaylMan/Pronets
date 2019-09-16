@@ -1,4 +1,5 @@
 ﻿using Pronets.Data;
+using Pronets.EntityRequests;
 using Pronets.EntityRequests.Repairs_f;
 using Pronets.Model;
 using System;
@@ -7,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Pronets.VievModel.Clients_f
 {
@@ -207,7 +209,30 @@ namespace Pronets.VievModel.Clients_f
             }
         }
         #endregion
+        #region Other Properties
         private Clients clientInstance;
+
+        protected ObservableCollection<Statuses> statuses = new ObservableCollection<Statuses>();
+        public ObservableCollection<Statuses> Statuses
+        {
+            get { return statuses; }
+
+            set
+            {
+                statuses = value;
+                RaisedPropertyChanged("Statuses");
+            }
+        }
+        private bool isSelected;
+        public bool IsSelected
+        {
+            get { return isSelected; }
+            set
+            {
+                isSelected = value;
+                RaisedPropertyChanged("IsSelected");
+            }
+        }
         private string name;
         public string Name
         {
@@ -228,6 +253,8 @@ namespace Pronets.VievModel.Clients_f
                 RaisedPropertyChanged("TitleName");
             }
         }
+        #endregion
+
 
         public ClientInfoWIndowVM(Clients client)
         {
@@ -243,6 +270,31 @@ namespace Pronets.VievModel.Clients_f
             Telephone_3 = client.Telephone_3;
             Adress = client.Adress;
             repairs = RepairsRequest.FillListClient(client.ClientId);
+            statuses = StatusesRequests.FillList();
         }
+
+        #region Sort by status 
+        private ICommand sortCommand;
+        public ICommand SortCommand
+        {
+            get
+            {
+                if (sortCommand == null)
+                {
+                    sortCommand = new RelayCommand(new Action<object>(SortRepairs));
+                }
+                return sortCommand;
+            }
+            set
+            {
+                editItem = value;
+                RaisedPropertyChanged("Sort");
+            }
+        }
+        protected void SortRepairs(object Parameter)
+        {
+
+        }
+        #endregion
     }
 }

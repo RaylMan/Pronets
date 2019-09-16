@@ -120,6 +120,7 @@
     <Compile Include="Data\Statuses.cs">
       <DependentUpon>PronetsDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\StatusesMe.cs" />
     <Compile Include="Data\Users.cs">
       <DependentUpon>PronetsDB.tt</DependentUpon>
     </Compile>

@@ -60,55 +60,66 @@
                 <TextBox Text="{Binding Adress}" MaxLength="100" Grid.Row="3" Grid.Column="0" Margin="105,18,5,0" Grid.ColumnSpan="2" ></TextBox>
 
             </Grid>
-
-            <GroupBox Grid.Column="1" Header="Сортировка" Margin="0,0,5,0">
+            <GroupBox Header="Сортировка" Grid.Column="1">
                 <Grid>
-                    
+                    <ListBox x:Name="statuses" ItemsSource="{Binding Statuses}" HorizontalAlignment="Left" Margin="5,0,2,0" Height="128" Width="200" IsTabStop="False"  >
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Height="auto">
+                                    <CheckBox Content="{Binding Status}" IsChecked="{Binding IsSelected, Mode=TwoWay}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
                 </Grid>
             </GroupBox>
+            
+            
         </Grid>
-        <!--Row 2-->
-        <DataGrid x:Name="Repairs" ItemsSource="{Binding Repairs}" SelectedIndex="{Binding SelectedIndex}" SelectedValue="{Binding SelectedRepairItem}"
+      
+            
+            <!--Row 2-->
+            <DataGrid x:Name="Repairs" ItemsSource="{Binding Repairs}" SelectedIndex="{Binding SelectedIndex}" SelectedValue="{Binding SelectedRepairItem}"
                  Grid.Row="2" FrozenColumnCount="3" Margin="5" AutoGenerateColumns="False" SelectionMode="Single" HorizontalGridLinesBrush="#FF999999"
                   VerticalGridLinesBrush="#FF999999">
-            <DataGrid.RowStyle>
-                <Style TargetType="DataGridRow">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding Status}" Value="Готов">
-                            <Setter Property="Background" Value="Lime"></Setter>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding Status}" Value="Донор">
-                            <Setter Property="Background" Value="Tomato"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding Status}" Value="Не смогли починить">
-                            <Setter Property="Background" Value="Tomato"></Setter>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding Status}" Value="Утерян">
-                            <Setter Property="Background" Value="Red"></Setter>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding Status}" Value="В ремонте">
-                            <Setter Property="Background" Value="#FFF9F14C"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </DataGrid.RowStyle>
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="№" Binding="{Binding RepairId}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Наименование" Binding="{Binding Nomenclature}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Серийный Номер" Binding="{Binding Serial_Number}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="№ Документа" Binding="{Binding DocumentId}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Заявленная неисправность" Binding="{Binding Claimed_Malfunction}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Дата приема" Binding="{Binding Date_Of_Receipt}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Дата отправки" Binding="{Binding Departure_Date}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Гарантия" Binding="{Binding Warranty}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Выявленная неисправность" Binding="{Binding Identifie_Fault}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Проделанный ремонт" Binding="{Binding Work_Done}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Категория ремонта" Binding="{Binding Repair_Category}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Engineer" Binding="{Binding Engineer}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Дата ремонта" Binding="{Binding Repair_Date}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Статус ремонта" Binding="{Binding Status}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Заметка" Binding="{Binding Note}" IsReadOnly="True"/>
-            </DataGrid.Columns>
-        </DataGrid>
-    </Grid>
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Status}" Value="Готов">
+                                <Setter Property="Background" Value="Lime"></Setter>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Status}" Value="Донор">
+                                <Setter Property="Background" Value="Tomato"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Status}" Value="Не смогли починить">
+                                <Setter Property="Background" Value="Tomato"></Setter>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Status}" Value="Утерян">
+                                <Setter Property="Background" Value="Red"></Setter>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Status}" Value="В ремонте">
+                                <Setter Property="Background" Value="#FFF9F14C"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.RowStyle>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="№" Binding="{Binding RepairId}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Наименование" Binding="{Binding Nomenclature}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Серийный Номер" Binding="{Binding Serial_Number}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="№ Документа" Binding="{Binding DocumentId}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Заявленная неисправность" Binding="{Binding Claimed_Malfunction}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Дата приема" Binding="{Binding Date_Of_Receipt}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Дата отправки" Binding="{Binding Departure_Date}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Гарантия" Binding="{Binding Warranty}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Выявленная неисправность" Binding="{Binding Identifie_Fault}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Проделанный ремонт" Binding="{Binding Work_Done}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Категория ремонта" Binding="{Binding Repair_Category}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Engineer" Binding="{Binding Engineer}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Дата ремонта" Binding="{Binding Repair_Date}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Статус ремонта" Binding="{Binding Status}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Заметка" Binding="{Binding Note}" IsReadOnly="True"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
 </Window>
