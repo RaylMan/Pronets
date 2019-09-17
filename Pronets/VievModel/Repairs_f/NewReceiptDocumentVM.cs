@@ -286,7 +286,6 @@ namespace Pronets.VievModel.Repairs_f
             clients = ClientsRequests.FillList();
             users = UsersRequest.FillList();
             nomenclatures = NomenclatureRequest.FillList();
-            GetDocumentId();
             date_Of_Receipt = DateTime.Now;
             repairs = new ObservableCollection<Repairs>();
             warrantys = new ObservableCollection<Warrantys>();
@@ -295,16 +294,6 @@ namespace Pronets.VievModel.Repairs_f
             warrantys.Add(new Warrantys { Warranty = "Наша Гарантия" });
             OpenWindowCommand = new OpenWindowCommand();
         }
-
-        #region Document Id
-        void GetDocumentId()
-        {
-            DocumentId = ReceiptDocumentRequest.GetDocumentID();
-            DocumentId++;
-            TextDocumentId = Convert.ToString(DocumentId);
-
-        }
-        #endregion
 
         #region AddCommand
         private ICommand addItem;
@@ -339,7 +328,7 @@ namespace Pronets.VievModel.Repairs_f
                         Date = date_Of_Receipt,
                         Status = "Принято"
                     };
-
+                    DocumentId = ReceiptDocumentRequest.GetDocumentID();
                     string sn, cm, nm, wt;
                     for (int i = 0; i < repairs.Count; i++)
                     {
@@ -362,7 +351,6 @@ namespace Pronets.VievModel.Repairs_f
                     ReceiptDocumentRequest.AddToBase(newReceiptDocument);
                     RepairsRequest.AddToBase(repairs);
                     repairs.Clear();
-                    GetDocumentId();
                     MessageBox.Show("Произведена успешная запись в базу данных!", "Результат");
                 }
             }

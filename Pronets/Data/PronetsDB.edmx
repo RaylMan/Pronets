@@ -17,7 +17,7 @@
           <Property Name="Telephone_2" Type="nvarchar" MaxLength="50" />
           <Property Name="Telephone_3" Type="nvarchar" MaxLength="50" />
           <Property Name="Email" Type="nvarchar" MaxLength="50" />
-          <Property Name="Adress" Type="nvarchar" MaxLength="50" />
+          <Property Name="Adress" Type="nvarchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="Defects">
           <Key>
@@ -26,6 +26,14 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Defect" Type="nvarchar" MaxLength="100" />
           <Property Name="Work" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Engineers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Position" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="No_in_Repairs">
           <Key>
@@ -62,6 +70,7 @@
             <PropertyRef Name="PartId" />
           </Key>
           <Property Name="PartId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DocumentId" Type="int" />
           <Property Name="Part_Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Part_Price" Type="money" />
         </EntityType>
@@ -78,9 +87,18 @@
           <Property Name="DocumentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ClientId" Type="int" Nullable="false" />
           <Property Name="InspectorId" Type="int" Nullable="false" />
-          <Property Name="Date" Type="date" />
+          <Property Name="Date" Type="datetime" />
           <Property Name="Status" Type="nvarchar" MaxLength="50" />
           <Property Name="Note" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="ReceiptOfParts">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Order_Date" Type="date" />
+          <Property Name="Date_Arrival" Type="date" />
+          <Property Name="Status" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Repair_Categories">
           <Key>
@@ -99,8 +117,8 @@
           <Property Name="Serial_Number" Type="nvarchar" MaxLength="50" />
           <Property Name="Claimed_Malfunction" Type="nvarchar" MaxLength="50" />
           <Property Name="Client" Type="int" />
-          <Property Name="Date_Of_Receipt" Type="date" />
-          <Property Name="Departure_Date" Type="date" />
+          <Property Name="Date_Of_Receipt" Type="datetime" />
+          <Property Name="Departure_Date" Type="datetime" />
           <Property Name="Inspector" Type="int" />
           <Property Name="Warranty" Type="nvarchar" MaxLength="50" />
           <Property Name="Identifie_Fault" Type="nvarchar" MaxLength="100" />
@@ -121,7 +139,7 @@
           <Key>
             <PropertyRef Name="UserId" />
           </Key>
-          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Login" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Position" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -130,7 +148,7 @@
           <Property Name="Patronymic" Type="nvarchar" MaxLength="50" />
           <Property Name="Birthday" Type="date" />
           <Property Name="Telephone" Type="nvarchar" MaxLength="50" />
-          <Property Name="Adress" Type="nvarchar" MaxLength="50" />
+          <Property Name="Adress" Type="nvarchar" MaxLength="200" />
         </EntityType>
         <!--Ошибки, обнаруженные при создании:
 предупреждение 6002: В таблице или представлении "PronetsDB.dbo.v_Receipt_Document" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
@@ -142,9 +160,41 @@
           <Property Name="Document Id" Type="int" Nullable="false" />
           <Property Name="Client" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Inspector" Type="nvarchar" MaxLength="50" />
-          <Property Name="Date" Type="date" />
+          <Property Name="Date" Type="datetime" />
           <Property Name="Status" Type="nvarchar" MaxLength="50" />
           <Property Name="Note" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "PronetsDB.dbo.v_Repairs" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="v_Repairs">
+          <Key>
+            <PropertyRef Name="RepairId" />
+            <PropertyRef Name="Client_Id" />
+            <PropertyRef Name="Client_Name" />
+            <PropertyRef Name="InspectorId" />
+            <PropertyRef Name="EngineerId" />
+            <PropertyRef Name="Engineer" />
+          </Key>
+          <Property Name="RepairId" Type="int" Nullable="false" />
+          <Property Name="DocumentId" Type="int" />
+          <Property Name="Nomenclature" Type="nvarchar" MaxLength="50" />
+          <Property Name="Serial_Number" Type="nvarchar" MaxLength="50" />
+          <Property Name="Claimed_Malfunction" Type="nvarchar" MaxLength="50" />
+          <Property Name="Client_Id" Type="int" Nullable="false" />
+          <Property Name="Client_Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Date_Of_Receipt" Type="datetime" />
+          <Property Name="Departure_Date" Type="datetime" />
+          <Property Name="InspectorId" Type="int" Nullable="false" />
+          <Property Name="Inspector" Type="nvarchar" MaxLength="50" />
+          <Property Name="Warranty" Type="nvarchar" MaxLength="50" />
+          <Property Name="Identifie_Fault" Type="nvarchar" MaxLength="100" />
+          <Property Name="Work_Done" Type="nvarchar" MaxLength="100" />
+          <Property Name="Repair_Category" Type="nvarchar" MaxLength="50" />
+          <Property Name="EngineerId" Type="int" Nullable="false" />
+          <Property Name="Engineer" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Repair_Date" Type="date" />
+          <Property Name="Status" Type="nvarchar" MaxLength="50" />
+          <Property Name="Note" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <Association Name="FK_Nomenclature_Nomenclature_Types">
           <End Role="Nomenclature_Types" Type="Self.Nomenclature_Types" Multiplicity="1" />
@@ -158,6 +208,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Parts_ReceiptOfParts">
+          <End Role="ReceiptOfParts" Type="Self.ReceiptOfParts" Multiplicity="0..1" />
+          <End Role="Parts" Type="Self.Parts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReceiptOfParts">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Parts">
+              <PropertyRef Name="DocumentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ReceiptDocument_Clients">
           <End Role="Clients" Type="Self.Clients" Multiplicity="1" />
           <End Role="ReceiptDocument" Type="Self.ReceiptDocument" Multiplicity="*" />
@@ -167,18 +229,6 @@
             </Principal>
             <Dependent Role="ReceiptDocument">
               <PropertyRef Name="ClientId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ReceiptDocument_ReceiptDocument">
-          <End Role="ReceiptDocument" Type="Self.ReceiptDocument" Multiplicity="1" />
-          <End Role="ReceiptDocument1" Type="Self.ReceiptDocument" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="ReceiptDocument">
-              <PropertyRef Name="DocumentId" />
-            </Principal>
-            <Dependent Role="ReceiptDocument1">
-              <PropertyRef Name="DocumentId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -203,6 +253,18 @@
             </Principal>
             <Dependent Role="Repairs">
               <PropertyRef Name="Client" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Repairs_Engineers">
+          <End Role="Engineers" Type="Self.Engineers" Multiplicity="0..1" />
+          <End Role="Repairs" Type="Self.Repairs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Engineers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Repairs">
+              <PropertyRef Name="Engineer" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -254,18 +316,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Repairs_Users(Engineer)">
-          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
-          <End Role="Repairs" Type="Self.Repairs" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="Repairs">
-              <PropertyRef Name="Engineer" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Repairs_Users(Inspector)">
           <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
           <End Role="Repairs" Type="Self.Repairs" Multiplicity="*" />
@@ -293,12 +343,14 @@
         <EntityContainer Name="Хранилище PronetsDBModelContainer">
           <EntitySet Name="Clients" EntityType="Self.Clients" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Defects" EntityType="Self.Defects" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Engineers" EntityType="Self.Engineers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="No_in_Repairs" EntityType="Self.No_in_Repairs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Nomenclature" EntityType="Self.Nomenclature" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Nomenclature_Types" EntityType="Self.Nomenclature_Types" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Parts" EntityType="Self.Parts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Positions" EntityType="Self.Positions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ReceiptDocument" EntityType="Self.ReceiptDocument" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ReceiptOfParts" EntityType="Self.ReceiptOfParts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Repair_Categories" EntityType="Self.Repair_Categories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Repairs" EntityType="Self.Repairs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Statuses" EntityType="Self.Statuses" Schema="dbo" store:Type="Tables" />
@@ -313,17 +365,41 @@
     [v_Receipt_Document].[Note] AS [Note]
     FROM [dbo].[v_Receipt_Document] AS [v_Receipt_Document]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="v_Repairs" EntityType="Self.v_Repairs" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [v_Repairs].[RepairId] AS [RepairId], 
+    [v_Repairs].[DocumentId] AS [DocumentId], 
+    [v_Repairs].[Nomenclature] AS [Nomenclature], 
+    [v_Repairs].[Serial_Number] AS [Serial_Number], 
+    [v_Repairs].[Claimed_Malfunction] AS [Claimed_Malfunction], 
+    [v_Repairs].[Client_Id] AS [Client_Id], 
+    [v_Repairs].[Client_Name] AS [Client_Name], 
+    [v_Repairs].[Date_Of_Receipt] AS [Date_Of_Receipt], 
+    [v_Repairs].[Departure_Date] AS [Departure_Date], 
+    [v_Repairs].[InspectorId] AS [InspectorId], 
+    [v_Repairs].[Inspector] AS [Inspector], 
+    [v_Repairs].[Warranty] AS [Warranty], 
+    [v_Repairs].[Identifie_Fault] AS [Identifie_Fault], 
+    [v_Repairs].[Work_Done] AS [Work_Done], 
+    [v_Repairs].[Repair_Category] AS [Repair_Category], 
+    [v_Repairs].[EngineerId] AS [EngineerId], 
+    [v_Repairs].[Engineer] AS [Engineer], 
+    [v_Repairs].[Repair_Date] AS [Repair_Date], 
+    [v_Repairs].[Status] AS [Status], 
+    [v_Repairs].[Note] AS [Note]
+    FROM [dbo].[v_Repairs] AS [v_Repairs]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_Nomenclature_Nomenclature_Types" Association="Self.FK_Nomenclature_Nomenclature_Types">
             <End Role="Nomenclature_Types" EntitySet="Nomenclature_Types" />
             <End Role="Nomenclature" EntitySet="Nomenclature" />
           </AssociationSet>
+          <AssociationSet Name="FK_Parts_ReceiptOfParts" Association="Self.FK_Parts_ReceiptOfParts">
+            <End Role="ReceiptOfParts" EntitySet="ReceiptOfParts" />
+            <End Role="Parts" EntitySet="Parts" />
+          </AssociationSet>
           <AssociationSet Name="FK_ReceiptDocument_Clients" Association="Self.FK_ReceiptDocument_Clients">
             <End Role="Clients" EntitySet="Clients" />
             <End Role="ReceiptDocument" EntitySet="ReceiptDocument" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ReceiptDocument_ReceiptDocument" Association="Self.FK_ReceiptDocument_ReceiptDocument">
-            <End Role="ReceiptDocument" EntitySet="ReceiptDocument" />
-            <End Role="ReceiptDocument1" EntitySet="ReceiptDocument" />
           </AssociationSet>
           <AssociationSet Name="FK_ReceiptDocument_Users" Association="Self.FK_ReceiptDocument_Users">
             <End Role="Users" EntitySet="Users" />
@@ -331,6 +407,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_Repairs_Clients" Association="Self.FK_Repairs_Clients">
             <End Role="Clients" EntitySet="Clients" />
+            <End Role="Repairs" EntitySet="Repairs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Repairs_Engineers" Association="Self.FK_Repairs_Engineers">
+            <End Role="Engineers" EntitySet="Engineers" />
             <End Role="Repairs" EntitySet="Repairs" />
           </AssociationSet>
           <AssociationSet Name="FK_Repairs_Nomenclature" Association="Self.FK_Repairs_Nomenclature">
@@ -347,10 +427,6 @@
           </AssociationSet>
           <AssociationSet Name="FK_Repairs_Statuses" Association="Self.FK_Repairs_Statuses">
             <End Role="Statuses" EntitySet="Statuses" />
-            <End Role="Repairs" EntitySet="Repairs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Repairs_Users(Engineer)" Association="Self.FK_Repairs_Users(Engineer)">
-            <End Role="Users" EntitySet="Users" />
             <End Role="Repairs" EntitySet="Repairs" />
           </AssociationSet>
           <AssociationSet Name="FK_Repairs_Users(Inspector)" Association="Self.FK_Repairs_Users(Inspector)">
@@ -378,7 +454,7 @@
           <Property Name="Telephone_2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Telephone_3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Adress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Adress" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="ReceiptDocument" Relationship="Self.FK_ReceiptDocument_Clients" FromRole="Clients" ToRole="ReceiptDocument" />
           <NavigationProperty Name="Repairs" Relationship="Self.FK_Repairs_Clients" FromRole="Clients" ToRole="Repairs" />
         </EntityType>
@@ -422,6 +498,8 @@
           <Property Name="PartId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Part_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Part_Price" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="DocumentId" Type="Int32" />
+          <NavigationProperty Name="ReceiptOfParts" Relationship="PronetsDBModel.FK_Parts_ReceiptOfParts" FromRole="Parts" ToRole="ReceiptOfParts" />
         </EntityType>
         <EntityType Name="Positions">
           <Key>
@@ -437,7 +515,7 @@
           <Property Name="DocumentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ClientId" Type="Int32" Nullable="false" />
           <Property Name="InspectorId" Type="Int32" Nullable="false" />
-          <Property Name="Date" Type="DateTime" Precision="0" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
           <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Note" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Clients" Relationship="Self.FK_ReceiptDocument_Clients" FromRole="ReceiptDocument" ToRole="Clients" />
@@ -464,8 +542,8 @@
           <Property Name="Serial_Number" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Claimed_Malfunction" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Client" Type="Int32" />
-          <Property Name="Date_Of_Receipt" Type="DateTime" Precision="0" />
-          <Property Name="Departure_Date" Type="DateTime" Precision="0" />
+          <Property Name="Date_Of_Receipt" Type="DateTime" Precision="3" />
+          <Property Name="Departure_Date" Type="DateTime" Precision="3" />
           <Property Name="Inspector" Type="Int32" />
           <Property Name="Warranty" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Identifie_Fault" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
@@ -482,6 +560,7 @@
           <NavigationProperty Name="Statuses" Relationship="Self.FK_Repairs_Statuses" FromRole="Repairs" ToRole="Statuses" />
           <NavigationProperty Name="Users" Relationship="Self.FK_Repairs_Users_Engineer_" FromRole="Repairs" ToRole="Users" />
           <NavigationProperty Name="Users1" Relationship="Self.FK_Repairs_Users_Inspector_" FromRole="Repairs" ToRole="Users" />
+          <NavigationProperty Name="Engineers" Relationship="PronetsDBModel.FK_Repairs_Engineers" FromRole="Repairs" ToRole="Engineers" />
         </EntityType>
         <EntityType Name="Statuses">
           <Key>
@@ -503,7 +582,7 @@
           <Property Name="Patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Birthday" Type="DateTime" Precision="0" />
           <Property Name="Telephone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Adress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Adress" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Positions" Relationship="Self.FK_Users_Positions" FromRole="Users" ToRole="Positions" />
           <NavigationProperty Name="ReceiptDocument" Relationship="Self.FK_ReceiptDocument_Users" FromRole="Users" ToRole="ReceiptDocument" />
           <NavigationProperty Name="Repairs" Relationship="Self.FK_Repairs_Users_Engineer_" FromRole="Users" ToRole="Repairs" />
@@ -703,6 +782,17 @@
             <End Role="ReceiptDocument" EntitySet="ReceiptDocument" />
             <End Role="ReceiptDocument1" EntitySet="ReceiptDocument" />
           </AssociationSet>
+          <EntitySet Name="Engineers" EntityType="PronetsDBModel.Engineers" />
+          <EntitySet Name="ReceiptOfParts" EntityType="PronetsDBModel.ReceiptOfParts" />
+          <AssociationSet Name="FK_Repairs_Engineers" Association="PronetsDBModel.FK_Repairs_Engineers">
+            <End Role="Engineers" EntitySet="Engineers" />
+            <End Role="Repairs" EntitySet="Repairs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Parts_ReceiptOfParts" Association="PronetsDBModel.FK_Parts_ReceiptOfParts">
+            <End Role="ReceiptOfParts" EntitySet="ReceiptOfParts" />
+            <End Role="Parts" EntitySet="Parts" />
+          </AssociationSet>
+          <EntitySet Name="v_Repairs" EntityType="PronetsDBModel.v_Repairs" />
         </EntityContainer>
         <EntityType Name="v_Receipt_Document">
           <Key>
@@ -712,7 +802,7 @@
           <Property Name="Document_Id" Type="Int32" Nullable="false" />
           <Property Name="Client" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Inspector" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Date" Type="DateTime" Precision="0" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
           <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Note" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
@@ -736,6 +826,79 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Engineers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Position" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Repairs" Relationship="PronetsDBModel.FK_Repairs_Engineers" FromRole="Engineers" ToRole="Repairs" />
+        </EntityType>
+        <EntityType Name="ReceiptOfParts">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Order_Date" Type="DateTime" Precision="0" />
+          <Property Name="Date_Arrival" Type="DateTime" Precision="0" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Parts" Relationship="PronetsDBModel.FK_Parts_ReceiptOfParts" FromRole="ReceiptOfParts" ToRole="Parts" />
+        </EntityType>
+        <Association Name="FK_Repairs_Engineers">
+          <End Type="PronetsDBModel.Engineers" Role="Engineers" Multiplicity="0..1" />
+          <End Type="PronetsDBModel.Repairs" Role="Repairs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Engineers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Repairs">
+              <PropertyRef Name="Engineer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Parts_ReceiptOfParts">
+          <End Type="PronetsDBModel.ReceiptOfParts" Role="ReceiptOfParts" Multiplicity="0..1" />
+          <End Type="PronetsDBModel.Parts" Role="Parts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReceiptOfParts">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Parts">
+              <PropertyRef Name="DocumentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="v_Repairs">
+          <Key>
+            <PropertyRef Name="RepairId" />
+            <PropertyRef Name="Client_Id" />
+            <PropertyRef Name="Client_Name" />
+            <PropertyRef Name="InspectorId" />
+            <PropertyRef Name="EngineerId" />
+            <PropertyRef Name="Engineer" />
+          </Key>
+          <Property Name="RepairId" Type="Int32" Nullable="false" />
+          <Property Name="DocumentId" Type="Int32" />
+          <Property Name="Nomenclature" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Serial_Number" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Claimed_Malfunction" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Client_Id" Type="Int32" Nullable="false" />
+          <Property Name="Client_Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Date_Of_Receipt" Type="DateTime" Precision="3" />
+          <Property Name="Departure_Date" Type="DateTime" Precision="3" />
+          <Property Name="InspectorId" Type="Int32" Nullable="false" />
+          <Property Name="Inspector" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Warranty" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Identifie_Fault" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Work_Done" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Repair_Category" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EngineerId" Type="Int32" Nullable="false" />
+          <Property Name="Engineer" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Repair_Date" Type="DateTime" Precision="0" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Note" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -793,6 +956,7 @@
           <EntitySetMapping Name="Parts">
             <EntityTypeMapping TypeName="PronetsDBModel.Parts">
               <MappingFragment StoreEntitySet="Parts">
+                <ScalarProperty Name="DocumentId" ColumnName="DocumentId" />
                 <ScalarProperty Name="PartId" ColumnName="PartId" />
                 <ScalarProperty Name="Part_Name" ColumnName="Part_Name" />
                 <ScalarProperty Name="Part_Price" ColumnName="Part_Price" />
@@ -890,6 +1054,51 @@
                 <ScalarProperty Name="Work" ColumnName="Work" />
                 <ScalarProperty Name="Defect" ColumnName="Defect" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Engineers">
+            <EntityTypeMapping TypeName="PronetsDBModel.Engineers">
+              <MappingFragment StoreEntitySet="Engineers">
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReceiptOfParts">
+            <EntityTypeMapping TypeName="PronetsDBModel.ReceiptOfParts">
+              <MappingFragment StoreEntitySet="ReceiptOfParts">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Date_Arrival" ColumnName="Date_Arrival" />
+                <ScalarProperty Name="Order_Date" ColumnName="Order_Date" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="v_Repairs">
+            <EntityTypeMapping TypeName="PronetsDBModel.v_Repairs">
+              <MappingFragment StoreEntitySet="v_Repairs">
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Repair_Date" ColumnName="Repair_Date" />
+                <ScalarProperty Name="Engineer" ColumnName="Engineer" />
+                <ScalarProperty Name="EngineerId" ColumnName="EngineerId" />
+                <ScalarProperty Name="Repair_Category" ColumnName="Repair_Category" />
+                <ScalarProperty Name="Work_Done" ColumnName="Work_Done" />
+                <ScalarProperty Name="Identifie_Fault" ColumnName="Identifie_Fault" />
+                <ScalarProperty Name="Warranty" ColumnName="Warranty" />
+                <ScalarProperty Name="Inspector" ColumnName="Inspector" />
+                <ScalarProperty Name="InspectorId" ColumnName="InspectorId" />
+                <ScalarProperty Name="Departure_Date" ColumnName="Departure_Date" />
+                <ScalarProperty Name="Date_Of_Receipt" ColumnName="Date_Of_Receipt" />
+                <ScalarProperty Name="Client_Name" ColumnName="Client_Name" />
+                <ScalarProperty Name="Client_Id" ColumnName="Client_Id" />
+                <ScalarProperty Name="Claimed_Malfunction" ColumnName="Claimed_Malfunction" />
+                <ScalarProperty Name="Serial_Number" ColumnName="Serial_Number" />
+                <ScalarProperty Name="Nomenclature" ColumnName="Nomenclature" />
+                <ScalarProperty Name="DocumentId" ColumnName="DocumentId" />
+                <ScalarProperty Name="RepairId" ColumnName="RepairId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

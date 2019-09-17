@@ -18,7 +18,7 @@ namespace Pronets.VievModel.MainWindows.Pages
     class RepairsPageVM : RepairsModel
     {
         #region Properties
-        private Repairs repair = new Data.Repairs();
+        private v_Repairs v_Repair = new Data.v_Repairs();
         private Clients client;
         private Users user;
         private ObservableCollection<Defects> defects = new ObservableCollection<Defects>();
@@ -76,23 +76,23 @@ namespace Pronets.VievModel.MainWindows.Pages
             }
         }
 
-        private Repairs selectedRepair;
-        public Repairs SelectedRepair
+        private v_Repairs selectedRepair;
+        public v_Repairs SelectedRepair
         {
             get
             { return selectedRepair; }
             set
             {
-                selectedRepair = (Repairs)value;
+                selectedRepair = (v_Repairs)value;
                 RaisedPropertyChanged("SelectedRepair");
                 if (SelectedRepair != null)
                 {
-                    repair.Client = selectedRepair.Client;
-                    repair.Date_Of_Receipt = selectedRepair.Date_Of_Receipt;
-                    repair.Inspector = selectedRepair.Inspector;
-                    repair.Departure_Date = selectedRepair.Departure_Date;
-                    user = UsersRequest.GetUser(selectedRepair.Inspector);
-                    client = ClientsRequests.GetClient(selectedRepair.Client);
+                    v_Repair.Client_Name = selectedRepair.Client_Name;
+                    v_Repair.Date_Of_Receipt = selectedRepair.Date_Of_Receipt;
+                    v_Repair.Inspector = selectedRepair.Inspector;
+                    v_Repair.Departure_Date = selectedRepair.Departure_Date;
+                    user = UsersRequest.GetUser(selectedRepair.InspectorId);
+                    client = ClientsRequests.GetClient(selectedRepair.Client_Id);
                     RepairId = repair.RepairId = selectedRepair.RepairId;
                     DocumentId = repair.DocumentId = selectedRepair.DocumentId;
                     Nomenclature = repair.Nomenclature = selectedRepair.Nomenclature;
@@ -198,11 +198,11 @@ namespace Pronets.VievModel.MainWindows.Pages
         {
             if (SearchText != null && SearchText != "")
             {
-                repairs.Clear();
+                v_Repairs.Clear();
                 string engWord = IsChecked != true ? EditChars.ToEnglish(SearchText) : SearchText;
                 foreach (var repair in RepairsRequest.SearchItem(engWord))
                 {
-                    repairs.Add(repair);
+                    v_Repairs.Add(repair);
                 }
                 //SearchText = string.Empty;
             }
@@ -274,7 +274,7 @@ namespace Pronets.VievModel.MainWindows.Pages
         {
             foreach (var user in users)
             {
-                if (user.UserId == selectedRepair.Engineer)
+                if (user.UserId == selectedRepair.EngineerId)
                     SelectedUser = user;
             }
         }

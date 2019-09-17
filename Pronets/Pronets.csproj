@@ -77,6 +77,9 @@
     <Compile Include="Data\Defects.cs">
       <DependentUpon>PronetsDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\Engineers.cs">
+      <DependentUpon>PronetsDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\Nomenclature.cs">
       <DependentUpon>PronetsDB.tt</DependentUpon>
     </Compile>
@@ -111,6 +114,9 @@
       <DependentUpon>PronetsDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\ReceiptDocumentsMe.cs" />
+    <Compile Include="Data\ReceiptOfParts.cs">
+      <DependentUpon>PronetsDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\Repairs.cs">
       <DependentUpon>PronetsDB.tt</DependentUpon>
     </Compile>
@@ -126,6 +132,10 @@
       <DependentUpon>PronetsDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\v_Receipt_Document.cs">
+      <DependentUpon>PronetsDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\v_Receipt_DocumentMe.cs" />
+    <Compile Include="Data\v_Repairs.cs">
       <DependentUpon>PronetsDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\Warrantys.cs" />

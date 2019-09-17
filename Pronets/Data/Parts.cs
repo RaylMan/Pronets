@@ -17,5 +17,8 @@ namespace Pronets.Data
         public int PartId { get; set; }
         public string Part_Name { get; set; }
         public Nullable<decimal> Part_Price { get; set; }
+        public Nullable<int> DocumentId { get; set; }
+    
+        public virtual ReceiptOfParts ReceiptOfParts { get; set; }
     }
 }

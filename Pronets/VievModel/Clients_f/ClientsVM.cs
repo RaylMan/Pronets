@@ -25,8 +25,8 @@ namespace Pronets.VievModel.Clients_f
             }
         }
 
-        protected string clientId;
-        public string ClientId
+        protected int clientId;
+        public int ClientId
         {
             get { return clientId; }
             set
@@ -181,60 +181,6 @@ namespace Pronets.VievModel.Clients_f
         }
         #endregion
 
-        #region Edit Command
-
-        protected ICommand editItem;
-        public ICommand EditCommand
-        {
-            get
-            {
-                if (editItem == null)
-                {
-                    editItem = new RelayCommand(new Action<object>(EditItem));
-                }
-                return editItem;
-            }
-            set
-            {
-                editItem = value;
-                RaisedPropertyChanged("EditCommand");
-            }
-        }
-        public void EditItem(object Parameter)
-        {
-            Clients modifiedClient = null;
-            if (selectedItem != null)
-            {
-                if (SelectedItem.ClientId != 0)
-                {
-                    modifiedClient = new Clients
-                    {
-                        ClientId = SelectedItem.ClientId,
-                        ClientName = selectedItem.ClientName,
-                        Inn = selectedItem.Inn,
-                        Contact_Person = selectedItem.Contact_Person,
-                        Telephone_1 = selectedItem.Telephone_1,
-                        Telephone_2 = selectedItem.Telephone_2,
-                        Telephone_3 = selectedItem.Telephone_3,
-                        Email = selectedItem.Email,
-                        Adress = selectedItem.Adress
-                    };
-                }
-
-                var result = MessageBox.Show("Вы Действительно хотите редактировать?", "Редактирование", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                if (result == MessageBoxResult.Yes)
-                {
-                    if (modifiedClient != null)
-                    {
-                        ClientsRequests.EditItem(modifiedClient);
-                    }
-                }
-            }
-            else
-                MessageBox.Show("Необходимо выбрать элемент!", "Ошибка");
-        }
-        #endregion
-
         #region FillList button command
         protected ICommand fillItems;
         public ICommand FillListCommand
@@ -249,7 +195,7 @@ namespace Pronets.VievModel.Clients_f
             }
             set
             {
-                editItem = value;
+                fillItems = value;
                 RaisedPropertyChanged("FillListCommand");
             }
         }
@@ -274,7 +220,7 @@ namespace Pronets.VievModel.Clients_f
             }
             set
             {
-                editItem = value;
+                searchItem = value;
                 RaisedPropertyChanged("SearchCommand");
             }
         }

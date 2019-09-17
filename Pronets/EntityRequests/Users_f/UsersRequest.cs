@@ -10,6 +10,7 @@ namespace Pronets.EntityRequests.Users_f
     {
         private static Users loginUser = new Users();
         private static ObservableCollection<Users> users = new ObservableCollection<Users>();
+        private static ObservableCollection<Engineers> engineers = new ObservableCollection<Engineers>();
         private static ObservableCollection<Users> searchUsers = new ObservableCollection<Users>();
         private static ObservableCollection<Positions> positions = new ObservableCollection<Positions>();
         private static Users user;
@@ -38,6 +39,19 @@ namespace Pronets.EntityRequests.Users_f
             }
             return users;
         }
+        public static ObservableCollection<Engineers> FillListEngineers()
+        {
+            using (var db = new PronetsDataBaseEntities())
+            {
+                if (engineers != null)
+                    engineers.Clear();
+                var result = from e in db.Engineers
+                             select e;
+                engineers = new ObservableCollection<Engineers>(result);
+            }
+            return engineers;
+        }
+
         public static Users GetUser(int? id)
         {
             using (var db = new PronetsDataBaseEntities())
@@ -58,6 +72,7 @@ namespace Pronets.EntityRequests.Users_f
             }
             return positions;
         }
+
         public static void AddToBase(Users user)
         {
             using (var db = new PronetsDataBaseEntities())
@@ -65,6 +80,18 @@ namespace Pronets.EntityRequests.Users_f
                 if (user != null)
                 {
                     db.Users.Add(user);
+                    db.SaveChanges();
+                }
+
+            }
+        }
+        public static void AddEngineer(Engineers engineer)
+        {
+            using (var db = new PronetsDataBaseEntities())
+            {
+                if (engineer != null)
+                {
+                    db.Engineers.Add(engineer);
                     db.SaveChanges();
                 }
 

@@ -32,7 +32,7 @@
         <Button x:Name="btnDelete" Content=" Удалить выделенный эмлемент " Command="{Binding RemoveCommand}" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10"/>
         
         <!--Row 2-->
-        <DataGrid x:Name="Docunents1" ItemsSource="{Binding Repairs}" SelectedIndex="{Binding SelectedIndex}" SelectedValue="{Binding SelectedItem}" FrozenColumnCount="3"  Grid.Row="2" Margin="5" AutoGenerateColumns="False" SelectionMode="Single" HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999" >
+        <DataGrid x:Name="Docunents1" ItemsSource="{Binding V_Repairs}" SelectedIndex="{Binding SelectedIndex}" SelectedValue="{Binding SelectedItem}" FrozenColumnCount="3"  Grid.Row="2" Margin="5" AutoGenerateColumns="False" SelectionMode="Single" HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999" >
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
                     <Style.Triggers>

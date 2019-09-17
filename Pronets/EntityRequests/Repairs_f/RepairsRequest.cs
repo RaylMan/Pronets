@@ -12,6 +12,7 @@ namespace Pronets.EntityRequests.Repairs_f
     class RepairsRequest
     {
         private static ObservableCollection<Repairs> repairs = new ObservableCollection<Repairs>();
+        private static ObservableCollection<v_Repairs> v_Repairs = new ObservableCollection<v_Repairs>();
 
         public static ObservableCollection<Repairs> FillList()
         {
@@ -51,87 +52,96 @@ namespace Pronets.EntityRequests.Repairs_f
             }
             return repairs;
         }
-        public static ObservableCollection<Repairs> FillList(int DocumentId)
+        public static ObservableCollection<v_Repairs> v_FillList()
         {
             using (var db = new PronetsDataBaseEntities())
             {
-                if (repairs != null)
-                    repairs.Clear();
-                var result = from repair in db.Repairs
+                if (v_Repairs != null)
+                    v_Repairs.Clear();
+                var result = from repair in db.v_Repairs
+                             select repair;
+                v_Repairs = new ObservableCollection<v_Repairs>(result);
+            }
+            return v_Repairs;
+        }
+        public static ObservableCollection<v_Repairs> FillList(int DocumentId)
+        {
+            using (var db = new PronetsDataBaseEntities())
+            {
+                if (v_Repairs != null)
+                    v_Repairs.Clear();
+                var result = from repair in db.v_Repairs
                              where repair.DocumentId == DocumentId
                              select repair;
-                repairs = new ObservableCollection<Repairs>(result);
+                v_Repairs = new ObservableCollection<v_Repairs>(result);
             }
-            return repairs;
+            return v_Repairs;
         }
-        public static ObservableCollection<Repairs> FillListClient(int clientId)
+        public static ObservableCollection<v_Repairs> FillListClient(int clientId)
         {
             using (var db = new PronetsDataBaseEntities())
             {
-                if (repairs != null)
-                    repairs.Clear();
-                var result = from repair in db.Repairs
-                             where repair.Client == clientId
+                if (v_Repairs != null)
+                    v_Repairs.Clear();
+                var result = from repair in db.v_Repairs
+                             where repair.Client_Id == clientId
                              select repair;
-                repairs = new ObservableCollection<Repairs>(result);
+                v_Repairs = new ObservableCollection<v_Repairs>(result);
             }
-            return repairs;
+            return v_Repairs;
         }
-        public static ObservableCollection<Repairs> FillList(int clientId,string status)
+        public static ObservableCollection<v_Repairs> FillList(int clientId,string status)
         {
             using (var db = new PronetsDataBaseEntities())
             {
-                if (repairs != null)
-                    repairs.Clear();
-                var result = from repair in db.Repairs
-                             where repair.Client == clientId && repair.Status == status
+                if (v_Repairs != null)
+                    v_Repairs.Clear();
+                var result = from repair in db.v_Repairs
+                             where repair.Client_Id == clientId && repair.Status == status
                              select repair;
-                repairs = new ObservableCollection<Repairs>(result);
+                v_Repairs = new ObservableCollection<v_Repairs>(result);
             }
-            return repairs;
+            return v_Repairs;
         }
-        public static ObservableCollection<Repairs> FillList(int clientId, string status, int documentId)
+        public static ObservableCollection<v_Repairs> FillList(int clientId, string status, int documentId)
         {
             using (var db = new PronetsDataBaseEntities())
             {
-                if (repairs != null)
-                    repairs.Clear();
-                var result = from repair in db.Repairs
-                             where repair.Client == clientId && repair.Status == status && repair.DocumentId == documentId
+                if (v_Repairs != null)
+                    v_Repairs.Clear();
+                var result = from repair in db.v_Repairs
+                             where repair.Client_Id == clientId && repair.Status == status && repair.DocumentId == documentId
                              select repair;
-                repairs = new ObservableCollection<Repairs>(result);
+                v_Repairs = new ObservableCollection<v_Repairs>(result);
             }
-            return repairs;
+            return v_Repairs;
         }
-        public static ObservableCollection<Repairs> FillList(int clientId, string status, string nomenclature)
+        public static ObservableCollection<v_Repairs> FillList(int clientId, string status, string nomenclature)
         {
             using (var db = new PronetsDataBaseEntities())
             {
-                if (repairs != null)
-                    repairs.Clear();
-                var result = from repair in db.Repairs
-                             where repair.Client == clientId && repair.Status == status && repair.Nomenclature == nomenclature
+                if (v_Repairs != null)
+                    v_Repairs.Clear();
+                var result = from repair in db.v_Repairs
+                             where repair.Client_Id == clientId && repair.Status == status && repair.Nomenclature == nomenclature
                              select repair;
-                repairs = new ObservableCollection<Repairs>(result);
+                v_Repairs = new ObservableCollection<v_Repairs>(result);
             }
-            return repairs;
+            return v_Repairs;
         }
-        public static ObservableCollection<Repairs> FillList(int clientId, string status, int documentId,  string nomenclature)
+        public static ObservableCollection<v_Repairs> FillList(int clientId, string status, int documentId,  string nomenclature)
         {
             using (var db = new PronetsDataBaseEntities())
             {
-                if (repairs != null)
-                    repairs.Clear();
-                var result = from repair in db.Repairs
-                             where repair.Client == clientId && repair.Status == status && repair.DocumentId == documentId && repair.Nomenclature == nomenclature
+                if (v_Repairs != null)
+                    v_Repairs.Clear();
+                var result = from repair in db.v_Repairs
+                             where repair.Client_Id == clientId && repair.Status == status && repair.DocumentId == documentId && repair.Nomenclature == nomenclature
                              select repair;
-                repairs = new ObservableCollection<Repairs>(result);
+                v_Repairs = new ObservableCollection<v_Repairs>(result);
             }
-            return repairs;
+            return v_Repairs;
         }
-
-
-
         public static void AddToBase(ObservableCollection<Repairs> repairs)
         {
             using (var db = new PronetsDataBaseEntities())
@@ -231,21 +241,30 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
             }
         }
-        public static ObservableCollection<Repairs> SearchItem(string word)
+        public static ObservableCollection<v_Repairs> SearchItem(string word)
         {
 
             using (var db = new PronetsDataBaseEntities())
             {
                 Int32.TryParse(word, out int numericWord);
-                repairs.Clear();
-                var searchItems = from u in db.Repairs
+                v_Repairs.Clear();
+                var searchItems = from u in db.v_Repairs
                                   where u.Serial_Number.Contains(word) ||
                                   u.DocumentId == numericWord ||
-                                  u.RepairId == numericWord
+                                  u.Engineer.Contains(word) ||
+                                  u.Inspector.Contains(word) ||
+                                  u.RepairId == numericWord ||
+                                  u.Identifie_Fault.Contains(word) ||
+                                  u.Claimed_Malfunction.Contains(word) ||
+                                  u.Nomenclature.Contains(word) ||
+                                  u.Status.Contains(word) ||
+                                  u.Work_Done.Contains(word) ||
+                                  u.Note.Contains(word) ||
+                                  u.Repair_Category.Contains(word)
                                   select u;
-                repairs = new ObservableCollection<Repairs>(searchItems);
+                v_Repairs = new ObservableCollection<v_Repairs>(searchItems);
             }
-            return repairs;
+            return v_Repairs;
         }
     }
 }

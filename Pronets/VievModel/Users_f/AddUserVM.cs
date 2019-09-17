@@ -64,6 +64,11 @@ namespace Pronets.VievModel.Users_f
             Users user = null;
             if (selItem != null && login != null && login != "" && password != null && password != "")
             {
+                var engineer = new Engineers
+                {
+                    LastName = base.LastName,
+                    Position = selItem.Position
+                };
                 user = new Users
                 {
                     Login = base.Login,
@@ -79,6 +84,7 @@ namespace Pronets.VievModel.Users_f
                 var result = MessageBox.Show("Вы Действительно хотете добавить работника?\nПроверьте правильность данных!", "Создание экземпляра", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
                 {
+                    UsersRequest.AddEngineer(engineer);
                     UsersRequest.AddToBase(user);
                     Login = string.Empty;
                     Password = string.Empty;

@@ -1,7 +1,9 @@
 ﻿using Pronets.Data;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Windows;
 
@@ -112,7 +114,27 @@ namespace Pronets.EntityRequests.Clients_f
                     result.Telephone_3 = client.Telephone_3;
                     result.Email = client.Email;
                     result.Adress = client.Adress;
-                    db.SaveChanges();
+                    try
+                    {
+                        db.SaveChanges();
+                    }
+                    catch (DbEntityValidationException ex)
+                    {
+                        List<string> errors = new List<string>();
+                        string error = null;
+
+                        foreach (DbEntityValidationResult validationError in ex.EntityValidationErrors)
+                        {
+                            error += "Object: " + validationError.Entry.Entity.ToString() + "\n";
+                            
+                            foreach (DbValidationError err in validationError.ValidationErrors)
+                            {
+                                error += err.ErrorMessage + "\n";
+                            }
+                        }
+                        MessageBox.Show(error, "Ошибка");
+                    }
+
                 }
             }
         }

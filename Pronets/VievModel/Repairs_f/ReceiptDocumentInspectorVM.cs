@@ -116,7 +116,7 @@ namespace Pronets.VievModel.Repairs_f
                 NoteOfDocument = document.Note;
                 statuses = StatusesRequests.FillList();
                 GetStatus();
-                repairs = RepairsRequest.FillList(document.Document_Id);
+                v_Repairs = RepairsRequest.FillList(document.Document_Id);
             }
             else
                 MessageBox.Show("Не передан экземпляр класса в конструктор!", "Системаня ошибка!");

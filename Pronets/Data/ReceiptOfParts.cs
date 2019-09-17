@@ -12,13 +12,20 @@ namespace Pronets.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class v_Receipt_Document
+    public partial class ReceiptOfParts
     {
-        public int Document_Id { get; set; }
-        public string Client { get; set; }
-        public string Inspector { get; set; }
-        public Nullable<System.DateTime> Date { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public ReceiptOfParts()
+        {
+            this.Parts = new HashSet<Parts>();
+        }
+    
+        public int Id { get; set; }
+        public Nullable<System.DateTime> Order_Date { get; set; }
+        public Nullable<System.DateTime> Date_Arrival { get; set; }
         public string Status { get; set; }
-        public string Note { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Parts> Parts { get; set; }
     }
 }

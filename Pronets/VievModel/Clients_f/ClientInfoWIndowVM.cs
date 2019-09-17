@@ -1,5 +1,6 @@
 ﻿using Pronets.Data;
 using Pronets.EntityRequests;
+using Pronets.EntityRequests.Clients_f;
 using Pronets.EntityRequests.Nomenclature_f;
 using Pronets.EntityRequests.Other;
 using Pronets.EntityRequests.Repairs_f;
@@ -10,6 +11,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Pronets.VievModel.Clients_f
@@ -18,14 +20,14 @@ namespace Pronets.VievModel.Clients_f
     {
         #region Repairs Properties
         protected Repairs repair;
-        protected ObservableCollection<Repairs> repairs = new ObservableCollection<Repairs>();
-        public ObservableCollection<Repairs> Repairs
+        protected ObservableCollection<v_Repairs> v_repairs = new ObservableCollection<v_Repairs>();
+        public ObservableCollection<v_Repairs> V_Repairs
         {
-            get { return repairs; }
+            get { return v_repairs; }
 
             set
             {
-                repairs = value;
+                v_repairs = value;
                 RaisedPropertyChanged("Repairs");
             }
         }
@@ -79,16 +81,27 @@ namespace Pronets.VievModel.Clients_f
                 RaisedPropertyChanged("Claimed_Malfunction");
             }
         }
-        protected int? client;
-        public int? Client
+        protected int client_Id;
+        public int Client_Id
         {
-            get { return client; }
+            get { return client_Id; }
             set
             {
-                client = value;
-                RaisedPropertyChanged("Client");
+                client_Id = value;
+                RaisedPropertyChanged("Client_Id");
             }
         }
+        protected string client_Name;
+        public string Client_Name
+        {
+            get { return clientName; }
+            set
+            {
+                clientName = value;
+                RaisedPropertyChanged("Client_Name");
+            }
+        }
+
         protected DateTime? date_Of_Receipt;
         public DateTime? Date_Of_Receipt
         {
@@ -109,8 +122,18 @@ namespace Pronets.VievModel.Clients_f
                 RaisedPropertyChanged("Departure_Date");
             }
         }
-        protected int? inspector;
-        public int? Inspector
+        protected int inspectorId;
+        public int InspectorId
+        {
+            get { return inspectorId; }
+            set
+            {
+                inspectorId = value;
+                RaisedPropertyChanged("InspectorId");
+            }
+        }
+        protected string inspector;
+        public string Inspector
         {
             get { return inspector; }
             set
@@ -149,6 +172,27 @@ namespace Pronets.VievModel.Clients_f
                 RaisedPropertyChanged("Work_Done");
             }
         }
+        protected int engineerId;
+        public int EngineerId
+        {
+            get { return engineerId; }
+            set
+            {
+                engineerId = value;
+                RaisedPropertyChanged("EngineerId");
+            }
+        }
+        protected string engineer;
+        public string Engineer
+        {
+            get { return engineer; }
+            set
+            {
+                engineer = value;
+                RaisedPropertyChanged("Engineer");
+            }
+        }
+
         protected string repair_Category;
         public string Repair_Category
         {
@@ -159,16 +203,7 @@ namespace Pronets.VievModel.Clients_f
                 RaisedPropertyChanged("Repair_Category");
             }
         }
-        protected int engineer;
-        public int Engineer
-        {
-            get { return engineer; }
-            set
-            {
-                engineer = value;
-                RaisedPropertyChanged("Engineer");
-            }
-        }
+        
         protected DateTime? repair_Date;
         public DateTime? Repair_Date
         {
@@ -200,8 +235,8 @@ namespace Pronets.VievModel.Clients_f
             }
         }
 
-        protected Repairs selectedRepairItem;
-        public Repairs SelectedRepairItem
+        protected v_Repairs selectedRepairItem;
+        public v_Repairs SelectedRepairItem
         {
             get { return selectedRepairItem; }
             set
@@ -329,6 +364,18 @@ namespace Pronets.VievModel.Clients_f
                 RaisedPropertyChanged("AllNomenclature");
             }
         }
+
+        private bool isCheckedSearch;
+        public bool IsCheckedSearch
+        {
+            get { return isCheckedSearch; }
+            set
+            {
+                isCheckedSearch = value;
+                RaisedPropertyChanged("IsCheckedSearch");
+            }
+        }
+
         private string repairsCount;
         public string RepairsCount
         {
@@ -357,11 +404,11 @@ namespace Pronets.VievModel.Clients_f
             Telephone_3 = client.Telephone_3;
             Adress = client.Adress;
             nomenclaturesList = NomenclatureRequest.FillList();
-            repairs = RepairsRequest.FillListClient(client.ClientId);
+            v_repairs = RepairsRequest.FillListClient(client.ClientId);
             statuses = StatusesRequests.FillList();
             receiptDocuments = ReceiptDocumentRequest.FillListClient(client.ClientId);
             AddDocumentName();
-            RepairsCount = repairs.Count.ToString();
+            RepairsCount = v_repairs.Count.ToString();
         }
 
         #region Sort by status 
@@ -378,13 +425,13 @@ namespace Pronets.VievModel.Clients_f
             }
             set
             {
-                editItem = value;
+                sortCommand = value;
                 RaisedPropertyChanged("Sort");
             }
         }
         protected void SortRepairs(object Parameter)
         {
-            repairs.Clear();
+            v_repairs.Clear();
             foreach (var status in statuses)
             {
                 if (status.IsSelected)
@@ -393,36 +440,39 @@ namespace Pronets.VievModel.Clients_f
                     {
                         foreach (var item in RepairsRequest.FillList(clientInstance.ClientId, status.Status, selectedDocument.DocumentId, selectedNomenclature.Name))
                         {
-                            repairs.Add(item);
+                            v_repairs.Add(item);
                         }
                     }
                     else if (AllDocuments && !AllNomenclature && selectedNomenclature != null)
                     {
                         foreach (var item in RepairsRequest.FillList(clientInstance.ClientId, status.Status, selectedNomenclature.Name))
                         {
-                            repairs.Add(item);
+                            v_repairs.Add(item);
                         }
                     }
                     else if (!AllDocuments && AllNomenclature && selectedDocument != null)
                     {
                         foreach (var item in RepairsRequest.FillList(clientInstance.ClientId, status.Status, selectedDocument.DocumentId))
                         {
-                            repairs.Add(item);
+                            v_repairs.Add(item);
                         }
                     }
                     else
                     {
                         foreach (var item in RepairsRequest.FillList(clientInstance.ClientId, status.Status))
                         {
-                            repairs.Add(item);
+                            v_repairs.Add(item);
                         }
                     }
 
                 }
+
             }
-            RepairsCount = repairs.Count.ToString();
+            if (v_repairs.Count == 0)
+                V_Repairs = RepairsRequest.FillListClient(clientInstance.ClientId);
         }
         #endregion
+
         #region Other
         private void AddDocumentName()
         {
@@ -435,5 +485,88 @@ namespace Pronets.VievModel.Clients_f
         }
         #endregion
 
+        #region Edit Command
+
+        protected ICommand editItem;
+        public ICommand EditCommand
+        {
+            get
+            {
+                if (editItem == null)
+                {
+                    editItem = new RelayCommand(new Action<object>(EditItem));
+                }
+                return editItem;
+            }
+            set
+            {
+                editItem = value;
+                RaisedPropertyChanged("EditCommand");
+            }
+        }
+        public void EditItem(object Parameter)
+        {
+            Clients modifiedClient = null;
+            if (ClientName != null)
+            {
+                modifiedClient = new Clients
+                {
+                    ClientId = clientInstance.ClientId,
+                    ClientName = ClientName,
+                    Inn = Inn,
+                    Contact_Person = Contact_Person,
+                    Telephone_1 = Telephone_1,
+                    Telephone_2 = Telephone_2,
+                    Telephone_3 = Telephone_3,
+                    Email = Email,
+                    Adress = Adress
+                };
+
+                var result = MessageBox.Show("Вы Действительно хотите произвести запись?", "Запиьс в базу данных", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.Yes)
+                {
+                    if (modifiedClient != null)
+                    {
+                        ClientsRequests.EditItem(modifiedClient);
+                    }
+                }
+            }
+            else
+                MessageBox.Show("Необходимо ввести имя клиента!", "Ошибка");
+        }
+        #endregion
+
+        #region Search Command
+        protected ICommand searchRepairCommand;
+        public ICommand SearchRepairCommand
+        {
+            get
+            {
+                if (searchRepairCommand == null)
+                {
+                    searchRepairCommand = new RelayCommand(new Action<object>(SearchRepair));
+                }
+                return searchRepairCommand;
+            }
+            set
+            {
+                searchItem = value;
+                RaisedPropertyChanged("SearchRepairCommand");
+            }
+        }
+
+        public void SearchRepair(object Parameter)
+        {
+            if (SearchText != null && SearchText != "")
+            {
+                v_repairs.Clear();
+                string engWord = IsCheckedSearch != true ? EditChars.ToEnglish(SearchText) : SearchText;
+                foreach (var repair in RepairsRequest.SearchItem(engWord))
+                {
+                    v_repairs.Add(repair);
+                }
+            }
+        }
+        #endregion
     }
 }
