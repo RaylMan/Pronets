@@ -321,13 +321,15 @@ namespace Pronets.VievModel.Repairs_f
                 var result = MessageBox.Show("Вы Действительно хотете записать в базу?\nПроверьте правильность данных!", "Создание экземпляра", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
                 {
+                    var defaultEngineer = UsersRequest.GetEngineer("Не выбран");
                     ReceiptDocument newReceiptDocument = new ReceiptDocument
                     {
                         ClientId = selectClientItem.ClientId,
                         InspectorId = selectUserItem.UserId,
-                        Date = date_Of_Receipt,
+                        Date = DateTime.Now,
                         Status = "Принято"
                     };
+                    ReceiptDocumentRequest.AddToBase(newReceiptDocument);
                     DocumentId = ReceiptDocumentRequest.GetDocumentID();
                     string sn, cm, nm, wt;
                     for (int i = 0; i < repairs.Count; i++)
@@ -337,18 +339,19 @@ namespace Pronets.VievModel.Repairs_f
                         //cm = repairs[i].Claimed_Malfunction != null ? repairs[i].Claimed_Malfunction : "Отсутствует";
                         wt = repairs[i].Warrantys != null ? repairs[i].Warrantys.Warranty : "нет";
 
-                        repairs[i].DocumentId = documentId;
+                        repairs[i].DocumentId = DocumentId;
                         repairs[i].Nomenclature = nm;
                         //repairs[i].Serial_Number = serial_Number;
                         //repairs[i].Claimed_Malfunction = cm;
                         repairs[i].Client = selectClientItem.ClientId;
                         repairs[i].Status = "Принято";
                         repairs[i].Date_Of_Receipt = date_Of_Receipt;
+                        repairs[i].Engineer = defaultEngineer.Id;
                         repairs[i].Inspector = selectUserItem.UserId;
                         repairs[i].Warranty = wt;
                     }
                     repairs.GetHashCode();
-                    ReceiptDocumentRequest.AddToBase(newReceiptDocument);
+                   
                     RepairsRequest.AddToBase(repairs);
                     repairs.Clear();
                     MessageBox.Show("Произведена успешная запись в базу данных!", "Результат");

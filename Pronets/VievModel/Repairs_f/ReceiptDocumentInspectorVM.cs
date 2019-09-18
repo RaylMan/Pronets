@@ -16,7 +16,7 @@ namespace Pronets.VievModel.Repairs_f
 {
     class ReceiptDocumentInspectorVM : RepairsModel
     {
-        
+
         #region Properties
         private ObservableCollection<Statuses> statuses;
         public ObservableCollection<Statuses> Statuses
@@ -61,6 +61,17 @@ namespace Pronets.VievModel.Repairs_f
                 RaisedPropertyChanged("TitleName");
             }
         }
+        private DateTime? departureDate;
+        public DateTime? DepartureDate
+        {
+            get { return departureDate; }
+            set
+            {
+                departureDate = value;
+                RaisedPropertyChanged("DepartureDate");
+            }
+        }
+
         private string noteOfDocument;
         public string NoteOfDocument
         {
@@ -117,6 +128,7 @@ namespace Pronets.VievModel.Repairs_f
                 statuses = StatusesRequests.FillList();
                 GetStatus();
                 v_Repairs = RepairsRequest.FillList(document.Document_Id);
+                DepartureDate = DateTime.Now;
             }
             else
                 MessageBox.Show("Не передан экземпляр класса в конструктор!", "Системаня ошибка!");
@@ -154,6 +166,7 @@ namespace Pronets.VievModel.Repairs_f
 
         public void EditDocument(object Parameter)
         {
+            DateTime departureDateNotNull = DepartureDate ?? DateTime.Now;
             var result = MessageBox.Show("Вы Действительно хотете записать в базу?\nПроверьте правильность данных!", "Создание экземпляра", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
@@ -164,35 +177,55 @@ namespace Pronets.VievModel.Repairs_f
                         DocumentId = Document.Document_Id,
                         Note = NoteOfDocument,
                         Status = SelectedStatusItem.Status,
-                    };
-                    #region add datagrid not edit
-                    //string sn, cm, nm, wt;
-                    //for (int i = 0; i < repairs.Count; i++)
-                    //{
-                    //    nm = repairs[i].Nomenclature1 != null ? repairs[i].Nomenclature1.Name : "Отсутствует";
-                    //    //sn = repairs[i].Serial_Number != null ? repairs[i].Serial_Number : "Отсутствует";
-                    //    //cm = repairs[i].Claimed_Malfunction != null ? repairs[i].Claimed_Malfunction : "Отсутствует";
-                    //    wt = repairs[i].Warrantys != null ? repairs[i].Warrantys.Warranty : "нет";
+                        DepartureDate = SelectedStatusItem.Status == "Отправлен заказчику" ? DepartureDate : null
 
-                    //    repairs[i].DocumentId = documentId;
-                    //    repairs[i].Nomenclature = nm;
-                    //    //repairs[i].Serial_Number = sn;
-                    //    //repairs[i].Claimed_Malfunction = cm;
-                    //    repairs[i].Client = selectClientItem.ClientId;
-                    //    repairs[i].Date_Of_Receipt = date_Of_Receipt;
-                    //    repairs[i].Inspector = selectUserItem.UserId;
-                    //    repairs[i].Warranty = wt;
-                    //}
-                    //repairs.GetHashCode();
-                    #endregion
+                    };
+                    if (SelectedStatusItem.Status == "Отправлен заказчику" || SelectedStatusItem.Status == "Отправлен заказчику(Частично)")
+                    {
+                        if (RepairsChecked(V_Repairs))
+                        {
+                            RepairsRequest.EditItemStatusToSendToClient(Document.Document_Id, departureDateNotNull);
+                            editingDocument.Status = "Отправлен заказчику";
+                        }
+                        else
+                        {
+                            foreach (var item in V_Repairs)
+                            {
+                                if (item.IsChecked)
+                                {
+                                    RepairsRequest.EditItemStatus(item.RepairId, departureDateNotNull);
+                                }
+                            }
+                            editingDocument.Status = "Отправлен заказчику(Частично)";
+                        }
+
+
+                    }
                     ReceiptDocumentRequest.EditItem(editingDocument);
                     MessageBox.Show("Произведена успешная запись в базу данных!", "Результат");
+
                 }
+
+
+
                 catch (Exception e)
                 {
                     MessageBox.Show(e.Message);
                 }
             }
+        }
+        public bool RepairsChecked(ObservableCollection<v_Repairs> repairs) // проверка на все IsChecked для установки статуса ремонта
+        {
+            int count = 0;
+            if (repairs != null)
+            {
+                foreach (var item in repairs)
+                {
+                    if (item.IsChecked)
+                        count++;
+                }
+            }
+            return count == repairs.Count ? true : false;
         }
         #endregion
 
@@ -234,3 +267,4 @@ namespace Pronets.VievModel.Repairs_f
         #endregion
     }
 }
+

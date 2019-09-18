@@ -27,6 +27,7 @@ namespace Pronets.EntityRequests.Other
                         ClientId = item.ClientId,
                         InspectorId = item.InspectorId,
                         Date = item.Date,
+                        DepartureDate = item.DepartureDate,
                         Status = item.Status,
                         Note = item.Note,
                         Clients = item.Clients,
@@ -80,6 +81,7 @@ namespace Pronets.EntityRequests.Other
                         Client = item.Client,
                         Inspector = item.Inspector,
                         Date = item.Date,
+                        DepartureDate = item.DepartureDate,
                         Status = item.Status,
                         Note = item.Note,
                         Count = db.Repairs.Count(r => r.DocumentId == item.Document_Id)
@@ -120,6 +122,7 @@ namespace Pronets.EntityRequests.Other
                         InspectorId = document.InspectorId,
                         Date = document.Date,
                         Status = document.Status,
+                        DepartureDate = document.DepartureDate,
                         Note = document.Note,
                     });
                     db.SaveChanges();
@@ -178,6 +181,7 @@ namespace Pronets.EntityRequests.Other
                 if (result != null)
                 {
                     result.Status = document.Status;
+                    result.DepartureDate = document.DepartureDate;
                     result.Note = document.Note;
                     db.SaveChanges();
                 }

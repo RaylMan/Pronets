@@ -28,7 +28,7 @@ namespace Pronets.VievModel.Clients_f
             set
             {
                 v_repairs = value;
-                RaisedPropertyChanged("Repairs");
+                RaisedPropertyChanged("V_Repairs");
             }
         }
         protected int? repairId;
@@ -431,6 +431,7 @@ namespace Pronets.VievModel.Clients_f
         }
         protected void SortRepairs(object Parameter)
         {
+            int count = 0; //переменная для проверки количества не отмеченых статусов ремонта
             v_repairs.Clear();
             foreach (var status in statuses)
             {
@@ -466,10 +467,15 @@ namespace Pronets.VievModel.Clients_f
                     }
 
                 }
+                else
+                    count++;
 
             }
-            if (v_repairs.Count == 0)
+            if(count == Statuses.Count) // если не выбран статус ремонта в listbox
+            {
                 V_Repairs = RepairsRequest.FillListClient(clientInstance.ClientId);
+            }
+           
         }
         #endregion
 
@@ -561,7 +567,7 @@ namespace Pronets.VievModel.Clients_f
             {
                 v_repairs.Clear();
                 string engWord = IsCheckedSearch != true ? EditChars.ToEnglish(SearchText) : SearchText;
-                foreach (var repair in RepairsRequest.SearchItem(engWord))
+                foreach (var repair in RepairsRequest.SearchItem(engWord, clientInstance.ClientId))
                 {
                     v_repairs.Add(repair);
                 }

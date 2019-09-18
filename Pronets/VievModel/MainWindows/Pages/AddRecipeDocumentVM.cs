@@ -377,10 +377,11 @@ namespace Pronets.VievModel.MainWindows.Pages
 
         public void Test(object Parameter)
         {
+            
             using (var db = new PronetsDataBaseEntities())
             {
-                var rep = db.Repairs.Where(r => r.Status == null).ToList();
-                rep.ForEach(s => s.Status = "Принято");
+                db.Engineers.Attach(db.Engineers.Where(e => e.LastName == "1").FirstOrDefault());
+                db.Engineers.Remove(db.Engineers.Where(e => e.LastName == "1").FirstOrDefault());
                 db.SaveChanges();
 
             }

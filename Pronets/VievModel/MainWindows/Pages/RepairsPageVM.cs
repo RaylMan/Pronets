@@ -19,8 +19,9 @@ namespace Pronets.VievModel.MainWindows.Pages
     {
         #region Properties
         private v_Repairs v_Repair = new Data.v_Repairs();
-        private Clients client;
+        private Clients clientInstance;
         private Users user;
+        private Engineers engineer;
         private ObservableCollection<Defects> defects = new ObservableCollection<Defects>();
         private ObservableCollection<Repair_Categories> categories = new ObservableCollection<Repair_Categories>();
         public ObservableCollection<Repair_Categories> Categories
@@ -33,15 +34,15 @@ namespace Pronets.VievModel.MainWindows.Pages
                 RaisedPropertyChanged("Repair_Categories");
             }
         }
-        private ObservableCollection<Users> users = new ObservableCollection<Users>();
-        public ObservableCollection<Users> Users
+        private ObservableCollection<Engineers> engineers = new ObservableCollection<Engineers>();
+        public ObservableCollection<Engineers> Engineers
         {
-            get { return users; }
+            get { return engineers; }
 
             set
             {
-                users = value;
-                RaisedPropertyChanged("Users");
+                engineers = value;
+                RaisedPropertyChanged("Engineers");
             }
         }
         private ObservableCollection<Statuses> statuses = new ObservableCollection<Statuses>();
@@ -92,34 +93,34 @@ namespace Pronets.VievModel.MainWindows.Pages
                     v_Repair.Inspector = selectedRepair.Inspector;
                     v_Repair.Departure_Date = selectedRepair.Departure_Date;
                     user = UsersRequest.GetUser(selectedRepair.InspectorId);
-                    client = ClientsRequests.GetClient(selectedRepair.Client_Id);
-                    RepairId = repair.RepairId = selectedRepair.RepairId;
-                    DocumentId = repair.DocumentId = selectedRepair.DocumentId;
-                    Nomenclature = repair.Nomenclature = selectedRepair.Nomenclature;
-                    Serial_Number = repair.Serial_Number = selectedRepair.Serial_Number;
+                    clientInstance = ClientsRequests.GetClient(selectedRepair.Client_Id);
+                    RepairId = v_Repair.RepairId = selectedRepair.RepairId;
+                    DocumentId = v_Repair.DocumentId = selectedRepair.DocumentId;
+                    Nomenclature = v_Repair.Nomenclature = selectedRepair.Nomenclature;
+                    Serial_Number = v_Repair.Serial_Number = selectedRepair.Serial_Number;
                     InspectorName = user.LastName;
-                    Warranty = repair.Warranty = selectedRepair.Warranty;
-                    Claimed_Malfunction = repair.Claimed_Malfunction = selectedRepair.Claimed_Malfunction;
-                    ClientName = this.client.ClientName;
-                    Identifie_Fault = repair.Identifie_Fault = selectedRepair.Identifie_Fault;
-                    Work_Done = repair.Work_Done = selectedRepair.Work_Done;
-                    Note = repair.Note = selectedRepair.Note;
-                    Repair_Date = repair.Repair_Date = selectedRepair.Repair_Date != null ? selectedRepair.Repair_Date : DateTime.Now;
+                    Warranty = v_Repair.Warranty = selectedRepair.Warranty;
+                    Claimed_Malfunction = v_Repair.Claimed_Malfunction = selectedRepair.Claimed_Malfunction;
+                    ClientName = this.clientInstance.ClientName;
+                    Identifie_Fault = v_Repair.Identifie_Fault = selectedRepair.Identifie_Fault;
+                    Work_Done = v_Repair.Work_Done = selectedRepair.Work_Done;
+                    Note = v_Repair.Note = selectedRepair.Note;
+                    Repair_Date = v_Repair.Repair_Date = selectedRepair.Repair_Date != null ? selectedRepair.Repair_Date : DateTime.Now;
                     GetStatus();
-                    GetUser();
+                    GetEngineer();
                     GetCategory();
                 }
             }
         }
 
-        protected Users selectedUser;
-        public Users SelectedUser
+        protected Engineers selectedEngineer;
+        public Engineers SelectedEngineer
         {
-            get { return selectedUser; }
+            get { return selectedEngineer; }
             set
             {
-                selectedUser = value;
-                RaisedPropertyChanged("SelectedUser");
+                selectedEngineer = value;
+                RaisedPropertyChanged("SelectedEngineer");
             }
         }
         protected Statuses selectedStatus;
@@ -170,7 +171,7 @@ namespace Pronets.VievModel.MainWindows.Pages
             defects = DefectsRequests.FillList();
             Date_Of_Receipt = DateTime.Now;
             categories = RepairCategoriesRequests.FillList();
-            users = UsersRequest.FillList();
+            engineers = UsersRequest.FillListEngineers();
             statuses = StatusesRequests.FillList();
         }
 
@@ -233,9 +234,10 @@ namespace Pronets.VievModel.MainWindows.Pages
         {
             if (SelectedRepair != null)
             {
-                if (SelectedUser != null)
+                if (SelectedEngineer != null)
                 {
-                    repair.Engineer = SelectedUser != null ? SelectedUser.UserId : 0;
+                    repair = RepairsRequest.GetRepair(SelectedRepair.RepairId);
+                    repair.Engineer = SelectedEngineer != null ? SelectedEngineer.Id : 0;
                     repair.Identifie_Fault = Identifie_Fault;
                     repair.Work_Done = Work_Done;
                     repair.Note = Note;
@@ -270,12 +272,12 @@ namespace Pronets.VievModel.MainWindows.Pages
                     SelectedStatus = status;
             }
         }
-        public void GetUser()
+        public void GetEngineer()
         {
-            foreach (var user in users)
+            foreach (var engineer in engineers)
             {
-                if (user.UserId == selectedRepair.EngineerId)
-                    SelectedUser = user;
+                if (engineer.Id == selectedRepair.EngineerId)
+                    SelectedEngineer = engineer;
             }
         }
         public void GetCategory()

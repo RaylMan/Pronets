@@ -11,6 +11,7 @@ namespace Pronets.EntityRequests.Repairs_f
 {
     class RepairsRequest
     {
+        private static Repairs repair;
         private static ObservableCollection<Repairs> repairs = new ObservableCollection<Repairs>();
         private static ObservableCollection<v_Repairs> v_Repairs = new ObservableCollection<v_Repairs>();
 
@@ -90,7 +91,7 @@ namespace Pronets.EntityRequests.Repairs_f
             }
             return v_Repairs;
         }
-        public static ObservableCollection<v_Repairs> FillList(int clientId,string status)
+        public static ObservableCollection<v_Repairs> FillList(int clientId, string status)
         {
             using (var db = new PronetsDataBaseEntities())
             {
@@ -129,7 +130,7 @@ namespace Pronets.EntityRequests.Repairs_f
             }
             return v_Repairs;
         }
-        public static ObservableCollection<v_Repairs> FillList(int clientId, string status, int documentId,  string nomenclature)
+        public static ObservableCollection<v_Repairs> FillList(int clientId, string status, int documentId, string nomenclature)
         {
             using (var db = new PronetsDataBaseEntities())
             {
@@ -141,6 +142,15 @@ namespace Pronets.EntityRequests.Repairs_f
                 v_Repairs = new ObservableCollection<v_Repairs>(result);
             }
             return v_Repairs;
+        }
+
+        public static Repairs GetRepair(int repairId)
+        {
+            using (var db = new PronetsDataBaseEntities())
+            {
+                return db.Repairs.Where(r => r.RepairId == repairId).FirstOrDefault();
+            }
+
         }
         public static void AddToBase(ObservableCollection<Repairs> repairs)
         {
@@ -199,6 +209,25 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
             }
         }
+        public static void EditItemStatusToSendToClient(int documentId, DateTime date)
+        {
+            using (var db = new PronetsDataBaseEntities())
+            {
+                var result = db.Repairs.Where(r => r.DocumentId == documentId).ToList();
+                result.ForEach(s => { s.Status = "Отправлен заказчику"; s.Departure_Date = date; });
+                db.SaveChanges();
+            }
+        }
+        public static void EditItemStatus(int repairId, DateTime date)
+        {
+            using (var db = new PronetsDataBaseEntities())
+            {
+                var result = db.Repairs.Where(r => r.RepairId == repairId).ToList();
+                result.ForEach(s => { s.Status = "Отправлен заказчику"; s.Departure_Date = date; });
+                db.SaveChanges();
+
+            }
+        }
         public static void RemoveFromBase(Repairs repair, out bool isExeption)
         {
             isExeption = true;
@@ -241,6 +270,36 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
             }
         }
+        public static ObservableCollection<v_Repairs> SearchItem(string word, int clientId)
+        {
+
+            using (var db = new PronetsDataBaseEntities())
+            {
+                Int32.TryParse(word, out int numericWord);
+                v_Repairs.Clear();
+                var clientsItems = from u in db.v_Repairs
+                                   where u.Client_Id == clientId
+                                   select u;
+                var searchItems = from u in clientsItems
+                                  where
+                                  u.Serial_Number.Contains(word) ||
+                                  u.DocumentId == numericWord ||
+                                  u.Engineer.Contains(word) ||
+                                  u.Inspector.Contains(word) ||
+                                  u.RepairId == numericWord ||
+                                  u.Identifie_Fault.Contains(word) ||
+                                  u.Claimed_Malfunction.Contains(word) ||
+                                  u.Nomenclature.Contains(word) ||
+                                  u.Status.Contains(word) ||
+                                  u.Work_Done.Contains(word) ||
+                                  u.Note.Contains(word) ||
+                                  u.Repair_Category.Contains(word)
+                                  select u;
+               
+                v_Repairs = new ObservableCollection<v_Repairs>(searchItems);
+            }
+            return v_Repairs;
+        }
         public static ObservableCollection<v_Repairs> SearchItem(string word)
         {
 
@@ -249,7 +308,8 @@ namespace Pronets.EntityRequests.Repairs_f
                 Int32.TryParse(word, out int numericWord);
                 v_Repairs.Clear();
                 var searchItems = from u in db.v_Repairs
-                                  where u.Serial_Number.Contains(word) ||
+                                  where
+                                  u.Serial_Number.Contains(word) ||
                                   u.DocumentId == numericWord ||
                                   u.Engineer.Contains(word) ||
                                   u.Inspector.Contains(word) ||

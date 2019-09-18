@@ -26,6 +26,7 @@ namespace Pronets.Data
         public Nullable<System.DateTime> Date { get; set; }
         public string Status { get; set; }
         public string Note { get; set; }
+        public Nullable<System.DateTime> DepartureDate { get; set; }
     
         public virtual Clients Clients { get; set; }
         public virtual Users Users { get; set; }

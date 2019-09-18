@@ -88,6 +88,7 @@
           <Property Name="ClientId" Type="int" Nullable="false" />
           <Property Name="InspectorId" Type="int" Nullable="false" />
           <Property Name="Date" Type="datetime" />
+          <Property Name="DepartureDate" Type="date" />
           <Property Name="Status" Type="nvarchar" MaxLength="50" />
           <Property Name="Note" Type="nvarchar" MaxLength="200" />
         </EntityType>
@@ -139,7 +140,7 @@
           <Key>
             <PropertyRef Name="UserId" />
           </Key>
-          <Property Name="UserId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Login" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Position" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -162,6 +163,7 @@
           <Property Name="Inspector" Type="nvarchar" MaxLength="50" />
           <Property Name="Date" Type="datetime" />
           <Property Name="Status" Type="nvarchar" MaxLength="50" />
+          <Property Name="DepartureDate" Type="date" />
           <Property Name="Note" Type="nvarchar" MaxLength="200" />
         </EntityType>
         <!--Ошибки, обнаруженные при создании:
@@ -362,6 +364,7 @@
     [v_Receipt_Document].[Inspector] AS [Inspector], 
     [v_Receipt_Document].[Date] AS [Date], 
     [v_Receipt_Document].[Status] AS [Status], 
+    [v_Receipt_Document].[DepartureDate] AS [DepartureDate], 
     [v_Receipt_Document].[Note] AS [Note]
     FROM [dbo].[v_Receipt_Document] AS [v_Receipt_Document]</DefiningQuery>
           </EntitySet>
@@ -523,6 +526,7 @@
           <NavigationProperty Name="Repairs" Relationship="Self.FK_Repairs_ReceiptDocument" FromRole="ReceiptDocument" ToRole="Repairs" />
           <NavigationProperty Name="ReceiptDocument1" Relationship="PronetsDBModel.FK_ReceiptDocument_ReceiptDocument" FromRole="ReceiptDocument" ToRole="ReceiptDocument1" />
           <NavigationProperty Name="ReceiptDocument2" Relationship="PronetsDBModel.FK_ReceiptDocument_ReceiptDocument" FromRole="ReceiptDocument1" ToRole="ReceiptDocument" />
+          <Property Name="DepartureDate" Type="DateTime" Precision="0" />
         </EntityType>
         <EntityType Name="Repair_Categories">
           <Key>
@@ -805,6 +809,7 @@
           <Property Name="Date" Type="DateTime" Precision="3" />
           <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Note" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="DepartureDate" Type="DateTime" Precision="0" />
         </EntityType>
         <EntityType Name="Defects">
           <Key>
@@ -973,6 +978,7 @@
           <EntitySetMapping Name="ReceiptDocument">
             <EntityTypeMapping TypeName="PronetsDBModel.ReceiptDocument">
               <MappingFragment StoreEntitySet="ReceiptDocument">
+                <ScalarProperty Name="DepartureDate" ColumnName="DepartureDate" />
                 <ScalarProperty Name="DocumentId" ColumnName="DocumentId" />
                 <ScalarProperty Name="ClientId" ColumnName="ClientId" />
                 <ScalarProperty Name="InspectorId" ColumnName="InspectorId" />
@@ -1039,6 +1045,7 @@
           <EntitySetMapping Name="v_Receipt_Document">
             <EntityTypeMapping TypeName="PronetsDBModel.v_Receipt_Document">
               <MappingFragment StoreEntitySet="v_Receipt_Document">
+                <ScalarProperty Name="DepartureDate" ColumnName="DepartureDate" />
                 <ScalarProperty Name="Note" ColumnName="Note" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="Date" ColumnName="Date" />

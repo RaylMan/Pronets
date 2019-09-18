@@ -11,7 +11,7 @@ namespace Pronets.Model
 {
     class RepairsModel : VievModelBase
     {
-        protected Repairs repair;
+        protected Repairs repair = new Data.Repairs();
         protected ObservableCollection<Repairs> repairs = new ObservableCollection<Repairs>();
         public ObservableCollection<Repairs> Repairs
         {
@@ -23,7 +23,7 @@ namespace Pronets.Model
                 RaisedPropertyChanged("Repairs");
             }
         }
-        protected v_Repairs v_Repair;
+        //protected v_Repairs v_Repair;
         protected ObservableCollection<v_Repairs> v_Repairs = new ObservableCollection<v_Repairs>();
         public ObservableCollection<v_Repairs> V_Repairs
         {
@@ -127,8 +127,8 @@ namespace Pronets.Model
                 RaisedPropertyChanged("Date_Of_Receipt");
             }
         }
-        protected DateTime? departure_Date;
-        public DateTime? Departure_Date
+        protected DateTime departure_Date;
+        public DateTime Departure_Date
         {
             get { return departure_Date; }
             set
@@ -256,6 +256,17 @@ namespace Pronets.Model
             {
                 note = value;
                 RaisedPropertyChanged("Note");
+            }
+        }
+        private bool isChecked;
+        public bool IsChecked
+        {
+            get { return isChecked; }
+            set
+            {
+                if (value == isChecked) return;
+                isChecked = value;
+                RaisedPropertyChanged();
             }
         }
     }

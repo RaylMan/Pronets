@@ -38,9 +38,6 @@
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
-        <Label x:Name="label2" Content="Дата" HorizontalAlignment="Left" Margin="505,0,0,0" Grid.Row="1" VerticalAlignment="Top" Height="30" RenderTransformOrigin="0.518,-0.204"/>
-        <DatePicker HorizontalAlignment="Left" Margin="545,1,0,0" Grid.Row="1" VerticalAlignment="Top" Width="171" Height="29" SelectedDate="{Binding Path=Date_Of_Receipt, Mode=TwoWay,
-                  ValidatesOnExceptions=true, NotifyOnValidationError=true}"/>
         <!--ROW 2-->
         <TextBlock Grid.Row="2" HorizontalAlignment="Left" Margin="5,5,0,5" Width="76" Text="Заполнение выделенных строк" TextWrapping="Wrap" />
         <Label x:Name="label3" Content="Наименование" HorizontalAlignment="Left" Margin="89,5,0,0" Grid.Row="2" VerticalAlignment="Top" Height="25" Width="95"/>

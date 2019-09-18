@@ -14,6 +14,7 @@ namespace Pronets.EntityRequests.Users_f
         private static ObservableCollection<Users> searchUsers = new ObservableCollection<Users>();
         private static ObservableCollection<Positions> positions = new ObservableCollection<Positions>();
         private static Users user;
+        private static Engineers engineer;
         public static ObservableCollection<Users> FillList()
         {
             using (var db = new PronetsDataBaseEntities())
@@ -45,9 +46,16 @@ namespace Pronets.EntityRequests.Users_f
             {
                 if (engineers != null)
                     engineers.Clear();
-                var result = from e in db.Engineers
-                             select e;
-                engineers = new ObservableCollection<Engineers>(result);
+                foreach (var item in db.Engineers)
+                {
+                    engineers.Add(new Engineers
+                    {
+                        Id = item.Id,
+                        LastName = item.LastName,
+                        Position = item.Position,
+                        Repairs = item.Repairs
+                    });
+                }
             }
             return engineers;
         }
@@ -57,6 +65,21 @@ namespace Pronets.EntityRequests.Users_f
             using (var db = new PronetsDataBaseEntities())
             {
                 return user = db.Users.Where(u => u.UserId == id).FirstOrDefault();
+            }
+        }
+       
+        public static Engineers GetEngineer(int? id)
+        {
+            using (var db = new PronetsDataBaseEntities())
+            {
+                return engineer = db.Engineers.Where(e => e.Id == id).FirstOrDefault();
+            }
+        }
+        public static Engineers GetEngineer(string lastName)
+        {
+            using (var db = new PronetsDataBaseEntities())
+            {
+                return engineer = db.Engineers.Where(e => e.LastName == lastName).FirstOrDefault();
             }
         }
         public static ObservableCollection<Positions> FillPosoitions()
@@ -91,8 +114,16 @@ namespace Pronets.EntityRequests.Users_f
             {
                 if (engineer != null)
                 {
-                    db.Engineers.Add(engineer);
-                    db.SaveChanges();
+                    try
+                    {
+                        db.Engineers.Add(engineer);
+                        db.SaveChanges();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Ошибка");
+                    }
+                    
                 }
 
             }
@@ -108,6 +139,27 @@ namespace Pronets.EntityRequests.Users_f
                     {
                         db.Users.Attach(user);
                         db.Users.Remove(user);
+                        db.SaveChanges();
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show("Невозможно удалить , так как есть связи с данными!", "Ошибка");
+                        isExeption = false;
+                    }
+                }
+            }
+        }
+        public static void RemoveFromBaseEngineer(string name, out bool isExeption)
+        {
+            isExeption = true;
+            using (var db = new PronetsDataBaseEntities())
+            {
+                if (name != null)
+                {
+                    try
+                    {
+                        db.Engineers.Attach(db.Engineers.Where(e=> e.LastName == name).FirstOrDefault());
+                        db.Engineers.Remove(db.Engineers.Where(e => e.LastName == name).FirstOrDefault());
                         db.SaveChanges();
                     }
                     catch (Exception e)

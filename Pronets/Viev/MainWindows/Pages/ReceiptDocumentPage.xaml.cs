@@ -37,11 +37,7 @@ namespace Pronets.Viev.MainWindows.Pages
 
         private void BtnCreate_Click(object sender, RoutedEventArgs e)
         {
-            if (win == null)
-            {
-                win = new NewReceiptDocument();
-            }
-            win.Activate();
+            win = new NewReceiptDocument();
             win.Show();
         }
     }

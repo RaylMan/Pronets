@@ -1,6 +1,8 @@
 ﻿using Pronets.Data;
+using Pronets.Navigation;
 using Pronets.VievModel.Repairs_f;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,6 +30,43 @@ namespace Pronets.Viev.Repairs_f
             if (document != null)
                 this.document = document;
             DataContext = new ReceiptDocumentInspectorVM(document);
+        }
+
+        public IEnumerable<DataGridRow> GetDataGridRows(DataGrid grid)
+        {
+            if (grid.ItemsSource != null)
+            {
+                var itemsSource = grid.ItemsSource as IEnumerable;
+                if (null == itemsSource) yield return null;
+                foreach (var item in itemsSource)
+                {
+                    var row = grid.ItemContainerGenerator.ContainerFromItem(item) as DataGridRow;
+                    if (null != row) yield return row;
+                }
+            }
+        }
+
+        private void AllChecked_Checked(object sender, RoutedEventArgs e)
+        {
+            var row = GetDataGridRows(Docunents1);
+            foreach (DataGridRow r in row)
+            {
+                FrameworkElement elmchbx = Docunents1.Columns[0].GetCellContent(r);
+                CheckBox checkBox = ItemTemplateFind.FindChild<CheckBox>(elmchbx, "chkbx");
+                checkBox.IsChecked = true;
+            }
+
+        }
+
+        private void AllChecked_Unchecked(object sender, RoutedEventArgs e)
+        {
+            var row = GetDataGridRows(Docunents1);
+            foreach (DataGridRow r in row)
+            {
+                FrameworkElement elmchbx = Docunents1.Columns[0].GetCellContent(r);
+                CheckBox checkBox = ItemTemplateFind.FindChild<CheckBox>(elmchbx, "chkbx");
+                checkBox.IsChecked = false;
+            }
         }
     }
 }

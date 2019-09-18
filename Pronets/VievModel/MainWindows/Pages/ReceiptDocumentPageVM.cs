@@ -49,6 +49,16 @@ namespace Pronets.VievModel.MainWindows.Pages
                 RaisedPropertyChanged("Date");
             }
         }
+        private DateTime? departureDate;
+        public DateTime? DepartureDate
+        {
+            get { return departureDate; }
+            set
+            {
+                departureDate = value;
+                RaisedPropertyChanged("DepartureDate");
+            }
+        }
         private string note;
         public string Note
         {

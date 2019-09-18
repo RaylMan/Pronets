@@ -138,6 +138,7 @@
     <Compile Include="Data\v_Repairs.cs">
       <DependentUpon>PronetsDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\v_RepairsMe.cs" />
     <Compile Include="Data\Warrantys.cs" />
     <Compile Include="EntityRequests\Clients_f\ClientsRequests.cs" />
     <Compile Include="EntityRequests\Nomenclature_f\NomenclatureRequest.cs" />

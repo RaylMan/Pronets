@@ -62,7 +62,7 @@ namespace Pronets.VievModel.Users_f
         public void AddItem(object Parameter)
         {
             Users user = null;
-            if (selItem != null && login != null && login != "" && password != null && password != "")
+            if (selItem != null && login != null && login != "" && password != null && password != "" && lastName != "")
             {
                 var engineer = new Engineers
                 {
@@ -97,7 +97,7 @@ namespace Pronets.VievModel.Users_f
                 }
             }
             else
-                MessageBox.Show("Необходимо выбрать уровень доступа!", "Ошибка");
+                MessageBox.Show("Необходимо заполнить поля: \n1)Логин\n2)Пароль\n3)Фамилия\n4)Выбрать уровень доступа!", "Ошибка");
         }
         #endregion
     }
