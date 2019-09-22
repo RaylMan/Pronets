@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Pronets.Data;
+using Pronets.VievModel.Users_f;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +21,26 @@ namespace Pronets.Viev.Users_f
     /// </summary>
     public partial class UsersWindow : Window
     {
+        private Users user;
         public UsersWindow()
         {
             InitializeComponent();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Users user = (Users)dataGrid.SelectedItem;
+                UserInfoWindow win = new UserInfoWindow(user);
+                win.Show();
+                this.Close();
+
+            }
+            catch (System.InvalidCastException)
+            {
+                MessageBox.Show("Как вы собираетесь открыть строку без работника?", "Ошибка");
+            }
         }
     }
 }

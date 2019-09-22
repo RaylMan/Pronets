@@ -180,6 +180,7 @@ namespace Pronets.EntityRequests.Other
                 var result = db.ReceiptDocument.SingleOrDefault(d => d.DocumentId == document.DocumentId);
                 if (result != null)
                 {
+                    result.ClientId = document.ClientId;
                     result.Status = document.Status;
                     result.DepartureDate = document.DepartureDate;
                     result.Note = document.Note;

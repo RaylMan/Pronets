@@ -7,7 +7,7 @@
         xmlns:vm="clr-namespace:Pronets.VievModel.Clients_f"
         xmlns:wd="clr-namespace:Pronets.Navigation.WindowsNavigation"
         mc:Ignorable="d"
-        Title="Клиенты" MinHeight="450" MinWidth="520" Height="450" Width="520" Background="Gainsboro" WindowStartupLocation="CenterScreen">
+        Title="Клиенты" MinHeight="450" MinWidth="520" Height="450" Width="520" Background="Gainsboro" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Window.DataContext>
         <vm:ClientsVM/>
     </Window.DataContext>
@@ -35,9 +35,27 @@
                   SelectedIndex="{Binding SelectedIndex}" SelectedValue="{Binding SelectedItem}" SelectionMode="Single"  
                   HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999" >
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Название организации" Binding="{Binding Path=ClientName}" Width="*" IsReadOnly="True" />
-                <DataGridTextColumn Header="Контактное лицо" Binding="{Binding Path=Contact_Person}" IsReadOnly="True" />
-                <DataGridTextColumn Header="Телефон" Binding="{Binding Path=Telephone_1}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Название организации" Binding="{Binding Path=ClientName}" Width="*" IsReadOnly="True">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Контактное лицо" Binding="{Binding Path=Contact_Person}" IsReadOnly="True">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Телефон" Binding="{Binding Path=Telephone_1}" IsReadOnly="True">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
                 <DataGridTemplateColumn >
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

@@ -34,8 +34,7 @@
         <TextBlock Grid.Column="0" Grid.Row="3" Text="Имя" TextAlignment="Center" Margin="10"/>
         <TextBlock Grid.Column="0" Grid.Row="4" Text="Фамилия" TextAlignment="Center" Margin="10"/>
         <TextBlock Grid.Column="0" Grid.Row="5" Text="Отчество" TextAlignment="Center" Margin="10"/>
-        <TextBlock Grid.Column="0" Grid.Row="6" Text="Дата рождения" TextAlignment="Center"/>
-        <TextBlock Grid.Column="0" Grid.Row="6" Text="Формат (День/Месяц/Год)" FontSize="8" Margin="0,20,0,0" TextAlignment="Center"/>
+        <TextBlock Grid.Column="0" Grid.Row="6" Text="Дата рождения" TextAlignment="Center" Margin="0,10"/>
         <TextBlock Grid.Column="0" Grid.Row="7" Text="Телефон" TextAlignment="Center" Margin="10"/>
         <TextBlock Grid.Column="0" Grid.Row="8" Text="Адрес" TextAlignment="Center" Margin="10"/>
 

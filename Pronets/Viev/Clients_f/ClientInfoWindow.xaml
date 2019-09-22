@@ -87,9 +87,9 @@
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
-                <CheckBox x:Name="cbxAllDocument" Content="Все документы" IsChecked="{Binding AllDocuments}" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" RenderTransformOrigin="0.461,0.689" Margin="0,18,18,0"/>
+                <CheckBox x:Name="cbxAllDocument" Content="Все документы" IsChecked="{Binding AllDocuments}" Checked="CbxAllDocument_Checked" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" RenderTransformOrigin="0.461,0.689" Margin="0,18,18,0"/>
 
-                <Label Content="По Номенклатуре" Grid.Column="1" HorizontalAlignment="Right" Margin="0,30,177,0" VerticalAlignment="Top"/>
+                <Label Content="По номенклатуре" Grid.Column="1" HorizontalAlignment="Right" Margin="0,30,177,0" VerticalAlignment="Top"/>
                 <ComboBox x:Name="cmbNomenclature" Grid.Column="1" Margin="0,51,128,0" ItemsSource="{Binding NomenclaturesList}" SelectionChanged="CmbDucuments_SelectionChanged" Width="162" HorizontalAlignment="Right" VerticalAlignment="Top" SelectedValue="{Binding SelectedNomenclature}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
@@ -97,9 +97,19 @@
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
-                <CheckBox x:Name="cbxAllNomenclature" Content="Вся номенклатура" IsChecked="{Binding AllNomenclature}" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" RenderTransformOrigin="0.461,0.689" Margin="0,55,0,0"/>
-                <TextBlock Grid.Column="1" Text="{Binding RepairsCount}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5"/>
+                <CheckBox x:Name="cbxAllNomenclature" Content="Вся номенклатура" Checked="CbxAllNomenclature_Checked" IsChecked="{Binding AllNomenclature}" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" RenderTransformOrigin="0.461,0.689" Margin="0,55,0,0"/>
+                <TextBlock Grid.Column="1" Text="{Binding RepairsCount}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="197,0,0,0"/>
                 <Button Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Content=" Сортировать " Height="25" Command="{Binding SortCommand}"/>
+
+                <Label Content="По гарантии" Grid.Column="1" HorizontalAlignment="Right" Margin="0,66,205,0" VerticalAlignment="Top"/>
+                <ComboBox x:Name="cmbWarranty" Grid.Column="1" Margin="0,87,128,0" ItemsSource="{Binding WarrantysList}" SelectionChanged="CmbWarranty_SelectionChanged" Width="162" HorizontalAlignment="Right" VerticalAlignment="Top" SelectedValue="{Binding SelectedWarranty}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Warranty}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <CheckBox x:Name="cbxAllWarrantys" Content="Вся гарантия" Checked="CbxAllWarrantys_Checked" IsChecked="{Binding AllWarranrys}" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" RenderTransformOrigin="0.461,0.689" Margin="0,90,30,0"/>
 
                 <!--Search-->
                 <TextBox x:Name="tbxSearch" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="TbxSearch_SelectionChanged" GotFocus="TbxSearch_GotFocus" Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="137" Grid.Column="1" Height="21"/>

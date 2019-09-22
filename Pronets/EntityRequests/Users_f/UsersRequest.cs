@@ -82,6 +82,7 @@ namespace Pronets.EntityRequests.Users_f
                 return engineer = db.Engineers.Where(e => e.LastName == lastName).FirstOrDefault();
             }
         }
+        
         public static ObservableCollection<Positions> FillPosoitions()
         {
             if (positions != null)
@@ -189,6 +190,17 @@ namespace Pronets.EntityRequests.Users_f
                     result.Adress = user.Adress;
                     db.SaveChanges();
                 }
+            }
+        }
+        public static void EditEngineer(Engineers eng)
+        {
+            using (var db = new PronetsDataBaseEntities())
+            {
+                engineer = db.Engineers.Where(e => e.Id == eng.Id).FirstOrDefault();
+                engineer.LastName = eng.LastName;
+                engineer.Position = eng.Position;
+                db.SaveChanges();
+                
             }
         }
         public static ObservableCollection<Users> SearchItem(string word)

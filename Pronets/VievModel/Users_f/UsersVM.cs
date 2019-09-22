@@ -100,8 +100,8 @@ namespace Pronets.VievModel.Users_f
             }
         }
 
-        protected DateTime birthday;
-        public DateTime Birthday
+        protected DateTime? birthday;
+        public DateTime? Birthday
         {
             get { return birthday; }
             set
@@ -200,60 +200,7 @@ namespace Pronets.VievModel.Users_f
         }
         #endregion
 
-        #region Edit Command
-
-        protected ICommand editItem;
-        public ICommand EditCommand
-        {
-            get
-            {
-                if (editItem == null)
-                {
-                    editItem = new RelayCommand(new Action<object>(EditItem));
-                }
-                return editItem;
-            }
-            set
-            {
-                editItem = value;
-                RaisedPropertyChanged("EditCommand");
-            }
-        }
-        public void EditItem(object Parameter)
-        {
-            Users modifiedUser = null;
-            if (selectedItem != null)
-            {
-                if (SelectedItem.UserId != 0)
-                {
-                    modifiedUser = new Users
-                    {
-                        UserId = SelectedItem.UserId,
-                        Login = selectedItem.Login,
-                        Password = selectedItem.Password,
-                        Position = selectedItem.Position,
-                        FirstName = selectedItem.FirstName,
-                        LastName = selectedItem.LastName,
-                        Patronymic = selectedItem.Patronymic,
-                        Birthday = selectedItem.Birthday,
-                        Telephone = selectedItem.Telephone,
-                        Adress = selectedItem.Adress
-                    };
-
-                    var result = MessageBox.Show("Вы Действительно хотите редактировать?", "Редактирование", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                    if (result == MessageBoxResult.Yes)
-                    {
-                        if (modifiedUser != null)
-                        {
-                            UsersRequest.EditItem(modifiedUser);
-                        }
-                    }
-                }
-            }
-            else
-                MessageBox.Show("Необходимо выбрать элемент", "Ошибка");
-        }
-        #endregion
+      
 
         #region FillList button command
 

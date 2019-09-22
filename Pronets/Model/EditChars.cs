@@ -8,6 +8,9 @@ namespace Pronets.Model
 {
     public static class EditChars
     {
+        /// <summary>
+        /// <para> Edit Russian chars to English</para>
+        /// </summary> 
         public static string ToEnglish(string word)
         {
             Dictionary<string, string> dictionaryChar = new Dictionary<string, string>()

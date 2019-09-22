@@ -203,7 +203,7 @@ namespace Pronets.VievModel.Clients_f
                 RaisedPropertyChanged("Repair_Category");
             }
         }
-        
+
         protected DateTime? repair_Date;
         public DateTime? Repair_Date
         {
@@ -312,6 +312,27 @@ namespace Pronets.VievModel.Clients_f
                 RaisedPropertyChanged("SelectedNomenclature");
             }
         }
+        private ObservableCollection<Warrantys> warrantysList = new ObservableCollection<Warrantys>();
+        public ObservableCollection<Warrantys> WarrantysList
+        {
+            get { return warrantysList; }
+
+            set
+            {
+                warrantysList = value;
+                RaisedPropertyChanged("WarrantysList");
+            }
+        }
+        private Warrantys selectedWarranty;
+        public Warrantys SelectedWarranty
+        {
+            get { return selectedWarranty; }
+            set
+            {
+                selectedWarranty = value;
+                RaisedPropertyChanged("SelectedWarranty");
+            }
+        }
 
         private bool isSelected;
         public bool IsSelected
@@ -364,6 +385,16 @@ namespace Pronets.VievModel.Clients_f
                 RaisedPropertyChanged("AllNomenclature");
             }
         }
+        private bool allWarranrys = true;
+        public bool AllWarranrys
+        {
+            get { return allWarranrys; }
+            set
+            {
+                allWarranrys = value;
+                RaisedPropertyChanged("AllWarranrys");
+            }
+        }
 
         private bool isCheckedSearch;
         public bool IsCheckedSearch
@@ -409,9 +440,12 @@ namespace Pronets.VievModel.Clients_f
             receiptDocuments = ReceiptDocumentRequest.FillListClient(client.ClientId);
             AddDocumentName();
             RepairsCount = v_repairs.Count.ToString();
+            warrantysList.Add(new Warrantys { Warranty = "Нет" });
+            warrantysList.Add(new Warrantys { Warranty = "Гарантия Элтекс" });
+            warrantysList.Add(new Warrantys { Warranty = "Наша Гарантия" });
         }
 
-        #region Sort by status 
+        #region Sorting
         private ICommand sortCommand;
         public ICommand SortCommand
         {
@@ -437,30 +471,61 @@ namespace Pronets.VievModel.Clients_f
             {
                 if (status.IsSelected)
                 {
-                    if (!AllDocuments && !AllNomenclature && selectedDocument != null && selectedNomenclature != null)
+                    if (!AllWarranrys && !AllNomenclature && !AllDocuments && selectedDocument != null && selectedNomenclature != null && selectedWarranty != null)
                     {
-                        foreach (var item in RepairsRequest.FillList(clientInstance.ClientId, status.Status, selectedDocument.DocumentId, selectedNomenclature.Name))
+                        foreach (var item in RepairsRequest.SortList(clientInstance.ClientId, selectedDocument.DocumentId, selectedNomenclature.Name, selectedWarranty.Warranty, status.Status))
                         {
                             v_repairs.Add(item);
                         }
                     }
-                    else if (AllDocuments && !AllNomenclature && selectedNomenclature != null)
+
+                    else if (!AllWarranrys && !AllNomenclature && AllDocuments && selectedNomenclature != null && selectedWarranty != null)
                     {
-                        foreach (var item in RepairsRequest.FillList(clientInstance.ClientId, status.Status, selectedNomenclature.Name))
+                        foreach (var item in RepairsRequest.SortListWarNom(clientInstance.ClientId, selectedWarranty.Warranty, selectedNomenclature.Name, status.Status))
                         {
                             v_repairs.Add(item);
                         }
                     }
-                    else if (!AllDocuments && AllNomenclature && selectedDocument != null)
+
+                    else if (!AllWarranrys && AllNomenclature && AllDocuments && selectedWarranty != null)
                     {
-                        foreach (var item in RepairsRequest.FillList(clientInstance.ClientId, status.Status, selectedDocument.DocumentId))
+                        foreach (var item in RepairsRequest.SortList(selectedWarranty.Warranty, clientInstance.ClientId, status.Status))
                         {
                             v_repairs.Add(item);
                         }
                     }
+                    else if (AllWarranrys && !AllNomenclature && !AllDocuments && selectedDocument != null && selectedNomenclature != null)
+                    {
+                        foreach (var item in RepairsRequest.SortListDocNom(clientInstance.ClientId, selectedDocument.DocumentId, selectedNomenclature.Name, status.Status))
+                        {
+                            v_repairs.Add(item);
+                        }
+                    }
+                    else if (AllWarranrys && AllNomenclature && !AllDocuments && selectedDocument != null)
+                    {
+                        foreach (var item in RepairsRequest.SortList(clientInstance.ClientId, selectedDocument.DocumentId, status.Status))
+                        {
+                            v_repairs.Add(item);
+                        }
+                    }
+                    else if (AllWarranrys && !AllNomenclature && AllDocuments && selectedNomenclature != null)
+                    {
+                        foreach (var item in RepairsRequest.SortList(clientInstance.ClientId, selectedNomenclature.Name, status.Status))
+                        {
+                            v_repairs.Add(item);
+                        }
+                    }
+                    else if (!AllWarranrys && AllNomenclature && !AllDocuments && selectedDocument != null && selectedWarranty != null)
+                    {
+                        foreach (var item in RepairsRequest.SortList(clientInstance.ClientId, selectedWarranty.Warranty, selectedDocument.DocumentId, status.Status))
+                        {
+                            v_repairs.Add(item);
+                        }
+                    }
+
                     else
                     {
-                        foreach (var item in RepairsRequest.FillList(clientInstance.ClientId, status.Status))
+                        foreach (var item in RepairsRequest.SortList(clientInstance.ClientId, status.Status))
                         {
                             v_repairs.Add(item);
                         }
@@ -471,11 +536,70 @@ namespace Pronets.VievModel.Clients_f
                     count++;
 
             }
-            if(count == Statuses.Count) // если не выбран статус ремонта в listbox
+            if (count == Statuses.Count) // если не выбран статус ремонта в listbox
             {
-                V_Repairs = RepairsRequest.FillListClient(clientInstance.ClientId);
+                string status = null;
+                if (!AllWarranrys && !AllNomenclature && !AllDocuments && selectedDocument != null && selectedNomenclature != null && selectedWarranty != null)
+                {
+                    foreach (var item in RepairsRequest.SortList(clientInstance.ClientId, selectedDocument.DocumentId, selectedNomenclature.Name, selectedWarranty.Warranty, status))
+                    {
+                        v_repairs.Add(item);
+                    }
+                }
+
+                else if (!AllWarranrys && !AllNomenclature && AllDocuments && selectedNomenclature != null && selectedWarranty != null)
+                {
+                    foreach (var item in RepairsRequest.SortListWarNom(clientInstance.ClientId, selectedWarranty.Warranty, selectedNomenclature.Name, status))
+                    {
+                        v_repairs.Add(item);
+                    }
+                }
+
+                else if (!AllWarranrys && AllNomenclature && AllDocuments && selectedWarranty != null)
+                {
+                    foreach (var item in RepairsRequest.SortList(selectedWarranty.Warranty, clientInstance.ClientId, status))
+                    {
+                        v_repairs.Add(item);
+                    }
+                }
+                else if (AllWarranrys && !AllNomenclature && !AllDocuments && selectedDocument != null && selectedNomenclature != null)
+                {
+                    foreach (var item in RepairsRequest.SortListDocNom(clientInstance.ClientId, selectedDocument.DocumentId, selectedNomenclature.Name, status))
+                    {
+                        v_repairs.Add(item);
+                    }
+                }
+                else if (AllWarranrys && AllNomenclature && !AllDocuments && selectedDocument != null)
+                {
+                    foreach (var item in RepairsRequest.SortList(clientInstance.ClientId, selectedDocument.DocumentId, status))
+                    {
+                        v_repairs.Add(item);
+                    }
+                }
+                else if (AllWarranrys && !AllNomenclature && AllDocuments && selectedNomenclature != null)
+                {
+                    foreach (var item in RepairsRequest.SortList(clientInstance.ClientId, selectedNomenclature.Name, status))
+                    {
+                        v_repairs.Add(item);
+                    }
+                }
+                else if (!AllWarranrys && AllNomenclature && !AllDocuments && selectedDocument != null && selectedWarranty != null)
+                {
+                    foreach (var item in RepairsRequest.SortList(clientInstance.ClientId, selectedWarranty.Warranty, selectedDocument.DocumentId, status))
+                    {
+                        v_repairs.Add(item);
+                    }
+                }
+                else
+                {
+                    foreach (var item in RepairsRequest.FillListClient(clientInstance.ClientId))
+                    {
+                        v_repairs.Add(item);
+                    }
+                }
             }
-           
+            RepairsCount = v_repairs.Count.ToString();
+
         }
         #endregion
 

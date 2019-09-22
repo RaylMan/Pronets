@@ -31,14 +31,21 @@
                  Margin="294,16,0,0" Grid.Row="1" TextWrapping="Wrap"  MaxLength="200" VerticalAlignment="Top" Width="225"/>
         <TextBlock x:Name="textBlock_Copy1" HorizontalAlignment="Left" Margin="129,0,0,0" TextWrapping="Wrap" Text="Статус документа" VerticalAlignment="Top" 
                    RenderTransformOrigin="-1.286,-0.188" Grid.Row="1"/>
-        
+        <ComboBox x:Name="cbxClient" ItemsSource="{Binding Clients, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedItem="{Binding SelectedClientItem}"
+                  HorizontalAlignment="Left" Margin="602,45,0,0" Grid.Row="1" VerticalAlignment="Top" Width="155" Height="25">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding ClientName}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
         <TextBlock x:Name="txtClient" HorizontalAlignment="Left" Margin="547,45,0,0" Grid.Row="1" FontSize="15" VerticalAlignment="Top"
-                   Text="{Binding ClientName}"></TextBlock>
+                   Text="Клиент: "></TextBlock>
         <TextBlock x:Name="txtInspector" HorizontalAlignment="Left" Margin="547,16,0,0" Grid.Row="1" FontSize="15" VerticalAlignment="Top" 
                    Text="{Binding InspectorName}" RenderTransformOrigin="0.492,0.977"></TextBlock>
         <Button x:Name="btnDelete" Content=" Удалить выделенный эмлемент " Command="{Binding RemoveCommand}" Grid.Row="1" HorizontalAlignment="Right" 
                 VerticalAlignment="Bottom" Margin="10"/>
-        <Label Content="Дата отправки" Margin="0,52,5,21" Grid.Row="1"/>
+        <Label Content="Дата отправки" Margin="0,52,5,21" HorizontalAlignment="Left" Grid.Row="1"/>
         <DatePicker HorizontalAlignment="Left" Margin="5,76,0,0" Grid.Row="1" VerticalAlignment="Top" Width="156" SelectedDate="{Binding Path=DepartureDate,
             UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}"/>
         <!--Row 2-->
@@ -125,7 +132,7 @@
                 <DataGridTextColumn Header="Клиент" Binding="{Binding Client_Name}" IsReadOnly="True"/>
             </DataGrid.Columns>
         </DataGrid>
-        
+
 
     </Grid>
 </Window>

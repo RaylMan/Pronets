@@ -1,5 +1,6 @@
 ﻿using Pronets.Data;
 using Pronets.EntityRequests;
+using Pronets.EntityRequests.Clients_f;
 using Pronets.EntityRequests.Other;
 using Pronets.EntityRequests.Repairs_f;
 using Pronets.Model;
@@ -29,6 +30,17 @@ namespace Pronets.VievModel.Repairs_f
                 RaisedPropertyChanged("Statuses");
             }
         }
+        private ObservableCollection<Clients> clients;
+        public ObservableCollection<Clients> Clients
+        {
+            get { return clients; }
+
+            set
+            {
+                clients = value;
+                RaisedPropertyChanged("Clients");
+            }
+        }
         private v_Receipt_Document Document { get; set; }
 
         private Statuses selectedStatusItem;
@@ -39,6 +51,16 @@ namespace Pronets.VievModel.Repairs_f
             {
                 selectedStatusItem = value;
                 RaisedPropertyChanged("SelectedStatusItem");
+            }
+        }
+        private Clients selectedClientItem;
+        public Clients SelectedClientItem
+        {
+            get { return selectedClientItem; }
+            set
+            {
+                selectedClientItem = value;
+                RaisedPropertyChanged("SelectedClientItem");
             }
         }
         private string id;
@@ -98,7 +120,7 @@ namespace Pronets.VievModel.Repairs_f
             get { return clientName; }
             set
             {
-                clientName = "Клиент:  " + value;
+                clientName = value;
                 RaisedPropertyChanged("ClientName");
             }
         }
@@ -125,22 +147,32 @@ namespace Pronets.VievModel.Repairs_f
                 InspectorName = document.Inspector != null ? document.Inspector : "Отсутствует";
                 ClientName = document.Client != null ? document.Client : "Отсутствует";
                 NoteOfDocument = document.Note;
-                statuses = StatusesRequests.FillList();
                 GetStatus();
+                GetClient();
                 v_Repairs = RepairsRequest.FillList(document.Document_Id);
                 DepartureDate = DateTime.Now;
             }
             else
                 MessageBox.Show("Не передан экземпляр класса в конструктор!", "Системаня ошибка!");
         }
-        #region Select Status
+        #region Select
         //Устанавливает значение по умолчанию Combobox "статус документа" в соответствии с БД
         public void GetStatus()
         {
+            statuses = StatusesRequests.FillList();
             foreach (var status in statuses)
             {
                 if (status.Status == Document.Status)
                     SelectedStatusItem = status;
+            }
+        }
+        public void GetClient()
+        {
+            clients = ClientsRequests.FillList();
+            foreach (var client in clients)
+            {
+                if (client.ClientName == Document.Client)
+                    SelectedClientItem = client;
             }
         }
         #endregion
@@ -175,11 +207,13 @@ namespace Pronets.VievModel.Repairs_f
                     ReceiptDocument editingDocument = new ReceiptDocument
                     {
                         DocumentId = Document.Document_Id,
+                        ClientId = SelectedClientItem.ClientId,
                         Note = NoteOfDocument,
                         Status = SelectedStatusItem.Status,
                         DepartureDate = SelectedStatusItem.Status == "Отправлен заказчику" ? DepartureDate : null
 
                     };
+
                     if (SelectedStatusItem.Status == "Отправлен заказчику" || SelectedStatusItem.Status == "Отправлен заказчику(Частично)")
                     {
                         if (RepairsChecked(V_Repairs))
@@ -198,20 +232,24 @@ namespace Pronets.VievModel.Repairs_f
                             }
                             editingDocument.Status = "Отправлен заказчику(Частично)";
                         }
-
-
                     }
+                    RepairsRequest.EditItemClient(Document.Document_Id, SelectedClientItem.ClientId);
                     ReceiptDocumentRequest.EditItem(editingDocument);
+
+                    V_Repairs.Clear(); // обновить таблицу реомнтов
+                    foreach (var repair in RepairsRequest.FillList(Document.Document_Id))
+                    {
+                        V_Repairs.Add(repair);
+                    }
+
                     MessageBox.Show("Произведена успешная запись в базу данных!", "Результат");
-
                 }
-
-
 
                 catch (Exception e)
                 {
                     MessageBox.Show(e.Message);
                 }
+               
             }
         }
         public bool RepairsChecked(ObservableCollection<v_Repairs> repairs) // проверка на все IsChecked для установки статуса ремонта

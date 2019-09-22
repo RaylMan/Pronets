@@ -151,6 +151,7 @@
     <Compile Include="EntityRequests\Users_f\UsersRequest.cs" />
     <Compile Include="Model\EditChars.cs" />
     <Compile Include="Model\RepairsModel.cs" />
+    <Compile Include="Model\SortingRepair.cs" />
     <Compile Include="Navigation\IPageResolver.cs" />
     <Compile Include="Navigation\ItemTemplateFind.cs" />
     <Compile Include="Navigation\Navigation.cs" />
@@ -175,6 +176,7 @@
     <Compile Include="VievModel\Repairs_f\StatusesVM.cs" />
     <Compile Include="VievModel\StartWindowVM.cs" />
     <Compile Include="VievModel\Users_f\AddUserVM.cs" />
+    <Compile Include="VievModel\Users_f\UserInfoWindowVM.cs" />
     <Compile Include="VievModel\Users_f\UsersVM.cs" />
     <Compile Include="VievModel\VievModelBase.cs" />
     <Compile Include="Viev\Clients_f\AddClient.xaml.cs">
@@ -227,6 +229,9 @@
     </Compile>
     <Compile Include="Viev\Users_f\AddUser.xaml.cs">
       <DependentUpon>AddUser.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Viev\Users_f\UserInfoWindow.xaml.cs">
+      <DependentUpon>UserInfoWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Viev\Users_f\UsersWindow.xaml.cs">
       <DependentUpon>UsersWindow.xaml</DependentUpon>
@@ -344,6 +349,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Viev\Users_f\AddUser.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Viev\Users_f\UserInfoWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

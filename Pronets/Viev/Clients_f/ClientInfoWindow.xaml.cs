@@ -44,7 +44,10 @@ namespace Pronets.Viev.Clients_f
         {
             cbxAllNomenclature.IsChecked = false;
         }
-
+        private void CmbWarranty_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            cbxAllWarrantys.IsChecked = false;
+        }
         #region Выделить текст в текстбоксе
         private bool isFocused = false;
         private void TbxSearch_GotFocus(object sender, RoutedEventArgs e)
@@ -60,8 +63,26 @@ namespace Pronets.Viev.Clients_f
                 (sender as TextBox).SelectAll();
             }
         }
+
+
         #endregion
 
-       
+        private void CbxAllDocument_Checked(object sender, RoutedEventArgs e)
+        {
+            cmbDucuments.SelectedItem = null;
+            cbxAllDocument.IsChecked = true;
+        }
+
+        private void CbxAllNomenclature_Checked(object sender, RoutedEventArgs e)
+        {
+            cmbNomenclature.SelectedItem = null;
+            cbxAllNomenclature.IsChecked = true;
+        }
+
+        private void CbxAllWarrantys_Checked(object sender, RoutedEventArgs e)
+        {
+            cmbWarranty.SelectedItem = null;
+            cbxAllWarrantys.IsChecked = true;
+        }
     }
 }

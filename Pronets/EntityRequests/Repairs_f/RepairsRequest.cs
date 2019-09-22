@@ -91,58 +91,280 @@ namespace Pronets.EntityRequests.Repairs_f
             }
             return v_Repairs;
         }
-        public static ObservableCollection<v_Repairs> FillList(int clientId, string status)
+
+        #region Sorting by client
+        public static ObservableCollection<v_Repairs> SortList(int clientId, string status = null)
+        {
+            using (var db = new PronetsDataBaseEntities())
+            {
+                if (v_Repairs != null)
+                    v_Repairs.Clear();
+                if (status != null)
+                {
+                    var result = from repair in db.v_Repairs
+                                 where repair.Client_Id == clientId &&
+                                 repair.Status == status
+                                 select repair;
+                    v_Repairs = new ObservableCollection<v_Repairs>(result);
+                }
+                else
+                {
+                    var result = from repair in db.v_Repairs
+                                 where repair.Client_Id == clientId
+                                 select repair;
+                    v_Repairs = new ObservableCollection<v_Repairs>(result);
+                }
+
+            }
+            return v_Repairs;
+        }
+        public static ObservableCollection<v_Repairs> SortList(int clientId, int documentId, string status = null)
+        {
+            using (var db = new PronetsDataBaseEntities())
+            {
+                if (v_Repairs != null)
+                    v_Repairs.Clear();
+                if (status != null)
+                {
+                    var result = from repair in db.v_Repairs
+                                 where repair.Client_Id == clientId &&
+                                 repair.Status == status && repair.DocumentId == documentId
+                                 select repair;
+                    v_Repairs = new ObservableCollection<v_Repairs>(result);
+                }
+                else
+                {
+                    var result = from repair in db.v_Repairs
+                                 where repair.Client_Id == clientId &&
+                                 repair.DocumentId == documentId
+                                 select repair;
+                    v_Repairs = new ObservableCollection<v_Repairs>(result);
+                }
+
+            }
+            return v_Repairs;
+        }
+        public static ObservableCollection<v_Repairs> SortList(int clientId, string warranty, int documentId, string status = null)
+        {
+            using (var db = new PronetsDataBaseEntities())
+            {
+                if (v_Repairs != null)
+                    v_Repairs.Clear();
+                if (status != null)
+                {
+                    var result = from repair in db.v_Repairs
+                                 where repair.Client_Id == clientId &&
+                                 repair.Status == status && repair.DocumentId == documentId &&
+                                 repair.Warranty == warranty
+                                 select repair;
+                    v_Repairs = new ObservableCollection<v_Repairs>(result);
+                }
+                else
+                {
+                    var result = from repair in db.v_Repairs
+                                 where repair.Client_Id == clientId &&
+                                 repair.DocumentId == documentId &&
+                                 repair.Warranty == warranty
+                                 select repair;
+                    v_Repairs = new ObservableCollection<v_Repairs>(result);
+                }
+
+            }
+            return v_Repairs;
+        }
+        public static ObservableCollection<v_Repairs> SortList(string warranty, int clientId, string status = null)
+        {
+            using (var db = new PronetsDataBaseEntities())
+            {
+                if (v_Repairs != null)
+                    v_Repairs.Clear();
+                if (status != null)
+                {
+                    var result = from repair in db.v_Repairs
+                                 where repair.Client_Id == clientId &&
+                                 repair.Status == status &&
+                                 repair.Warranty == warranty
+                                 select repair;
+                    v_Repairs = new ObservableCollection<v_Repairs>(result);
+                }
+                else
+                {
+                    var result = from repair in db.v_Repairs
+                                 where repair.Client_Id == clientId &&
+                                 repair.Warranty == warranty
+                                 select repair;
+                    v_Repairs = new ObservableCollection<v_Repairs>(result);
+                }
+
+            }
+            return v_Repairs;
+        }
+        public static ObservableCollection<v_Repairs> SortList(int clientId, string nomenclature, string status = null)
+        {
+            using (var db = new PronetsDataBaseEntities())
+            {
+                if (v_Repairs != null)
+                    v_Repairs.Clear();
+                if (status != null)
+                {
+                    var result = from repair in db.v_Repairs
+                                 where repair.Client_Id == clientId &&
+                                 repair.Status == status &&
+                                 repair.Nomenclature == nomenclature
+                                 select repair;
+                    v_Repairs = new ObservableCollection<v_Repairs>(result);
+                }
+                else
+                {
+                    var result = from repair in db.v_Repairs
+                                 where repair.Client_Id == clientId &&
+                                 repair.Nomenclature == nomenclature
+                                 select repair;
+                    v_Repairs = new ObservableCollection<v_Repairs>(result);
+                }
+
+            }
+            return v_Repairs;
+        }
+        public static ObservableCollection<v_Repairs> SortListDocNom(int clientId, int documentId, string nomenclature, string status = null)
+        {
+            using (var db = new PronetsDataBaseEntities())
+            {
+                if (v_Repairs != null)
+                    v_Repairs.Clear();
+                if (status != null)
+                {
+                    var result = from repair in db.v_Repairs
+                                 where repair.Client_Id == clientId &&
+                                 repair.Status == status &&
+                                 repair.DocumentId == documentId &&
+                                 repair.Nomenclature == nomenclature
+                                 select repair;
+                    v_Repairs = new ObservableCollection<v_Repairs>(result);
+                }
+                else
+                {
+                    var result = from repair in db.v_Repairs
+                                 where repair.Client_Id == clientId &&
+                                 repair.DocumentId == documentId &&
+                                 repair.Nomenclature == nomenclature
+                                 select repair;
+                    v_Repairs = new ObservableCollection<v_Repairs>(result);
+                }
+
+            }
+            return v_Repairs;
+        }
+        public static ObservableCollection<v_Repairs> SortListWarNom(int clientId, string warranty, string nomenclature, string status = null)
+        {
+            using (var db = new PronetsDataBaseEntities())
+            {
+                if (v_Repairs != null)
+                    v_Repairs.Clear();
+                if (status != null)
+                {
+                    var result = from repair in db.v_Repairs
+                                 where repair.Client_Id == clientId &&
+                                 repair.Status == status &&
+                                 repair.Warranty == warranty &&
+                                 repair.Nomenclature == nomenclature
+                                 select repair;
+                    v_Repairs = new ObservableCollection<v_Repairs>(result);
+                }
+                else
+                {
+                    var result = from repair in db.v_Repairs
+                                 where repair.Client_Id == clientId &&
+                                 repair.Warranty == warranty &&
+                                 repair.Nomenclature == nomenclature
+                                 select repair;
+                    v_Repairs = new ObservableCollection<v_Repairs>(result);
+                }
+
+            }
+            return v_Repairs;
+        }
+        public static ObservableCollection<v_Repairs> SortList(int clientId, int documentId, string nomenclature, string warranty, string status = null)
+        {
+            using (var db = new PronetsDataBaseEntities())
+            {
+                if (v_Repairs != null)
+                    v_Repairs.Clear();
+                if (status != null)
+                {
+                    var result = from repair in db.v_Repairs
+                                 where repair.Client_Id == clientId &&
+                                 repair.Status == status &&
+                                 repair.DocumentId == documentId
+                                 && repair.Nomenclature == nomenclature &&
+                                 repair.Warranty == warranty
+                                 select repair;
+                    v_Repairs = new ObservableCollection<v_Repairs>(result);
+                }
+                else
+                {
+                    var result = from repair in db.v_Repairs
+                                 where repair.Client_Id == clientId &&
+                                 repair.DocumentId == documentId &&
+                                 repair.Nomenclature == nomenclature &&
+                                 repair.Warranty == warranty
+                                 select repair;
+                    v_Repairs = new ObservableCollection<v_Repairs>(result);
+
+                }
+
+            }
+            return v_Repairs;
+        }
+
+        #endregion
+
+        #region Sorting by User
+        public static ObservableCollection<v_Repairs> SortUserList(int userId)
         {
             using (var db = new PronetsDataBaseEntities())
             {
                 if (v_Repairs != null)
                     v_Repairs.Clear();
                 var result = from repair in db.v_Repairs
-                             where repair.Client_Id == clientId && repair.Status == status
+                             where repair.EngineerId == userId
                              select repair;
                 v_Repairs = new ObservableCollection<v_Repairs>(result);
             }
             return v_Repairs;
         }
-        public static ObservableCollection<v_Repairs> FillList(int clientId, string status, int documentId)
+        public static ObservableCollection<v_Repairs> SortUserList(int userId, DateTime firstDate, DateTime secondDate)
         {
             using (var db = new PronetsDataBaseEntities())
             {
                 if (v_Repairs != null)
                     v_Repairs.Clear();
                 var result = from repair in db.v_Repairs
-                             where repair.Client_Id == clientId && repair.Status == status && repair.DocumentId == documentId
+                             where repair.EngineerId == userId &&
+                             repair.Repair_Date >= firstDate && repair.Repair_Date <= secondDate
                              select repair;
                 v_Repairs = new ObservableCollection<v_Repairs>(result);
             }
             return v_Repairs;
         }
-        public static ObservableCollection<v_Repairs> FillList(int clientId, string status, string nomenclature)
+
+        public static ObservableCollection<v_Repairs> SortUserList(int userId, DateTime firstDate, DateTime secondDate, string category)
         {
             using (var db = new PronetsDataBaseEntities())
             {
                 if (v_Repairs != null)
                     v_Repairs.Clear();
                 var result = from repair in db.v_Repairs
-                             where repair.Client_Id == clientId && repair.Status == status && repair.Nomenclature == nomenclature
+                             where repair.EngineerId == userId &&
+                             repair.Repair_Category == category &&
+                             repair.Repair_Date >= firstDate && repair.Repair_Date <= secondDate
                              select repair;
                 v_Repairs = new ObservableCollection<v_Repairs>(result);
             }
             return v_Repairs;
         }
-        public static ObservableCollection<v_Repairs> FillList(int clientId, string status, int documentId, string nomenclature)
-        {
-            using (var db = new PronetsDataBaseEntities())
-            {
-                if (v_Repairs != null)
-                    v_Repairs.Clear();
-                var result = from repair in db.v_Repairs
-                             where repair.Client_Id == clientId && repair.Status == status && repair.DocumentId == documentId && repair.Nomenclature == nomenclature
-                             select repair;
-                v_Repairs = new ObservableCollection<v_Repairs>(result);
-            }
-            return v_Repairs;
-        }
+        #endregion
+
 
         public static Repairs GetRepair(int repairId)
         {
@@ -228,6 +450,16 @@ namespace Pronets.EntityRequests.Repairs_f
 
             }
         }
+        public static void EditItemClient(int documentID, int clientId)
+        {
+            using (var db = new PronetsDataBaseEntities())
+            {
+                var result = db.Repairs.Where(r => r.DocumentId == documentID).ToList();
+                result.ForEach(c => c.Client = clientId);
+                db.SaveChanges();
+
+            }
+        }
         public static void RemoveFromBase(Repairs repair, out bool isExeption)
         {
             isExeption = true;
@@ -295,7 +527,7 @@ namespace Pronets.EntityRequests.Repairs_f
                                   u.Note.Contains(word) ||
                                   u.Repair_Category.Contains(word)
                                   select u;
-               
+
                 v_Repairs = new ObservableCollection<v_Repairs>(searchItems);
             }
             return v_Repairs;

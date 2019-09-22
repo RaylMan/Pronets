@@ -6,15 +6,16 @@
         xmlns:local="clr-namespace:Pronets.Viev.Users_f"
         xmlns:vm="clr-namespace:Pronets.VievModel.Users_f"
         mc:Ignorable="d"
-        Title="Работники" MinHeight="450" MinWidth="950" Height="450" Width="950" WindowStartupLocation="CenterScreen" Background="LightSlateGray">
+        Title="Работники" MinHeight="450" MinWidth="500" Height="450" Width="500" Background="Gainsboro" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Window.DataContext>
         <vm:UsersVM/>
     </Window.DataContext>
     <Grid Margin="5">
         <Grid.RowDefinitions>
+            <RowDefinition Height="30" ></RowDefinition>
             <RowDefinition ></RowDefinition>
         </Grid.RowDefinitions>
-
+        <!--Row 0-->
         <TextBox x:Name="txbSearch" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"  Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Width="150">
             <TextBox.InputBindings>
                 <KeyBinding 
@@ -26,44 +27,39 @@
         <Button x:Name="btnSearch" Grid.Row="0" Content="Поиск" Command="{Binding SearchCommand}"  CommandParameter="{Binding ElementName=txbSearch}" HorizontalAlignment="Left" Margin="160,5,0,0" VerticalAlignment="Top" />
         <Button x:Name="btnVievData" Grid.Row="0" Content="Все работники" Command="{Binding FillListCommand}" HorizontalAlignment="Left" Margin="205,5,0,0" VerticalAlignment="Top" />
         <Button x:Name="btnAdd" Grid.Row="0" Content="Добавить работника" HorizontalAlignment="Left" Margin="297,5,0,0" VerticalAlignment="Top" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type local:AddUser}" />
-        <Label Grid.Row="0" Content="После редактирования колонок, необходимо нажать Enter, а затем кнопку Редактировать"  HorizontalAlignment="Left" Margin="422,5,-22,0" VerticalAlignment="Top"/>
-
-        <DataGrid x:Name="dataGrid" ItemsSource="{Binding Users, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0"  Margin="0,35,0,0" AutoGenerateColumns="False" SelectedIndex="{Binding SelectedIndex}" SelectedValue="{Binding SelectedItem}" >
+        <Button x:Name="btnDelete" Grid.Row="0" Content="Удалить" Command="{Binding RemoveCommand}" HorizontalAlignment="Left" Margin="420,5,0,0" VerticalAlignment="Top"/>
+        <!--Row 1-->
+        <DataGrid x:Name="dataGrid" ItemsSource="{Binding Users, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1"  Margin="5" AutoGenerateColumns="False" 
+                  SelectedIndex="{Binding SelectedIndex}" SelectedValue="{Binding SelectedItem}"  SelectionMode="Single"  
+                  HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999" >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding Path=UserId, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Логин" Binding="{Binding Path=Login, UpdateSourceTrigger=PropertyChanged}" />
-                <DataGridTextColumn Header="Пароль" Binding="{Binding Path=Password, UpdateSourceTrigger=PropertyChanged}" />
-                <DataGridTextColumn Header="Уровень Доступа" Binding="{Binding Path=Position, UpdateSourceTrigger=PropertyChanged}" />
-                <DataGridTextColumn Header="Фамилия" Binding="{Binding Path=LastName, UpdateSourceTrigger=PropertyChanged}" />
-                <DataGridTextColumn Header="Имя" Binding="{Binding Path=FirstName, UpdateSourceTrigger=PropertyChanged}" />
-                <DataGridTextColumn Header="Отчество" Binding="{Binding Path=Patronymic, UpdateSourceTrigger=PropertyChanged}" />
-                
-                <DataGridTemplateColumn Header="Дата Рождения">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Birthday, UpdateSourceTrigger=PropertyChanged, StringFormat='dd.MM.yyyy'}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                    <DataGridTemplateColumn.CellEditingTemplate>
-                        <DataTemplate>
-                            <DatePicker SelectedDate="{Binding Birthday,UpdateSourceTrigger=PropertyChanged}" DisplayDateStart="01/01/1950" DisplayDateEnd="12/31/2030"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellEditingTemplate>
-                </DataGridTemplateColumn>
-               
-                <DataGridTextColumn Header="Телефон" Binding="{Binding Path=Telephone, UpdateSourceTrigger=PropertyChanged}"  />
-                <DataGridTextColumn Header="Адрес" Binding="{Binding Path=Adress, UpdateSourceTrigger=PropertyChanged}" Width="*" />
-                <DataGridTemplateColumn>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button Content="Удалить" Command="{Binding Path=DataContext.RemoveCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Уровень Доступа" Binding="{Binding Path=Position, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Фамилия" Binding="{Binding Path=LastName, UpdateSourceTrigger=PropertyChanged}" Width="*" MaxWidth="150" IsReadOnly="True">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Имя" Binding="{Binding Path=FirstName, UpdateSourceTrigger=PropertyChanged}" Width="*" MaxWidth="150" IsReadOnly="True">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Телефон" Binding="{Binding Path=Telephone, UpdateSourceTrigger=PropertyChanged}" MaxWidth="90"  IsReadOnly="True">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
                 <DataGridTemplateColumn >
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="Редактировать" Command="{Binding Path=DataContext.EditCommand, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}" />
+                            <Button Content="Открыть" Click="Button_Click" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
