@@ -263,7 +263,7 @@ namespace Pronets.VievModel.Repairs_f
                         count++;
                 }
             }
-            return count == repairs.Count ? true : false;
+            return count == repairs.Count || count == 0 ? true : false;
         }
         #endregion
 
