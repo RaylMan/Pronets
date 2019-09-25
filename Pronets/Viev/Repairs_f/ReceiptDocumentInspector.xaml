@@ -10,7 +10,8 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
             <RowDefinition Height="100"/>
-            <RowDefinition/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="180"/>
         </Grid.RowDefinitions>
         <!--Row 0-->
         <TextBlock  Grid.Row="0" TextAlignment="Center" FontSize="18" Text="{Binding Id}"/>
@@ -48,10 +49,21 @@
         <Label Content="Дата отправки" Margin="0,52,5,21" HorizontalAlignment="Left" Grid.Row="1"/>
         <DatePicker HorizontalAlignment="Left" Margin="5,76,0,0" Grid.Row="1" VerticalAlignment="Top" Width="156" SelectedDate="{Binding Path=DepartureDate,
             UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}"/>
+        <Label Content="Поиск по серийному номеру"  HorizontalAlignment="Right" Height="28" Margin="0,5,26,0" VerticalAlignment="Top" Grid.Row="1"/>
+        <TextBox x:Name="tbxSearch" HorizontalAlignment="Right" Height="23" Margin="0,28,10,0" TextWrapping="Wrap"
+                     Text="{Binding SearchString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     ToolTip="Search" VerticalAlignment="Top" Width="184" Grid.Row="1"/>
         <!--Row 2-->
+
         <DataGrid x:Name="Docunents1" ItemsSource="{Binding V_Repairs}" SelectedIndex="{Binding SelectedIndex}" SelectedValue="{Binding SelectedItem}" 
-                  FrozenColumnCount="4"  Grid.Row="2" Margin="5" AutoGenerateColumns="False" SelectionMode="Single" HorizontalGridLinesBrush="#FF999999"
+                  FrozenColumnCount="4"  Grid.Row="2" Margin="5,5,5,0" AutoGenerateColumns="False" SelectionMode="Single" HorizontalGridLinesBrush="#FF999999"
                   VerticalGridLinesBrush="#FF999999" >
+
+            <DataGrid.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="White" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#0078D7"/>
+            </DataGrid.Resources>
+
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
                     <Style.Triggers>
@@ -132,7 +144,81 @@
                 <DataGridTextColumn Header="Клиент" Binding="{Binding Client_Name}" IsReadOnly="True"/>
             </DataGrid.Columns>
         </DataGrid>
+        <!--Row 3-->
+        <TextBlock Text="    Повторные ремонты    " Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Top" Height="20"  Grid.RowSpan="2"/>
 
-
+        <DataGrid x:Name="Docunents2" ItemsSource="{Binding V_RepairsCopy}" FrozenColumnCount="3"  Grid.Row="3" Margin="5,18,5,10"
+                  AutoGenerateColumns="False" SelectionMode="Single" HorizontalGridLinesBrush="#FF999999"
+                  VerticalGridLinesBrush="#FF999999" >
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Status}" Value="Готов">
+                            <Setter Property="Background" Value="Lime"></Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Status}" Value="Донор">
+                            <Setter Property="Background" Value="Tomato"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Status}" Value="Не смогли починить">
+                            <Setter Property="Background" Value="Tomato"></Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Status}" Value="Утерян">
+                            <Setter Property="Background" Value="Red"></Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Status}" Value="В ремонте">
+                            <Setter Property="Background" Value="#FFF9F14C"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Status}" Value="Отправлен заказчику">
+                            <Setter Property="Background" Value="DarkGray"></Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="№" Binding="{Binding RepairId}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Наименование" Binding="{Binding Nomenclature}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Серийный Номер" Binding="{Binding Serial_Number}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Заявленная неисправность" Binding="{Binding Claimed_Malfunction}" MaxWidth="200" IsReadOnly="True">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                            <Setter Property="TextBox.MaxLength" Value="200"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Дата приема" Binding="{Binding Date_Of_Receipt, StringFormat='dd.MM.yyyy'}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Дата отправки" Binding="{Binding Departure_Date, StringFormat='dd.MM.yyyy'}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Гарантия" Binding="{Binding Warranty}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Выявленная неисправность" Binding="{Binding Identifie_Fault}" MaxWidth="200" IsReadOnly="True">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                            <Setter Property="TextBox.MaxLength" Value="200"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Проделанный ремонт" Binding="{Binding Work_Done}" MaxWidth="200" IsReadOnly="True">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                            <Setter Property="TextBox.MaxLength" Value="200"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Категория ремонта" Binding="{Binding Repair_Category}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Engineer" Binding="{Binding Engineer}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Дата ремонта" Binding="{Binding Repair_Date, StringFormat='dd.MM.yyyy'}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Статус ремонта" Binding="{Binding Status}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Заметка" Binding="{Binding Note}" MaxWidth="200"  IsReadOnly="True">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                            <Setter Property="TextBox.MaxLength" Value="200"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Клиент" Binding="{Binding Client_Name}" IsReadOnly="True"/>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Window>

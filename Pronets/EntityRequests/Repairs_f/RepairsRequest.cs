@@ -365,6 +365,20 @@ namespace Pronets.EntityRequests.Repairs_f
         }
         #endregion
 
+        public static ObservableCollection<v_Repairs> GetCopy(int repairId, string serialNumber)
+        {
+            ObservableCollection<v_Repairs> v_RepairsCopy = new ObservableCollection<v_Repairs>();
+
+            using (var db = new PronetsDataBaseEntities())
+            {
+                var result = from repair in db.v_Repairs
+                             where repair.Serial_Number == serialNumber &&
+                             repair.RepairId != repairId
+                             select repair;
+                v_RepairsCopy = new ObservableCollection<v_Repairs>(result);
+            }
+            return v_RepairsCopy;
+        }
 
         public static Repairs GetRepair(int repairId)
         {
@@ -478,6 +492,26 @@ namespace Pronets.EntityRequests.Repairs_f
                         MessageBox.Show("Невозможно удалить , так как есть связи с данными!", "Ошибка");
                         isExeption = false;
                     }
+                }
+            }
+        }
+        public static void RemoveFromBaseById(int repairId, out bool isExeption)
+        {
+            isExeption = true;
+            using (var db = new PronetsDataBaseEntities())
+            {
+                try
+                {
+                    var result = db.Repairs.Where(r => r.RepairId == repairId).FirstOrDefault();
+                    repair = (Repairs)result;
+                    db.Repairs.Attach(repair);
+                    db.Repairs.Remove(repair);
+                    db.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("Невозможно удалить , так как есть связи с данными!", "Ошибка");
+                    isExeption = false;
                 }
             }
         }

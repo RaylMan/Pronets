@@ -5,14 +5,22 @@ using System.Collections.ObjectModel;
 using System.Data;
 using System.Reflection;
 using Pronets.Navigation.WindowsNavigation;
+using System.Xml.Serialization;
 
 namespace Pronets.VievModel
 {
     public class VievModelBase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        
 
+        private bool _isDirty = false;
+
+        [XmlIgnore]
+        public bool IsDirty
+        {
+            get { return _isDirty; }
+            set { _isDirty = value; }
+        }
         public void RaisedPropertyChanged([CallerMemberName]string PropertyName = "")
         {
             if (PropertyChanged != null)
@@ -22,6 +30,16 @@ namespace Pronets.VievModel
         {
             e.Handled = IsTextNumeric(e.Text);
 
+        }
+        protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] String propertyName = null)
+        {
+            if (Equals(storage, value))
+                return false;
+
+            _isDirty = true;
+            storage = value;
+            this.RaisedPropertyChanged(propertyName);
+            return true;
         }
         private static bool IsTextNumeric(string str)
         {

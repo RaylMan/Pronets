@@ -8,9 +8,12 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace Pronets.VievModel.Repairs_f
@@ -124,8 +127,8 @@ namespace Pronets.VievModel.Repairs_f
                 RaisedPropertyChanged("ClientName");
             }
         }
-        private Repairs selectedItem;
-        public Repairs SelectedItem
+        private v_Repairs selectedItem;
+        public v_Repairs SelectedItem
         {
             get { return selectedItem; }
             set
@@ -150,6 +153,7 @@ namespace Pronets.VievModel.Repairs_f
                 GetStatus();
                 GetClient();
                 v_Repairs = RepairsRequest.FillList(document.Document_Id);
+                GetCopyRepairs();
                 DepartureDate = DateTime.Now;
             }
             else
@@ -249,7 +253,7 @@ namespace Pronets.VievModel.Repairs_f
                 {
                     MessageBox.Show(e.Message);
                 }
-               
+
             }
         }
         public bool RepairsChecked(ObservableCollection<v_Repairs> repairs) // проверка на все IsChecked для установки статуса ремонта
@@ -293,14 +297,65 @@ namespace Pronets.VievModel.Repairs_f
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    RepairsRequest.RemoveFromBase(SelectedItem, out bool ex);
+                    RepairsRequest.RemoveFromBaseById(SelectedItem.RepairId, out bool ex);
                     if (ex)
-                        repairs.RemoveAt(selectedIndex);
+                        v_Repairs.RemoveAt(selectedIndex);
                 }
 
             }
             else
                 MessageBox.Show("Необходимо выбрать элемент в списке!", "Ошибка");
+        }
+        #endregion
+
+        #region Search
+        private string _searchString;
+
+        public string SearchString
+        {
+            get { return _searchString; }
+            set
+            {
+                if (SetProperty(ref _searchString, value))
+                {
+
+                    PropertyInfo prop = typeof(v_Repairs).GetProperty("Serial_Number");
+                    if (prop != null)
+                    {
+                        if (
+                            v_Repairs.Any(
+                                p =>
+                                    prop.GetValue(p)
+                                        .ToString()
+                                        .ToLower()
+                                        .Contains(_searchString.ToLower())))
+                        {
+                            SelectedItem =
+                                v_Repairs.First(
+                                    p =>
+                                        prop.GetValue(p)
+                                            .ToString()
+                                            .ToLower()
+                                            .Contains(_searchString.ToLower()));
+                        }
+                    }
+                }
+            }
+        }
+        #endregion
+        #region Copy Repairs
+        private void GetCopyRepairs()
+        {
+            if (v_RepairsCopy != null)
+                v_RepairsCopy.Clear();
+
+            foreach (var repair in v_Repairs)
+            {
+                foreach (var copy in RepairsRequest.GetCopy(repair.RepairId, repair.Serial_Number))
+                {
+                    v_RepairsCopy.Add(copy);
+                }
+            }
         }
         #endregion
     }

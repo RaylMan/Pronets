@@ -4,6 +4,7 @@ using Pronets.VievModel.Repairs_f;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,6 +32,8 @@ namespace Pronets.Viev.Repairs_f
                 this.document = document;
             DataContext = new ReceiptDocumentInspectorVM(document);
         }
+
+        public object My_dataGrid { get; private set; }
 
         public IEnumerable<DataGridRow> GetDataGridRows(DataGrid grid)
         {

@@ -35,6 +35,17 @@ namespace Pronets.Model
                 RaisedPropertyChanged("V_Repairs");
             }
         }
+        protected ObservableCollection<v_Repairs> v_RepairsCopy = new ObservableCollection<v_Repairs>();
+        public ObservableCollection<v_Repairs> V_RepairsCopy
+        {
+            get { return v_RepairsCopy; }
+
+            set
+            {
+                v_RepairsCopy = value;
+                RaisedPropertyChanged("V_RepairsCopy");
+            }
+        }
         protected int? repairId;
         public int? RepairId
         {
