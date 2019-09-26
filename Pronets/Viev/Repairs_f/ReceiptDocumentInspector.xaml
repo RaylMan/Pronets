@@ -178,6 +178,7 @@
                 <DataGridTextColumn Header="№" Binding="{Binding RepairId}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Наименование" Binding="{Binding Nomenclature}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Серийный Номер" Binding="{Binding Serial_Number}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="№ Документа" Binding="{Binding DocumentId}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Заявленная неисправность" Binding="{Binding Claimed_Malfunction}" MaxWidth="200" IsReadOnly="True">
                     <DataGridTextColumn.ElementStyle>
                         <Style>
