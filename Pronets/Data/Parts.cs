@@ -14,11 +14,16 @@ namespace Pronets.Data
     
     public partial class Parts
     {
-        public int PartId { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Parts()
+        {
+            this.PartsOrder = new HashSet<PartsOrder>();
+        }
+    
         public string Part_Name { get; set; }
         public Nullable<decimal> Part_Price { get; set; }
-        public Nullable<int> DocumentId { get; set; }
     
-        public virtual ReceiptOfParts ReceiptOfParts { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PartsOrder> PartsOrder { get; set; }
     }
 }

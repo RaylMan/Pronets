@@ -1,0 +1,64 @@
+﻿<Window x:Class="Pronets.Viev.Other.PartsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:Pronets.VievModel.Other"
+        xmlns:local="clr-namespace:Pronets.Viev.Other"
+        mc:Ignorable="d"
+        Title="Заказ запчастей" Height="595" Width="1020" MinHeight="595" MinWidth="1020" Background="Gainsboro" WindowStartupLocation="CenterScreen">
+    <Window.DataContext>
+        <vm:PartsWindowVM/>
+    </Window.DataContext>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <!--Parts-->
+        <Grid Grid.Row="0" Grid.Column="0" Margin="5">
+            <DataGrid ItemsSource="{Binding Parts}" AutoGenerateColumns="False" SelectedIndex="{Binding SelectedIndex}" SelectedValue="{Binding SelectedPart}" 
+                      SelectionMode="Single" HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999" Width="300" HorizontalAlignment="Left">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Название" Binding="{Binding Path=Part_Name, UpdateSourceTrigger=PropertyChanged}" Width="*" IsReadOnly="True" />
+                    <DataGridTextColumn Header="Цена" Binding="{Binding Path=Part_Price, UpdateSourceTrigger=PropertyChanged}" Width="70" IsReadOnly="True"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <Label Content=" Название запчасти " HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,50,0" Height="23"/>
+            <TextBox Text="{Binding Part_Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Right" MaxLength="49" VerticalAlignment="Top" Width="150" Margin="0,21,21,0"/>
+            <Label Content=" Цена " HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,33,126,0" Height="26"/>
+            <TextBox Text="{Binding Part_Price, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Right" VerticalAlignment="Top" Width="150" Margin="0,54,21,0"/>
+            <Button Content=" Добавить " Command="{Binding AddPartCommand}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,84,68,0" />
+            <Button Content=" Удалить " Command="{Binding RemovePartCommand}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,109,68,0" Width="63" />
+        </Grid>
+        <!--Receipt of Parts-->
+        <Grid Grid.Row="1" Grid.Column="0" Margin="5">
+            <DataGrid ItemsSource="{Binding ReceiptOfParts}" AutoGenerateColumns="False" SelectedIndex="{Binding SelectedIndex}" SelectedValue="{Binding SelectedDocument}" 
+                      SelectionMode="Single" HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999" HorizontalAlignment="Left">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="№ заказа" Binding="{Binding Path=Id, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" />
+                    <DataGridTextColumn Header="Дата заказа" Binding="{Binding Path=Order_Date, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Дата приема" Binding="{Binding Path=Date_Arrival, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Статус" Binding="{Binding Path=Status, UpdateSourceTrigger=PropertyChanged}" Width="*" IsReadOnly="True"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+
+        <!--Parts Order-->
+        <Grid Grid.Column="1" Grid.Row="0" Grid.RowSpan="2">
+            <DataGrid ItemsSource="{Binding PartsOrder}" AutoGenerateColumns="False" SelectedIndex="{Binding SelectedIndex}" SelectedValue="{Binding SelectedOrder}" 
+                      SelectionMode="Single" HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999" Margin="5">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="№" Binding="{Binding Path=OrderId, UpdateSourceTrigger=PropertyChanged}"  />
+                    <DataGridTextColumn Header="Номер документа" Binding="{Binding Path=DocumentId, UpdateSourceTrigger=PropertyChanged}" />
+                    <DataGridTextColumn Header="Запчасть" Binding="{Binding Path=PartName, UpdateSourceTrigger=PropertyChanged}" />
+                    <DataGridTextColumn Header="Количество" Binding="{Binding Path=Count, UpdateSourceTrigger=PropertyChanged}" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </Grid>
+</Window>

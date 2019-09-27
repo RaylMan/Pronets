@@ -9,6 +9,7 @@
         xmlns:users="clr-namespace:Pronets.Viev.Users_f"
         xmlns:nom="clr-namespace:Pronets.Viev.Nomenclature_f"
         xmlns:repair="clr-namespace:Pronets.Viev.Repairs_f"
+        xmlns:other="clr-namespace:Pronets.Viev.Other"
         mc:Ignorable="d"
         Title="WorkWindowAdmin" Height="595" Width="1020" MinHeight="595" MinWidth="1020" WindowStartupLocation="CenterScreen" Closing="Window_Closing">
     <Window.DataContext>
@@ -51,7 +52,7 @@
             <MenuItem Header="Оборудование">
                 <MenuItem Name="Nomenclature" Header="Номенклатура" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type nom:NomenclatureWindow}"></MenuItem>
                 <MenuItem Name="Nomenclature_Types" Header="Типы оборудования" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type nom:Nomenclature_TypesWindow}"></MenuItem>
-                <MenuItem Name="Parts" Header="Запчасти" Background="red"></MenuItem>
+                <MenuItem Name="Parts" Header="Запчасти" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type other:PartsWindow}"></MenuItem>
             </MenuItem>
             <MenuItem Header="Ремонт">
                 <MenuItem Name="Repairs" Header="База ремонтов" Background="red"></MenuItem>

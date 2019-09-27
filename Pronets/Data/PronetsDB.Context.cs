@@ -29,7 +29,6 @@ namespace Pronets.Data
         public virtual DbSet<No_in_Repairs> No_in_Repairs { get; set; }
         public virtual DbSet<Nomenclature> Nomenclature { get; set; }
         public virtual DbSet<Nomenclature_Types> Nomenclature_Types { get; set; }
-        public virtual DbSet<Parts> Parts { get; set; }
         public virtual DbSet<Positions> Positions { get; set; }
         public virtual DbSet<ReceiptDocument> ReceiptDocument { get; set; }
         public virtual DbSet<Repair_Categories> Repair_Categories { get; set; }
@@ -39,7 +38,9 @@ namespace Pronets.Data
         public virtual DbSet<v_Receipt_Document> v_Receipt_Document { get; set; }
         public virtual DbSet<Defects> Defects { get; set; }
         public virtual DbSet<Engineers> Engineers { get; set; }
-        public virtual DbSet<ReceiptOfParts> ReceiptOfParts { get; set; }
         public virtual DbSet<v_Repairs> v_Repairs { get; set; }
+        public virtual DbSet<Parts> Parts { get; set; }
+        public virtual DbSet<PartsOrder> PartsOrder { get; set; }
+        public virtual DbSet<ReceiptOfParts> ReceiptOfParts { get; set; }
     }
 }

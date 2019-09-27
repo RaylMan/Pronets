@@ -9,7 +9,6 @@
         <EntityTypeShape EntityType="PronetsDBModel.No_in_Repairs" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="PronetsDBModel.Nomenclature" Width="1.5" PointX="3" PointY="15.625" IsExpanded="true" />
         <EntityTypeShape EntityType="PronetsDBModel.Nomenclature_Types" Width="1.5" PointX="0.75" PointY="16" IsExpanded="true" />
-        <EntityTypeShape EntityType="PronetsDBModel.Parts" Width="1.5" PointX="7.75" PointY="4.75" IsExpanded="true" />
         <EntityTypeShape EntityType="PronetsDBModel.Positions" Width="1.5" PointX="1.5" PointY="12.25" IsExpanded="true" />
         <EntityTypeShape EntityType="PronetsDBModel.ReceiptDocument" Width="1.5" PointX="3" PointY="2.5" IsExpanded="true" />
         <EntityTypeShape EntityType="PronetsDBModel.Repair_Categories" Width="1.5" PointX="3" PointY="9.375" IsExpanded="true" />
@@ -27,14 +26,17 @@
         <AssociationConnector Association="PronetsDBModel.FK_Repairs_Statuses" ManuallyRouted="false" />
         <AssociationConnector Association="PronetsDBModel.FK_Repairs_Users_Engineer_" ManuallyRouted="false" />
         <AssociationConnector Association="PronetsDBModel.FK_Repairs_Users_Inspector_" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="PronetsDBModel.v_Receipt_Document" Width="1.5" PointX="8" PointY="7.875" />
+        <EntityTypeShape EntityType="PronetsDBModel.v_Receipt_Document" Width="1.5" PointX="10.25" PointY="8.125" />
         <EntityTypeShape EntityType="PronetsDBModel.Defects" Width="1.5" PointX="10.375" PointY="0.75" />
         <AssociationConnector Association="PronetsDBModel.FK_ReceiptDocument_ReceiptDocument" />
         <EntityTypeShape EntityType="PronetsDBModel.Engineers" Width="1.5" PointX="10.375" PointY="3.875" />
-        <EntityTypeShape EntityType="PronetsDBModel.ReceiptOfParts" Width="1.5" PointX="5.5" PointY="7.75" />
         <AssociationConnector Association="PronetsDBModel.FK_Repairs_Engineers" />
-        <AssociationConnector Association="PronetsDBModel.FK_Parts_ReceiptOfParts" />
-        <EntityTypeShape EntityType="PronetsDBModel.v_Repairs" Width="1.5" PointX="10.375" PointY="6.75" />
+        <EntityTypeShape EntityType="PronetsDBModel.v_Repairs" Width="1.5" PointX="12.375" PointY="6.5" />
+        <EntityTypeShape EntityType="PronetsDBModel.Parts" Width="1.5" PointX="4.375" PointY="19.25" />
+        <EntityTypeShape EntityType="PronetsDBModel.PartsOrder" Width="1.5" PointX="6.625" PointY="11.875" />
+        <EntityTypeShape EntityType="PronetsDBModel.ReceiptOfParts" Width="1.5" PointX="4.375" PointY="12" />
+        <AssociationConnector Association="PronetsDBModel.FK_PartsOrder_Parts" />
+        <AssociationConnector Association="PronetsDBModel.FK_PartsOrder_ReceiptOfParts" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
