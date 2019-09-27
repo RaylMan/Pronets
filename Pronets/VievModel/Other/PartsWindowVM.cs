@@ -274,5 +274,52 @@ namespace Pronets.VievModel.Other
         #endregion
 
         #endregion
+
+        #region Parts Order
+        #region Add Part
+        private ICommand addPartOrder;
+        public ICommand AddPartOrderCommand
+        {
+            get
+            {
+                if (addPartOrder == null)
+                {
+                    addPartOrder = new RelayCommand(new Action<object>(AddPartOrder));
+                }
+                return addPartOrder;
+            }
+            set
+            {
+                addPart = value;
+                RaisedPropertyChanged("AddPartOrderCommand");
+            }
+        }
+        public void AddPartOrder(object Parameter) // not work!!!!
+        {
+            if (!string.IsNullOrWhiteSpace(Part_Name))
+            {
+                PartsOrder order = new PartsOrder
+                {
+                    DocumentId = documentId,
+                    PartName = partName,
+                    Count = count
+                };
+
+                var result = MessageBox.Show("Вы Действительно хотете добавить?\nПроверьте правильность данных!", "Создание экземпляра", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.Yes)
+                {
+                    PartsRequest.AddToBase(part, out bool ex);
+                    if (ex) //если ex == true, нет копии в базе, происходит запись в таблицу viev
+                    {
+                        parts.Add(part);
+                    }
+                    Part_Name = string.Empty;
+                    Part_Price = 0;
+                }
+            }
+            else
+                MessageBox.Show("Введите название запчасти", "Ошибка");
+        }
+        #endregion
     }
 }
