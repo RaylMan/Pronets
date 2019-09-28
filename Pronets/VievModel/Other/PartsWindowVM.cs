@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -14,7 +15,8 @@ namespace Pronets.VievModel.Other
     public class PartsWindowVM : VievModelBase
     {
         #region Receipt Of Parts Properties
-        private ObservableCollection<ReceiptOfParts> receiptOfParts;
+        ReceiptOfParts document = new ReceiptOfParts();
+        private ObservableCollection<ReceiptOfParts> receiptOfParts = new ObservableCollection<ReceiptOfParts>();
         public ObservableCollection<ReceiptOfParts> ReceiptOfParts
         {
             get { return receiptOfParts; }
@@ -65,6 +67,16 @@ namespace Pronets.VievModel.Other
                 RaisedPropertyChanged("Status");
             }
         }
+        private int selectedReceiptIndex;
+        public int SelectedReceiptIndex
+        {
+            get { return selectedReceiptIndex; }
+            set
+            {
+                selectedReceiptIndex = value;
+                RaisedPropertyChanged("SelectedReceiptIndex");
+            }
+        }
         private ReceiptOfParts selectedDocument;
         public ReceiptOfParts SelectedDocument
         {
@@ -72,13 +84,24 @@ namespace Pronets.VievModel.Other
             set
             {
                 selectedDocument = value;
+                if (selectedDocument != null)
+                {
+                    document = selectedDocument;
+                    SelectedStatus = document.Status;
+                    OrderTitleName = $"Номер заказа: {document.Id}";
+                    partsOrder.Clear();
+                    foreach (var order in PartsOrderRequest.FillList(selectedDocument.Id))
+                    {
+                        partsOrder.Add(order);
+                    }
+                }
                 RaisedPropertyChanged("SelectedDocument");
             }
         }
         #endregion
 
         #region Part order properties
-        private ObservableCollection<PartsOrder> partsOrder;
+        private ObservableCollection<PartsOrder> partsOrder = new ObservableCollection<PartsOrder>();
         public ObservableCollection<PartsOrder> PartsOrder
         {
             get { return partsOrder; }
@@ -129,6 +152,16 @@ namespace Pronets.VievModel.Other
                 RaisedPropertyChanged("Count");
             }
         }
+        private int selectedOrderIndex;
+        public int SelectedOrderIndex
+        {
+            get { return selectedOrderIndex; }
+            set
+            {
+                selectedOrderIndex = value;
+                RaisedPropertyChanged("SelectedOrderIndex");
+            }
+        }
         private PartsOrder selectedOrder;
         public PartsOrder SelectedOrder
         {
@@ -139,10 +172,21 @@ namespace Pronets.VievModel.Other
                 RaisedPropertyChanged("SelectedOrder");
             }
         }
+
+        private string orderTitleName;
+        public string OrderTitleName
+        {
+            get { return orderTitleName; }
+            set
+            {
+                orderTitleName = value;
+                RaisedPropertyChanged("OrderTitleName");
+            }
+        }
         #endregion
 
         #region Parts properties
-        private ObservableCollection<Parts> parts;
+        private ObservableCollection<Parts> parts = new ObservableCollection<Parts>();
         public ObservableCollection<Parts> Parts
         {
             get { return parts; }
@@ -185,10 +229,38 @@ namespace Pronets.VievModel.Other
         }
         #endregion
 
+        #region Other properties
+        private List<string> statuses;
+        public List<string> Statuses
+        {
+            get
+            {
+                return statuses = new List<string>
+                    {
+                        "Ожидает заказа", "Заказано", "Принято", "Отказ"
+                    };
+            }
+            set
+            {
+                statuses = value;
+                RaisedPropertyChanged("Statuses");
+            }
+        }
+        private string selectedStatus;
+        public string SelectedStatus
+        {
+            get { return selectedStatus; }
+            set
+            {
+                selectedStatus = value;
+                RaisedPropertyChanged("SelectedStatus");
+            }
+        }
+        #endregion
+
         public PartsWindowVM()
         {
             receiptOfParts = ReceiptOfPartsRequest.FillList();
-            partsOrder = PartsOrderRequest.FillList();
             parts = PartsRequest.FillList();
         }
         #region Parts
@@ -273,6 +345,76 @@ namespace Pronets.VievModel.Other
         }
         #endregion
 
+        #region Add to Order
+        private ICommand doubleClickCommand;
+        public ICommand DoubleClickCommand
+        {
+            get
+            {
+                if (doubleClickCommand == null)
+                {
+                    doubleClickCommand = new RelayCommand(new Action<object>(AddToOrder));
+                }
+                return doubleClickCommand;
+            }
+            set
+            {
+                addPart = value;
+                RaisedPropertyChanged("DoubleClickCommand");
+            }
+        }
+        public void AddToOrder(object Parameter)
+        {
+            if (document.Id != 0)
+            {
+                partsOrder.Add(new PartsOrder
+                {
+                    PartName = selectedPart.Part_Name
+                });
+            }
+            else
+            {
+                MessageBox.Show("Необходимо выбрать документ", "Ошибка");
+            }
+        }
+
+        #endregion
+
+        #region Search
+        private string searchString;
+
+        public string SearchString
+        {
+            get { return searchString; }
+            set
+            {
+                if (SetProperty(ref searchString, value))
+                {
+
+                    PropertyInfo prop = typeof(Parts).GetProperty("Part_Name");
+                    if (prop != null)
+                    {
+                        if (
+                            Parts.Any(
+                                p =>
+                                    prop.GetValue(p)
+                                        .ToString()
+                                        .ToLower()
+                                        .Contains(searchString.ToLower())))
+                        {
+                            SelectedPart =
+                                Parts.First(
+                                    p =>
+                                        prop.GetValue(p)
+                                            .ToString()
+                                            .ToLower()
+                                            .Contains(searchString.ToLower()));
+                        }
+                    }
+                }
+            }
+        }
+        #endregion
         #endregion
 
         #region Parts Order
@@ -294,31 +436,67 @@ namespace Pronets.VievModel.Other
                 RaisedPropertyChanged("AddPartOrderCommand");
             }
         }
-        public void AddPartOrder(object Parameter) // not work!!!!
+        public void AddPartOrder(object Parameter)
         {
-            if (!string.IsNullOrWhiteSpace(Part_Name))
+            if (partsOrder != null && document.Id != 0)
             {
-                PartsOrder order = new PartsOrder
-                {
-                    DocumentId = documentId,
-                    PartName = partName,
-                    Count = count
-                };
 
-                var result = MessageBox.Show("Вы Действительно хотете добавить?\nПроверьте правильность данных!", "Создание экземпляра", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                var result = MessageBox.Show("Вы Действительно хотете сохранить?\nПроверьте правильность данных!", "Сохранение", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
                 {
-                    PartsRequest.AddToBase(part, out bool ex);
-                    if (ex) //если ex == true, нет копии в базе, происходит запись в таблицу viev
+                    foreach (var order in partsOrder)
                     {
-                        parts.Add(part);
+                        if (order.OrderId == 0)
+                        {
+                            order.DocumentId = document.Id;
+                            PartsOrderRequest.AddToBase(order);
+                        }
                     }
-                    Part_Name = string.Empty;
-                    Part_Price = 0;
+                    if (selectedStatus == "Принято")
+                    {
+                        document.Status = selectedStatus;
+                        document.Date_Arrival = DateTime.Now.Date;
+                    }
+                    else
+                        document.Status = selectedStatus;
+                    ReceiptOfPartsRequest.EditItem(document);
+                    ReceiptOfParts.Clear();
+                    ReceiptOfParts = ReceiptOfPartsRequest.FillList();
                 }
             }
-            else
-                MessageBox.Show("Введите название запчасти", "Ошибка");
+        }
+        #endregion
+
+        #endregion
+
+        #region Recipe of order
+        private ICommand addRecipe;
+        public ICommand AddRecipeCommand
+        {
+            get
+            {
+                if (addRecipe == null)
+                {
+                    addRecipe = new RelayCommand(new Action<object>(AddRecipe));
+                }
+                return addRecipe;
+            }
+            set
+            {
+                addPart = value;
+                RaisedPropertyChanged("AddRecipeCommand");
+            }
+        }
+        public void AddRecipe(object Parameter)
+        {
+            ReceiptOfParts recipe = new ReceiptOfParts
+            {
+                Order_Date = DateTime.Now.Date,
+                Status = "Ожидает заказа"
+            };
+            ReceiptOfPartsRequest.AddToBase(recipe);
+            receiptOfParts.Clear();
+            receiptOfParts = ReceiptOfPartsRequest.FillList();
         }
         #endregion
     }

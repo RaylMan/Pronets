@@ -219,6 +219,9 @@
     <Compile Include="Viev\Nomenclature_f\Nomenclature_TypesWindow.xaml.cs">
       <DependentUpon>Nomenclature_TypesWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Viev\Other\OvertimeWindow.xaml.cs">
+      <DependentUpon>OvertimeWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Viev\Other\PartsWindow.xaml.cs">
       <DependentUpon>PartsWindow.xaml</DependentUpon>
     </Compile>
@@ -333,6 +336,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Viev\Nomenclature_f\Nomenclature_TypesWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Viev\Other\OvertimeWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

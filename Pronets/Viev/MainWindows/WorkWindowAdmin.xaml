@@ -23,31 +23,31 @@
         </Grid.RowDefinitions>
         <Grid x:Name="work" Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100"></ColumnDefinition>
+                <ColumnDefinition Width="12.667"></ColumnDefinition>
+                <ColumnDefinition Width="70.333"/>
+                <ColumnDefinition Width="22.667"/>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Border Grid.Column="0" Grid.Row="1" BorderBrush="LightGray" BorderThickness="0,0,1,1" Background="{x:Null}"></Border>
-            <Button x:Name="receiptDocumentPage" Content="Приход" VerticalAlignment="Top" Margin="5" Command="{Binding GoToReceiptDocumentCommand}" CommandParameter="{Binding ReceiptDocumentPageVM}" />
-            <Button x:Name="repairsPage" Content="Ремонты" VerticalAlignment="Top" Margin="5,32,5,0" Command="{Binding GoToRepairsPageCommand}" CommandParameter="{Binding RepairsPageVM}"/>
-            <Button x:Name="defects" Content="Дефектовка" VerticalAlignment="Top" Margin="5,59,5,0" Command="{Binding GoToDefectsCommand}" CommandParameter="{Binding DefectsPageVM}" />
-            <Button x:Name="AddDocument" Content="Добавить" VerticalAlignment="Top" Margin="5,89,5,0" Command="{Binding GoToAddRecipeDocumentComand}" CommandParameter="{Binding AddRecipeDocumentVM}" />
+            <Border Grid.Column="0" BorderBrush="LightGray" BorderThickness="0,0,1,1" Background="{x:Null}" Grid.ColumnSpan="3"/>
+            <Button x:Name="receiptDocumentPage" Content="Приход" VerticalAlignment="Top" Margin="5,5,5,0" Command="{Binding GoToReceiptDocumentCommand}" CommandParameter="{Binding ReceiptDocumentPageVM}" Grid.ColumnSpan="3" />
+            <Button x:Name="repairsPage" Content="Ремонт" VerticalAlignment="Top" Margin="5,32,5,0" Command="{Binding GoToRepairsPageCommand}" CommandParameter="{Binding RepairsPageVM}" Grid.ColumnSpan="3"/>
+            <Button x:Name="defects" Content="Дефектовка" VerticalAlignment="Top" Margin="5,59,5,0" Command="{Binding GoToDefectsCommand}" CommandParameter="{Binding DefectsPageVM}" Grid.ColumnSpan="3" />
+            <Button x:Name="AddDocument" Content="Оборудование" VerticalAlignment="Top" Margin="5,89,5,0" Command="{Binding GoToAddRecipeDocumentComand}" CommandParameter="{Binding AddRecipeDocumentVM}" Grid.ColumnSpan="3" />
 
-            <Frame  x:Name="MainFrame" Grid.Column="1" Background="#CCCCCC"/>
+            <Frame  x:Name="MainFrame" Grid.Column="3" Background="#CCCCCC"/>
         </Grid>
 
         <Menu Height="20" Grid.Row="0" VerticalAlignment="top" Grid.ColumnSpan="2" Grid.RowSpan="2">
             <MenuItem Header="Файл">
-                <MenuItem Name="ChangeUser" Header="Смена пользователя" Click="ChangeUser_Click"></MenuItem>
+                <MenuItem Name="Account" Header="Личный кабинет" Click="ChangeUser_Click"></MenuItem>
                 <MenuItem Name="exit" Header="Выход" Click="Exit_Click"></MenuItem>
             </MenuItem>
             <MenuItem Header="Работники">
                 <MenuItem Name="Users" Header="Пользователи" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type users:UsersWindow}"></MenuItem>
-                <MenuItem Name="CalculateWork" Header="Проделанная работа"  Background="red"></MenuItem>
-                <MenuItem Name="WorkTime" Header="Рабочее время" Background="red"></MenuItem>
+                <MenuItem Name="Overtime" Header="Переработка" Command="{Binding OpenWindowCommand}"  CommandParameter="{x:Type other:OvertimeWindow}" Background="red"></MenuItem>
             </MenuItem>
             <MenuItem Header="Клиенты">
                 <MenuItem Name="Clients" Header="Клиенты" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type clients:ClientsWindow}"></MenuItem>
-                <MenuItem Name="ClientsEquipment" Header="Клиентское оборудование"  Background="red"></MenuItem>
             </MenuItem>
             <MenuItem Header="Оборудование">
                 <MenuItem Name="Nomenclature" Header="Номенклатура" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type nom:NomenclatureWindow}"></MenuItem>
@@ -56,7 +56,6 @@
             </MenuItem>
             <MenuItem Header="Ремонт">
                 <MenuItem Name="Repairs" Header="База ремонтов" Background="red"></MenuItem>
-                <MenuItem Name="NoInRepair" Header="Добавить оборудование(Инженер)" Background="red"></MenuItem>
                 <MenuItem Name="Statuses" Header="Статус ремонта" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type repair:StatusesWindow}" ></MenuItem>
                 <MenuItem Name="RepairCategories" Header="Виды ремонта" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type repair:RepairCategoriesWindow}"></MenuItem>
             </MenuItem>

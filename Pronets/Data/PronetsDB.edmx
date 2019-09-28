@@ -76,7 +76,7 @@
           <Key>
             <PropertyRef Name="OrderId" />
           </Key>
-          <Property Name="OrderId" Type="int" Nullable="false" />
+          <Property Name="OrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DocumentId" Type="int" />
           <Property Name="PartName" Type="nvarchar" MaxLength="50" />
           <Property Name="Count" Type="int" />
@@ -103,7 +103,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Order_Date" Type="date" />
           <Property Name="Date_Arrival" Type="date" />
           <Property Name="Status" Type="nvarchar" MaxLength="50" />

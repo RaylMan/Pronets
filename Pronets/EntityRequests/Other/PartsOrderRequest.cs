@@ -32,9 +32,19 @@ namespace Pronets.EntityRequests.Other
             }
             return partsOrder;
         }
-        public static void AddToBase(PartsOrder partOrder, out bool isExeption)
+        public static ObservableCollection<PartsOrder> FillList(int documentId)
         {
-            isExeption = true;
+            using (var db = new PronetsDataBaseEntities())
+            {
+                if (partsOrder != null)
+                    partsOrder.Clear();
+                var result = db.PartsOrder.Where(o => o.DocumentId == documentId).ToList();
+                partsOrder = new ObservableCollection<PartsOrder>(result);
+            }
+            return partsOrder;
+        }
+        public static void AddToBase(PartsOrder partOrder)
+        {
             using (var db = new PronetsDataBaseEntities())
             {
                 try
@@ -49,8 +59,7 @@ namespace Pronets.EntityRequests.Other
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show("Элемент уже существует в базе!", "Ошибка");
-                    isExeption = false;
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
         }

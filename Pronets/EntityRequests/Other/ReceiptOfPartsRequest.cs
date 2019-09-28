@@ -30,11 +30,12 @@ namespace Pronets.EntityRequests.Other
                     });
                 }
             }
+            receiptOfParts = new ObservableCollection<ReceiptOfParts>(receiptOfParts.OrderByDescending(i => i.Id));
             return receiptOfParts;
         }
-        public static void AddToBase(ReceiptOfParts receiptOfParts, out bool isExeption)
+        public static void AddToBase(ReceiptOfParts receiptOfParts)
         {
-            isExeption = true;
+           
             using (var db = new PronetsDataBaseEntities())
             {
                 try
@@ -42,15 +43,13 @@ namespace Pronets.EntityRequests.Other
                     db.ReceiptOfParts.Add(new ReceiptOfParts
                     {
                         Order_Date = receiptOfParts.Order_Date,
-                        Date_Arrival = receiptOfParts.Date_Arrival,
                         Status = receiptOfParts.Status
                     });
                     db.SaveChanges();
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show("Элемент уже существует в базе!", "Ошибка");
-                    isExeption = false;
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
         }
@@ -72,6 +71,20 @@ namespace Pronets.EntityRequests.Other
                         MessageBox.Show("Невозможно удалить , так как есть связи с данными!", "Ошибка");
                         isExeption = false;
                     }
+                }
+            }
+        }
+        public static void EditItem(ReceiptOfParts document)
+        {
+            using (var db = new PronetsDataBaseEntities())
+            {
+                var result = db.ReceiptOfParts.SingleOrDefault(d => d.Id == document.Id);
+                if (result != null)
+                {
+                    result.Order_Date = document.Order_Date;
+                    result.Date_Arrival = document.Date_Arrival;
+                    result.Status = document.Status;
+                    db.SaveChanges();
                 }
             }
         }
