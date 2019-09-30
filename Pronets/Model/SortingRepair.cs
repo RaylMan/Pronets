@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Pronets.Model
 {
-    class SortingRepair
+    public class SortingRepair
     {
         public int RepairsCount { get; set; }
         public string NomenclatureName { get; set; }

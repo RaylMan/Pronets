@@ -13,27 +13,38 @@
     </Page.DataContext>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="200"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
+
         <DataGrid ItemsSource="{Binding SortingEquipments, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedSortingEquipent}"
                   AutoGenerateColumns="False" IsReadOnly="True" Grid.Column="0"
-                   SelectionMode="Single"  HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999" Margin="5,35,0,5">
+                   SelectionMode="Single"  HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999" Margin="5,63,0,20">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Номенклатура" Binding="{Binding Path=Nomenclature, UpdateSourceTrigger=PropertyChanged}" Width="*" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Статус" Binding="{Binding Path=Status, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Количество" Binding="{Binding Path=Count, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Номенклатура" Binding="{Binding Path=NomenclatureName, UpdateSourceTrigger=PropertyChanged}" Width="*" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Количество" Binding="{Binding Path=RepairsCount, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
             </DataGrid.Columns>
-
-
         </DataGrid>
+
+        <Button x:Name="button" Content="  Обновить  " Command="{Binding RefreshCommand}" HorizontalAlignment="Left" Margin="5,10,0,0" VerticalAlignment="Top" Width="74"/>
+        <ComboBox  ItemsSource="{Binding NomenclatureTypes}" SelectedValue="{Binding SelectedType}" VerticalAlignment="Top"  Grid.Column="0" Margin="5,35,0,0" >
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Type}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        <!--Column 2-->
         <DataGrid ItemsSource="{Binding RepairsByNomenclature, UpdateSourceTrigger=PropertyChanged}"
                   AutoGenerateColumns="False" IsReadOnly="True" Grid.Column="1"
                    SelectionMode="Single"  HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999" Margin="5">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="№" Binding="{Binding Path=RepairId, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="название" Binding="{Binding Path=Nomenclature, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Серийный номер" Binding="{Binding Path=Serial_Number, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Дата приема" Binding="{Binding Path=Date_Of_Receipt, UpdateSourceTrigger=PropertyChanged, StringFormat='dd.MM.yyyy'}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Дата ремонта" Binding="{Binding Path=Repair_Date, UpdateSourceTrigger=PropertyChanged, StringFormat='dd.MM.yyyy'}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Статус" Binding="{Binding Path=Status, UpdateSourceTrigger=PropertyChanged, StringFormat='dd.MM.yyyy'}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Ремонт" Binding="{Binding Path=Work_Done, UpdateSourceTrigger=PropertyChanged}" Width="*" IsReadOnly="True">
                     <DataGridTextColumn.ElementStyle>
                         <Style>
@@ -42,12 +53,9 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Дата ремонта" Binding="{Binding Path=Repair_Date, UpdateSourceTrigger=PropertyChanged, StringFormat='dd.MM.yyyy'}" IsReadOnly="True"/>
-                
             </DataGrid.Columns>
 
 
         </DataGrid>
-        <Button x:Name="button" Content="  Обновить  " Command="{Binding RefreshCommand}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="74"/>
     </Grid>
 </Page>

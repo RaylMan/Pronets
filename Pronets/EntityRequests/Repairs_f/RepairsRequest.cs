@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -53,6 +54,7 @@ namespace Pronets.EntityRequests.Repairs_f
             }
             return repairs;
         }
+       
         public static ObservableCollection<v_Repairs> v_FillList()
         {
             using (var db = new PronetsDataBaseEntities())
@@ -71,12 +73,25 @@ namespace Pronets.EntityRequests.Repairs_f
             {
                 if (v_Repairs != null)
                     v_Repairs.Clear();
+                
                 var result = from repair in db.v_Repairs
                              where repair.Client_Name == "Пронетс"
                              select repair;
                 v_Repairs = new ObservableCollection<v_Repairs>(result);
             }
             return v_Repairs;
+        }
+        public static ObservableCollection<Repairs> GetPronetsRepairs()
+        {
+            using (var db = new PronetsDataBaseEntities())
+            {
+                if (repairs != null)
+                    repairs.Clear();
+
+                var result = db.Repairs.Where(r => r.Client == 3).Include(r => r.Nomenclature1).ToList();
+                repairs = new ObservableCollection<Repairs>(result);
+            }
+            return repairs;
         }
         public static ObservableCollection<v_Repairs> FillList(int DocumentId)
         {

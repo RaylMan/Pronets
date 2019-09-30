@@ -1,11 +1,13 @@
 ﻿using Pronets.Data;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 
 namespace Pronets.EntityRequests.Nomenclature_f
 {
-    class Nomenclature_TypesRequest
+    public static class Nomenclature_TypesRequest
     {
         private static ObservableCollection<Nomenclature_Types> nomenclature_Types = new ObservableCollection<Nomenclature_Types>();
         public static ObservableCollection<Nomenclature_Types> FillList()
@@ -18,13 +20,13 @@ namespace Pronets.EntityRequests.Nomenclature_f
                 {
                     nomenclature_Types.Add(new Nomenclature_Types
                     {
-                        Type = item.Type
+                        Type = item.Type,
+                        Nomenclature = item.Nomenclature
                     });
                 }
             }
             return nomenclature_Types;
         }
-
         public static void AddToBase(Nomenclature_Types type, out bool isExeption)
         {
             isExeption = true;
