@@ -84,5 +84,26 @@ namespace Pronets.EntityRequests.Other
                 }
             }
         }
+        public static void RemoveFromBase(int documentId, out bool isExeption)
+        {
+            isExeption = true;
+            using (var db = new PronetsDataBaseEntities())
+            {
+                if (documentId != 0)
+                {
+                    try
+                    {
+                        //db.Repairs.AttachRange(db.Repairs.Where(r=>r.DocumentId == documentId));
+                        db.PartsOrder.RemoveRange(db.PartsOrder.Where(r => r.DocumentId == documentId));
+                        db.SaveChanges();
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(e.Message, "Ошибка");
+                        isExeption = false;
+                    }
+                }
+            }
+        }
     }
 }

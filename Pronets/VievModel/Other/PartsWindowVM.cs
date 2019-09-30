@@ -365,7 +365,7 @@ namespace Pronets.VievModel.Other
         }
         public void AddToOrder(object Parameter)
         {
-            if (document.Id != 0)
+            if (document != null && document.Id != 0)
             {
                 partsOrder.Add(new PartsOrder
                 {
@@ -438,7 +438,7 @@ namespace Pronets.VievModel.Other
         }
         public void AddPartOrder(object Parameter)
         {
-            if (partsOrder != null && document.Id != 0)
+            if (partsOrder != null && document != null && document.Id != 0)
             {
 
                 var result = MessageBox.Show("Вы Действительно хотете сохранить?\nПроверьте правильность данных!", "Сохранение", MessageBoxButton.YesNo, MessageBoxImage.Question);
@@ -467,9 +467,51 @@ namespace Pronets.VievModel.Other
         }
         #endregion
 
+        #region RemoveCommand
+        protected ICommand removeOrder;
+        public ICommand RemoveOrderCommand
+        {
+            get
+            {
+                if (removeOrder == null)
+                {
+                    removeOrder = new RelayCommand(new Action<object>(RemoveOrder));
+                }
+                return removeOrder;
+            }
+            set
+            {
+                removeOrder = value;
+                RaisedPropertyChanged("RemoveOrderCommand");
+            }
+        }
+        public void RemoveOrder(object Parameter)
+        {
+            if (selectedOrder != null)
+            {
+                var result = MessageBox.Show("Вы Действительно хотете удалить?", "Удаление", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    if (selectedOrder.DocumentId != 0)
+                    {
+                        PartsOrderRequest.RemoveFromBase(selectedOrder, out bool ex);
+                        if (ex)
+                            partsOrder.RemoveAt(SelectedOrderIndex);
+                    }
+                    else
+                        partsOrder.RemoveAt(SelectedOrderIndex);
+                }
+            }
+            else
+                MessageBox.Show("Необходимо выбрать элемент в таблице!", "Ошибка");
+        }
+        #endregion
         #endregion
 
         #region Recipe of order
+
+        #region Add document
         private ICommand addRecipe;
         public ICommand AddRecipeCommand
         {
@@ -498,6 +540,51 @@ namespace Pronets.VievModel.Other
             receiptOfParts.Clear();
             receiptOfParts = ReceiptOfPartsRequest.FillList();
         }
+        #endregion
+
+        #region RemoveCommand
+        protected ICommand removeDocument;
+        public ICommand RemoveDocumentCommand
+        {
+            get
+            {
+                if (removeDocument == null)
+                {
+                    removeDocument = new RelayCommand(new Action<object>(RemoveDocument));
+                }
+                return removeDocument;
+            }
+            set
+            {
+                removeDocument = value;
+                RaisedPropertyChanged("RemoveDocumentCommand");
+            }
+        }
+        public void RemoveDocument(object Parameter)
+        {
+            if (selectedDocument != null)
+            {
+                var result = MessageBox.Show("Вы Действительно хотете удалить?", "Удаление", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    PartsOrderRequest.RemoveFromBase(selectedDocument.Id, out bool ex1);
+                    if (ex1)
+                    {
+                        ReceiptOfPartsRequest.RemoveFromBase(selectedDocument, out bool ex);
+                        if (ex && ex1)
+                            receiptOfParts.RemoveAt(SelectedReceiptIndex);
+                        partsOrder.Clear();
+                        document = null;
+                    }
+
+                }
+            }
+            else
+                MessageBox.Show("Необходимо выбрать элемент в таблице!", "Ошибка");
+        }
+        #endregion
+
         #endregion
     }
 }

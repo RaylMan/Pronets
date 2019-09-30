@@ -42,7 +42,7 @@
             <Label Content=" Цена " HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,42,130,0" Height="26"/>
             <TextBox Text="{Binding Part_Price, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Right" VerticalAlignment="Top" Width="150" Margin="0,63,24,0"/>
             <Button Content=" Добавить " Command="{Binding AddPartCommand}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,93,72,0" />
-            <Button Content=" Удалить " Command="{Binding RemovePartCommand}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,118,72,0" Width="62" />
+            <Button Content=" Удалить " Command="{Binding RemovePartCommand}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,118,72,0" Width="63" />
             <TextBox TextWrapping="Wrap" Text="{Binding SearchString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      ToolTip="Search" HorizontalAlignment="Right" VerticalAlignment="Top" Width="150" Margin="0,169,24,0"/>
             <Label Content=" Поиск " HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,148,124,0" Height="26"/>
@@ -68,6 +68,11 @@
                         </Style.Triggers>
                     </Style>
                 </DataGrid.RowStyle>
+                <DataGrid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Удалить" Command="{Binding RemoveDocumentCommand}"/>
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="№ заказа" Binding="{Binding Path=Id, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" />
                     <DataGridTextColumn Header="Дата заказа" Binding="{Binding Path=Order_Date, UpdateSourceTrigger=PropertyChanged, StringFormat='dd.MM.yyyy'}" IsReadOnly="True"/>
@@ -80,10 +85,16 @@
         <!--Parts Order-->
         <Grid Grid.Column="1" Grid.Row="0" >
             <TextBlock Text="{Binding OrderTitleName, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="5" />
-            <Button Content=" Сохранить " Command="{Binding AddPartOrderCommand}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5,0,0"/>
+            <Button Content=" Сохранить " Command="{Binding AddPartOrderCommand}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5,0,0" Height="22"/>
             <ComboBox ItemsSource="{Binding Statuses}" SelectedItem="{Binding SelectedStatus, Mode=TwoWay}" Text="Select Option" Margin="0,5,5,0" HorizontalAlignment="Right" VerticalAlignment="Top" Width="130"/>
             <DataGrid ItemsSource="{Binding PartsOrder}" AutoGenerateColumns="False" SelectedIndex="{Binding SelectedOrderIndex}" SelectedValue="{Binding SelectedOrder}" 
                        HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999" Margin="0,30,5,5" CanUserAddRows="False">
+                
+                <DataGrid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Удалить" Command="{Binding RemoveOrderCommand}" CommandParameter="{Binding SelectedOrderIndex}"/>
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Запчасть" Binding="{Binding Path=PartName, UpdateSourceTrigger=PropertyChanged}" Width="*" />
                     <DataGridTextColumn Header="Количество" Binding="{Binding Path=Count, UpdateSourceTrigger=PropertyChanged}" />
