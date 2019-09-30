@@ -65,6 +65,19 @@ namespace Pronets.EntityRequests.Repairs_f
             }
             return v_Repairs;
         }
+        public static ObservableCollection<v_Repairs> FillListPronets()
+        {
+            using (var db = new PronetsDataBaseEntities())
+            {
+                if (v_Repairs != null)
+                    v_Repairs.Clear();
+                var result = from repair in db.v_Repairs
+                             where repair.Client_Name == "Пронетс"
+                             select repair;
+                v_Repairs = new ObservableCollection<v_Repairs>(result);
+            }
+            return v_Repairs;
+        }
         public static ObservableCollection<v_Repairs> FillList(int DocumentId)
         {
             using (var db = new PronetsDataBaseEntities())

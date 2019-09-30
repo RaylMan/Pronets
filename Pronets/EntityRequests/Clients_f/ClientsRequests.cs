@@ -126,7 +126,7 @@ namespace Pronets.EntityRequests.Clients_f
                         foreach (DbEntityValidationResult validationError in ex.EntityValidationErrors)
                         {
                             error += "Object: " + validationError.Entry.Entity.ToString() + "\n";
-                            
+
                             foreach (DbValidationError err in validationError.ValidationErrors)
                             {
                                 error += err.ErrorMessage + "\n";
@@ -157,6 +157,17 @@ namespace Pronets.EntityRequests.Clients_f
                 searchClients = new ObservableCollection<Clients>(searchItems);
             }
             return searchClients;
+        }
+        /// <summary>
+        /// <para>Returns a Pronets Client</para>
+        /// </summary>
+        public static Clients GetPronetsClient()
+        {
+            using (var db = new PronetsDataBaseEntities())
+            {
+                client = db.Clients.FirstOrDefault(c => c.ClientName == "Пронетс");
+            }
+            return client;
         }
     }
 }

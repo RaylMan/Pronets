@@ -5,7 +5,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pronets.Viev.Clients_f"
         xmlns:vm="clr-namespace:Pronets.VievModel.Clients_f"
-        xmlns:wd="clr-namespace:Pronets.Navigation.WindowsNavigation"
         mc:Ignorable="d"
         Title="Клиенты" MinHeight="450" MinWidth="520" Height="450" Width="520" Background="Gainsboro" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Window.DataContext>

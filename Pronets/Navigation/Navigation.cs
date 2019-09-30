@@ -11,7 +11,7 @@ namespace Pronets.Navigation
         public static readonly string ReceiptDocumentPageAlias = "ReceiptDocumentPage";
         public static readonly string RepairsPageAlias = "RepairsPage";
         public static readonly string DefectsPageAlias = "DefectsPage";
-        public static readonly string AddRecipeDocumentAlias = "AddRecipeDocument";
+        public static readonly string EquipmentWindowAlias = "EquipmentWindow";
         public static readonly string NotFoundPageAlias = "404";
 
         #endregion

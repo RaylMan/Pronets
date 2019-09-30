@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Pronets.Model
 {
-    class RepairsModel : VievModelBase
+    public class RepairsModel : VievModelBase
     {
         protected Repairs repair = new Data.Repairs();
         protected ObservableCollection<Repairs> repairs = new ObservableCollection<Repairs>();

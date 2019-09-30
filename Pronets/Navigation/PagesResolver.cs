@@ -14,7 +14,7 @@ namespace Pronets.Navigation
             _pagesResolvers.Add(Navigation.ReceiptDocumentPageAlias, () => new ReceiptDocumentPage());
             _pagesResolvers.Add(Navigation.RepairsPageAlias, () => new RepairsPage());
             _pagesResolvers.Add(Navigation.DefectsPageAlias, () => new DefectsPage());
-            _pagesResolvers.Add(Navigation.AddRecipeDocumentAlias, () => new AddRecipeDocument());
+            _pagesResolvers.Add(Navigation.EquipmentWindowAlias, () => new EquipmentWindow());
             _pagesResolvers.Add(Navigation.NotFoundPageAlias, () => new Page404());
 
 

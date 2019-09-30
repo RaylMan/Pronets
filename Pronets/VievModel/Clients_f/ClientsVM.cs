@@ -3,8 +3,6 @@ using Pronets.EntityRequests.Clients_f;
 using Pronets.Navigation.WindowsNavigation;
 using System;
 using System.Collections.ObjectModel;
-using System.Data;
-using System.Data.SqlClient;
 using System.Windows;
 using System.Windows.Input;
 

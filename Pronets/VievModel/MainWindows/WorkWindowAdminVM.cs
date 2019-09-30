@@ -22,7 +22,7 @@ namespace Pronets.VievModel.MainWindows
             defectsPageVM = _resolver.GetViewModelInstance(DefectsPageVMAlias);
             receiptDocumentPageVM = _resolver.GetViewModelInstance(ReceiptDocumentPageVMAlias);
             repairsPageVM = _resolver.GetViewModelInstance(RepairsPageVMAlias);
-            addRecipeDocumentVM = _resolver.GetViewModelInstance(AddRecipeDocumentVMAlias);
+            equipmentWindowVM = _resolver.GetViewModelInstance(EquipmentWindowVMAlias);
             InitializeCommands();
         }
        
@@ -32,7 +32,7 @@ namespace Pronets.VievModel.MainWindows
         public static readonly string DefectsPageVMAlias = "DefectsPageVM";
         public static readonly string ReceiptDocumentPageVMAlias = "ReceiptDocumentPageVM";
         public static readonly string RepairsPageVMAlias = "RepairsPageVM";
-        public static readonly string AddRecipeDocumentVMAlias = "AddRecipeDocument";
+        public static readonly string EquipmentWindowVMAlias = "EquipmentWindow";
         public static readonly string NotFoundPageViewModelAlias = "404VM";
 
         #endregion
@@ -47,12 +47,12 @@ namespace Pronets.VievModel.MainWindows
 
         private ICommand goToDefectsCommand;
 
-        private ICommand goToAddRecipeDocumentComand;
+        private ICommand goToEquipmentWindowCommand;
 
         private readonly INotifyPropertyChanged defectsPageVM;
         private readonly INotifyPropertyChanged receiptDocumentPageVM;
         private readonly INotifyPropertyChanged repairsPageVM;
-        private readonly INotifyPropertyChanged addRecipeDocumentVM;
+        private readonly INotifyPropertyChanged equipmentWindowVM;
 
         #endregion
 
@@ -91,16 +91,16 @@ namespace Pronets.VievModel.MainWindows
                 RaisedPropertyChanged("GoToDefectsCommand");
             }
         }
-        public ICommand GoToAddRecipeDocumentComand
+        public ICommand GoToEquipmentWindowCommand
         {
             get
             {
-                return goToAddRecipeDocumentComand;
+                return goToEquipmentWindowCommand;
             }
             set
             {
-                goToAddRecipeDocumentComand = value;
-                RaisedPropertyChanged("GoToAddRecipeDocumentComand");
+                goToEquipmentWindowCommand = value;
+                RaisedPropertyChanged("GoToEquipmentWindowCommand");
             }
         }
 
@@ -118,9 +118,9 @@ namespace Pronets.VievModel.MainWindows
         {
             get { return repairsPageVM; }
         }
-        public INotifyPropertyChanged AddRecipeDocumentVM
+        public INotifyPropertyChanged EquipmentWindowVM
         {
-            get { return addRecipeDocumentVM; }
+            get { return equipmentWindowVM; }
         }
 
         #endregion
@@ -133,7 +133,7 @@ namespace Pronets.VievModel.MainWindows
 
             GoToRepairsPageCommand = new RelayCommand<INotifyPropertyChanged>(GoToRepairsPageCommandExecute);
 
-            GoToAddRecipeDocumentComand = new RelayCommand<INotifyPropertyChanged>(GoTOAddRecipeDocumentCommandExecute);
+            GoToEquipmentWindowCommand = new RelayCommand<INotifyPropertyChanged>(GoTOEquipmentWindowCommandExecute);
         }
 
         private void GoToPathCommandExecute(string alias)
@@ -160,9 +160,9 @@ namespace Pronets.VievModel.MainWindows
         {
             Navigation.Navigation.Navigate(Navigation.Navigation.DefectsPageAlias, DefectsPageVM);
         }
-        public void GoTOAddRecipeDocumentCommandExecute(INotifyPropertyChanged viewModel)
+        public void GoTOEquipmentWindowCommandExecute(INotifyPropertyChanged viewModel)
         {
-            Navigation.Navigation.Navigate(Navigation.Navigation.AddRecipeDocumentAlias, AddRecipeDocumentVM);
+            Navigation.Navigation.Navigate(Navigation.Navigation.EquipmentWindowAlias, EquipmentWindowVM);
         }
         #endregion
 
@@ -176,7 +176,7 @@ namespace Pronets.VievModel.MainWindows
             defectsPageVM = _resolver.GetViewModelInstance(DefectsPageVMAlias);
             receiptDocumentPageVM = _resolver.GetViewModelInstance(ReceiptDocumentPageVMAlias);
             repairsPageVM = _resolver.GetViewModelInstance(RepairsPageVMAlias);
-            addRecipeDocumentVM = _resolver.GetViewModelInstance(AddRecipeDocumentVMAlias);
+            equipmentWindowVM = _resolver.GetViewModelInstance(EquipmentWindowVMAlias);
             InitializeCommands();
         }
 
