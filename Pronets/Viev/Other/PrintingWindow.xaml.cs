@@ -1,4 +1,5 @@
 ﻿using Pronets.Data;
+using Pronets.VievModel.Other;
 using Pronets.VievModel.Repairs_f;
 using System;
 using System.Collections.Generic;
@@ -22,11 +23,12 @@ namespace Pronets.Viev.Other
     public partial class PrintingWindow : Window
     {
         private v_Receipt_Document document;
+
         public PrintingWindow(v_Receipt_Document document)
         {
             InitializeComponent();
             this.document = document;
-            DataContext = new ReceiptDocumentInspectorVM(document);
+            DataContext = new PrintingWindowVM(document);
         }
     }
 }
