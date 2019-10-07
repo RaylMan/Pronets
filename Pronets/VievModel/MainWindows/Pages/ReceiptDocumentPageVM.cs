@@ -13,7 +13,7 @@ using System.Windows.Input;
 
 namespace Pronets.VievModel.MainWindows.Pages
 {
-    class ReceiptDocumentPageVM : VievModelBase
+    public class ReceiptDocumentPageVM : VievModelBase
     {
         public OpenWindowCommand OpenWindowCommand { get; set; }
         

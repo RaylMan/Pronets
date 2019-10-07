@@ -226,6 +226,9 @@
     <Compile Include="Viev\Other\PartsWindow.xaml.cs">
       <DependentUpon>PartsWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Viev\Other\PrintingWindow.xaml.cs">
+      <DependentUpon>PrintingWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Viev\Repairs_f\NewReceiptDocument.xaml.cs">
       <DependentUpon>NewReceiptDocument.xaml</DependentUpon>
     </Compile>
@@ -345,6 +348,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Viev\Other\PartsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Viev\Other\PrintingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

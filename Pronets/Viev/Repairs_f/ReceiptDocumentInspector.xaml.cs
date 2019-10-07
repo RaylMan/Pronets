@@ -1,5 +1,6 @@
 ﻿using Pronets.Data;
 using Pronets.Navigation;
+using Pronets.Viev.Other;
 using Pronets.VievModel.Repairs_f;
 using System;
 using System.Collections;
@@ -70,6 +71,17 @@ namespace Pronets.Viev.Repairs_f
                 CheckBox checkBox = ItemTemplateFind.FindChild<CheckBox>(elmchbx, "chkbx");
                 checkBox.IsChecked = false;
             }
+        }
+
+        private void Edit1_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void NewDefectsDoc_Click(object sender, RoutedEventArgs e)
+        {
+            PrintingWindow win = new PrintingWindow(document);
+            win.Show();
         }
     }
 }

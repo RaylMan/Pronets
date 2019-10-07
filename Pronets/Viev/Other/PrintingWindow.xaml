@@ -1,0 +1,59 @@
+﻿<Window x:Class="Pronets.Viev.Other.PrintingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Pronets.Viev.Other"
+        mc:Ignorable="d"
+        Title="PrintingWindow" Height="450" Width="800">
+    <FlowDocument >
+        <BlockUIContainer>
+            <DataGrid ItemsSource="{Binding V_Repairs}" AutoGenerateColumns="False" HorizontalAlignment="Center" Height="374" Width="386">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Наименование" Binding="{Binding Nomenclature}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Серийный Номер" Binding="{Binding Serial_Number}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Заявленная неисправность" Binding="{Binding Claimed_Malfunction}" MaxWidth="200" IsReadOnly="True">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style>
+                                <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                <Setter Property="TextBox.MaxLength" Value="200"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Дата приема" Binding="{Binding Date_Of_Receipt, StringFormat='dd.MM.yyyy'}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Гарантия" Binding="{Binding Warranty}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Выявленная неисправность" Binding="{Binding Identifie_Fault}" MaxWidth="200" IsReadOnly="True">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style>
+                                <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                <Setter Property="TextBox.MaxLength" Value="200"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Проделанный ремонт" Binding="{Binding Work_Done}" MaxWidth="200" IsReadOnly="True">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style>
+                                <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                <Setter Property="TextBox.MaxLength" Value="200"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Категория ремонта" Binding="{Binding Repair_Category}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Engineer" Binding="{Binding Engineer}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Дата ремонта" Binding="{Binding Repair_Date, StringFormat='dd.MM.yyyy'}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Статус ремонта" Binding="{Binding Status}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Заметка" Binding="{Binding Note}" MaxWidth="200"  IsReadOnly="True">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style>
+                                <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                <Setter Property="TextBox.MaxLength" Value="200"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Клиент" Binding="{Binding Client_Name}" IsReadOnly="True"/>
+                </DataGrid.Columns>
+            </DataGrid>
+
+        </BlockUIContainer>
+    </FlowDocument>
+</Window>
