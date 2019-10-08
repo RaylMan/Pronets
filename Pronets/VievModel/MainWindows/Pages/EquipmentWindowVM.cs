@@ -1,4 +1,5 @@
 ﻿using Pronets.Data;
+using Pronets.EntityRequests;
 using Pronets.EntityRequests.Clients_f;
 using Pronets.EntityRequests.Nomenclature_f;
 using Pronets.EntityRequests.Repairs_f;
@@ -8,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -43,30 +45,29 @@ namespace Pronets.VievModel.MainWindows.Pages
                 RaisedPropertyChanged("RepairsByNomenclature");
             }
         }
-        private ObservableCollection<Nomenclature_Types> nomenclatureTypes = new ObservableCollection<Nomenclature_Types>();
-        public ObservableCollection<Nomenclature_Types> NomenclatureTypes
+        private ObservableCollection<Statuses> statuses = new ObservableCollection<Statuses>();
+        public ObservableCollection<Statuses> Statuses
         {
-            get { return nomenclatureTypes; }
+            get { return statuses; }
 
             set
             {
-                nomenclatureTypes = value;
-                RaisedPropertyChanged("NomenclatureTypes");
+                statuses = value;
+                RaisedPropertyChanged("Statuses");
             }
         }
-        private Nomenclature_Types selectedType;
-        public Nomenclature_Types SelectedType
+
+        private bool isSelected;
+        public bool IsSelected
         {
-            get { return selectedType; }
+            get { return isSelected; }
             set
             {
-                selectedType = value;
-                GetContent();
-
-                RaisedPropertyChanged("SelectedType");
+                isSelected = value;
+                RaisedPropertyChanged("IsSelected");
             }
         }
-
+       
         private SortingRepair selectedSortingEquipent;
         public SortingRepair SelectedSortingEquipent
         {
@@ -74,17 +75,27 @@ namespace Pronets.VievModel.MainWindows.Pages
             set
             {
                 selectedSortingEquipent = value;
-                if (selectedSortingEquipent != null && selectedSortingEquipent.NomenclatureName != null)
+                if (selectedSortingEquipent != null)
                     GetRepairByNomenclature();
                 RaisedPropertyChanged("SelectedSortingEquipent");
+            }
+        }
+        private string totalAmount;
+        public string TotalAmount
+        {
+            get { return totalAmount; }
+            set
+            {
+                totalAmount = value;
+                RaisedPropertyChanged("TotalAmount");
             }
         }
         #endregion
 
         public EquipmentWindowVM()
         {
+            GetStatuses();
             GetContent();
-            nomenclatureTypes = Nomenclature_TypesRequest.FillList();
             OpenWindowCommand = new OpenWindowCommand();
         }
         #region refresh page
@@ -111,26 +122,36 @@ namespace Pronets.VievModel.MainWindows.Pages
             repairs.Clear();
             sortingEquipments.Clear();
             pronetsClient = ClientsRequests.GetPronetsClient();
-            repairs = RepairsRequest.GetPronetsRepairs();
+            foreach (var status in statuses)
+            {
+                if (status.IsSelected == true)
+                {
+                    foreach (var item in RepairsRequest.GetPronetsRepairs(status.Status))
+                    {
+                        repairs.Add(item);
+                    }
+                }
+            }
 
             if (repairs != null && repairs.Count > 0)
             {
                 var result = from equip in repairs
                              group equip by new
                              {
-                                 equip.Nomenclature1
-                             } into n
-                             select new { n.Key.Nomenclature1, Count = n.Count() };
+                                 equip.Nomenclature
 
+                             } into n
+                             select new { n.Key.Nomenclature, Count = n.Count() };
                 foreach (var item in result)
                 {
                     sortingEquipments.Add(new SortingRepair
                     {
-                        NomenclatureName = item.Nomenclature1.Name,
+                        NomenclatureName = item.Nomenclature,
                         RepairsCount = item.Count
                     });
                 }
             }
+            GetTotalAmount();
         }
 
         private void GetContent() // вывод в список с учетов типа оборудования
@@ -138,35 +159,70 @@ namespace Pronets.VievModel.MainWindows.Pages
             pronetsClient = null;
             repairs.Clear();
             sortingEquipments.Clear();
-            pronetsClient = ClientsRequests.GetPronetsClient();
-            repairs = RepairsRequest.GetPronetsRepairs();
 
+            pronetsClient = ClientsRequests.GetPronetsClient();
+            foreach (var status in statuses)
+            {
+                if (status.IsSelected == true)
+                {
+                    foreach (var item in RepairsRequest.GetPronetsRepairs(status.Status))
+                    {
+                        repairs.Add(item);
+                    }
+                }
+            }
             if (repairs != null && repairs.Count > 0)
             {
                 var result = from equip in repairs
                              group equip by new
                              {
-                                 equip.Nomenclature1
+                                 equip.Nomenclature
                              } into n
-                             select new { n.Key.Nomenclature1, Count = n.Count() };
+                             select new { n.Key.Nomenclature, Count = n.Count() };
 
                 foreach (var item in result)
                 {
-                    if (selectedType == null)
+                    sortingEquipments.Add(new SortingRepair
                     {
-                        sortingEquipments.Add(new SortingRepair
-                        {
-                            NomenclatureName = item.Nomenclature1.Name,
-                            RepairsCount = item.Count
-                        });
-                    }
-                    else if (item.Nomenclature1.Type == selectedType.Type)
+                        NomenclatureName = item.Nomenclature,
+                        RepairsCount = item.Count
+                    });
+                }
+            }
+            GetTotalAmount();
+        }
+        #endregion
+
+        #region Search
+        private string searchString;
+
+        public string SearchString
+        {
+            get { return searchString; }
+            set
+            {
+                if (SetProperty(ref searchString, value))
+                {
+
+                    PropertyInfo prop = typeof(SortingRepair).GetProperty("NomenclatureName");
+                    if (prop != null)
                     {
-                        sortingEquipments.Add(new SortingRepair
+                        if (
+                            sortingEquipments.Any(
+                                p =>
+                                    prop.GetValue(p)
+                                        .ToString()
+                                        .ToLower()
+                                        .Contains(searchString.ToLower())))
                         {
-                            NomenclatureName = item.Nomenclature1.Name,
-                            RepairsCount = item.Count
-                        });
+                            SelectedSortingEquipent =
+                                sortingEquipments.First(
+                                    p =>
+                                        prop.GetValue(p)
+                                            .ToString()
+                                            .ToLower()
+                                            .Contains(searchString.ToLower()));
+                        }
                     }
                 }
             }
@@ -176,8 +232,17 @@ namespace Pronets.VievModel.MainWindows.Pages
         private void GetRepairByNomenclature()
         {
             v_Repairs.Clear();
-            v_Repairs = RepairsRequest.FillListPronets();
             repairsByNomenclature.Clear();
+            foreach (var status in statuses)
+            {
+                if (status.IsSelected == true)
+                {
+                    foreach (var item in RepairsRequest.FillListPronets(status.Status))
+                    {
+                        v_Repairs.Add(item);
+                    }
+                }
+            }
             var result = from repair in v_Repairs
                          where repair.Nomenclature == selectedSortingEquipent.NomenclatureName
                          select repair;
@@ -185,6 +250,32 @@ namespace Pronets.VievModel.MainWindows.Pages
             {
                 repairsByNomenclature.Add(item);
             }
+        }
+
+        private void GetStatuses()
+        {
+            statuses = StatusesRequests.FillList();
+            if (statuses != null)
+            {
+                foreach (var status in statuses)
+                {
+                    if (status.Status == "Готов" ||
+                        status.Status == "На складе (без ремонта)" ||
+                        status.Status == "Принято")
+                    {
+                        status.IsSelected = true;
+                    }
+                }
+            }
+        }
+        private void GetTotalAmount() //Общее количество ремонтов
+        {
+            int count = 0;
+            foreach (var item in sortingEquipments)
+            {
+                count += item.RepairsCount;
+            }
+            TotalAmount = $"Общее количество: {count} шт.";
         }
     }
 }

@@ -573,7 +573,7 @@ namespace Pronets.VievModel.Other
                     {
                         ReceiptOfPartsRequest.RemoveFromBase(selectedDocument, out bool ex);
                         if (ex)
-                            receiptOfParts.RemoveAt(SelectedReceiptIndex);
+                            ReceiptOfParts.RemoveAt(SelectedReceiptIndex);
                         partsOrder.Clear();
                         document = null;
                     }

@@ -14,7 +14,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="35"></RowDefinition>
-            <RowDefinition Height="200"></RowDefinition>
+            <RowDefinition MinHeight="200" MaxHeight="400"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -22,7 +22,8 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <!--Row 0-->
-        <TextBox x:Name="tbxSearch" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" HorizontalAlignment="Left" Width="170" SelectionChanged="TbxSearch_SelectionChanged" GotFocus="TbxSearch_GotFocus" MaxLength="50" Margin="5,5,54,5">
+        <TextBox x:Name="tbxSearch" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" HorizontalAlignment="Left" 
+                 Width="170" SelectionChanged="TbxSearch_SelectionChanged" GotFocus="TbxSearch_GotFocus" MaxLength="50" Margin="5,5,54,5">
             <TextBox.InputBindings>
                 <KeyBinding 
             Key="Enter" 
@@ -30,11 +31,15 @@
             CommandParameter="{Binding Path=SearchText, RelativeSource={RelativeSource AncestorType={x:Type TextBox}}}" />
             </TextBox.InputBindings>
         </TextBox>
-        <Button x:Name="btnSearch" Content="Искать" Command="{Binding SearchCommand}"  CommandParameter="{Binding ElementName=tbxSearch}" Grid.Row="0" HorizontalAlignment="Left"  Margin="180,5,0,5" RenderTransformOrigin="-1.503,0.609" />
-        <CheckBox x:Name="checkBox" Content="Искать с русскими символами" IsChecked="{Binding IsChecked}" HorizontalAlignment="Left" Margin="243,10,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="194"/>
+        <Button x:Name="btnSearch" Content="Искать" Command="{Binding SearchCommand}"  CommandParameter="{Binding ElementName=tbxSearch}" Grid.Row="0"
+                HorizontalAlignment="Left"  Margin="180,5,0,5" RenderTransformOrigin="-1.503,0.609" />
+        <CheckBox x:Name="checkBox" Content="Искать с русскими символами" IsChecked="{Binding IsChecked}" HorizontalAlignment="Left" Margin="243,10,0,0"
+                  VerticalAlignment="Top" Grid.ColumnSpan="2" Width="194"/>
 
         <!--Row 1-->
-        <DataGrid x:Name="Docunents" ItemsSource="{Binding V_Repairs}"  SelectedItem="{Binding SelectedRepair}"  Grid.Row="1" Grid.ColumnSpan="2" Margin="5,5,5,10" AutoGenerateColumns="False" SelectionMode="Single" HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999">
+        <DataGrid x:Name="Docunents" ItemsSource="{Binding V_Repairs, UpdateSourceTrigger=PropertyChanged}"  SelectedItem="{Binding SelectedRepair}" 
+                  Grid.Row="1" Grid.ColumnSpan="2" Margin="5,5,5,10" AutoGenerateColumns="False" SelectionMode="Single" HorizontalGridLinesBrush="#FF999999" 
+                  VerticalGridLinesBrush="#FF999999">
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
                     <Style.Triggers>
@@ -60,13 +65,13 @@
                 </Style>
             </DataGrid.RowStyle>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="№" Binding="{Binding Path=RepairId}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="№ документа" Binding="{Binding Path=DocumentId}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Наименование" Binding="{Binding Path=Nomenclature}"  IsReadOnly="True"/>
-                <DataGridTextColumn Header="Серийный Номер" Binding="{Binding Path=Serial_Number}" Width="*" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Дата приема" Binding="{Binding Path=Date_Of_Receipt, StringFormat='dd.MM.yyyy'}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Гарантия" Binding="{Binding Path=Warranty}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Статус ремонта" Binding="{Binding Path=Status}" Width="*" IsReadOnly="True"/>
+                <DataGridTextColumn Header="№" Binding="{Binding Path=RepairId, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="№ документа" Binding="{Binding Path=DocumentId, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Наименование" Binding="{Binding Path=Nomenclature, UpdateSourceTrigger=PropertyChanged}"  IsReadOnly="True"/>
+                <DataGridTextColumn Header="Серийный Номер" Binding="{Binding Path=Serial_Number, UpdateSourceTrigger=PropertyChanged}" Width="*" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Дата приема" Binding="{Binding Path=Date_Of_Receipt, StringFormat='dd.MM.yyyy', UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Гарантия" Binding="{Binding Path=Warranty, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Статус ремонта" Binding="{Binding Path=Status, UpdateSourceTrigger=PropertyChanged}" Width="*" IsReadOnly="True"/>
             </DataGrid.Columns>
         </DataGrid>
 
@@ -144,7 +149,7 @@
             </ComboBox>
             <DatePicker Grid.Column="1" Grid.Row="4" SelectedDate="{Binding Path=Repair_Date, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
                   ValidatesOnExceptions=true, NotifyOnValidationError=true}"/>
-            <ComboBox  ItemsSource="{Binding Statuses}" SelectedValue="{Binding SelectedStatus}"  Grid.Column="1" Grid.Row="5">
+            <ComboBox  ItemsSource="{Binding Statuses, UpdateSourceTrigger=PropertyChanged}" SelectedValue="{Binding SelectedStatus}"  Grid.Column="1" Grid.Row="5">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Status}"/>

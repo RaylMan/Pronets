@@ -50,7 +50,7 @@
         <!--Receipt of Parts-->
         <Grid Grid.Row="1" Grid.Column="1" Margin="0,5,0,0" >
             <Button Content="  Новый заказ  " Command="{Binding AddRecipeCommand}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5,0,0"/>
-            <DataGrid ItemsSource="{Binding ReceiptOfParts}" AutoGenerateColumns="False" SelectedIndex="{Binding SelectedReceiptIndex}" SelectedValue="{Binding SelectedDocument}" 
+            <DataGrid ItemsSource="{Binding ReceiptOfParts, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" SelectedIndex="{Binding SelectedReceiptIndex}" SelectedValue="{Binding SelectedDocument}" 
                       SelectionMode="Single" HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999" HorizontalAlignment="Left"
                       Margin="0,30,5,5" CanUserAddRows="False">
                 <DataGrid.RowStyle>
@@ -70,7 +70,7 @@
                 </DataGrid.RowStyle>
                 <DataGrid.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="Удалить" Command="{Binding RemoveDocumentCommand}"/>
+                        <MenuItem Header="Удалить" Command="{Binding RemoveDocumentCommand}" CommandParameter="{Binding SelectedReceiptIndex}" />
                     </ContextMenu>
                 </DataGrid.ContextMenu>
                 <DataGrid.Columns>

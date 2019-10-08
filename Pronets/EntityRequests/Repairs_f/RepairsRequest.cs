@@ -54,7 +54,7 @@ namespace Pronets.EntityRequests.Repairs_f
             }
             return repairs;
         }
-       
+
         public static ObservableCollection<v_Repairs> v_FillList()
         {
             using (var db = new PronetsDataBaseEntities())
@@ -67,15 +67,16 @@ namespace Pronets.EntityRequests.Repairs_f
             }
             return v_Repairs;
         }
-        public static ObservableCollection<v_Repairs> FillListPronets()
+        public static ObservableCollection<v_Repairs> FillListPronets(string status)
         {
             using (var db = new PronetsDataBaseEntities())
             {
                 if (v_Repairs != null)
                     v_Repairs.Clear();
-                
+
                 var result = from repair in db.v_Repairs
-                             where repair.Client_Name == "Пронетс"
+                             where repair.Client_Name == "Пронетс" &&
+                                   repair.Status == status
                              select repair;
                 v_Repairs = new ObservableCollection<v_Repairs>(result);
             }
@@ -89,6 +90,18 @@ namespace Pronets.EntityRequests.Repairs_f
                     repairs.Clear();
 
                 var result = db.Repairs.Where(r => r.Client == 3).Include(r => r.Nomenclature1).ToList();
+                repairs = new ObservableCollection<Repairs>(result);
+            }
+            return repairs;
+        }
+        public static ObservableCollection<Repairs> GetPronetsRepairs(string status)
+        {
+            using (var db = new PronetsDataBaseEntities())
+            {
+                if (repairs != null)
+                    repairs.Clear();
+
+                var result = db.Repairs.Where(r => r.Client == 3 && r.Status == status).Include(r => r.Nomenclature1).ToList();
                 repairs = new ObservableCollection<Repairs>(result);
             }
             return repairs;
