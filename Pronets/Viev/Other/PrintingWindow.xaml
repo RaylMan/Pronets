@@ -5,76 +5,52 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pronets.Viev.Other"
         mc:Ignorable="d"
-        Title="PrintingWindow" Height="450" Width="800">
-    <FlowDocumentScrollViewer IsSelectionEnabled="False" IsToolBarVisible="True">
-        <FlowDocument>
-            <Paragraph TextAlignment="Center">
-                Акт выполненых работ
-            </Paragraph>
-            <Paragraph TextAlignment="Center">
-                <InlineUIContainer>
-                    <TextBlock Text="{Binding Client_Name}"></TextBlock>
-                </InlineUIContainer>
-            </Paragraph>
-            <Paragraph TextAlignment="Center">
-                <InlineUIContainer>
-                    <TextBlock Text="{Binding Client_Name}"></TextBlock>
-                </InlineUIContainer>
-            </Paragraph>
-            <Paragraph TextAlignment="Center">
-                <InlineUIContainer>
-                    <TextBlock Text="{Binding DateOfDocument}"></TextBlock>
-                </InlineUIContainer>
-            </Paragraph>
-            <BlockUIContainer>
-                <DataGrid ItemsSource="{Binding V_Repairs}" AutoGenerateColumns="False" HorizontalAlignment="Center">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Наименование" Binding="{Binding Nomenclature}" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="Серийный Номер" Binding="{Binding Serial_Number}" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="Заявленная неисправность" Binding="{Binding Claimed_Malfunction}" MaxWidth="200" IsReadOnly="True">
-                            <DataGridTextColumn.ElementStyle>
-                                <Style>
-                                    <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
-                                    <Setter Property="TextBox.MaxLength" Value="200"/>
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>
-                        <DataGridTextColumn Header="Дата приема" Binding="{Binding Date_Of_Receipt, StringFormat='dd.MM.yyyy'}" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="Гарантия" Binding="{Binding Warranty}" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="Выявленная неисправность" Binding="{Binding Identifie_Fault}" MaxWidth="200" IsReadOnly="True">
-                            <DataGridTextColumn.ElementStyle>
-                                <Style>
-                                    <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
-                                    <Setter Property="TextBox.MaxLength" Value="200"/>
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>
-                        <DataGridTextColumn Header="Проделанный ремонт" Binding="{Binding Work_Done}" MaxWidth="200" IsReadOnly="True">
-                            <DataGridTextColumn.ElementStyle>
-                                <Style>
-                                    <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
-                                    <Setter Property="TextBox.MaxLength" Value="200"/>
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>
-                        <DataGridTextColumn Header="Категория ремонта" Binding="{Binding Repair_Category}" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="Engineer" Binding="{Binding Engineer}" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="Дата ремонта" Binding="{Binding Repair_Date, StringFormat='dd.MM.yyyy'}" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="Статус ремонта" Binding="{Binding Status}" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="Заметка" Binding="{Binding Note}" MaxWidth="200"  IsReadOnly="True">
-                            <DataGridTextColumn.ElementStyle>
-                                <Style>
-                                    <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
-                                    <Setter Property="TextBox.MaxLength" Value="200"/>
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>
-                        <DataGridTextColumn Header="Клиент" Binding="{Binding Client_Name}" IsReadOnly="True"/>
-                    </DataGrid.Columns>
-                </DataGrid>
+        Title="Печать документа" Height="700" Width="900">
+    <Grid>
+        <Button x:Name="btnPrint" Click="BtnPrint_Click" Content="Печать" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5"/>
+        <FlowDocumentScrollViewer x:Name="flowViever" Margin="10,35,10,10" >
+            <FlowDocument x:Name="flowDocument">
+                <Paragraph TextAlignment="Center" Margin="0,5,5,20" FontSize="23" FontWeight="Medium">
+                    Акт выполненых работ
+                </Paragraph>
+                <Paragraph TextAlignment="Center" Margin="2">
+                    1. Цель отправки (возврат / (не) гарантийный ремонт):
+                </Paragraph>
+                <Paragraph TextAlignment="Center" Margin="2">
+                    2. Менеджер: Федотов Максим Анатольевич
+                </Paragraph>
+                <Paragraph TextAlignment="Center"  Margin="2">
+                    <InlineUIContainer>
+                        <TextBlock Text="{Binding DateOfDocument}"></TextBlock>
+                    </InlineUIContainer>
+                </Paragraph>
+                <Paragraph TextAlignment="Center" Margin="2">
+                    <InlineUIContainer>
+                        <TextBlock Text="{Binding PronetsInfo}"></TextBlock>
+                    </InlineUIContainer>
+                </Paragraph>
 
-            </BlockUIContainer>
-        </FlowDocument>
-    </FlowDocumentScrollViewer>
+                <Table x:Name="Table1" BorderBrush="Black" Background="Black" BorderThickness="1">
+                </Table>
+                
+                <Paragraph TextAlignment="Left"  Margin="2,10">
+                    <InlineUIContainer>
+                        <TextBlock Text="Ответственное лицо          Главный Инженер _____________________ Литвинов М.Я."></TextBlock>
+                    </InlineUIContainer>
+                </Paragraph>
+                <Paragraph TextAlignment="Left"  Margin="2,20">
+                    <InlineUIContainer>
+                        <TextBlock Text="С актом ознакомлен         Исполнительный директор _______________ Федотов М.А."></TextBlock>
+                    </InlineUIContainer>
+                </Paragraph>
+                <Paragraph TextAlignment="Center"  Margin="2,10">
+                    <InlineUIContainer>
+                        <TextBlock Text="{Binding DateOfDocument1}"></TextBlock>
+                    </InlineUIContainer>
+                </Paragraph>
+            </FlowDocument>
+            
+        </FlowDocumentScrollViewer>
 
+    </Grid>
 </Window>
