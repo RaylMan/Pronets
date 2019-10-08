@@ -18,7 +18,7 @@ using System.Windows.Input;
 
 namespace Pronets.VievModel.Repairs_f
 {
-    class ReceiptDocumentInspectorVM : RepairsModel
+    public class ReceiptDocumentInspectorVM : RepairsModel
     {
 
         #region Properties

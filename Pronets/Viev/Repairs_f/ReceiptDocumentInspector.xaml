@@ -18,6 +18,8 @@
         <!--Row 1-->
         <Button x:Name="Edit1" Command="{Binding EditCommand}" Content="Записать" Grid.Row="1" HorizontalAlignment="Left" Margin="10,16,0,59"
                 RenderTransformOrigin="0.566,-0.08" Width="60" />
+        <Button x:Name="newDefectsDoc"  Content=" Дефектовка " Click="NewDefectsDoc_Click" Grid.Row="1" HorizontalAlignment="Left" Margin="171,76,0,0"
+                RenderTransformOrigin="0.566,-0.08" Width="87" />
         <TextBlock x:Name="textBlock2" HorizontalAlignment="Left" Margin="381,0,0,0" TextWrapping="Wrap" Text="Заметка" VerticalAlignment="Top"
                    RenderTransformOrigin="-1.286,-0.188" Grid.Row="1"/>
         <ComboBox x:Name="comboBox1" ItemsSource="{Binding Statuses, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedItem="{Binding SelectedStatusItem}"
@@ -45,10 +47,11 @@
         <TextBlock x:Name="txtInspector" HorizontalAlignment="Left" Margin="547,16,0,0" Grid.Row="1" FontSize="15" VerticalAlignment="Top" 
                    Text="{Binding InspectorName}" RenderTransformOrigin="0.492,0.977"></TextBlock>
         <Button x:Name="btnDelete" Content=" Удалить выделенный эмлемент " Command="{Binding RemoveCommand}" Grid.Row="1" HorizontalAlignment="Right" 
-                VerticalAlignment="Bottom" Margin="10"/>
+                VerticalAlignment="Bottom" Margin="0,0,10,0"/>
         <Label Content="Дата отправки" Margin="0,52,5,21" HorizontalAlignment="Left" Grid.Row="1"/>
         <DatePicker HorizontalAlignment="Left" Margin="5,76,0,0" Grid.Row="1" VerticalAlignment="Top" Width="156" SelectedDate="{Binding Path=DepartureDate,
             UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}"/>
+
         <Label Content="Поиск по серийному номеру"  HorizontalAlignment="Right" Height="28" Margin="0,5,26,0" VerticalAlignment="Top" Grid.Row="1"/>
         <TextBox x:Name="tbxSearch" HorizontalAlignment="Right" Height="23" Margin="0,28,10,0" TextWrapping="Wrap"
                      Text="{Binding SearchString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
