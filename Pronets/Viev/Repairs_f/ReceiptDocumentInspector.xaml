@@ -133,7 +133,7 @@
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
                 <DataGridTextColumn Header="Категория ремонта" Binding="{Binding Repair_Category}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Engineer" Binding="{Binding Engineer}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Инженер" Binding="{Binding Engineer}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Дата ремонта" Binding="{Binding Repair_Date, StringFormat='dd.MM.yyyy'}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Статус ремонта" Binding="{Binding Status}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Заметка" Binding="{Binding Note}" MaxWidth="200"  IsReadOnly="True">

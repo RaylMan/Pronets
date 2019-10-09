@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Pronets.Viev.Other;
+using Pronets.VievModel.MainWindows.Pages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +22,23 @@ namespace Pronets.Viev.MainWindows.Pages
     /// </summary>
     public partial class DefectsPage : Page
     {
+        List<int> repairsId = new List<int>();
+        public DefectsPageVM vm => (DefectsPageVM)DataContext;
         public DefectsPage()
         {
             InitializeComponent();
+        }
+
+        private void BtnCreate_Click(object sender, RoutedEventArgs e)
+        {
+            repairsId.Clear();
+            foreach (var repair in vm.V_Repairs)
+            {
+                if (repair != null)
+                    repairsId.Add(repair.RepairId);
+            }
+            PrintingWindow win = new PrintingWindow(repairsId);
+            win.Show();
         }
     }
 }

@@ -28,6 +28,7 @@ namespace Pronets.Viev.Other
     public partial class PrintingWindow : Window
     {
         private v_Receipt_Document document;
+        List<int> repairsId = new List<int>();
         public PrintingWindowVM vm => (PrintingWindowVM)DataContext;
 
         public PrintingWindow(v_Receipt_Document document)
@@ -37,11 +38,18 @@ namespace Pronets.Viev.Other
             DataContext = new PrintingWindowVM(document);
             GetTable();
         }
+        public PrintingWindow(List<int> repairsId)
+        {
+            InitializeComponent();
+            this.repairsId = repairsId;
+            DataContext = new PrintingWindowVM(repairsId);
+            GetTable();
+        }
 
         private void BtnPrint_Click(object sender, RoutedEventArgs e)
         {
             FlowDocument doc = flowDocument;
-            Print(doc, "flow document", 1000);
+            Print(doc, "Дефектовка", 10);
         }
         private void PrintDocument(PrintDialog pd, FlowDocument document, double scale, string title)
         {
@@ -93,7 +101,7 @@ namespace Pronets.Viev.Other
 
         private void GetTable()
         {
-            System.Data.DataTable dataTable = vm.ToDataTable<v_Repairs>(vm.V_Repairs);
+            System.Data.DataTable dataTable = vm.ToDataTable<v_Repairs>(vm.RepairsTable);
             var brushConverter = new BrushConverter();
             var rowGroup = new TableRowGroup();
             Table1.RowGroups.Add(rowGroup);

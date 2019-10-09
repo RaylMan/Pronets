@@ -12,6 +12,78 @@
         <vm:DefectsPageVM/>
     </Page.DataContext>
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <!--Column 0-->
+        <DataGrid x:Name="serialsGrid" Grid.Column="0" ItemsSource="{Binding SerialNumbers}" Margin="5,5,5,35" CanUserAddRows="True" HorizontalGridLinesBrush="#FF999999"
+                  VerticalGridLinesBrush="#FF999999" AutoGenerateColumns="False" SelectedItem="{Binding SelectedSerialItem}" SelectedIndex="{Binding SelectedSerialIndex}">
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Удалить" Command="{Binding RemoveSerialCommand}" CommandParameter="{Binding SelectedSerialIndex}" />
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Серийный номер" Binding="{Binding Serial}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button x:Name="btnAddToTable" Content="  Добавить  " Grid.Column="0" Command="{Binding AddToTableCommand}" VerticalAlignment="Bottom" HorizontalAlignment="Left"
+                Margin="5,0,0,5" Height="25"/>
+        <Button x:Name="btnClear" Content="  Очистить  " Grid.Column="0" Command="{Binding ClearCommand}" VerticalAlignment="Bottom" HorizontalAlignment="Right"
+                Margin="0,0,5,5" Height="25"/>
+        <!--Column 1-->
+        <DataGrid x:Name="Docunents1" ItemsSource="{Binding V_Repairs}" SelectedValue="{Binding SelectedItem}" SelectedIndex="{Binding SelectedRepairIndex}"
+                   Grid.Column="1" Margin="5,5,5,35" AutoGenerateColumns="False" SelectionMode="Single" HorizontalGridLinesBrush="#FF999999" 
+                  VerticalGridLinesBrush="#FF999999"  CanUserAddRows="False" >
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Удалить" Command="{Binding RemoveRepairCommand}" CommandParameter="{Binding SelectedRepairIndex}" />
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+            <DataGrid.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="White" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#0078D7"/>
+            </DataGrid.Resources>
+
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Status}" Value="Готов">
+                            <Setter Property="Background" Value="Lime"></Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Status}" Value="Донор">
+                            <Setter Property="Background" Value="Tomato"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Status}" Value="Не смогли починить">
+                            <Setter Property="Background" Value="Tomato"></Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Status}" Value="Утерян">
+                            <Setter Property="Background" Value="Red"></Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Status}" Value="В ремонте">
+                            <Setter Property="Background" Value="#FFF9F14C"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Status}" Value="Отправлен заказчику">
+                            <Setter Property="Background" Value="DarkGray"></Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="№" Binding="{Binding RepairId}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="№ Док." Binding="{Binding DocumentId}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Наименование" Binding="{Binding Nomenclature}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Серийный Номер" Binding="{Binding Serial_Number}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Клиент" Binding="{Binding Client_Name}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Дата приема" Binding="{Binding Date_Of_Receipt, StringFormat='dd.MM.yyyy'}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Гарантия" Binding="{Binding Warranty}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Дата ремонта" Binding="{Binding Repair_Date, StringFormat='dd.MM.yyyy'}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Статус ремонта" Binding="{Binding Status}" Width="*" IsReadOnly="True"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button x:Name="btnCreate" Content="  Сформировать  " Command="{Binding CreateCommand}" Grid.Column="1"  Click="BtnCreate_Click"
+                VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,5,5" Height="25"/>
 
     </Grid>
 </Page>

@@ -162,6 +162,7 @@
     <Compile Include="Model\FittedDocumentPaginator.cs" />
     <Compile Include="Model\FlowToXps.cs" />
     <Compile Include="Model\RepairsModel.cs" />
+    <Compile Include="Model\SerialNumbers.cs" />
     <Compile Include="Model\SortingEquipments.cs" />
     <Compile Include="Model\SortingRepair.cs" />
     <Compile Include="Navigation\IPageResolver.cs" />

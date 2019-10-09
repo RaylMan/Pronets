@@ -15,6 +15,7 @@ namespace Pronets.EntityRequests.Repairs_f
         private static Repairs repair;
         private static ObservableCollection<Repairs> repairs = new ObservableCollection<Repairs>();
         private static ObservableCollection<v_Repairs> v_Repairs = new ObservableCollection<v_Repairs>();
+        private static ObservableCollection<v_Repairs> repairsTable = new ObservableCollection<v_Repairs>();
 
         public static ObservableCollection<Repairs> FillList()
         {
@@ -64,6 +65,26 @@ namespace Pronets.EntityRequests.Repairs_f
                 var result = from repair in db.v_Repairs
                              select repair;
                 v_Repairs = new ObservableCollection<v_Repairs>(result);
+            }
+            return v_Repairs;
+        }
+        public static ObservableCollection<v_Repairs> v_FillList(string SerialNumber)
+        {
+            try
+            {
+                using (var db = new PronetsDataBaseEntities())
+                {
+                    if (v_Repairs != null)
+                        v_Repairs.Clear();
+                    var result = from repair in db.v_Repairs
+                                 where repair.Serial_Number == SerialNumber
+                                 select repair;
+                    v_Repairs = new ObservableCollection<v_Repairs>(result);
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
             }
             return v_Repairs;
         }
@@ -118,6 +139,19 @@ namespace Pronets.EntityRequests.Repairs_f
                 v_Repairs = new ObservableCollection<v_Repairs>(result);
             }
             return v_Repairs;
+        }
+        public static ObservableCollection<v_Repairs> FillReportList(int DocumentId)
+        {
+            using (var db = new PronetsDataBaseEntities())
+            {
+                if (repairsTable != null)
+                    repairsTable.Clear();
+                var result = from repair in db.v_Repairs
+                             where repair.DocumentId == DocumentId
+                             select repair;
+                repairsTable = new ObservableCollection<v_Repairs>(result);
+            }
+            return repairsTable;
         }
         public static ObservableCollection<v_Repairs> FillListClient(int clientId)
         {
@@ -426,6 +460,14 @@ namespace Pronets.EntityRequests.Repairs_f
             using (var db = new PronetsDataBaseEntities())
             {
                 return db.Repairs.Where(r => r.RepairId == repairId).FirstOrDefault();
+            }
+
+        }
+        public static v_Repairs v_GetRepair(int repairId)
+        {
+            using (var db = new PronetsDataBaseEntities())
+            {
+                return db.v_Repairs.Where(r => r.RepairId == repairId).FirstOrDefault();
             }
 
         }

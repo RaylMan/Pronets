@@ -4,6 +4,7 @@ using Pronets.EntityRequests.Repairs_f;
 using Pronets.Model;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -16,6 +17,18 @@ namespace Pronets.VievModel.Other
         #region Properties
         private v_Receipt_Document document;
         private Clients clientPronets;
+        private List<int> repairsId = new List<int>();
+        private ObservableCollection<v_Repairs> repairsTable = new ObservableCollection<v_Repairs>();
+        public ObservableCollection<v_Repairs> RepairsTable
+        {
+            get { return repairsTable; }
+
+            set
+            {
+                repairsTable = value;
+                RaisedPropertyChanged("RepairsTable");
+            }
+        }
 
         private string dateOfDocument = "3. Дата заполнения: " + DateTime.Now.ToString("dd.MM.yyyy");
         public string DateOfDocument
@@ -37,7 +50,7 @@ namespace Pronets.VievModel.Other
                 RaisedPropertyChanged("DateOfDocument1");
             }
         }
-        
+
         protected string pronetsInfo;
         public string PronetsInfo
         {
@@ -58,7 +71,7 @@ namespace Pronets.VievModel.Other
                 RaisedPropertyChanged("Inn");
             }
         }
-       
+
         protected string telephone_1;
         public string Telephone_1
         {
@@ -69,7 +82,7 @@ namespace Pronets.VievModel.Other
                 RaisedPropertyChanged("Telephone_1");
             }
         }
-        
+
         protected string email;
         public string Email
         {
@@ -91,12 +104,20 @@ namespace Pronets.VievModel.Other
             }
         }
         #endregion
-       
+
         public PrintingWindowVM(v_Receipt_Document document)
         {
             this.document = document;
-            V_Repairs = RepairsRequest.FillList(document.Document_Id);
-            Client_Name = document.Client;
+            RepairsTable = RepairsRequest.FillReportList(document.Document_Id);
+            GetPronetsInfo();
+        }
+        public PrintingWindowVM(List<int> repairsId)
+        {
+            this.repairsId = repairsId;
+            foreach (var Id in repairsId)
+            {
+                repairsTable.Add(RepairsRequest.v_GetRepair(Id));
+            }
             GetPronetsInfo();
         }
 
