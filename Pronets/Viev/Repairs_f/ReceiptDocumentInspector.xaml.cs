@@ -26,6 +26,7 @@ namespace Pronets.Viev.Repairs_f
     public partial class ReceiptDocumentInspector : Window
     {
         private v_Receipt_Document document;
+        public ReceiptDocumentInspectorVM vm => (ReceiptDocumentInspectorVM)DataContext;
         public ReceiptDocumentInspector(v_Receipt_Document document)
         {
             InitializeComponent();
@@ -80,8 +81,11 @@ namespace Pronets.Viev.Repairs_f
 
         private void NewDefectsDoc_Click(object sender, RoutedEventArgs e)
         {
-            PrintingWindow win = new PrintingWindow(document);
-            win.Show();
+            if (vm.SelectedClientItem != null)
+            {
+                PrintingWindow win = new PrintingWindow(document, vm.SelectedClientItem.ClientId);
+                win.Show();
+            }
         }
     }
 }

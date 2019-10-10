@@ -1,4 +1,5 @@
 ﻿using Pronets.Data;
+using Pronets.EntityRequests.Clients_f;
 using Pronets.EntityRequests.Repairs_f;
 using Pronets.Model;
 using System;
@@ -23,6 +24,27 @@ namespace Pronets.VievModel.MainWindows.Pages
             {
                 v_Repairs = value;
                 RaisedPropertyChanged("V_Repairs");
+            }
+        }
+        private ObservableCollection<Clients> clients;
+        public ObservableCollection<Clients> Clients
+        {
+            get { return clients; }
+
+            set
+            {
+                clients = value;
+                RaisedPropertyChanged("Clients");
+            }
+        }
+        private Clients selectedClientItem;
+        public Clients SelectedClientItem
+        {
+            get { return selectedClientItem; }
+            set
+            {
+                selectedClientItem = value;
+                RaisedPropertyChanged("SelectedClientItem");
             }
         }
         private ObservableCollection<SerialNumbers> serialNumbers = new ObservableCollection<SerialNumbers>();
@@ -69,7 +91,7 @@ namespace Pronets.VievModel.MainWindows.Pages
         #endregion
         public DefectsPageVM()
         {
-
+            clients = ClientsRequests.FillList();
         }
         #region AddToTable
         private ICommand addToTableCommand;

@@ -17,6 +17,7 @@ namespace Pronets.VievModel.Other
         #region Properties
         private v_Receipt_Document document;
         private Clients clientPronets;
+        private Clients client;
         private List<int> repairsId = new List<int>();
         private ObservableCollection<v_Repairs> repairsTable = new ObservableCollection<v_Repairs>();
         public ObservableCollection<v_Repairs> RepairsTable
@@ -59,6 +60,16 @@ namespace Pronets.VievModel.Other
             {
                 pronetsInfo = value;
                 RaisedPropertyChanged("PronetsInfo");
+            }
+        }
+        protected string clientInfo;
+        public string ClientInfo
+        {
+            get { return clientInfo; }
+            set
+            {
+                clientInfo = value;
+                RaisedPropertyChanged("ClientInfo");
             }
         }
         protected string inn;
@@ -105,32 +116,44 @@ namespace Pronets.VievModel.Other
         }
         #endregion
 
-        public PrintingWindowVM(v_Receipt_Document document)
+        public PrintingWindowVM(v_Receipt_Document document, int clientId)
         {
             this.document = document;
             RepairsTable = RepairsRequest.FillReportList(document.Document_Id);
-            GetPronetsInfo();
+            if (clientId > 0)
+                client = ClientsRequests.GetClient(clientId);
+            GetInfo();
         }
-        public PrintingWindowVM(List<int> repairsId)
+        public PrintingWindowVM(List<int> repairsId, int clientId)
         {
             this.repairsId = repairsId;
             foreach (var Id in repairsId)
             {
                 repairsTable.Add(RepairsRequest.v_GetRepair(Id));
             }
-            GetPronetsInfo();
+            if (clientId > 0)
+                client = ClientsRequests.GetClient(clientId);
+            GetInfo();
         }
 
-        private void GetPronetsInfo()
+        private void GetInfo()
         {
             clientPronets = ClientsRequests.GetPronetsClient();
             Telephone_1 = clientPronets.Telephone_1;
             Email = clientPronets.Email;
             adress = clientPronets.Adress;
-            pronetsInfo = $"4. Данные Исполнителя:\n 4.1. Организация:  ООО Пронетс\\Новые сети НСК" +
-                $"\n4.2. Отдел: СЦ\n4.4 {Adress}\n" +
-                $"4.5 Телефон: {Telephone_1}\n" +
-                $"4.6 Email: {Email}";
+            pronetsInfo = $"Организация:  ООО \"Пронетс\"" +
+                $"\nОтдел: СЦ" +
+                $"\nАдрес: {Adress}" +
+                $"\nТелефон: {Telephone_1}" +
+                $"\nE-mail: {Email}";
+            if (client != null)
+            {
+                clientInfo = $"Организация:  {client.ClientName}" +
+                                    $"\nАдрес: {client.Adress}" +
+                                    $"\nТелефон: {client.Telephone_1}" +
+                                    $"\nE-mail: {client.Email}";
+            }
         }
     }
 }
