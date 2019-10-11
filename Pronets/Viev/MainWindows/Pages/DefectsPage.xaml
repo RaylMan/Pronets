@@ -34,7 +34,7 @@
                 Margin="0,0,5,5" Height="25"/>
         <!--Column 1-->
         <DataGrid x:Name="Docunents1" ItemsSource="{Binding V_Repairs}" SelectedValue="{Binding SelectedItem}" SelectedIndex="{Binding SelectedRepairIndex}"
-                   Grid.Column="1" Margin="5,5,5,35" AutoGenerateColumns="False" SelectionMode="Single" HorizontalGridLinesBrush="#FF999999" 
+                   Grid.Column="1" Margin="5,38,5,10" AutoGenerateColumns="False" SelectionMode="Single" HorizontalGridLinesBrush="#FF999999" 
                   VerticalGridLinesBrush="#FF999999"  CanUserAddRows="False" >
             <DataGrid.ContextMenu>
                 <ContextMenu>
@@ -83,7 +83,16 @@
             </DataGrid.Columns>
         </DataGrid>
         <Button x:Name="btnCreate" Content="  Сформировать  " Command="{Binding CreateCommand}" Grid.Column="1"  Click="BtnCreate_Click"
-                VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,5,5" Height="25"/>
+                VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,5,5,0" Height="25"/>
+        <Label Content="Клиент" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Margin="0,4,0,0"/>
+        <ComboBox x:Name="cbxClient" ItemsSource="{Binding Clients, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedItem="{Binding SelectedClientItem}"
+                  HorizontalAlignment="Left"  Grid.Column="1" VerticalAlignment="Top" Width="155" Height="25" Margin="48,5,0,0">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding ClientName}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
 
     </Grid>
 </Page>

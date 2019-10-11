@@ -30,19 +30,22 @@ namespace Pronets.Viev.Other
         private v_Receipt_Document document;
         List<int> repairsId = new List<int>();
         public PrintingWindowVM vm => (PrintingWindowVM)DataContext;
+        int clientId = 0;
 
-        public PrintingWindow(v_Receipt_Document document)
+        public PrintingWindow(v_Receipt_Document document, int clientId)
         {
             InitializeComponent();
             this.document = document;
-            DataContext = new PrintingWindowVM(document);
+            this.clientId = clientId;
+            DataContext = new PrintingWindowVM(document, clientId);
             GetTable();
         }
-        public PrintingWindow(List<int> repairsId)
+        public PrintingWindow(List<int> repairsId, int clientId)
         {
             InitializeComponent();
             this.repairsId = repairsId;
-            DataContext = new PrintingWindowVM(repairsId);
+            this.clientId = clientId;
+            DataContext = new PrintingWindowVM(repairsId, clientId);
             GetTable();
         }
 
@@ -135,7 +138,7 @@ namespace Pronets.Viev.Other
                             columnName = "Гарантия";
                             break;
                         case "Identifie_Fault":
-                            columnName = "Выявленная неиспраавность";
+                            columnName = "Выявленная неисправность";
                             break;
                         case "Work_Done":
                             columnName = "Выполненная работа";

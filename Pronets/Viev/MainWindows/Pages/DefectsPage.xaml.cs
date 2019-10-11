@@ -37,8 +37,16 @@ namespace Pronets.Viev.MainWindows.Pages
                 if (repair != null)
                     repairsId.Add(repair.RepairId);
             }
-            PrintingWindow win = new PrintingWindow(repairsId);
-            win.Show();
+            if (vm.SelectedClientItem != null)
+            {
+                PrintingWindow win = new PrintingWindow(repairsId, vm.SelectedClientItem.ClientId);
+                win.Show();
+            }
+            else
+            {
+                MessageBox.Show("Необходимо выбрать клиента", "Ошибка");
+            }
+
         }
     }
 }
