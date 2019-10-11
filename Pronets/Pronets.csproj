@@ -184,6 +184,7 @@
     <Compile Include="VievModel\Nomenclature_f\Nomenclature_TypesVM.cs" />
     <Compile Include="VievModel\Other\PartsWindowVM.cs" />
     <Compile Include="VievModel\Other\PrintingWindowVM.cs" />
+    <Compile Include="VievModel\Other\PtintingPurchaseWindowVM.cs" />
     <Compile Include="VievModel\RelayCommand.cs" />
     <Compile Include="VievModel\Repairs_f\NewReceiptDocumentVM.cs" />
     <Compile Include="VievModel\Repairs_f\ReceiptDocumentInspectorVM.cs" />
@@ -235,6 +236,9 @@
     </Compile>
     <Compile Include="Viev\Other\PrintingWindow.xaml.cs">
       <DependentUpon>PrintingWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Viev\Other\PtintingPurchaseWindow.xaml.cs">
+      <DependentUpon>PtintingPurchaseWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Viev\Repairs_f\NewReceiptDocument.xaml.cs">
       <DependentUpon>NewReceiptDocument.xaml</DependentUpon>
@@ -359,6 +363,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Viev\Other\PrintingWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Viev\Other\PtintingPurchaseWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
