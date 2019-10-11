@@ -16,6 +16,7 @@ namespace Pronets.VievModel.Other
         #region Properties
         private v_Receipt_Document document;
         private Clients clientPronets;
+        private Clients client;
         private List<int> repairsId = new List<int>();
         private ObservableCollection<v_Repairs> repairsTable = new ObservableCollection<v_Repairs>();
         public ObservableCollection<v_Repairs> RepairsTable
@@ -29,6 +30,16 @@ namespace Pronets.VievModel.Other
             }
         }
 
+        private string dateOfDocument = "3. Дата заполнения: " + DateTime.Now.ToString("dd.MM.yyyy");
+        public string DateOfDocument
+        {
+            get { return dateOfDocument; }
+            set
+            {
+                dateOfDocument = value;
+                RaisedPropertyChanged("DateOfDocument");
+            }
+        }
         private string dateOfDocument1 = DateTime.Now.ToString("dd.MM.yyyy");
         public string DateOfDocument1
         {
@@ -39,8 +50,18 @@ namespace Pronets.VievModel.Other
                 RaisedPropertyChanged("DateOfDocument1");
             }
         }
+        private string title;
+        public string Title
+        {
+            get { return title; }
+            set
+            {
+                title = value;
+                RaisedPropertyChanged("Title");
+            }
+        }
 
-        protected string pronetsInfo;
+        private string pronetsInfo;
         public string PronetsInfo
         {
             get { return pronetsInfo; }
@@ -50,7 +71,17 @@ namespace Pronets.VievModel.Other
                 RaisedPropertyChanged("PronetsInfo");
             }
         }
-        protected string inn;
+        private string clientInfo;
+        public string ClientInfo
+        {
+            get { return clientInfo; }
+            set
+            {
+                clientInfo = value;
+                RaisedPropertyChanged("ClientInfo");
+            }
+        }
+        private string inn;
         public string Inn
         {
             get { return inn; }
@@ -61,7 +92,7 @@ namespace Pronets.VievModel.Other
             }
         }
 
-        protected string telephone_1;
+        private string telephone_1;
         public string Telephone_1
         {
             get { return telephone_1; }
@@ -72,7 +103,7 @@ namespace Pronets.VievModel.Other
             }
         }
 
-        protected string email;
+        private string email;
         public string Email
         {
             get { return email; }
@@ -82,7 +113,7 @@ namespace Pronets.VievModel.Other
                 RaisedPropertyChanged("Email");
             }
         }
-        protected string adress;
+        private string adress;
         public string Adress
         {
             get { return adress; }
@@ -94,23 +125,35 @@ namespace Pronets.VievModel.Other
         }
         #endregion
 
-        public PtintingPurchaseWindowVM(v_Receipt_Document document)
+        public PtintingPurchaseWindowVM(v_Receipt_Document document, int clientId)
         {
             this.document = document;
             RepairsTable = RepairsRequest.FillReportList(document.Document_Id);
-            GetPronetsInfo();
+            if (clientId > 0)
+                client = ClientsRequests.GetClient(clientId);
+            GetInfo();
         }
+        
 
-        private void GetPronetsInfo()
+        private void GetInfo()
         {
+            var date = document.Date ?? DateTime.Now; //привести из DateTime?(nullable) в DateTime
+            title = $"Акт приема №{document.Document_Id} \nот {date.ToString("dd MMMM yyyy")}";
             clientPronets = ClientsRequests.GetPronetsClient();
             Telephone_1 = clientPronets.Telephone_1;
             Email = clientPronets.Email;
             adress = clientPronets.Adress;
-            pronetsInfo = $"4. Данные Исполнителя:\n 4.1. Организация:  ООО Пронетс\\Новые сети НСК" +
-                $"\n4.2. Отдел: СЦ\n4.4 {Adress}\n" +
-                $"4.5 Телефон: {Telephone_1}\n" +
-                $"4.6 Email: {Email}";
+            pronetsInfo = $"Организация:  ООО \"Пронетс\"" +
+                $"\nАдрес: {Adress}" +
+                $"\nТелефон: {Telephone_1}" +
+                $"\nE-mail: {Email}";
+            if (client != null)
+            {
+                clientInfo = $"Организация:  {client.ClientName}" +
+                                    $"\nАдрес: {client.Adress}" +
+                                    $"\nТелефон: {client.Telephone_1}" +
+                                    $"\nE-mail: {client.Email}";
+            }
         }
     }
 }

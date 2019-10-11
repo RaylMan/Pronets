@@ -1,21 +1,14 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Data;
-using System.Data.SqlClient;
-using Pronets.Data;
-using System.Windows;
-using System.Windows.Input;
+﻿using Pronets.Data;
 using Pronets.EntityRequests.Clients_f;
-using Pronets.EntityRequests.Users_f;
 using Pronets.EntityRequests.Nomenclature_f;
 using Pronets.EntityRequests.Other;
 using Pronets.EntityRequests.Repairs_f;
-using Pronets.Viev.MainWindows.Pages;
-using Pronets.Model;
+using Pronets.EntityRequests.Users_f;
 using Pronets.Navigation.WindowsNavigation;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Linq;
+using System;
+using System.Collections.ObjectModel;
+using System.Windows;
+using System.Windows.Input;
 
 namespace Pronets.VievModel.Repairs_f
 {

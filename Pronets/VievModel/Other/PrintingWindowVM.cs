@@ -20,6 +20,7 @@ namespace Pronets.VievModel.Other
         private Clients client;
         private List<int> repairsId = new List<int>();
         private ObservableCollection<v_Repairs> repairsTable = new ObservableCollection<v_Repairs>();
+
         public ObservableCollection<v_Repairs> RepairsTable
         {
             get { return repairsTable; }
@@ -52,7 +53,7 @@ namespace Pronets.VievModel.Other
             }
         }
 
-        protected string pronetsInfo;
+        private string pronetsInfo;
         public string PronetsInfo
         {
             get { return pronetsInfo; }
@@ -62,7 +63,7 @@ namespace Pronets.VievModel.Other
                 RaisedPropertyChanged("PronetsInfo");
             }
         }
-        protected string clientInfo;
+        private string clientInfo;
         public string ClientInfo
         {
             get { return clientInfo; }
@@ -72,18 +73,28 @@ namespace Pronets.VievModel.Other
                 RaisedPropertyChanged("ClientInfo");
             }
         }
-        protected string inn;
-        public string Inn
+        private string chiefEngineer;
+        public string ChiefEngineer
         {
-            get { return inn; }
+            get { return chiefEngineer; }
             set
             {
-                inn = value;
-                RaisedPropertyChanged("Inn");
+                chiefEngineer = value;
+                RaisedPropertyChanged("ChiefEngineer");
+            }
+        }
+        private string responsiblePerson;
+        public string ResponsiblePerson
+        {
+            get { return responsiblePerson; }
+            set
+            {
+                responsiblePerson = value;
+                RaisedPropertyChanged("ResponsiblePerson");
             }
         }
 
-        protected string telephone_1;
+        private string telephone_1;
         public string Telephone_1
         {
             get { return telephone_1; }
@@ -94,7 +105,7 @@ namespace Pronets.VievModel.Other
             }
         }
 
-        protected string email;
+        private string email;
         public string Email
         {
             get { return email; }
@@ -104,7 +115,7 @@ namespace Pronets.VievModel.Other
                 RaisedPropertyChanged("Email");
             }
         }
-        protected string adress;
+        private string adress;
         public string Adress
         {
             get { return adress; }
@@ -154,6 +165,10 @@ namespace Pronets.VievModel.Other
                                     $"\nТелефон: {client.Telephone_1}" +
                                     $"\nE-mail: {client.Email}";
             }
+            string respPers = Properties.Settings.Default.ResponsiblePerson ?? "";
+            string engineer = Properties.Settings.Default.ChiefEngineer ?? "";
+            responsiblePerson = $"С актом ознакомлен          Исполнительный директор _____________ {respPers}";
+                chiefEngineer = $"Ответственное лицо          Главный инженер _____________________ {engineer}";
         }
     }
 }

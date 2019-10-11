@@ -87,5 +87,14 @@ namespace Pronets.Viev.Repairs_f
                 win.Show();
             }
         }
+
+        private void NewPurchaseDoc_Click(object sender, RoutedEventArgs e)
+        {
+            if (vm.SelectedClientItem != null)
+            {
+                PtintingPurchaseWindow win = new PtintingPurchaseWindow(document, vm.SelectedClientItem.ClientId);
+                win.Show();
+            }
+        }
     }
 }

@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -477,29 +479,45 @@ namespace Pronets.EntityRequests.Repairs_f
             {
                 if (repairs != null)
                 {
-                    foreach (var repair in repairs)
+                    try
                     {
-                        db.Repairs.Add(new Repairs
+                        foreach (var repair in repairs)
                         {
-                            DocumentId = repair.DocumentId,
-                            Nomenclature = repair.Nomenclature,
-                            Serial_Number = repair.Serial_Number,
-                            Claimed_Malfunction = repair.Claimed_Malfunction,
-                            Client = repair.Client,
-                            Date_Of_Receipt = repair.Date_Of_Receipt,
-                            Departure_Date = repair.Departure_Date,
-                            Inspector = repair.Inspector,
-                            Warranty = repair.Warranty,
-                            Identifie_Fault = repair.Identifie_Fault,
-                            Work_Done = repair.Work_Done,
-                            Repair_Category = repair.Repair_Category,
-                            Engineer = repair.Engineer,
-                            Repair_Date = repair.Repair_Date,
-                            Status = repair.Status,
-                            Note = repair.Note,
-                        });
+                            db.Repairs.Add(new Repairs
+                            {
+                                DocumentId = repair.DocumentId,
+                                Nomenclature = repair.Nomenclature,
+                                Serial_Number = repair.Serial_Number,
+                                Claimed_Malfunction = repair.Claimed_Malfunction,
+                                Client = repair.Client,
+                                Date_Of_Receipt = repair.Date_Of_Receipt,
+                                Departure_Date = repair.Departure_Date,
+                                Inspector = repair.Inspector,
+                                Warranty = repair.Warranty,
+                                Identifie_Fault = repair.Identifie_Fault,
+                                Work_Done = repair.Work_Done,
+                                Repair_Category = repair.Repair_Category,
+                                Engineer = repair.Engineer,
+                                Repair_Date = repair.Repair_Date,
+                                Status = repair.Status,
+                                Note = repair.Note,
+                            });
+                        }
+                        db.SaveChanges();
                     }
-                    db.SaveChanges();
+                    catch (DbEntityValidationException dbEx)
+                    {
+                        foreach (var validationErrors in dbEx.EntityValidationErrors)
+                        {
+                            foreach (var validationError in validationErrors.ValidationErrors)
+                            {
+                                Console.WriteLine("Property: {0} Error: {1}",
+                                                        validationError.PropertyName,
+                                                        validationError.ErrorMessage);
+                            }
+                        }
+                    }
+
                 }
             }
         }

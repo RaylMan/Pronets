@@ -40,6 +40,10 @@
         <DataGrid x:Name="Docunents" ItemsSource="{Binding V_Repairs, UpdateSourceTrigger=PropertyChanged}"  SelectedItem="{Binding SelectedRepair}" 
                   Grid.Row="1" Grid.ColumnSpan="2" Margin="5,5,5,10" AutoGenerateColumns="False" SelectionMode="Single" HorizontalGridLinesBrush="#FF999999" 
                   VerticalGridLinesBrush="#FF999999">
+            <DataGrid.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="White" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#0078D7"/>
+            </DataGrid.Resources>
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
                     <Style.Triggers>
@@ -130,8 +134,8 @@
             <Label Content="Дата ремонта:"  Grid.Column="0" Grid.Row="4"/>
             <Label  Content="Статус ремонта:"  Grid.Column="0" Grid.Row="5"/>
             <Label  Content="Заментка:"  Grid.Column="0" Grid.Row="6"/>
-            <TextBox x:Name="tbxDefect" Grid.Column="1" Grid.Row="0" Text="{Binding Identifie_Fault, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" AcceptsReturn="True" MaxLength="100"/>
-            <TextBox x:Name="tbxWork" Grid.Column="1" Grid.Row="1" Text="{Binding Work_Done, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  TextWrapping="Wrap" AcceptsReturn="True" MaxLength="100"/>
+            <TextBox x:Name="tbxDefect" Grid.Column="1" Grid.Row="0" Text="{Binding Identifie_Fault, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" AcceptsReturn="True" MaxLength="200"/>
+            <TextBox x:Name="tbxWork" Grid.Column="1" Grid.Row="1" Text="{Binding Work_Done, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  TextWrapping="Wrap" AcceptsReturn="True" MaxLength="200"/>
 
             <ComboBox  ItemsSource="{Binding Categories}" SelectedValue="{Binding SelectedCategory}"  Grid.Column="1" Grid.Row="2" >
                 <ComboBox.ItemTemplate>
@@ -156,7 +160,7 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-            <TextBox Grid.Column="1" Grid.Row="6" Text="{Binding Note, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" AcceptsReturn="True" MaxLength="100"/>
+            <TextBox Grid.Column="1" Grid.Row="6" Text="{Binding Note, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" AcceptsReturn="True" MaxLength="200"/>
             <Button Grid.Column="1" Grid.Row="7" Command="{Binding EditCommand}" HorizontalAlignment="Right" Margin="5" Content="Записать" Width="85"/>
         </Grid>
     </Grid>

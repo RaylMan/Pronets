@@ -9,17 +9,30 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
-            <RowDefinition Height="100"/>
+            <RowDefinition Height="90"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="180"/>
         </Grid.RowDefinitions>
         <!--Row 0-->
-        <TextBlock  Grid.Row="0" TextAlignment="Center" FontSize="18" Text="{Binding Id}"/>
+        <StackPanel Grid.Row="0" HorizontalAlignment="Center" Orientation="Horizontal">
+            <TextBlock FontSize="18" Text="{Binding Id}"/>
+            <TextBlock x:Name="txtClient" HorizontalAlignment="Right" Grid.Row="1" FontSize="18" VerticalAlignment="Center" Margin="1"
+                   Text="                Клиент: "></TextBlock>
+            <ComboBox x:Name="cbxClient" ItemsSource="{Binding Clients, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedItem="{Binding SelectedClientItem}"
+                  HorizontalAlignment="Right" Margin="1" Grid.Row="1" VerticalAlignment="Center" Width="155">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding ClientName}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+        </StackPanel>
+
         <!--Row 1-->
-        <Button x:Name="Edit1" Command="{Binding EditCommand}" Content="Записать" Grid.Row="1" HorizontalAlignment="Left" Margin="10,16,0,59"
+        <Button x:Name="Edit1" Command="{Binding EditCommand}" Content="Записать" Grid.Row="1" HorizontalAlignment="Left" Margin="10,16,0,49"
                 RenderTransformOrigin="0.566,-0.08" Width="60" />
-        <Button x:Name="newDefectsDoc"  Content=" Дефектовка " Click="NewDefectsDoc_Click" Grid.Row="1" HorizontalAlignment="Left" Margin="171,76,0,0"
-                RenderTransformOrigin="0.566,-0.08" Width="87" />
+
         <TextBlock x:Name="textBlock2" HorizontalAlignment="Left" Margin="381,0,0,0" TextWrapping="Wrap" Text="Заметка" VerticalAlignment="Top"
                    RenderTransformOrigin="-1.286,-0.188" Grid.Row="1"/>
         <ComboBox x:Name="comboBox1" ItemsSource="{Binding Statuses, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedItem="{Binding SelectedStatusItem}"
@@ -30,26 +43,23 @@
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
-        <TextBox x:Name="textBox1" Text="{Binding NoteOfDocument, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="57" 
+        <TextBox x:Name="textBox1" Text="{Binding NoteOfDocument, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="74" 
                  Margin="294,16,0,0" Grid.Row="1" TextWrapping="Wrap"  MaxLength="200" VerticalAlignment="Top" Width="225"/>
         <TextBlock x:Name="textBlock_Copy1" HorizontalAlignment="Left" Margin="129,0,0,0" TextWrapping="Wrap" Text="Статус документа" VerticalAlignment="Top" 
                    RenderTransformOrigin="-1.286,-0.188" Grid.Row="1"/>
-        <ComboBox x:Name="cbxClient" ItemsSource="{Binding Clients, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedItem="{Binding SelectedClientItem}"
-                  HorizontalAlignment="Left" Margin="602,45,0,0" Grid.Row="1" VerticalAlignment="Top" Width="155" Height="25">
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding ClientName}"/>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
-        <TextBlock x:Name="txtClient" HorizontalAlignment="Left" Margin="547,45,0,0" Grid.Row="1" FontSize="15" VerticalAlignment="Top"
-                   Text="Клиент: "></TextBlock>
-        <TextBlock x:Name="txtInspector" HorizontalAlignment="Left" Margin="547,16,0,0" Grid.Row="1" FontSize="15" VerticalAlignment="Top" 
-                   Text="{Binding InspectorName}" RenderTransformOrigin="0.492,0.977"></TextBlock>
+        <GroupBox Header="Печать" HorizontalAlignment="Left" Height="85" Margin="535,5,0,0" Grid.Row="1" VerticalAlignment="Top" Width="116">
+            <Grid>
+                <Button x:Name="newDefectsDoc"  Content=" Дефектовка " Click="NewDefectsDoc_Click"  HorizontalAlignment="Left" 
+                 Width="87" VerticalAlignment="Top" Margin="7,7,0,0"/>
+                <Button x:Name="newPurchaseDoc"  Content=" Акт приема " Click="NewPurchaseDoc_Click" HorizontalAlignment="Left" Margin="7,32,7,10" Width="87" />
+            </Grid>
+        </GroupBox>
+
+
         <Button x:Name="btnDelete" Content=" Удалить выделенный эмлемент " Command="{Binding RemoveCommand}" Grid.Row="1" HorizontalAlignment="Right" 
-                VerticalAlignment="Bottom" Margin="0,0,10,0"/>
-        <Label Content="Дата отправки" Margin="0,52,5,21" HorizontalAlignment="Left" Grid.Row="1"/>
-        <DatePicker HorizontalAlignment="Left" Margin="5,76,0,0" Grid.Row="1" VerticalAlignment="Top" Width="156" SelectedDate="{Binding Path=DepartureDate,
+                VerticalAlignment="Bottom" Margin="0,0,10,4"/>
+        <Label Content="Дата отправки" Margin="10,44,0,18" HorizontalAlignment="Left" Grid.Row="1"/>
+        <DatePicker HorizontalAlignment="Left" Margin="10,66,0,0" Grid.Row="1" VerticalAlignment="Top" Width="156" SelectedDate="{Binding Path=DepartureDate,
             UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}"/>
 
         <Label Content="Поиск по серийному номеру"  HorizontalAlignment="Right" Height="28" Margin="0,5,26,0" VerticalAlignment="Top" Grid.Row="1"/>

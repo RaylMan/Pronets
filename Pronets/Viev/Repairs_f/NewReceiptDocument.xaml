@@ -59,17 +59,20 @@
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
-        <TextBlock x:Name="textBlock" HorizontalAlignment="Right" Margin="0,5,5,0" Grid.Row="2" TextWrapping="Wrap" Text="Чтобы удалить строки, необходимо их выделить в крайней левой колонке и нажать кнопку 'DELETE'" VerticalAlignment="Top" Height="50" Width="285"/>
+        <TextBlock x:Name="textBlock" HorizontalAlignment="Right" Margin="0,5,5,0" Grid.Row="2" TextWrapping="Wrap" 
+                   Text="Чтобы удалить строки, необходимо их выделить в крайней левой колонке и нажать кнопку 'DELETE'" VerticalAlignment="Top" 
+                   Height="50" Width="285"/>
 
         <!--ROW 3-->
 
-        <DataGrid x:Name="repairsGrid"  ItemsSource="{Binding Repairs, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" FrozenColumnCount="4" Grid.Row="3" Margin="5"  AutoGenerateColumns="False" CanUserAddRows="True" CanUserDeleteRows="True" RowDetailsVisibilityMode="VisibleWhenSelected"
-             SelectionMode="Extended" >
-            <DataGrid.RowHeaderStyle>
+        <DataGrid x:Name="repairsGrid"  ItemsSource="{Binding Repairs, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" FrozenColumnCount="4"
+                  Grid.Row="3" Margin="5"  AutoGenerateColumns="False" CanUserAddRows="True" CanUserDeleteRows="True"
+                  RowDetailsVisibilityMode="VisibleWhenSelected"  SelectionMode="Extended" >
+            <!--<DataGrid.RowHeaderStyle>
                 <Style TargetType="{x:Type DataGridRowHeader}">
                     <Setter Property="Content" Value="    " />
                 </Style>
-            </DataGrid.RowHeaderStyle>
+            </DataGrid.RowHeaderStyle>-->
             <DataGrid.Columns >
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.Header>
@@ -98,11 +101,12 @@
                 </DataGridTemplateColumn>
 
                 <DataGridTextColumn Header="Серийный номер" Width="160" Binding="{Binding Path=Serial_Number, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" >
-                    <DataGridTextColumn.ElementStyle>
-                        <Style>
-                            <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
+                    <DataGridTextColumn.EditingElementStyle>
+                        <Style TargetType="{x:Type TextBox}">
+                            <Setter Property="MaxLength" Value="50"/>
+                            <Setter Property="TextWrapping" Value="Wrap"/>
                         </Style>
-                    </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn.EditingElementStyle>
                 </DataGridTextColumn>
 
                 <DataGridTemplateColumn  Header="Гарантия">
@@ -119,13 +123,13 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTextColumn Header="Заявленная неисправность" Binding="{Binding Path=Claimed_Malfunction, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="*"  >
-                    <DataGridTextColumn.ElementStyle>
-                        <Style>
-                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
-                            <Setter Property="TextBox.MaxLength" Value="200"/>
+                <DataGridTextColumn Header="Заявленная неисправность" Binding="{Binding Path=Claimed_Malfunction, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="*"   >
+                    <DataGridTextColumn.EditingElementStyle>
+                        <Style TargetType="{x:Type TextBox}">
+                            <Setter Property="MaxLength" Value="200"/>
+                            <Setter Property="TextWrapping" Value="Wrap"/>
                         </Style>
-                    </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn.EditingElementStyle>
                 </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>

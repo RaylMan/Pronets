@@ -7,12 +7,12 @@
         mc:Ignorable="d"
         Title="Печать документа" Height="700" Width="900">
     <Grid>
-        <Button x:Name="btnPrint" Click="BtnPrint_Click"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,10,0,0" Height="25" Width="74">
+        <Button x:Name="btnPrint" Click="BtnPrint_Click"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10" Height="25" Width="74">
             <Viewbox>
-                <TextBlock Text="  Печать  " />
+                <TextBlock Text="  Печать  "  />
             </Viewbox>
         </Button>
-        <FlowDocumentScrollViewer x:Name="flowViever" Margin="10,35,10,10" BorderBrush="Black" BorderThickness="1" >
+        <FlowDocumentScrollViewer x:Name="flowViever" Margin="10,40,10,10" BorderBrush="Black" BorderThickness="1" >
             <FlowDocument x:Name="flowDocument">
                 <Table Margin="2">
                     <Table.Columns>
@@ -20,15 +20,15 @@
                         <TableColumn></TableColumn>
                         <TableColumn></TableColumn>
                     </Table.Columns>
-                    <TableRowGroup FontSize="14">
-                        <TableRow FontSize="15">
+                    <TableRowGroup FontSize="14" FontFamily="Times New Roman">
+                        <TableRow FontSize="15" FontFamily="Times New Roman">
                             <TableCell>
                                 <Paragraph></Paragraph>
                             </TableCell>
                             <TableCell>
                                 <Paragraph TextAlignment="Center" >
                                     <InlineUIContainer>
-                                        <TextBlock FontSize="15">Дефектная ведомость</TextBlock>
+                                        <TextBlock FontSize="15" FontFamily="Times New Roman">Дефектная ведомость</TextBlock>
                                     </InlineUIContainer>
                                 </Paragraph>
                             </TableCell>
@@ -42,44 +42,42 @@
                         </TableRow>
                     </TableRowGroup>
                 </Table>
-                <Paragraph TextAlignment="Left" Margin="2" FontSize="10" >
+                <Paragraph TextAlignment="Left" Margin="2" FontSize="10" FontFamily="Times New Roman">
                     Исполнитель
                 </Paragraph>
-                <Paragraph TextAlignment="Left" Margin="2" FontSize="10" BorderBrush="Black" BorderThickness="1">
+                <Paragraph TextAlignment="Left" Margin="2" FontSize="10" FontFamily="Times New Roman" BorderBrush="Black" BorderThickness="1">
                     <InlineUIContainer>
-                        <TextBlock Text="{Binding PronetsInfo}" FontSize="10"></TextBlock>
+                        <TextBlock Text="{Binding PronetsInfo}" FontSize="10" FontFamily="Times New Roman"></TextBlock>
                     </InlineUIContainer>
                 </Paragraph>
-                <Paragraph TextAlignment="Left" Margin="2" FontSize="10" >
+                <Paragraph TextAlignment="Left" Margin="2" FontSize="10" FontFamily="Times New Roman" >
                     Заказчик
                 </Paragraph>
                 <Paragraph TextAlignment="Left" Margin="2" BorderBrush="Black" BorderThickness="1" >
                     <InlineUIContainer>
-                        <TextBlock Text="{Binding ClientInfo}" FontSize="10"></TextBlock>
+                        <TextBlock Text="{Binding ClientInfo}" FontSize="10" FontFamily="Times New Roman"></TextBlock>
                     </InlineUIContainer>
                 </Paragraph>
 
-                <Table x:Name="Table1" BorderBrush="Black" Background="Black" FontSize="9" BorderThickness="1">
+                <Table x:Name="Table1" Margin="2,10,10,2" BorderBrush="Black" Background="Black" FontSize="9" FontFamily="Times New Roman" BorderThickness="1">
                 </Table>
 
                 <Paragraph TextAlignment="Left"  Margin="2,10">
                     <InlineUIContainer>
-                        <TextBlock Text="Ответственное лицо          Главный Инженер _____________________ Литвинов М.Я." FontSize="10"></TextBlock>
+                        <TextBlock Text="{Binding ChiefEngineer}" FontSize="10" FontFamily="Times New Roman"></TextBlock>
                     </InlineUIContainer>
                 </Paragraph>
                 <Paragraph TextAlignment="Left"  Margin="2,20">
                     <InlineUIContainer>
-                        <TextBlock Text="С актом ознакомлен         Исполнительный директор _______________ Федотов М.А." FontSize="10"></TextBlock>
+                        <TextBlock Text="{Binding ResponsiblePerson}" FontSize="10" FontFamily="Times New Roman"></TextBlock>
                     </InlineUIContainer>
                 </Paragraph>
                 <Paragraph TextAlignment="Center"  Margin="2,10">
                     <InlineUIContainer>
-                        <TextBlock Text="{Binding DateOfDocument1}" FontSize="10"></TextBlock>
+                        <TextBlock Text="{Binding DateOfDocument1}" FontSize="10" FontFamily="Times New Roman"></TextBlock>
                     </InlineUIContainer>
                 </Paragraph>
             </FlowDocument>
-
         </FlowDocumentScrollViewer>
-
     </Grid>
 </Window>

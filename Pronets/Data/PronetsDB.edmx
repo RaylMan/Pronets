@@ -122,20 +122,20 @@
           <Property Name="RepairId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DocumentId" Type="int" />
           <Property Name="Nomenclature" Type="nvarchar" MaxLength="50" />
-          <Property Name="Serial_Number" Type="nvarchar" MaxLength="50" />
-          <Property Name="Claimed_Malfunction" Type="nvarchar" MaxLength="50" />
+          <Property Name="Serial_Number" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Claimed_Malfunction" Type="nvarchar" MaxLength="200" />
           <Property Name="Client" Type="int" />
           <Property Name="Date_Of_Receipt" Type="datetime" />
           <Property Name="Departure_Date" Type="datetime" />
           <Property Name="Inspector" Type="int" />
           <Property Name="Warranty" Type="nvarchar" MaxLength="50" />
-          <Property Name="Identifie_Fault" Type="nvarchar" MaxLength="100" />
-          <Property Name="Work_Done" Type="nvarchar" MaxLength="100" />
+          <Property Name="Identifie_Fault" Type="nvarchar" MaxLength="200" />
+          <Property Name="Work_Done" Type="nvarchar" MaxLength="200" />
           <Property Name="Repair_Category" Type="nvarchar" MaxLength="50" />
           <Property Name="Engineer" Type="int" />
           <Property Name="Repair_Date" Type="date" />
           <Property Name="Status" Type="nvarchar" MaxLength="50" />
-          <Property Name="Note" Type="nvarchar" MaxLength="100" />
+          <Property Name="Note" Type="nvarchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="Statuses">
           <Key>
@@ -557,20 +557,20 @@
           <Property Name="RepairId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DocumentId" Type="Int32" />
           <Property Name="Nomenclature" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Serial_Number" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Claimed_Malfunction" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Serial_Number" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Claimed_Malfunction" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="Client" Type="Int32" />
           <Property Name="Date_Of_Receipt" Type="DateTime" Precision="3" />
           <Property Name="Departure_Date" Type="DateTime" Precision="3" />
           <Property Name="Inspector" Type="Int32" />
           <Property Name="Warranty" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Identifie_Fault" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Work_Done" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Identifie_Fault" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Work_Done" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="Repair_Category" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Engineer" Type="Int32" />
           <Property Name="Repair_Date" Type="DateTime" Precision="0" />
           <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Note" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Note" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Clients" Relationship="Self.FK_Repairs_Clients" FromRole="Repairs" ToRole="Clients" />
           <NavigationProperty Name="Nomenclature1" Relationship="Self.FK_Repairs_Nomenclature" FromRole="Repairs" ToRole="Nomenclature" />
           <NavigationProperty Name="ReceiptDocument" Relationship="Self.FK_Repairs_ReceiptDocument" FromRole="Repairs" ToRole="ReceiptDocument" />

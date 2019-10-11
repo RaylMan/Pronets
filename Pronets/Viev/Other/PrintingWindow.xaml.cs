@@ -27,9 +27,9 @@ namespace Pronets.Viev.Other
     /// </summary>
     public partial class PrintingWindow : Window
     {
+        public PrintingWindowVM vm => (PrintingWindowVM)DataContext;
         private v_Receipt_Document document;
         List<int> repairsId = new List<int>();
-        public PrintingWindowVM vm => (PrintingWindowVM)DataContext;
         int clientId = 0;
 
         public PrintingWindow(v_Receipt_Document document, int clientId)
