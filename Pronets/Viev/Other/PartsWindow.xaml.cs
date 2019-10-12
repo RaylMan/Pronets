@@ -23,5 +23,24 @@ namespace Pronets.Viev.Other
         {
             InitializeComponent();
         }
+        private bool isFocused;
+        private void TbxSearch_GotFocus(object sender, RoutedEventArgs e)
+        {
+            isFocused = true;
+        }
+
+        private void TbxSearch_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            if (isFocused)
+            {
+                isFocused = false;
+                (sender as TextBox).SelectAll();
+            }
+        }
+        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (grdParts.SelectedItem != null)
+                grdParts.ScrollIntoView(grdParts.SelectedItem);
+        }
     }
 }

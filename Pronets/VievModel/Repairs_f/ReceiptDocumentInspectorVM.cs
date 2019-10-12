@@ -343,6 +343,7 @@ namespace Pronets.VievModel.Repairs_f
             }
         }
         #endregion
+
         #region Copy Repairs
         private void GetCopyRepairs()
         {

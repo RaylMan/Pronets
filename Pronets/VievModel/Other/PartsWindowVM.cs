@@ -186,6 +186,7 @@ namespace Pronets.VievModel.Other
         #endregion
 
         #region Parts properties
+        private List<Parts> searchParts = new List<Parts>();
         private ObservableCollection<Parts> parts = new ObservableCollection<Parts>();
         public ObservableCollection<Parts> Parts
         {
@@ -225,6 +226,16 @@ namespace Pronets.VievModel.Other
             {
                 selectedPart = value;
                 RaisedPropertyChanged("SelectedPart");
+            }
+        }
+        private string searchText;
+        public string SearchText
+        {
+            get { return searchText; }
+            set
+            {
+                searchText = value;
+                RaisedPropertyChanged("SearchText");
             }
         }
         #endregion
@@ -381,36 +392,82 @@ namespace Pronets.VievModel.Other
         #endregion
 
         #region Search
-        private string searchString;
-
-        public string SearchString
+        int searchCount = 0; // общеек количество совпадения поиска
+        int searchPosition = 0; // номер элемента поиска для выделения строки(FindNext)
+        protected ICommand searchCommand;
+        public ICommand SearchCommand
         {
-            get { return searchString; }
+            get
+            {
+                if (searchCommand == null)
+                {
+                    searchCommand = new RelayCommand(new Action<object>(Search));
+                }
+                return searchCommand;
+            }
             set
             {
-                if (SetProperty(ref searchString, value))
-                {
+                searchCommand = value;
+                RaisedPropertyChanged("SearchCommand");
+            }
+        }
+        public void Search(object Parameter)
+        {
+            if (!String.IsNullOrWhiteSpace(SearchText))
+            {
 
-                    PropertyInfo prop = typeof(Parts).GetProperty("Part_Name");
-                    if (prop != null)
+                searchPosition = 0;
+                searchParts = Parts.Where(p => p.Part_Name.Contains(SearchText)).ToList();
+                searchCount = searchParts.Count;
+                if (searchParts.Count > 0)
+                {
+                    SelectedPart = (Parts)searchParts[0];
+                    searchPosition++;
+                }
+            }
+        }
+
+        #endregion
+        #region Search next
+        protected ICommand searchNextCommand;
+        public ICommand SearchNextCommand
+        {
+            get
+            {
+                if (searchNextCommand == null)
+                {
+                    searchNextCommand = new RelayCommand(new Action<object>(SearchNext));
+                }
+                return searchNextCommand;
+            }
+            set
+            {
+                searchNextCommand = value;
+                RaisedPropertyChanged("SearchNextCommand");
+            }
+        }
+        public void SearchNext(object Parameter)
+        {
+            if (searchParts.Count > 0)
+            {
+                if (!string.IsNullOrWhiteSpace(SearchText) && searchParts[0].Part_Name.Contains(SearchText))
+                {
+                    if (searchPosition < searchParts.Count)
                     {
-                        if (
-                            Parts.Any(
-                                p =>
-                                    prop.GetValue(p)
-                                        .ToString()
-                                        .ToLower()
-                                        .Contains(searchString.ToLower())))
-                        {
-                            SelectedPart =
-                                Parts.First(
-                                    p =>
-                                        prop.GetValue(p)
-                                            .ToString()
-                                            .ToLower()
-                                            .Contains(searchString.ToLower()));
-                        }
+                        SelectedPart = (Parts)searchParts[searchPosition];
+                        searchPosition++;
                     }
+                    else if (searchPosition == searchParts.Count)
+                    {
+                        SelectedPart = (Parts)searchParts[0];
+                        searchPosition = 1;
+                    }
+                }
+                else
+                {
+                    searchPosition = 0;
+                    searchCount = 0;
+                    searchParts.Clear();
                 }
             }
         }

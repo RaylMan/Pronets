@@ -21,9 +21,9 @@
         </Grid.RowDefinitions>
         <!--Parts-->
         <Grid Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" >
-            <DataGrid ItemsSource="{Binding Parts}" AutoGenerateColumns="False" SelectedIndex="{Binding SelectedIndex}" SelectedValue="{Binding SelectedPart}" 
+            <DataGrid x:Name="grdParts" ItemsSource="{Binding Parts}" AutoGenerateColumns="False" SelectedIndex="{Binding SelectedIndex}" SelectedValue="{Binding SelectedPart}" 
                       SelectionMode="Single" HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999" HorizontalAlignment="Left" Margin="5,5,200,5"
-                      CanUserAddRows="False">
+                      CanUserAddRows="False" SelectionChanged="DataGrid_SelectionChanged">
 
                 <DataGrid.InputBindings>
                     <MouseBinding  MouseAction="LeftDoubleClick" Command="{Binding DoubleClickCommand}"/>
@@ -43,8 +43,10 @@
             <TextBox Text="{Binding Part_Price, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Right" VerticalAlignment="Top" Width="150" Margin="0,63,24,0"/>
             <Button Content=" Добавить " Command="{Binding AddPartCommand}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,93,72,0" />
             <Button Content=" Удалить " Command="{Binding RemovePartCommand}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,118,72,0" Width="63" />
-            <TextBox TextWrapping="Wrap" Text="{Binding SearchString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     ToolTip="Search" HorizontalAlignment="Right" VerticalAlignment="Top" Width="150" Margin="0,169,24,0"/>
+            <TextBox TextWrapping="Wrap" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" GotFocus="TbxSearch_GotFocus"
+                     SelectionChanged="TbxSearch_SelectionChanged" HorizontalAlignment="Right" VerticalAlignment="Top" Width="150" Margin="0,169,24,0"/>
+            <Button Content="  Поиск  " Command="{Binding SearchCommand}" HorizontalAlignment="Right" VerticalAlignment="Top"  Grid.Row="0" Margin="0,192,123,0"/>
+            <Button Content="  Далее  " Command="{Binding SearchNextCommand}" HorizontalAlignment="Right" VerticalAlignment="Top"  Grid.Row="0" RenderTransformOrigin="5.26,4.85" Margin="0,192,24,0"/>
             <Label Content=" Поиск " HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,148,124,0" Height="26"/>
         </Grid>
         <!--Receipt of Parts-->
@@ -89,7 +91,7 @@
             <ComboBox ItemsSource="{Binding Statuses}" SelectedItem="{Binding SelectedStatus, Mode=TwoWay}" Text="Select Option" Margin="0,5,5,0" HorizontalAlignment="Right" VerticalAlignment="Top" Width="130"/>
             <DataGrid ItemsSource="{Binding PartsOrder}" AutoGenerateColumns="False" SelectedIndex="{Binding SelectedOrderIndex}" SelectedValue="{Binding SelectedOrder}" 
                        HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999" Margin="0,30,5,5" CanUserAddRows="False">
-                
+
                 <DataGrid.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Удалить" Command="{Binding RemoveOrderCommand}" CommandParameter="{Binding SelectedOrderIndex}"/>

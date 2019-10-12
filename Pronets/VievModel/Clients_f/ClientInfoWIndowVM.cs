@@ -680,7 +680,7 @@ namespace Pronets.VievModel.Clients_f
             }
             set
             {
-                searchItem = value;
+                searchRepairCommand = value;
                 RaisedPropertyChanged("SearchRepairCommand");
             }
         }
