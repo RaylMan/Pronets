@@ -88,6 +88,8 @@
                 <DataGridTextColumn Header="Дата приема" Binding="{Binding Path=Date_Of_Receipt, UpdateSourceTrigger=PropertyChanged, StringFormat='dd.MM.yyyy'}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Дата ремонта" Binding="{Binding Path=Repair_Date, UpdateSourceTrigger=PropertyChanged, StringFormat='dd.MM.yyyy'}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Статус" Binding="{Binding Path=Status, UpdateSourceTrigger=PropertyChanged, StringFormat='dd.MM.yyyy'}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Получатель" Binding="{Binding Recipient}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Дата отправки" Binding="{Binding Departure_Date, StringFormat='dd.MM.yyyy'}" IsReadOnly="True"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

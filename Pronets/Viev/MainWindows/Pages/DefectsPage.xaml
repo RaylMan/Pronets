@@ -82,7 +82,7 @@
                 <DataGridTextColumn Header="Статус ремонта" Binding="{Binding Status}" Width="*" IsReadOnly="True"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="btnCreate" Content="  Сформировать  " Command="{Binding CreateCommand}" Grid.Column="1"  Click="BtnCreate_Click"
+        <Button x:Name="btnCreate" Content="  Сформировать  " Grid.Column="1"  Click="BtnCreate_Click"
                 VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,5,5,0" Height="25"/>
         <Label Content="Клиент" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Margin="0,4,0,0"/>
         <ComboBox x:Name="cbxClient" ItemsSource="{Binding Clients, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedItem="{Binding SelectedClientItem}"

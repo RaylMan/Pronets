@@ -9,6 +9,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Pronets.VievModel.Other
 {
@@ -168,7 +169,36 @@ namespace Pronets.VievModel.Other
             string respPers = Properties.Settings.Default.ResponsiblePerson ?? "";
             string engineer = Properties.Settings.Default.ChiefEngineer ?? "";
             responsiblePerson = $"С актом ознакомлен          Исполнительный директор _____________ {respPers}";
-                chiefEngineer = $"Ответственное лицо          Главный инженер _____________________ {engineer}";
+            chiefEngineer = $"Ответственное лицо          Главный инженер _____________________ {engineer}";
         }
+        #region AddRecipientCommand
+        private ICommand addRecipientCommand;
+        public ICommand AddRecipientCommand
+        {
+            get
+            {
+                if (addRecipientCommand == null)
+                {
+                    addRecipientCommand = new RelayCommand(new Action<object>(AddRecipient));
+                }
+                return addRecipientCommand;
+            }
+            set
+            {
+                addRecipientCommand = value;
+                RaisedPropertyChanged("AddRecipientCommand");
+            }
+        }
+        public void AddRecipient(object Parameter)
+        {
+            if(repairsTable.Count > 0 && client != null)
+            {
+                foreach (var repair in repairsTable)
+                {
+                    RepairsRequest.SetRepairRecipient(repair.RepairId, client.ClientName);
+                }
+            }
+        }
+        #endregion
     }
 }

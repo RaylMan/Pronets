@@ -31,6 +31,7 @@ namespace Pronets.Data
         public Nullable<System.DateTime> Repair_Date { get; set; }
         public string Status { get; set; }
         public string Note { get; set; }
+        public string Recipient { get; set; }
     
         public virtual Clients Clients { get; set; }
         public virtual Nomenclature Nomenclature1 { get; set; }

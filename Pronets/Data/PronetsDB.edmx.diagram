@@ -37,6 +37,7 @@
         <EntityTypeShape EntityType="PronetsDBModel.ReceiptOfParts" Width="1.5" PointX="4.375" PointY="12" />
         <AssociationConnector Association="PronetsDBModel.FK_PartsOrder_Parts" />
         <AssociationConnector Association="PronetsDBModel.FK_PartsOrder_ReceiptOfParts" />
+        <EntityTypeShape EntityType="PronetsDBModel.OverTime" Width="1.5" PointX="7.375" PointY="4.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

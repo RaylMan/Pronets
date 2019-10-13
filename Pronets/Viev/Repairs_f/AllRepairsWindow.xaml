@@ -78,6 +78,7 @@
                 </DataGridTextColumn>
                 <DataGridTextColumn Header="Дата приема" Binding="{Binding Date_Of_Receipt, StringFormat='dd.MM.yyyy'}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Дата отправки" Binding="{Binding Departure_Date, StringFormat='dd.MM.yyyy'}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Получатель" Binding="{Binding Recipient}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Гарантия" Binding="{Binding Warranty}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Выявленная неисправность" Binding="{Binding Identifie_Fault}" MaxWidth="200" IsReadOnly="True">
                     <DataGridTextColumn.ElementStyle>

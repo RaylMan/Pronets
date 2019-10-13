@@ -31,7 +31,7 @@ namespace Pronets.Viev
         }
         private void Start_Click(object sender, RoutedEventArgs e)
         {
-            WorkWindowAdmin workWindowAdmin = new WorkWindowAdmin();
+            WorkWindowAdmin workWindowAdmin = new WorkWindowAdmin(UsersRequest.Login("admin", "password"));
             workWindowAdmin.Show();
             this.Close();
             Properties.Settings.Default.ProgOpen++;

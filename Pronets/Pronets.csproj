@@ -91,6 +91,9 @@
     <Compile Include="Data\No_in_Repairs.cs">
       <DependentUpon>PronetsDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\OverTime.cs">
+      <DependentUpon>PronetsDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\Parts.cs">
       <DependentUpon>PronetsDB.tt</DependentUpon>
     </Compile>
@@ -148,6 +151,7 @@
     <Compile Include="EntityRequests\Clients_f\ClientsRequests.cs" />
     <Compile Include="EntityRequests\Nomenclature_f\NomenclatureRequest.cs" />
     <Compile Include="EntityRequests\Nomenclature_f\Nomenclature_TypesRequest.cs" />
+    <Compile Include="EntityRequests\Other\OvertimeRequest.cs" />
     <Compile Include="EntityRequests\Other\PartsOrderRequest.cs" />
     <Compile Include="EntityRequests\Other\PartsRequest.cs" />
     <Compile Include="EntityRequests\Other\ReceiptDocumentRequest.cs" />
@@ -185,6 +189,7 @@
     <Compile Include="VievModel\Other\PartsWindowVM.cs" />
     <Compile Include="VievModel\Other\PrintingWindowVM.cs" />
     <Compile Include="VievModel\Other\PtintingPurchaseWindowVM.cs" />
+    <Compile Include="VievModel\Other\UserOvertimeWindowVM.cs" />
     <Compile Include="VievModel\RelayCommand.cs" />
     <Compile Include="VievModel\Repairs_f\AllRepairsWindowVM.cs" />
     <Compile Include="VievModel\Repairs_f\NewReceiptDocumentVM.cs" />
@@ -240,6 +245,9 @@
     </Compile>
     <Compile Include="Viev\Other\PtintingPurchaseWindow.xaml.cs">
       <DependentUpon>PtintingPurchaseWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Viev\Other\UserOvertimeWindow.xaml.cs">
+      <DependentUpon>UserOvertimeWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Viev\Repairs_f\AllRepairsWindow.xaml.cs">
       <DependentUpon>AllRepairsWindow.xaml</DependentUpon>
@@ -371,6 +379,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Viev\Other\PtintingPurchaseWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Viev\Other\UserOvertimeWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

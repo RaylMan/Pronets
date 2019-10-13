@@ -94,5 +94,53 @@ namespace Pronets.Properties {
                 this["Password"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("3000")]
+        public int PricePerDay {
+            get {
+                return ((int)(this["PricePerDay"]));
+            }
+            set {
+                this["PricePerDay"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("200")]
+        public int PricePerHour {
+            get {
+                return ((int)(this["PricePerHour"]));
+            }
+            set {
+                this["PricePerHour"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string DefaultLastName {
+            get {
+                return ((string)(this["DefaultLastName"]));
+            }
+            set {
+                this["DefaultLastName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int DefaultUserId {
+            get {
+                return ((int)(this["DefaultUserId"]));
+            }
+            set {
+                this["DefaultUserId"] = value;
+            }
+        }
     }
 }

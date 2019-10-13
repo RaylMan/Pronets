@@ -124,10 +124,6 @@ namespace Pronets.VievModel.MainWindows.Pages
         }
         #endregion
 
-        #region Create Report
-
-        #endregion
-
         #region Clear
         private ICommand clearCommand;
         public ICommand ClearCommand
@@ -173,15 +169,15 @@ namespace Pronets.VievModel.MainWindows.Pages
         }
         private void RemoveSerial(object Parameter)
         {
-            if(selectedSerialItem != null)
-            {
-                var removedItems = V_Repairs.Where(r => r.Serial_Number == SelectedSerialItem.Serial).ToList();
-                foreach (var repair in removedItems)
-                {
-                    v_Repairs.Remove(repair);
-                }
-                serialNumbers.RemoveAt(SelectedSerialIndex);
-            }
+            //if(selectedSerialItem != null)
+            //{
+            //    var removedItems = V_Repairs.Where(r => r.Serial_Number == SelectedSerialItem.Serial).ToList();
+            //    foreach (var repair in removedItems)
+            //    {
+            //        v_Repairs.Remove(repair);
+            //    }
+            //    serialNumbers.RemoveAt(SelectedSerialIndex);
+            //}
         }
         private ICommand removeRepairCommand;
         public ICommand RemoveRepairCommand

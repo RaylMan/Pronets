@@ -1,4 +1,5 @@
 ﻿using Pronets.Data;
+using Pronets.Viev.Other;
 using Pronets.VievModel.MainWindows;
 using Pronets.VievModel.MainWindows.Pages;
 using System;
@@ -56,7 +57,13 @@ namespace Pronets.Viev.MainWindows
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            //System.Windows.Application.Current.Shutdown();
+            System.Windows.Application.Current.Shutdown();
+        }
+
+        private void Overtime_Click(object sender, RoutedEventArgs e)
+        {
+            UserOvertimeWindow overtimeWindow = new UserOvertimeWindow(user);
+            overtimeWindow.Show();
         }
     }
 }

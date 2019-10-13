@@ -23,8 +23,7 @@ namespace Pronets.EntityRequests.Repairs_f
         {
             using (var db = new PronetsDataBaseEntities())
             {
-                if (repairs != null)
-                    repairs.Clear();
+                repairs.Clear();
                 foreach (var item in db.Repairs)
                 {
                     repairs.Add(new Repairs
@@ -36,6 +35,7 @@ namespace Pronets.EntityRequests.Repairs_f
                         Client = item.Client,
                         Date_Of_Receipt = item.Date_Of_Receipt,
                         Departure_Date = item.Departure_Date,
+                        Recipient = item.Recipient,
                         Inspector = item.Inspector,
                         Warranty = item.Warranty,
                         Identifie_Fault = item.Identifie_Fault,
@@ -448,6 +448,7 @@ namespace Pronets.EntityRequests.Repairs_f
 
             using (var db = new PronetsDataBaseEntities())
             {
+
                 var result = from repair in db.v_Repairs
                              where repair.Serial_Number == serialNumber &&
                              repair.RepairId != repairId
@@ -473,6 +474,7 @@ namespace Pronets.EntityRequests.Repairs_f
             }
 
         }
+
         public static void AddToBase(ObservableCollection<Repairs> repairs)
         {
             using (var db = new PronetsDataBaseEntities())
@@ -555,6 +557,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 db.SaveChanges();
             }
         }
+
         public static void EditItemStatus(int repairId, DateTime date)
         {
             using (var db = new PronetsDataBaseEntities())
@@ -563,6 +566,27 @@ namespace Pronets.EntityRequests.Repairs_f
                 result.ForEach(s => { s.Status = "Отправлен заказчику"; s.Departure_Date = date; });
                 db.SaveChanges();
 
+            }
+        }
+
+        public static void SetRepairRecipient(int repairId, string clientName)
+        {
+            using (var db = new PronetsDataBaseEntities())
+            {
+                try
+                {
+                    var result = db.Repairs.Where(r => r.RepairId == repairId).FirstOrDefault();
+                    if (result != null && clientName != null)
+                    {
+                        result.Recipient = clientName;
+                        result.Departure_Date = DateTime.Now;
+                        db.SaveChanges();
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
             }
         }
         public static void EditItemClient(int documentID, int clientId)

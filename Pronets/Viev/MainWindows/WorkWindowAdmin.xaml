@@ -26,7 +26,8 @@
                 <ColumnDefinition Width="12.667"></ColumnDefinition>
                 <ColumnDefinition Width="70.333"/>
                 <ColumnDefinition Width="22.667"/>
-                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="7*"></ColumnDefinition>
+                <ColumnDefinition Width="144*"/>
             </Grid.ColumnDefinitions>
             <Border Grid.Column="0" BorderBrush="LightGray" BorderThickness="0,0,1,1" Background="{x:Null}" Grid.ColumnSpan="3"/>
             <Button x:Name="receiptDocumentPage" Content="Приход" VerticalAlignment="Top" Margin="5,5,5,0" Command="{Binding GoToReceiptDocumentCommand}" CommandParameter="{Binding ReceiptDocumentPageVM}" Grid.ColumnSpan="3" />
@@ -34,7 +35,7 @@
             <Button x:Name="defects" Content="Дефектовка" VerticalAlignment="Top" Margin="5,59,5,0" Command="{Binding GoToDefectsCommand}" CommandParameter="{Binding DefectsPageVM}" Grid.ColumnSpan="3" />
             <Button x:Name="AddDocument" Content="Оборудование" VerticalAlignment="Top" Margin="5,89,5,0" Command="{Binding GoToEquipmentWindowCommand}" CommandParameter="{Binding EquipmentWindowVM}" Grid.ColumnSpan="3" />
 
-            <Frame  x:Name="MainFrame" NavigationUIVisibility="Hidden" Grid.Column="3" Background="#CCCCCC"/>
+            <Frame  x:Name="MainFrame" NavigationUIVisibility="Hidden" Grid.Column="3" Background="#CCCCCC" Grid.ColumnSpan="2"/>
         </Grid>
 
         <Menu Height="20" Grid.Row="0" VerticalAlignment="top" Grid.ColumnSpan="2" Grid.RowSpan="2">
@@ -44,7 +45,7 @@
             </MenuItem>
             <MenuItem Header="Работники">
                 <MenuItem Name="Users" Header="Пользователи" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type users:UsersWindow}"></MenuItem>
-                <MenuItem Name="Overtime" Header="Переработка" Command="{Binding OpenWindowCommand}"  CommandParameter="{x:Type other:OvertimeWindow}" Background="red"></MenuItem>
+                <MenuItem Name="Overtime" Header="Переработка" Click="Overtime_Click"></MenuItem>
             </MenuItem>
             <MenuItem Header="Клиенты">
                 <MenuItem Name="Clients" Header="Клиенты" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type clients:ClientsWindow}"></MenuItem>

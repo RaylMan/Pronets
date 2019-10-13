@@ -285,6 +285,7 @@ namespace Pronets.VievModel.Repairs_f
             warrantys.Add(new Warrantys { Warranty = "Нет" });
             warrantys.Add(new Warrantys { Warranty = "Гарантия Элтекс" });
             warrantys.Add(new Warrantys { Warranty = "Наша Гарантия" });
+            GetDefaultUser();
             OpenWindowCommand = new OpenWindowCommand();
         }
 
@@ -354,6 +355,15 @@ namespace Pronets.VievModel.Repairs_f
                 MessageBox.Show("Необходимо выбрать клиента и приемщика!", "Ошибка");
         }
         #endregion
-
+        private void GetDefaultUser()
+        {
+            foreach (var user in users)
+            {
+                if(user.UserId == Properties.Settings.Default.DefaultUserId)
+                {
+                    SelectUserItem = user;
+                }
+            }
+        }
     }
 }

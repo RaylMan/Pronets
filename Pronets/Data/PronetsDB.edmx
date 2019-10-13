@@ -65,6 +65,17 @@
           </Key>
           <Property Name="Type" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <EntityType Name="OverTime">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Date" Type="date" />
+          <Property Name="Hours" Type="int" />
+          <Property Name="Day" Type="int" />
+          <Property Name="Status" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="Parts">
           <Key>
             <PropertyRef Name="Part_Name" />
@@ -126,6 +137,7 @@
           <Property Name="Claimed_Malfunction" Type="nvarchar" MaxLength="200" />
           <Property Name="Client" Type="int" />
           <Property Name="Date_Of_Receipt" Type="datetime" />
+          <Property Name="Recipient" Type="nvarchar" MaxLength="50" />
           <Property Name="Departure_Date" Type="datetime" />
           <Property Name="Inspector" Type="int" />
           <Property Name="Warranty" Type="nvarchar" MaxLength="50" />
@@ -178,6 +190,7 @@
         <EntityType Name="v_Repairs">
           <Key>
             <PropertyRef Name="RepairId" />
+            
             <PropertyRef Name="Client_Id" />
             <PropertyRef Name="Client_Name" />
             <PropertyRef Name="InspectorId" />
@@ -187,8 +200,8 @@
           <Property Name="RepairId" Type="int" Nullable="false" />
           <Property Name="DocumentId" Type="int" />
           <Property Name="Nomenclature" Type="nvarchar" MaxLength="50" />
-          <Property Name="Serial_Number" Type="nvarchar" MaxLength="50" />
-          <Property Name="Claimed_Malfunction" Type="nvarchar" MaxLength="50" />
+          <Property Name="Serial_Number" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Claimed_Malfunction" Type="nvarchar" MaxLength="200" />
           <Property Name="Client_Id" Type="int" Nullable="false" />
           <Property Name="Client_Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Date_Of_Receipt" Type="datetime" />
@@ -196,14 +209,15 @@
           <Property Name="InspectorId" Type="int" Nullable="false" />
           <Property Name="Inspector" Type="nvarchar" MaxLength="50" />
           <Property Name="Warranty" Type="nvarchar" MaxLength="50" />
-          <Property Name="Identifie_Fault" Type="nvarchar" MaxLength="100" />
-          <Property Name="Work_Done" Type="nvarchar" MaxLength="100" />
+          <Property Name="Identifie_Fault" Type="nvarchar" MaxLength="200" />
+          <Property Name="Work_Done" Type="nvarchar" MaxLength="200" />
           <Property Name="Repair_Category" Type="nvarchar" MaxLength="50" />
           <Property Name="EngineerId" Type="int" Nullable="false" />
           <Property Name="Engineer" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Repair_Date" Type="date" />
           <Property Name="Status" Type="nvarchar" MaxLength="50" />
-          <Property Name="Note" Type="nvarchar" MaxLength="100" />
+          <Property Name="Note" Type="nvarchar" MaxLength="200" />
+          <Property Name="Recipient" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <Association Name="FK_Nomenclature_Nomenclature_Types">
           <End Role="Nomenclature_Types" Type="Self.Nomenclature_Types" Multiplicity="1" />
@@ -368,6 +382,7 @@
           <EntitySet Name="No_in_Repairs" EntityType="Self.No_in_Repairs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Nomenclature" EntityType="Self.Nomenclature" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Nomenclature_Types" EntityType="Self.Nomenclature_Types" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OverTime" EntityType="Self.OverTime" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Parts" EntityType="Self.Parts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PartsOrder" EntityType="Self.PartsOrder" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Positions" EntityType="Self.Positions" Schema="dbo" store:Type="Tables" />
@@ -409,7 +424,8 @@
     [v_Repairs].[Engineer] AS [Engineer], 
     [v_Repairs].[Repair_Date] AS [Repair_Date], 
     [v_Repairs].[Status] AS [Status], 
-    [v_Repairs].[Note] AS [Note]
+    [v_Repairs].[Note] AS [Note], 
+    [v_Repairs].[Recipient] AS [Recipient]
     FROM [dbo].[v_Repairs] AS [v_Repairs]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK_Nomenclature_Nomenclature_Types" Association="Self.FK_Nomenclature_Nomenclature_Types">
@@ -579,6 +595,7 @@
           <NavigationProperty Name="Users" Relationship="Self.FK_Repairs_Users_Engineer_" FromRole="Repairs" ToRole="Users" />
           <NavigationProperty Name="Users1" Relationship="Self.FK_Repairs_Users_Inspector_" FromRole="Repairs" ToRole="Users" />
           <NavigationProperty Name="Engineers" Relationship="PronetsDBModel.FK_Repairs_Engineers" FromRole="Repairs" ToRole="Engineers" />
+          <Property Name="Recipient" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Statuses">
           <Key>
@@ -816,6 +833,7 @@
             <End Role="ReceiptOfParts" EntitySet="ReceiptOfParts" />
             <End Role="PartsOrder" EntitySet="PartsOrder" />
           </AssociationSet>
+          <EntitySet Name="OverTime" EntityType="PronetsDBModel.OverTime" />
         </EntityContainer>
         <EntityType Name="v_Receipt_Document">
           <Key>
@@ -883,8 +901,8 @@
           <Property Name="RepairId" Type="Int32" Nullable="false" />
           <Property Name="DocumentId" Type="Int32" />
           <Property Name="Nomenclature" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Serial_Number" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Claimed_Malfunction" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Serial_Number" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Claimed_Malfunction" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="Client_Id" Type="Int32" Nullable="false" />
           <Property Name="Client_Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Date_Of_Receipt" Type="DateTime" Precision="3" />
@@ -892,14 +910,15 @@
           <Property Name="InspectorId" Type="Int32" Nullable="false" />
           <Property Name="Inspector" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Warranty" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Identifie_Fault" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Work_Done" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Identifie_Fault" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Work_Done" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="Repair_Category" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="EngineerId" Type="Int32" Nullable="false" />
           <Property Name="Engineer" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Repair_Date" Type="DateTime" Precision="0" />
           <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Note" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Note" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Recipient" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Parts">
           <Key>
@@ -954,6 +973,17 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="OverTime">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
+          <Property Name="Hours" Type="Int32" />
+          <Property Name="Day" Type="Int32" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1039,6 +1069,7 @@
           <EntitySetMapping Name="Repairs">
             <EntityTypeMapping TypeName="PronetsDBModel.Repairs">
               <MappingFragment StoreEntitySet="Repairs">
+                <ScalarProperty Name="Recipient" ColumnName="Recipient" />
                 <ScalarProperty Name="RepairId" ColumnName="RepairId" />
                 <ScalarProperty Name="DocumentId" ColumnName="DocumentId" />
                 <ScalarProperty Name="Nomenclature" ColumnName="Nomenclature" />
@@ -1116,6 +1147,7 @@
           <EntitySetMapping Name="v_Repairs">
             <EntityTypeMapping TypeName="PronetsDBModel.v_Repairs">
               <MappingFragment StoreEntitySet="v_Repairs">
+                <ScalarProperty Name="Recipient" ColumnName="Recipient" />
                 <ScalarProperty Name="Note" ColumnName="Note" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="Repair_Date" ColumnName="Repair_Date" />
@@ -1163,6 +1195,18 @@
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="Date_Arrival" ColumnName="Date_Arrival" />
                 <ScalarProperty Name="Order_Date" ColumnName="Order_Date" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OverTime">
+            <EntityTypeMapping TypeName="PronetsDBModel.OverTime">
+              <MappingFragment StoreEntitySet="OverTime">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Day" ColumnName="Day" />
+                <ScalarProperty Name="Hours" ColumnName="Hours" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

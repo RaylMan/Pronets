@@ -15,8 +15,10 @@ namespace Pronets.VievModel.MainWindows
         {
            
         }
-        public WorkWindowAdminVM(IViewModelsResolver resolver)
+        public WorkWindowAdminVM(IViewModelsResolver resolver, Users user)
         {
+            if (user != null)
+                currentUser = user;
             OpenWindowCommand = new OpenWindowCommand();
             _resolver = resolver;
             defectsPageVM = _resolver.GetViewModelInstance(DefectsPageVMAlias);
@@ -24,8 +26,36 @@ namespace Pronets.VievModel.MainWindows
             repairsPageVM = _resolver.GetViewModelInstance(RepairsPageVMAlias);
             equipmentWindowVM = _resolver.GetViewModelInstance(EquipmentWindowVMAlias);
             InitializeCommands();
+            GetDefaultUser();
         }
-       
+
+        private Users currentUser;
+        public Users CurrentUser
+        {
+            get { return currentUser; }
+            set
+            {
+                currentUser = value;
+                RaisedPropertyChanged("CurrenUser");
+            }
+        }
+        protected string userName;
+        public string UserName
+        {
+            get
+            {
+                if (currentUser != null)
+                    return currentUser.Login + " " + currentUser.LastName + " " + currentUser.FirstName;
+                return userName = "Error";
+            }
+            set
+            {
+                userName = value;
+                RaisedPropertyChanged("UserName");
+            }
+        }
+
+
         #region Open Page
         #region Constants
 
@@ -165,46 +195,19 @@ namespace Pronets.VievModel.MainWindows
             Navigation.Navigation.Navigate(Navigation.Navigation.EquipmentWindowAlias, EquipmentWindowVM);
         }
         #endregion
-
-        #region Cabinet TEST!!
-        public WorkWindowAdminVM(IViewModelsResolver resolver, Users user)
+        /// <summary>
+        /// Установка значений по умолчанию DefaultLastName и DefaultUserId в
+        /// соответствии с пользователем который произвел логин, для установки 
+        /// по умолчанию значений в других окнах
+        /// </summary>
+        private void GetDefaultUser()
         {
-            if (user != null)
-                currentUser = user;
-            OpenWindowCommand = new OpenWindowCommand();
-            _resolver = resolver;
-            defectsPageVM = _resolver.GetViewModelInstance(DefectsPageVMAlias);
-            receiptDocumentPageVM = _resolver.GetViewModelInstance(ReceiptDocumentPageVMAlias);
-            repairsPageVM = _resolver.GetViewModelInstance(RepairsPageVMAlias);
-            equipmentWindowVM = _resolver.GetViewModelInstance(EquipmentWindowVMAlias);
-            InitializeCommands();
-        }
-
-        private Users currentUser;
-        public Users CurrentUser
-        {
-            get { return currentUser; }
-            set
+            if(currentUser != null)
             {
-                currentUser = value;
-                RaisedPropertyChanged("CurrenUser");
+                Properties.Settings.Default.DefaultLastName = currentUser.LastName;
+                Properties.Settings.Default.DefaultUserId = currentUser.UserId;
+                Properties.Settings.Default.Save();
             }
         }
-        protected string userName;
-        public string UserName
-        {
-            get
-            {
-                if(currentUser != null)
-                    return currentUser.Login + " " + currentUser.LastName + " " + currentUser.FirstName;
-                return userName = "Error";
-            }
-            set
-            {
-                userName = value;
-                RaisedPropertyChanged("UserName");
-            }
-        }
-        #endregion
     }
 }

@@ -42,5 +42,6 @@ namespace Pronets.Data
         public virtual DbSet<Parts> Parts { get; set; }
         public virtual DbSet<PartsOrder> PartsOrder { get; set; }
         public virtual DbSet<ReceiptOfParts> ReceiptOfParts { get; set; }
+        public virtual DbSet<OverTime> OverTime { get; set; }
     }
 }

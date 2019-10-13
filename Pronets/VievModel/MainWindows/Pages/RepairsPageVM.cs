@@ -175,7 +175,6 @@ namespace Pronets.VievModel.MainWindows.Pages
             statuses = StatusesRequests.FillList();
         }
 
-
         #region Search Command
         protected ICommand searchItem;
         public ICommand SearchCommand
@@ -274,10 +273,26 @@ namespace Pronets.VievModel.MainWindows.Pages
         }
         public void GetEngineer()
         {
+            var defaultEngineer = UsersRequest.GetEngineer("Не выбран");
             foreach (var engineer in engineers)
             {
-                if (engineer.Id == selectedRepair.EngineerId)
-                    SelectedEngineer = engineer;
+                if(selectedRepair.EngineerId != defaultEngineer.Id)
+                {
+                    if (engineer.Id == selectedRepair.EngineerId)
+                    {
+                        SelectedEngineer = engineer;
+                    }
+                }
+                else
+                {
+                    foreach (var item in engineers)
+                    {
+                        if (engineer.LastName == Properties.Settings.Default.DefaultLastName)
+                        {
+                            SelectedEngineer = engineer;
+                        }
+                    }
+                }
             }
         }
         public void GetCategory()
