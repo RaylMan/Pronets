@@ -61,7 +61,7 @@ namespace Pronets.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Федотов М.А.\r")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Федотов М.А.")]
         public string ResponsiblePerson {
             get {
                 return ((string)(this["ResponsiblePerson"]));

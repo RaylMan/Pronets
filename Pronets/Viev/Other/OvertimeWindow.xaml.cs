@@ -13,6 +13,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Pronets.Navigation;
+using System.Collections;
 
 namespace Pronets.Viev.Other
 {
@@ -24,6 +26,45 @@ namespace Pronets.Viev.Other
         public OvertimeWindow()
         {
             InitializeComponent();
+        }
+        private void AllChecked_Checked(object sender, RoutedEventArgs e)
+        {
+            var row = GetDataGridRows(overtime);
+            foreach (DataGridRow r in row)
+            {
+                FrameworkElement elmchbx = overtime.Columns[0].GetCellContent(r);
+                CheckBox checkBox = ItemTemplateFind.FindChild<CheckBox>(elmchbx, "chkbx");
+                checkBox.IsChecked = true;
+            }
+
+        }
+        public IEnumerable<DataGridRow> GetDataGridRows(DataGrid grid)
+        {
+            if (grid.ItemsSource != null)
+            {
+                var itemsSource = grid.ItemsSource as IEnumerable;
+                if (null == itemsSource) yield return null;
+                foreach (var item in itemsSource)
+                {
+                    var row = grid.ItemContainerGenerator.ContainerFromItem(item) as DataGridRow;
+                    if (null != row) yield return row;
+                }
+            }
+        }
+        private object GetDataGridRows(object repairsGrid)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void AllChecked_Unchecked(object sender, RoutedEventArgs e)
+        {
+            var row = GetDataGridRows(overtime);
+            foreach (DataGridRow r in row)
+            {
+                FrameworkElement elmchbx = overtime.Columns[0].GetCellContent(r);
+                CheckBox checkBox = ItemTemplateFind.FindChild<CheckBox>(elmchbx, "chkbx");
+                checkBox.IsChecked = false;
+            }
         }
     }
 }

@@ -12,7 +12,7 @@
       <Value Profile="(Default)">Литвинов М.Я.</Value>
     </Setting>
     <Setting Name="ResponsiblePerson" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Федотов М.А.</Value>
+      <Value Profile="(Default)">Федотов М.А.</Value>
     </Setting>
     <Setting Name="Login" Type="System.String" Scope="User">
       <Value Profile="(Default)" />

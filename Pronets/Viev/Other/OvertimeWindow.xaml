@@ -4,9 +4,103 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pronets.Viev.Other"
+         xmlns:vm="clr-namespace:Pronets.VievModel.Other"
         mc:Ignorable="d"
-        Title="Переработка" Height="450" Width="800">
+        Title="Переработка" Height="450" Width="650" MinHeight="450" MinWidth="650" Background="Gainsboro">
+    <Window.DataContext>
+        <vm:OvertimeWindowVM/>
+    </Window.DataContext>
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="217"></ColumnDefinition>
+            <ColumnDefinition ></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <!--Column 0-->
+        <ListBox x:Name="statuses" ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser}" HorizontalAlignment="Left"
+                 VerticalAlignment="Top" Margin="5,25,0,0" IsTabStop="False" Height="160" Width="210"  >
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Height="auto">
+                        <TextBlock Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Label Content="Зарплата за час" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,185,0,0" Height="26" Width="96"/>
+        <TextBox x:Name="tbxPricePerHour" Grid.Column="0" Text="{Binding PricePerHour, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top"
+            HorizontalAlignment="Left" Margin="5,211,0,0" Width="96" Height="18"/>
+        <Label Content="Зарплата за день" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="111,185,0,0" Height="26" Width="104"/>
+        <TextBox x:Name="tbxPricePerDay" Grid.Column="0" Text="{Binding PricePerDay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top"
+            HorizontalAlignment="Left" Margin="111,211,0,0" Width="106" Height="18"/>
+        <Button x:Name="btnSumm" Content="  Расчет  " Command="{Binding AmountCommand}" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="79,234,0,0" Height="20" />
+        <TextBox x:Name="tbxResult" Text="{Binding Amount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Left" 
+            IsReadOnly="True" Margin="5,259,0,0" Height="145" Width="212" />
+        
+        <!--Column 1-->
+        <Label Content="Статус" VerticalAlignment="Top" HorizontalAlignment="Right" Grid.Column="1" Margin="0,2,229,0" />
+        <ComboBox x:Name="cbxUsers" ItemsSource="{Binding Statuses}" SelectedValue="{Binding SelectedStatus}" Grid.Column="1" HorizontalAlignment="Right"
+                  VerticalAlignment="Top" Width="140" Margin="0,5,89,0" Height="20">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Status}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        <Button Content="  Установить  " Grid.Column="1" Command="{Binding GetStatusCommand}" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,5,5,0"/>
+        <CheckBox IsChecked="{Binding OnlyAmounted, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Column="1"
+                       Content="Только не оплаченые" HorizontalAlignment="Left" Margin="5,8,0,0" VerticalAlignment="Top" Height="15" Width="140"/>
+        <DataGrid x:Name="overtime" ItemsSource="{Binding OvertimeList}" AutoGenerateColumns="False" Grid.Column="1" 
+                  SelectedIndex="{Binding SelectedIndex}" SelectedValue="{Binding SelectedOvertime}" 
+                       HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999" Margin="5,30,5,5" CanUserAddRows="False">
+            <DataGrid.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="White" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#0078D7"/>
+            </DataGrid.Resources>
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Удалить" Command="{Binding RemoveFromBaseCommand}" CommandParameter="{Binding SelectedIndex}"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Status}" Value="Оплачено">
+                            <Setter Property="Background" Value="Lime"></Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
+            <DataGrid.Columns>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.Header>
+                        <CheckBox x:Name="allChecked" Checked="AllChecked_Checked" Unchecked="AllChecked_Unchecked"  VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox x:Name="chkbx" IsChecked="{Binding Path=IsSelected, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="№" Binding="{Binding Path=Id, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Фамилия" Binding="{Binding Path=LastName, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" />
+                <DataGridTemplateColumn  Header="Дата" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DatePicker SelectedDate="{Binding Date,UpdateSourceTrigger=PropertyChanged}" >
+                                <DatePicker.Resources>
+                                    <Style TargetType="DatePickerTextBox">
+                                        <Setter Property="IsReadOnly" Value="True"/>
+                                    </Style>
+                                </DatePicker.Resources>
+                            </DatePicker>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Часы" Binding="{Binding Path=Hours, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" />
+                <DataGridTextColumn Header="День" Binding="{Binding Path=Day, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Статус" Binding="{Binding Path=Status, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" />
+            </DataGrid.Columns>
+        </DataGrid>
         
     </Grid>
 </Window>

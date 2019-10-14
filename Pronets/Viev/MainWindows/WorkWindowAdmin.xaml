@@ -40,12 +40,13 @@
 
         <Menu Height="20" Grid.Row="0" VerticalAlignment="top" Grid.ColumnSpan="2" Grid.RowSpan="2">
             <MenuItem Header="Файл">
-                <MenuItem Name="Account" Header="Личный кабинет" Click="ChangeUser_Click"></MenuItem>
+                <MenuItem Name="Settings" Header="Настройки" Click="Settings_Click"></MenuItem>
                 <MenuItem Name="exit" Header="Выход" Click="Exit_Click"></MenuItem>
             </MenuItem>
             <MenuItem Header="Работники">
                 <MenuItem Name="Users" Header="Пользователи" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type users:UsersWindow}"></MenuItem>
                 <MenuItem Name="Overtime" Header="Переработка" Click="Overtime_Click"></MenuItem>
+                <MenuItem Name="OvertimeAdmin" Header="Переработка(Все сотрудники)" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type other:OvertimeWindow}"></MenuItem>
             </MenuItem>
             <MenuItem Header="Клиенты">
                 <MenuItem Name="Clients" Header="Клиенты" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type clients:ClientsWindow}"></MenuItem>

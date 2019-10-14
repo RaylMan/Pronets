@@ -246,6 +246,7 @@ namespace Pronets.VievModel.Clients_f
             }
         }
         #endregion
+
         #region Other Properties
         private Clients clientInstance;
 
