@@ -231,5 +231,47 @@ namespace Pronets.EntityRequests.Users_f
                 return loginUser = db.Users.Where(u => u.Login == name && u.Password == password).FirstOrDefault();
             }
         }
+        public static void ChangePassword(int id, string password)
+        {
+            using (var db = new PronetsDataBaseEntities())
+            {
+                try
+                {
+                    if (id != 0 && !string.IsNullOrWhiteSpace(password))
+                    {
+                        var result = db.Users.Where(u => u.UserId == id).FirstOrDefault();
+                        result.Password = password;
+                        db.SaveChanges();
+                    }
+                }
+                catch (Exception e)
+                {
+
+                    MessageBox.Show(e.Message);
+                }
+               
+            }
+        }
+        public static void ChangeLogin(int id, string login)
+        {
+            using (var db = new PronetsDataBaseEntities())
+            {
+                try
+                {
+                    if (id != 0 && !string.IsNullOrWhiteSpace(login))
+                    {
+                        var result = db.Users.Where(u => u.UserId == id).FirstOrDefault();
+                        result.Login = login;
+                        db.SaveChanges();
+                        
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
+
+            }
+        }
     }
 }

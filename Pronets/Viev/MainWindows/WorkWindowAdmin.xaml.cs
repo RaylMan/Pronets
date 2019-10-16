@@ -48,13 +48,6 @@ namespace Pronets.Viev.MainWindows
         {
             System.Windows.Application.Current.Shutdown();
         }
-        private void ChangeUser_Click(object sender, RoutedEventArgs e)
-        {
-            StartWindow startWindow = new StartWindow();
-            startWindow.Show();
-            this.Close();
-        }
-
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             System.Windows.Application.Current.Shutdown();
@@ -64,6 +57,12 @@ namespace Pronets.Viev.MainWindows
         {
             UserOvertimeWindow overtimeWindow = new UserOvertimeWindow(user);
             overtimeWindow.Show();
+        }
+
+        private void Settings_Click(object sender, RoutedEventArgs e)
+        {
+            SettingsWindow settingsWindow = new SettingsWindow(user);
+            settingsWindow.Show();
         }
     }
 }

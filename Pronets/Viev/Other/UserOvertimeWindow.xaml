@@ -65,7 +65,20 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="№" Binding="{Binding Path=Id, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" />
                 <DataGridTextColumn Header="Фамилия" Binding="{Binding Path=LastName, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" />
-                <DataGridTextColumn Header="Дата" Binding="{Binding Path=Date, UpdateSourceTrigger=PropertyChanged, StringFormat='dddd.dd.MM.yyyy'}" IsReadOnly="True" />
+                <!--<DataGridTextColumn Header="Дата" Binding="{Binding Path=Date, UpdateSourceTrigger=PropertyChanged, StringFormat='dddd.dd.MM.yyyy'}" IsReadOnly="True" />-->
+                <DataGridTemplateColumn  Header="Дата" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DatePicker SelectedDate="{Binding Date,UpdateSourceTrigger=PropertyChanged}">
+                                <DatePicker.Resources>
+                                    <Style TargetType="DatePickerTextBox">
+                                        <Setter Property="IsReadOnly" Value="True"/>
+                                    </Style>
+                                </DatePicker.Resources>
+                            </DatePicker>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn Header="Часы" Binding="{Binding Path=Hours, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" />
                 <DataGridTextColumn Header="День" Binding="{Binding Path=Day, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" />
                 <DataGridTextColumn Header="Статус" Binding="{Binding Path=Status, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" />

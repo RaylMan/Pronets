@@ -60,6 +60,26 @@ namespace Pronets.EntityRequests.Other
             }
             return overtimeList;
         }
+        public static void GetStatus(int id, string status)
+        {
+            using (var db = new PronetsDataBaseEntities())
+            {
+                try
+                {
+                    if (id != 0)
+                    {
+                        var result = db.OverTime.Where(o => o.Id == id).FirstOrDefault();
+                        if (result != null)
+                            result.Status = status;
+                        db.SaveChanges();
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
+            }
+        }
         public static void AddToBase(OverTime overtime)
         {
             using (var db = new PronetsDataBaseEntities())
