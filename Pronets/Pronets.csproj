@@ -184,6 +184,7 @@
     <Compile Include="VievModel\MainWindows\Pages\RepairsPageVM.cs" />
     <Compile Include="VievModel\MainWindows\Pages\ViewModelsResolver.cs" />
     <Compile Include="VievModel\MainWindows\WorkWindowAdminVM.cs" />
+    <Compile Include="VievModel\MainWindows\WorkWindowEngineerVM.cs" />
     <Compile Include="VievModel\Nomenclature_f\NomenclatureVM.cs" />
     <Compile Include="VievModel\Nomenclature_f\Nomenclature_TypesVM.cs" />
     <Compile Include="VievModel\Other\OvertimeWindowVM.cs" />
@@ -212,6 +213,9 @@
     <Compile Include="Viev\Clients_f\ClientsWindow.xaml.cs">
       <DependentUpon>ClientsWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Viev\DataBaseSettingsWindow.xaml.cs">
+      <DependentUpon>DataBaseSettingsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Viev\MainWindows\Pages\DefectsPage.xaml.cs">
       <DependentUpon>DefectsPage.xaml</DependentUpon>
     </Compile>
@@ -229,6 +233,12 @@
     </Compile>
     <Compile Include="Viev\MainWindows\WorkWindowAdmin.xaml.cs">
       <DependentUpon>WorkWindowAdmin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Viev\MainWindows\WorkWindowEngineer.xaml.cs">
+      <DependentUpon>WorkWindowEngineer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Viev\MainWindows\WorkWindowInspector.xaml.cs">
+      <DependentUpon>WorkWindowInspector.xaml</DependentUpon>
     </Compile>
     <Compile Include="Viev\Nomenclature_f\NomenclatureWindow.xaml.cs">
       <DependentUpon>NomenclatureWindow.xaml</DependentUpon>
@@ -339,6 +349,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Viev\DataBaseSettingsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Viev\MainWindows\Pages\DefectsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -360,6 +374,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Viev\MainWindows\WorkWindowAdmin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Viev\MainWindows\WorkWindowEngineer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Viev\MainWindows\WorkWindowInspector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

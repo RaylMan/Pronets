@@ -1,7 +1,6 @@
 ﻿using Pronets.Data;
 using Pronets.Viev.Other;
 using Pronets.VievModel.MainWindows;
-using Pronets.VievModel.MainWindows.Pages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,28 +18,18 @@ using System.Windows.Shapes;
 namespace Pronets.Viev.MainWindows
 {
     /// <summary>
-    /// Логика взаимодействия для WorkWindowAdmin.xaml
+    /// Логика взаимодействия для WorkWindowEngineer.xaml
     /// </summary>
-    public partial class WorkWindowAdmin : Window
+    public partial class WorkWindowEngineer : Window
     {
         Users user;
-        public WorkWindowAdmin(Users loginUser)
+        public WorkWindowEngineer(Users loginUser)
         {
+           
             if (loginUser != null)
                 this.user = loginUser;
+            DataContext = new WorkWindowEngineerVM(loginUser);
             InitializeComponent();
-            Loaded += MainWindow_Loaded;
-        }
-        public WorkWindowAdmin()
-        {
-            InitializeComponent();
-            Loaded += MainWindow_Loaded;
-        }
-        void MainWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            
-            Navigation.Navigation.Service = MainFrame.NavigationService;
-            DataContext = new WorkWindowAdminVM(new ViewModelsResolver(), user);
         }
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
