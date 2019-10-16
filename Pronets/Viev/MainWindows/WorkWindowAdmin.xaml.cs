@@ -4,6 +4,7 @@ using Pronets.VievModel.MainWindows;
 using Pronets.VievModel.MainWindows.Pages;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,7 +30,7 @@ namespace Pronets.Viev.MainWindows
             if (loginUser != null)
                 this.user = loginUser;
             InitializeComponent();
-            progOpenLabel.Content = Properties.Settings.Default.ProgOpen.ToString();
+            progOpenLabel.Content  = Properties.Settings.Default.ProgOpen.ToString();
             Loaded += MainWindow_Loaded;
         }
         public WorkWindowAdmin()

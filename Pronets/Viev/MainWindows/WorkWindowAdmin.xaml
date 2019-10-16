@@ -65,7 +65,7 @@
         <Label Content="Пусто" HorizontalAlignment="Left" Background="red" Grid.Row="2" Padding="1,1,1,1" Margin="10,10,734,15"/>
         <Label Content="В работе" HorizontalAlignment="Left"  Background="Yellow" Grid.Row="2" Margin="63,10,659,15"/>
         <Label Content="Исправить баги" HorizontalAlignment="Left"  Background="Green" Grid.Row="2" Margin="138,10,548,15"/>
-        <Label x:Name="progOpenLabel"  HorizontalAlignment="Left" Margin="264,10,0,0" Grid.Row="2" VerticalAlignment="Top" Height="25" Width="63"/>
+        <Label x:Name="progOpenLabel"  HorizontalAlignment="Left" Margin="264,10,0,0" Grid.Row="2" VerticalAlignment="Top" Height="25"/>
         <TextBlock Text="{Binding UserName}" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10"/>
     </Grid>
 </Window>
