@@ -15,11 +15,16 @@ namespace Pronets.Data
     
     public partial class PronetsDataBaseEntities : DbContext
     {
-        public PronetsDataBaseEntities()
-            : base("name=PronetsDataBaseEntities")
+        public PronetsDataBaseEntities(string connectionString)
+            : base(connectionString)
         {
         }
-    
+        public PronetsDataBaseEntities()
+           : base("name=PronetsDataBaseEntities")
+        {
+        }
+
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();

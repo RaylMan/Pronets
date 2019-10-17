@@ -1,5 +1,6 @@
 ﻿using Pronets.Data;
 using Pronets.EntityRequests.Other;
+using Pronets.EntityRequests.Users_f;
 using Pronets.Viev.Repairs_f;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,12 @@ namespace Pronets.Viev.MainWindows.Pages
         public RepairsPage()
         {
             InitializeComponent();
+            int.TryParse(Properties.Settings.Default.DefaultUserId.ToString(), out int userId);
+            var user = UsersRequest.GetUser(userId);
+            if (user != null && user.Position == "Инженер")
+            {
+                btnOpen.IsEnabled = false;
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

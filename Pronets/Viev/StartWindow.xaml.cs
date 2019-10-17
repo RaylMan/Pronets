@@ -42,10 +42,27 @@ namespace Pronets.Viev
             user = UsersRequest.Login(tbxLogin.Text, tbxPassword.Password);
             if (user != null)
             {
-                WorkWindowAdmin workWindowAdmin = new WorkWindowAdmin(user);
+                if (user.Position == "Администратор")
+                {
+                    WorkWindowAdmin workWindowAdmin = new WorkWindowAdmin(user);
+                    workWindowAdmin.Show();
+                    this.Close();
+                }
+                else if (user.Position == "Инженер")
+                {
+                    WorkWindowEngineer workWindowEngineer = new WorkWindowEngineer(user);
+                    workWindowEngineer.Show();
+                    this.Close();
+                }
+                else if (user.Position == "Приемщик")
+                {
+                    WorkWindowInspector workWindowInspector = new WorkWindowInspector(user);
+                    workWindowInspector.Show();
+                    this.Close();
+                }
+                else
+                    MessageBox.Show("Неверные права доступа у пользователя!\nОбратитесь к администратору!", "Ошибка");
 
-                workWindowAdmin.Show();
-                this.Close();
             }
             else
             {
@@ -59,6 +76,12 @@ namespace Pronets.Viev
         {
             if (e.Key == Key.Enter)
                 Button_Click(sender, e);
+        }
+
+        private void BtnSettings_Click(object sender, RoutedEventArgs e)
+        {
+            DataBaseSettingsWindow win = new DataBaseSettingsWindow();
+            win.Show();
         }
     }
 }

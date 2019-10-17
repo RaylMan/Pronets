@@ -19,26 +19,27 @@ using System.Windows.Shapes;
 namespace Pronets.Viev.MainWindows
 {
     /// <summary>
-    /// Логика взаимодействия для WorkWindowAdmin.xaml
+    /// Логика взаимодействия для WorkWindowInspector.xaml
     /// </summary>
-    public partial class WorkWindowAdmin : Window
+    public partial class WorkWindowInspector : Window
     {
         Users user;
-        public WorkWindowAdmin(Users loginUser)
+
+        public WorkWindowInspector(Users loginUser)
         {
             if (loginUser != null)
                 this.user = loginUser;
             InitializeComponent();
             Loaded += MainWindow_Loaded;
         }
-        public WorkWindowAdmin()
+        public WorkWindowInspector()
         {
             InitializeComponent();
             Loaded += MainWindow_Loaded;
         }
         void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            
+
             Navigation.Navigation.Service = MainFrame.NavigationService;
             DataContext = new WorkWindowAdminVM(new ViewModelsResolver(), user);
         }
