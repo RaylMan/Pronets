@@ -134,7 +134,8 @@
             <Label Content="Дата ремонта:"  Grid.Column="0" Grid.Row="4"/>
             <Label  Content="Статус ремонта:"  Grid.Column="0" Grid.Row="5"/>
             <Label  Content="Заметка:"  Grid.Column="0" Grid.Row="6"/>
-            <TextBox x:Name="tbxDefect" Grid.Column="1" Grid.Row="0" Text="{Binding Identifie_Fault, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" AcceptsReturn="True" MaxLength="200"/>
+            <TextBox x:Name="tbxDefect" Grid.Column="1" Grid.Row="0"  Text="{Binding Identifie_Fault, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      TextWrapping="Wrap" AcceptsReturn="True" MaxLength="200"/>
             <TextBox x:Name="tbxWork" Grid.Column="1" Grid.Row="1" Text="{Binding Work_Done, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  TextWrapping="Wrap" AcceptsReturn="True" MaxLength="200"/>
 
             <ComboBox  ItemsSource="{Binding Categories}" SelectedValue="{Binding SelectedCategory}"  Grid.Column="1" Grid.Row="2" >

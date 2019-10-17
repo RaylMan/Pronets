@@ -22,7 +22,6 @@ namespace Pronets.VievModel.MainWindows.Pages
         private Clients clientInstance;
         private Users user;
         private Engineers engineer;
-        private ObservableCollection<Defects> defects = new ObservableCollection<Defects>();
         private ObservableCollection<Repair_Categories> categories = new ObservableCollection<Repair_Categories>();
         public ObservableCollection<Repair_Categories> Categories
         {
@@ -56,6 +55,7 @@ namespace Pronets.VievModel.MainWindows.Pages
                 RaisedPropertyChanged("Statuses");
             }
         }
+
         private string inspectorName;
         public string InspectorName
         {
@@ -164,11 +164,13 @@ namespace Pronets.VievModel.MainWindows.Pages
                 RaisedPropertyChanged("IsChecked");
             }
         }
+
+        
+
         #endregion
 
         public RepairsPageVM()
         {
-            defects = DefectsRequests.FillList();
             Date_Of_Receipt = DateTime.Now;
             categories = RepairCategoriesRequests.FillList();
             engineers = UsersRequest.FillListEngineers();

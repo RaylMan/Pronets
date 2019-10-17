@@ -21,22 +21,12 @@ namespace Pronets.Viev.Repairs_f
     /// </summary>
     public partial class NewReceiptDocument : Window
     {
-        private static NewReceiptDocument _instance;
+        
         public NewReceiptDocument()
         {
             InitializeComponent();
         }
-        public static NewReceiptDocument Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = new NewReceiptDocument();
-                }
-                return _instance;
-            }
-        }
+       
         private void ComboBoxNomenclature_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var row = GetDataGridRows(repairsGrid);
@@ -50,7 +40,7 @@ namespace Pronets.Viev.Repairs_f
                     CheckBox checkBox = ItemTemplateFind.FindChild<CheckBox>(elmchbx, "chkbx");
                     if (checkBox.IsChecked == true)
                     {
-                        cbx.SelectedIndex = comboBoxNomenclature.SelectedIndex;
+                        cbx.SelectedItem = comboBoxNomenclature.SelectedItem;
                     }
                 }
                 catch (System.ArgumentNullException)

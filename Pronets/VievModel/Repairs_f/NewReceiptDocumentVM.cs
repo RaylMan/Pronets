@@ -365,5 +365,29 @@ namespace Pronets.VievModel.Repairs_f
                 }
             }
         }
+        #region Add row
+        private ICommand addRowCommand;
+        public ICommand AddRowCommand
+        {
+            get
+            {
+                if (addRowCommand == null)
+                {
+                    addRowCommand = new RelayCommand(new Action<object>(AddRow));
+                }
+                return addRowCommand;
+            }
+            set
+            {
+                addRowCommand = value;
+                RaisedPropertyChanged("AddRowCommand");
+            }
+        }
+
+        public void AddRow(object Parameter)
+        {
+            repairs.Add(new Repairs());
+        }
+        #endregion
     }
 }
