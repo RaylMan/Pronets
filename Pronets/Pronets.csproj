@@ -55,6 +55,9 @@
     <Reference Include="System.Printing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -77,6 +80,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Data\BaseFromExcel.cs">
+      <DependentUpon>PronetsDBEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\BaseFromExcelMe.cs" />
     <Compile Include="Data\Clients.cs">
       <DependentUpon>PronetsDBEntities.tt</DependentUpon>
     </Compile>
@@ -161,6 +168,7 @@
     <Compile Include="EntityRequests\Clients_f\ClientsRequests.cs" />
     <Compile Include="EntityRequests\Nomenclature_f\NomenclatureRequest.cs" />
     <Compile Include="EntityRequests\Nomenclature_f\Nomenclature_TypesRequest.cs" />
+    <Compile Include="EntityRequests\Other\BaseFromExcelRequest.cs" />
     <Compile Include="EntityRequests\Other\OvertimeRequest.cs" />
     <Compile Include="EntityRequests\Other\PartsOrderRequest.cs" />
     <Compile Include="EntityRequests\Other\PartsRequest.cs" />

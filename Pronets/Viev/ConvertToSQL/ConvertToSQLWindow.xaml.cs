@@ -43,10 +43,10 @@ namespace Pronets.Viev.ConvertToSQL
 
         private void AllChecked_Checked(object sender, RoutedEventArgs e)
         {
-            var row = GetDataGridRows(workList);
+            var row = GetDataGridRows(baseFromExcel);
             foreach (DataGridRow r in row)
             {
-                FrameworkElement elmchbx = workList.Columns[0].GetCellContent(r);
+                FrameworkElement elmchbx = baseFromExcel.Columns[0].GetCellContent(r);
                 CheckBox checkBox = ItemTemplateFind.FindChild<CheckBox>(elmchbx, "chkbx");
                 checkBox.IsChecked = true;
             }
@@ -55,10 +55,10 @@ namespace Pronets.Viev.ConvertToSQL
 
         private void AllChecked_Unchecked(object sender, RoutedEventArgs e)
         {
-            var row = GetDataGridRows(workList);
+            var row = GetDataGridRows(baseFromExcel);
             foreach (DataGridRow r in row)
             {
-                FrameworkElement elmchbx = workList.Columns[0].GetCellContent(r);
+                FrameworkElement elmchbx = baseFromExcel.Columns[0].GetCellContent(r);
                 CheckBox checkBox = ItemTemplateFind.FindChild<CheckBox>(elmchbx, "chkbx");
                 checkBox.IsChecked = false;
             }

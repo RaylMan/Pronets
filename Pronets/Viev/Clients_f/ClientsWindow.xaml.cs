@@ -23,23 +23,16 @@ namespace Pronets.Viev.Clients_f
         public ClientsWindow()
         {
             InitializeComponent();
-            Style rowStyle = new Style(typeof(DataGridRow));
-            rowStyle.Setters.Add(new EventSetter(DataGridRow.MouseDoubleClickEvent,
-                                     new MouseButtonEventHandler(Row_DoubleClick)));
-            dataGrid.RowStyle = rowStyle;
+            //Style rowStyle = new Style(typeof(DataGridRow));
+            //rowStyle.Setters.Add(new EventSetter(DataGridRow.MouseDoubleClickEvent,
+            //                         new MouseButtonEventHandler(Row_DoubleClick)));
+            //dataGrid.RowStyle = rowStyle;
         }
         private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
         {
-            try
-            {
-                Clients client = (Clients)dataGrid.SelectedItem;
-                ClientInfoWindow win = new ClientInfoWindow(client);
-                win.Show();
-            }
-            catch (System.InvalidCastException)
-            {
-                MessageBox.Show("Как вы собираетесь открыть строку без клиента?", "Ошибка");
-            }
+            Clients client = (Clients)dataGrid.SelectedItem;
+            ClientInfoWindow win = new ClientInfoWindow(client);
+            win.Show();
         }
     }
 }

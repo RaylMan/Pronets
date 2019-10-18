@@ -50,7 +50,7 @@ namespace Pronets.EntityRequests.Repairs_f
                         ReceiptDocument = item.ReceiptDocument,
                         Statuses = item.Statuses,
                         Users = item.Users,
-                        
+
                         //Users1 = item.Users1
 
                     });
@@ -475,7 +475,24 @@ namespace Pronets.EntityRequests.Repairs_f
             }
 
         }
-
+        public static void AddToBase(Repairs repair)
+        {
+            using (var db = ConnectionTools.GetConnection())
+            {
+                try
+                {
+                    if (repair != null)
+                    {
+                        db.Repairs.Add(repair);
+                        db.SaveChanges();
+                    } 
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
+            }
+        }
         public static void AddToBase(ObservableCollection<Repairs> repairs)
         {
             using (var db = ConnectionTools.GetConnection())

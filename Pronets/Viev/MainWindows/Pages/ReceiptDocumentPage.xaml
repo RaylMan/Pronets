@@ -58,6 +58,8 @@
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="White" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#0078D7"/>
             </DataGrid.Resources>
             <!--<DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
@@ -86,6 +88,11 @@
                     </Style.Triggers>
                 </Style>
             </DataGrid.RowStyle>-->
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Удалить" Command="{Binding RemoveCommand}" CommandParameter="{Binding SelectedIndex}"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="№" Binding="{Binding Path=Document_Id}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Клиент" Binding="{Binding Path=Client}" IsReadOnly="True" />

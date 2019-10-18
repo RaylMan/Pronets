@@ -37,6 +37,7 @@
         <AssociationConnector Association="PronetsDBModel.FK_Repairs_Repair_Categories" ManuallyRouted="false" />
         <AssociationConnector Association="PronetsDBModel.FK_Repairs_Statuses" ManuallyRouted="false" />
         <AssociationConnector Association="PronetsDBModel.FK_Repairs_Users_Inspector_" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="PronetsDBModel.BaseFromExcel" Width="1.5" PointX="12.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

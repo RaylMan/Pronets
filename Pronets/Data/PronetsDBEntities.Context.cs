@@ -44,5 +44,6 @@ namespace Pronets.Data
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<v_Receipt_Document> v_Receipt_Document { get; set; }
         public virtual DbSet<v_Repairs> v_Repairs { get; set; }
+        public virtual DbSet<BaseFromExcel> BaseFromExcel { get; set; }
     }
 }

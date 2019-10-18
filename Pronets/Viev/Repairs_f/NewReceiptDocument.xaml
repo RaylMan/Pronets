@@ -21,17 +21,17 @@
         <TextBlock Text="{Binding TextDocumentId, Mode=TwoWay}" HorizontalAlignment="Center" FontSize="18"/>
 
         <!--ROW 1-->
-        <Button x:Name="Write" Grid.Row="1" Command="{Binding AddCommand}"  Content="Записать" Margin="5,0,0,0" HorizontalAlignment="Left" Width="65"/>
+        <Button x:Name="Write" Grid.Row="1" Command="{Binding AddCommand}" FontSize="14"  Content=" Записать " Margin="5,0,0,0" HorizontalAlignment="Left" Width="65"/>
         <Label x:Name="label1" Content="Клиент" Grid.Row="1" HorizontalAlignment="Left" Margin="75,0,0,0" RenderTransformOrigin="0.556,0.467"/>
-        <ComboBox x:Name="cbxClient" ItemsSource="{Binding Clients}" SelectedValue="{Binding SelectClientItem}" HorizontalAlignment="Left" Margin="128,3,0,0" Grid.Row="1" VerticalAlignment="Top" Width="140">
+        <ComboBox x:Name="cbxClient" ItemsSource="{Binding Clients}" SelectedValue="{Binding SelectClientItem}" HorizontalAlignment="Left" Margin="128,3,0,0" Grid.Row="1" VerticalAlignment="Top" Width="211">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding ClientName}"/>
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
-        <Label x:Name="label" Content="Приемщик" HorizontalAlignment="Left" Margin="279,0,0,0" Grid.Row="1" VerticalAlignment="Top" Height="30"/>
-        <ComboBox x:Name="cbxUsers" ItemsSource="{Binding Users}" SelectedValue="{Binding SelectUserItem}" HorizontalAlignment="Left" Margin="354,3,0,0" Grid.Row="1" VerticalAlignment="Top" Width="140">
+        <Label x:Name="label" Content="Приемщик" HorizontalAlignment="Left" Margin="342,0,0,0" Grid.Row="1" VerticalAlignment="Top" Height="30"/>
+        <ComboBox x:Name="cbxUsers" ItemsSource="{Binding Users}" SelectedValue="{Binding SelectUserItem}" HorizontalAlignment="Left" Margin="417,3,0,0" Grid.Row="1" VerticalAlignment="Top" Width="140">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding LastName}"/>
@@ -59,7 +59,7 @@
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
-        <Button Content="  Строка  " Command="{Binding AddRowCommand}" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="5"/>
+
         <!--ROW 3-->
 
         <DataGrid x:Name="repairsGrid"  ItemsSource="{Binding Repairs, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" FrozenColumnCount="4"

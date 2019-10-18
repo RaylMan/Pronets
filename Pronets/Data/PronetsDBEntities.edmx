@@ -4,7 +4,23 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Хранилище PronetsDBModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Хранилище PronetsDBModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BaseFromExcel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="SerialNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="Claimed_Malfunction" Type="nvarchar" MaxLength="200" />
+          <Property Name="Client" Type="nvarchar" MaxLength="50" />
+          <Property Name="DateOfReceipt" Type="date" />
+          <Property Name="Warranty" Type="nvarchar" MaxLength="50" />
+          <Property Name="IdentifyFault" Type="nvarchar" MaxLength="200" />
+          <Property Name="WorkDone" Type="nvarchar" MaxLength="200" />
+          <Property Name="Engineer" Type="nvarchar" MaxLength="50" />
+          <Property Name="Date" Type="date" />
+        </EntityType>
         <EntityType Name="Clients">
           <Key>
             <PropertyRef Name="ClientId" />
@@ -386,6 +402,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="Хранилище PronetsDBModelContainer">
+          <EntitySet Name="BaseFromExcel" EntityType="Self.BaseFromExcel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Clients" EntityType="Self.Clients" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Defects" EntityType="Self.Defects" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Engineers" EntityType="Self.Engineers" Schema="dbo" store:Type="Tables" />
@@ -492,8 +509,7 @@
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="PronetsDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -971,7 +987,24 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="Repairs" EntitySet="Repairs" />
           </AssociationSet>
+          <EntitySet Name="BaseFromExcel" EntityType="PronetsDBModel.BaseFromExcel" />
         </EntityContainer>
+        <EntityType Name="BaseFromExcel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SerialNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Claimed_Malfunction" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Client" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DateOfReceipt" Type="DateTime" Precision="0" />
+          <Property Name="Warranty" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IdentifyFault" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="WorkDone" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Engineer" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1207,6 +1240,23 @@
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="Note" ColumnName="Note" />
                 <ScalarProperty Name="Recipient" ColumnName="Recipient" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BaseFromExcel">
+            <EntityTypeMapping TypeName="PronetsDBModel.BaseFromExcel">
+              <MappingFragment StoreEntitySet="BaseFromExcel">
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Engineer" ColumnName="Engineer" />
+                <ScalarProperty Name="WorkDone" ColumnName="WorkDone" />
+                <ScalarProperty Name="IdentifyFault" ColumnName="IdentifyFault" />
+                <ScalarProperty Name="Warranty" ColumnName="Warranty" />
+                <ScalarProperty Name="DateOfReceipt" ColumnName="DateOfReceipt" />
+                <ScalarProperty Name="Client" ColumnName="Client" />
+                <ScalarProperty Name="Claimed_Malfunction" ColumnName="Claimed_Malfunction" />
+                <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

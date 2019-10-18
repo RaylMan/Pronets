@@ -10,7 +10,7 @@
 
 
         <Label Content="Логин"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,8,0,0"/>
-        <TextBox Text="{Binding Login, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Top" HorizontalAlignment="Left" Width="120" Margin="10,30,0,0" />
+        <TextBox Text="{Binding Login, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Top" HorizontalAlignment="Left" Width="120" Margin="10,30,0,0" Background="Gainsboro" IsReadOnly="True" />
 
         <Label Content="Старый пароль"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,47,0,0"/>
         <TextBox Text="{Binding OldPassword, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Top" HorizontalAlignment="Left" Width="120" Margin="10,70,0,0" />

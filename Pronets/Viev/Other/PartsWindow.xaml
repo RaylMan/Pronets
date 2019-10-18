@@ -55,6 +55,10 @@
             <DataGrid ItemsSource="{Binding ReceiptOfParts, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" SelectedIndex="{Binding SelectedReceiptIndex}" SelectedValue="{Binding SelectedDocument}" 
                       SelectionMode="Single" HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999" HorizontalAlignment="Left"
                       Margin="0,30,5,5" CanUserAddRows="False">
+                <DataGrid.Resources>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="White" />
+                    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#0078D7"/>
+                </DataGrid.Resources>
                 <DataGrid.RowStyle>
                     <Style TargetType="DataGridRow">
                         <Style.Triggers>
@@ -91,7 +95,10 @@
             <ComboBox ItemsSource="{Binding Statuses}" SelectedItem="{Binding SelectedStatus, Mode=TwoWay}" Text="Select Option" Margin="0,5,5,0" HorizontalAlignment="Right" VerticalAlignment="Top" Width="130"/>
             <DataGrid ItemsSource="{Binding PartsOrder}" AutoGenerateColumns="False" SelectedIndex="{Binding SelectedOrderIndex}" SelectedValue="{Binding SelectedOrder}" 
                        HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999" Margin="0,30,5,5" CanUserAddRows="False">
-
+                <DataGrid.Resources>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="White" />
+                    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#0078D7"/>
+                </DataGrid.Resources>
                 <DataGrid.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Удалить" Command="{Binding RemoveOrderCommand}" CommandParameter="{Binding SelectedOrderIndex}"/>
