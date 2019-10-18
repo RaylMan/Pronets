@@ -32,7 +32,12 @@
         <!--Row 2-->
         <DataGrid x:Name="dataGrid" ItemsSource="{Binding Clients}" Grid.Row="1"  Margin="5" AutoGenerateColumns="False" 
                   SelectedIndex="{Binding SelectedIndex}" SelectedValue="{Binding SelectedItem}" SelectionMode="Single"  
-                  HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999" >
+                  HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999" CanUserAddRows="False" >
+            <DataGrid.Resources>
+                <Style TargetType="DataGridRow">
+                    <EventSetter Event="MouseDoubleClick" Handler="Row_DoubleClick"/>
+                </Style>
+            </DataGrid.Resources>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Название организации" Binding="{Binding Path=ClientName}" Width="*" IsReadOnly="True">
                     <DataGridTextColumn.ElementStyle>
@@ -55,13 +60,6 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTemplateColumn >
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button x:Name="btnOpen" Content="Открыть" Click="Button_Click"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

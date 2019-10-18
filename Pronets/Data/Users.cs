@@ -19,7 +19,6 @@ namespace Pronets.Data
         {
             this.ReceiptDocument = new HashSet<ReceiptDocument>();
             this.Repairs = new HashSet<Repairs>();
-            this.Repairs1 = new HashSet<Repairs>();
         }
     
         public int UserId { get; set; }
@@ -38,7 +37,5 @@ namespace Pronets.Data
         public virtual ICollection<ReceiptDocument> ReceiptDocument { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Repairs> Repairs { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Repairs> Repairs1 { get; set; }
     }
 }

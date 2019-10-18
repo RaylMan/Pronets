@@ -20,7 +20,7 @@ namespace Pronets.EntityRequests.Clients_f
         /// </summary>
         public static ObservableCollection<Clients> FillList()
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 if (clients != null)
                     clients.Clear();
@@ -52,7 +52,7 @@ namespace Pronets.EntityRequests.Clients_f
         /// </summary>
         public static Clients GetClient(int? id)
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 return client = db.Clients.Where(c => c.ClientId == id).FirstOrDefault();
             }
@@ -62,7 +62,7 @@ namespace Pronets.EntityRequests.Clients_f
         /// </summary>
         public static void AddToBase(Clients client)
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 if (client != null)
                 {
@@ -77,7 +77,7 @@ namespace Pronets.EntityRequests.Clients_f
         public static void RemoveFromBase(Clients client, out bool isExeption)
         {
             isExeption = true;
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 try
                 {
@@ -101,7 +101,7 @@ namespace Pronets.EntityRequests.Clients_f
         /// </summary>
         public static void EditItem(Clients client)
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 var result = db.Clients.SingleOrDefault(c => c.ClientId == client.ClientId);
                 if (result != null)
@@ -143,7 +143,7 @@ namespace Pronets.EntityRequests.Clients_f
         /// </summary>
         public static ObservableCollection<Clients> SearchItem(string word)
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 var searchItems = db.Clients.Where(c => c.ClientName.Contains(word) ||
                                                 c.Contact_Person.Contains(word) ||
@@ -163,7 +163,7 @@ namespace Pronets.EntityRequests.Clients_f
         /// </summary>
         public static Clients GetPronetsClient()
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 client = db.Clients.FirstOrDefault(c => c.ClientName == "Пронетс");
             }

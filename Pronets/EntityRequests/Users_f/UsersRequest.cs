@@ -17,7 +17,7 @@ namespace Pronets.EntityRequests.Users_f
         private static Engineers engineer;
         public static ObservableCollection<Users> FillList()
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 if (users != null)
                     users.Clear();
@@ -42,7 +42,7 @@ namespace Pronets.EntityRequests.Users_f
         }
         public static ObservableCollection<Engineers> FillListEngineers()
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 if (engineers != null)
                     engineers.Clear();
@@ -62,7 +62,7 @@ namespace Pronets.EntityRequests.Users_f
 
         public static Users GetUser(int? id)
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 return user = db.Users.Where(u => u.UserId == id).FirstOrDefault();
             }
@@ -70,14 +70,14 @@ namespace Pronets.EntityRequests.Users_f
        
         public static Engineers GetEngineer(int? id)
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 return engineer = db.Engineers.Where(e => e.Id == id).FirstOrDefault();
             }
         }
         public static Engineers GetEngineer(string lastName)
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 return engineer = db.Engineers.Where(e => e.LastName == lastName).FirstOrDefault();
             }
@@ -87,7 +87,7 @@ namespace Pronets.EntityRequests.Users_f
         {
             if (positions != null)
                 positions.Clear();
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 foreach (var item in db.Positions)
                 {
@@ -99,7 +99,7 @@ namespace Pronets.EntityRequests.Users_f
 
         public static void AddToBase(Users user)
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 if (user != null)
                 {
@@ -111,7 +111,7 @@ namespace Pronets.EntityRequests.Users_f
         }
         public static void AddEngineer(Engineers engineer)
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 if (engineer != null)
                 {
@@ -132,7 +132,7 @@ namespace Pronets.EntityRequests.Users_f
         public static void RemoveFromBase(Users user, out bool isExeption)
         {
             isExeption = true;
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 if (user != null)
                 {
@@ -153,7 +153,7 @@ namespace Pronets.EntityRequests.Users_f
         public static void RemoveFromBaseEngineer(string name, out bool isExeption)
         {
             isExeption = true;
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 if (name != null)
                 {
@@ -173,7 +173,7 @@ namespace Pronets.EntityRequests.Users_f
         }
         public static void EditItem(Users user)
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 var result = db.Users.SingleOrDefault(u => u.UserId == user.UserId);
                 if (result != null)
@@ -194,7 +194,7 @@ namespace Pronets.EntityRequests.Users_f
         }
         public static void EditEngineer(Engineers eng)
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 engineer = db.Engineers.Where(e => e.Id == eng.Id).FirstOrDefault();
                 engineer.LastName = eng.LastName;
@@ -206,7 +206,7 @@ namespace Pronets.EntityRequests.Users_f
         public static ObservableCollection<Users> SearchItem(string word)
         {
 
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 var searchItems = from u in db.Users
                                   where u.Login.Contains(word) ||
@@ -224,16 +224,24 @@ namespace Pronets.EntityRequests.Users_f
         }
         public static Users Login(string name, string password)
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
-                if (loginUser != null)
-                    loginUser = null;
-                return loginUser = db.Users.Where(u => u.Login == name && u.Password == password).FirstOrDefault();
+                try
+                {
+                    if (loginUser != null)
+                        loginUser = null;
+                    loginUser = db.Users.Where(u => u.Login == name && u.Password == password).FirstOrDefault();
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
+                return loginUser;
             }
         }
         public static void ChangePassword(int id, string password)
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 try
                 {
@@ -246,15 +254,13 @@ namespace Pronets.EntityRequests.Users_f
                 }
                 catch (Exception e)
                 {
-
                     MessageBox.Show(e.Message);
                 }
-               
             }
         }
         public static void ChangeLogin(int id, string login)
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 try
                 {
@@ -263,7 +269,6 @@ namespace Pronets.EntityRequests.Users_f
                         var result = db.Users.Where(u => u.UserId == id).FirstOrDefault();
                         result.Login = login;
                         db.SaveChanges();
-                        
                     }
                 }
                 catch (Exception e)

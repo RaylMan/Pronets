@@ -15,7 +15,7 @@ namespace Pronets.EntityRequests.Other
 
         public static ObservableCollection<PartsOrder> FillList()
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 if (partsOrder != null)
                     partsOrder.Clear();
@@ -34,7 +34,7 @@ namespace Pronets.EntityRequests.Other
         }
         public static ObservableCollection<PartsOrder> FillList(int documentId)
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 if (partsOrder != null)
                     partsOrder.Clear();
@@ -45,7 +45,7 @@ namespace Pronets.EntityRequests.Other
         }
         public static void AddToBase(PartsOrder partOrder)
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 try
                 {
@@ -66,7 +66,7 @@ namespace Pronets.EntityRequests.Other
         public static void RemoveFromBase(PartsOrder partOrder, out bool isExeption)
         {
             isExeption = true;
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 if (partOrder != null)
                 {
@@ -87,7 +87,7 @@ namespace Pronets.EntityRequests.Other
         public static void RemoveFromBase(int documentId, out bool isExeption)
         {
             isExeption = true;
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 if (documentId != 0)
                 {

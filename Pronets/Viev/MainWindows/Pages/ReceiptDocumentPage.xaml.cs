@@ -28,17 +28,16 @@ namespace Pronets.Viev.MainWindows.Pages
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            v_Receipt_Document document = (v_Receipt_Document)docunents.SelectedItem;
-            ReceiptDocumentInspector doc = new ReceiptDocumentInspector(document);
-            doc.Show();
-        }
-
         private void BtnCreate_Click(object sender, RoutedEventArgs e)
         {
             win = new NewReceiptDocument();
             win.Show();
+        }
+        private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            v_Receipt_Document document = (v_Receipt_Document)docunents.SelectedItem;
+            ReceiptDocumentInspector doc = new ReceiptDocumentInspector(document);
+            doc.Show();
         }
     }
 }

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Pronets.Viev.Other"
          xmlns:vm="clr-namespace:Pronets.VievModel.Other"
         mc:Ignorable="d"
-        Title="Переработка" Height="450" Width="650" MinHeight="450" MinWidth="650" Background="Gainsboro">
+        Title="Переработка" Height="450" Width="650" MinHeight="450" MinWidth="650"  WindowStartupLocation="CenterScreen" Background="Gainsboro">
     <Window.DataContext>
         <vm:OvertimeWindowVM/>
     </Window.DataContext>
@@ -28,13 +28,13 @@
         </ListBox>
         <Label Content="Зарплата за час" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,185,0,0" Height="26" Width="96"/>
         <TextBox x:Name="tbxPricePerHour" Grid.Column="0" Text="{Binding PricePerHour, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top"
-            HorizontalAlignment="Left" Margin="5,211,0,0" Width="96" Height="18"/>
+            HorizontalAlignment="Left" Margin="5,211,0,0" Width="96" />
         <Label Content="Зарплата за день" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="111,185,0,0" Height="26" Width="104"/>
         <TextBox x:Name="tbxPricePerDay" Grid.Column="0" Text="{Binding PricePerDay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top"
-            HorizontalAlignment="Left" Margin="111,211,0,0" Width="106" Height="18"/>
-        <Button x:Name="btnSumm" Content="  Расчет  " Command="{Binding AmountCommand}" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="79,234,0,0" Height="20" />
+            HorizontalAlignment="Left" Margin="111,211,0,0" Width="106" />
+        <Button x:Name="btnSumm" Content="  Расчет  " Command="{Binding AmountCommand}" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="79,238,0,0" Height="20" />
         <TextBox x:Name="tbxResult" Text="{Binding Amount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Left" 
-            IsReadOnly="True" Margin="5,259,0,0" Height="145" Width="212" />
+            IsReadOnly="True" Margin="5,265,0,0" Height="135" Width="212" />
         
         <!--Column 1-->
         <Label Content="Статус" VerticalAlignment="Top" HorizontalAlignment="Right" Grid.Column="1" Margin="0,2,229,0" />

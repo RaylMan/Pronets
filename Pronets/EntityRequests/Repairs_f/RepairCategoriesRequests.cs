@@ -10,7 +10,7 @@ namespace Pronets.EntityRequests.Repairs_f
         private static ObservableCollection<Repair_Categories> repair_Categories = new ObservableCollection<Repair_Categories>();
         public static ObservableCollection<Repair_Categories> FillList()
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 if (repair_Categories != null)
                     repair_Categories.Clear();
@@ -29,7 +29,7 @@ namespace Pronets.EntityRequests.Repairs_f
         public static void AddToBase(Repair_Categories category, out bool isExeption)
         {
             isExeption = true;
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 try
                 {
@@ -50,7 +50,7 @@ namespace Pronets.EntityRequests.Repairs_f
         public static void RemoveFromBase(Repair_Categories category, out bool isExeption)
         {
             isExeption = true;
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 if (category != null)
                 {

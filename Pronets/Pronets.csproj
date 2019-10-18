@@ -48,6 +48,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Printing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
@@ -74,79 +75,83 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Data\Clients.cs">
-      <DependentUpon>PronetsDB.tt</DependentUpon>
+      <DependentUpon>PronetsDBEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\ConnectionTools.cs" />
     <Compile Include="Data\Defects.cs">
-      <DependentUpon>PronetsDB.tt</DependentUpon>
+      <DependentUpon>PronetsDBEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\Engineers.cs">
-      <DependentUpon>PronetsDB.tt</DependentUpon>
+      <DependentUpon>PronetsDBEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\Nomenclature.cs">
-      <DependentUpon>PronetsDB.tt</DependentUpon>
+      <DependentUpon>PronetsDBEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\Nomenclature_Types.cs">
-      <DependentUpon>PronetsDB.tt</DependentUpon>
+      <DependentUpon>PronetsDBEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\No_in_Repairs.cs">
-      <DependentUpon>PronetsDB.tt</DependentUpon>
+      <DependentUpon>PronetsDBEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\OverTime.cs">
-      <DependentUpon>PronetsDB.tt</DependentUpon>
+      <DependentUpon>PronetsDBEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\OverTimeMe.cs" />
     <Compile Include="Data\OvertimeStatuses.cs" />
     <Compile Include="Data\Parts.cs">
-      <DependentUpon>PronetsDB.tt</DependentUpon>
+      <DependentUpon>PronetsDBEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\PartsOrder.cs">
-      <DependentUpon>PronetsDB.tt</DependentUpon>
+      <DependentUpon>PronetsDBEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\Positions.cs">
-      <DependentUpon>PronetsDB.tt</DependentUpon>
+      <DependentUpon>PronetsDBEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="Data\PronetsDB.Context.cs">
+    <Compile Include="Data\PronetsDBEntities.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>PronetsDB.Context.tt</DependentUpon>
+      <DependentUpon>PronetsDBEntities.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Data\PronetsDB.cs">
+    <Compile Include="Data\PronetsDBEntities.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>PronetsDB.tt</DependentUpon>
+      <DependentUpon>PronetsDBEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="Data\PronetsDB.Designer.cs">
+    <Compile Include="Data\PronetsDBEntities.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>PronetsDB.edmx</DependentUpon>
+      <DependentUpon>PronetsDBEntities.edmx</DependentUpon>
     </Compile>
     <Compile Include="Data\ReceiptDocument.cs">
-      <DependentUpon>PronetsDB.tt</DependentUpon>
+      <DependentUpon>PronetsDBEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\ReceiptDocumentsMe.cs" />
     <Compile Include="Data\ReceiptOfParts.cs">
-      <DependentUpon>PronetsDB.tt</DependentUpon>
+      <DependentUpon>PronetsDBEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\Repairs.cs">
-      <DependentUpon>PronetsDB.tt</DependentUpon>
+      <DependentUpon>PronetsDBEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\RepairsMe.cs" />
     <Compile Include="Data\Repair_Categories.cs">
-      <DependentUpon>PronetsDB.tt</DependentUpon>
+      <DependentUpon>PronetsDBEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\Statuses.cs">
-      <DependentUpon>PronetsDB.tt</DependentUpon>
+      <DependentUpon>PronetsDBEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\StatusesMe.cs" />
+    <Compile Include="Data\sysdiagrams.cs">
+      <DependentUpon>PronetsDBEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\Users.cs">
-      <DependentUpon>PronetsDB.tt</DependentUpon>
+      <DependentUpon>PronetsDBEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\v_Receipt_Document.cs">
-      <DependentUpon>PronetsDB.tt</DependentUpon>
+      <DependentUpon>PronetsDBEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\v_Receipt_DocumentMe.cs" />
     <Compile Include="Data\v_Repairs.cs">
-      <DependentUpon>PronetsDB.tt</DependentUpon>
+      <DependentUpon>PronetsDBEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\v_RepairsMe.cs" />
     <Compile Include="Data\Warrantys.cs" />
@@ -310,12 +315,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EntityDeploy Include="Data\PronetsDB.edmx">
+    <EntityDeploy Include="Data\PronetsDBEntities.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>PronetsDB.Designer.cs</LastGenOutput>
+      <LastGenOutput>PronetsDBEntities.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="Data\PronetsDB.edmx.diagram">
-      <DependentUpon>PronetsDB.edmx</DependentUpon>
+    <None Include="Data\PronetsDBEntities.edmx.diagram">
+      <DependentUpon>PronetsDBEntities.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -455,18 +460,20 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Data\PronetsDB.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>PronetsDB.edmx</DependentUpon>
-      <LastGenOutput>PronetsDB.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Data\PronetsDB.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>PronetsDB.edmx</DependentUpon>
-      <LastGenOutput>PronetsDB.cs</LastGenOutput>
-    </Content>
     <Resource Include="Viev\Other\bigLogo.jpg" />
     <Resource Include="Notes.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Data\PronetsDBEntities.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>PronetsDBEntities.edmx</DependentUpon>
+      <LastGenOutput>PronetsDBEntities.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Data\PronetsDBEntities.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>PronetsDBEntities.edmx</DependentUpon>
+      <LastGenOutput>PronetsDBEntities.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

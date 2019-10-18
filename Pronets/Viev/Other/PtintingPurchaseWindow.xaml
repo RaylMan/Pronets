@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pronets.Viev.Other"
         mc:Ignorable="d"
-        Title="Печать документа" Height="595" Width="800" MinHeight="595" MinWidth="800" Background="Gainsboro">
+        Title="Печать документа" Height="595" Width="800" MinHeight="595" MinWidth="800"  WindowStartupLocation="CenterScreen" Background="Gainsboro">
     <Grid>
         <Button x:Name="btnPrint" Click="BtnPrint_Click"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10" Height="25" Width="74">
             <Viewbox>

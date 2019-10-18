@@ -15,7 +15,7 @@ namespace Pronets.EntityRequests.Other
         #region FillLists
         public static ObservableCollection<ReceiptDocument> FillList()
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 if (receiptDocuments != null)
                     receiptDocuments.Clear();
@@ -40,7 +40,7 @@ namespace Pronets.EntityRequests.Other
 
         public static ObservableCollection<ReceiptDocument> FillListClient(int clientId) // сортировка по клиенту
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 if (receiptDocuments != null)
                     receiptDocuments.Clear();
@@ -54,7 +54,7 @@ namespace Pronets.EntityRequests.Other
 
         public static ObservableCollection<ReceiptDocument> FillListWithStatus(string status) // сортировка по статусу ремонта
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 if (receiptDocuments != null)
                     receiptDocuments.Clear();
@@ -68,7 +68,7 @@ namespace Pronets.EntityRequests.Other
 
         public static ObservableCollection<v_Receipt_Document> v_FillList() // Представление(вместо Id - имена)
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 if (v_ReceiptDocuments != null)
                     v_ReceiptDocuments.Clear();
@@ -96,7 +96,7 @@ namespace Pronets.EntityRequests.Other
 
         public static v_Receipt_Document GetDocument(int documentId)
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 v_Receipt_Document document = db.v_Receipt_Document.Where(d => d.Document_Id == documentId).FirstOrDefault();
                 return document;
@@ -104,7 +104,7 @@ namespace Pronets.EntityRequests.Other
         }
         public static int GetDocumentID()
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 return db.ReceiptDocument.Max(d => (int)d.DocumentId);
             }
@@ -112,7 +112,7 @@ namespace Pronets.EntityRequests.Other
 
         public static void AddToBase(ReceiptDocument document)
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 if (document != null)
                 {
@@ -132,7 +132,7 @@ namespace Pronets.EntityRequests.Other
         public static void RemoveFromBase(ReceiptDocument document, out bool isExeption)
         {
             isExeption = true;
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 if (document != null)
                 {
@@ -153,7 +153,7 @@ namespace Pronets.EntityRequests.Other
         public static void RemoveFromBase(int documentId, out bool isExeption)
         {
             isExeption = true;
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 if (documentId != 0)
                 {
@@ -175,7 +175,7 @@ namespace Pronets.EntityRequests.Other
         }
         public static void EditItem(ReceiptDocument document)
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 var result = db.ReceiptDocument.SingleOrDefault(d => d.DocumentId == document.DocumentId);
                 if (result != null)
@@ -184,6 +184,18 @@ namespace Pronets.EntityRequests.Other
                     result.Status = document.Status;
                     result.DepartureDate = document.DepartureDate;
                     result.Note = document.Note;
+                    db.SaveChanges();
+                }
+            }
+        }
+        public static void SetStatus(int documentId, string status)
+        {
+            using (var db = ConnectionTools.GetConnection())
+            {
+                var result = db.ReceiptDocument.SingleOrDefault(d => d.DocumentId == documentId);
+                if (result != null)
+                {
+                    result.Status = status;
                     db.SaveChanges();
                 }
             }

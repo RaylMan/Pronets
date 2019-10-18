@@ -14,7 +14,7 @@ namespace Pronets.EntityRequests.Repairs_f
         private static ObservableCollection<Defects> defects = new ObservableCollection<Defects>();
         public static ObservableCollection<Defects> FillList()
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 if (defects != null)
                     defects.Clear();
@@ -34,7 +34,7 @@ namespace Pronets.EntityRequests.Repairs_f
         public static void AddToBase(Defects defect, out bool isExeption)
         {
             isExeption = true;
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 try
                 {
@@ -56,7 +56,7 @@ namespace Pronets.EntityRequests.Repairs_f
         public static void RemoveFromBase(Defects defect, out bool isExeption)
         {
             isExeption = true;
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 if (defect != null)
                 {

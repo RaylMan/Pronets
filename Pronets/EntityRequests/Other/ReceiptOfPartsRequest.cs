@@ -15,7 +15,7 @@ namespace Pronets.EntityRequests.Other
 
         public static ObservableCollection<ReceiptOfParts> FillList()
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 if (receiptOfParts != null)
                     receiptOfParts.Clear();
@@ -36,7 +36,7 @@ namespace Pronets.EntityRequests.Other
         public static void AddToBase(ReceiptOfParts receiptOfParts)
         {
            
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 try
                 {
@@ -56,7 +56,7 @@ namespace Pronets.EntityRequests.Other
         public static void RemoveFromBase(ReceiptOfParts receiptOfParts, out bool isExeption)
         {
             isExeption = true;
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 if (receiptOfParts != null)
                 {
@@ -76,7 +76,7 @@ namespace Pronets.EntityRequests.Other
         }
         public static void EditItem(ReceiptOfParts document)
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 var result = db.ReceiptOfParts.SingleOrDefault(d => d.Id == document.Id);
                 if (result != null)

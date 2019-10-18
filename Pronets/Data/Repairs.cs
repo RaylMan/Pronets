@@ -21,6 +21,7 @@ namespace Pronets.Data
         public string Claimed_Malfunction { get; set; }
         public Nullable<int> Client { get; set; }
         public Nullable<System.DateTime> Date_Of_Receipt { get; set; }
+        public string Recipient { get; set; }
         public Nullable<System.DateTime> Departure_Date { get; set; }
         public Nullable<int> Inspector { get; set; }
         public string Warranty { get; set; }
@@ -31,15 +32,13 @@ namespace Pronets.Data
         public Nullable<System.DateTime> Repair_Date { get; set; }
         public string Status { get; set; }
         public string Note { get; set; }
-        public string Recipient { get; set; }
     
         public virtual Clients Clients { get; set; }
+        public virtual Engineers Engineers { get; set; }
         public virtual Nomenclature Nomenclature1 { get; set; }
         public virtual ReceiptDocument ReceiptDocument { get; set; }
         public virtual Repair_Categories Repair_Categories { get; set; }
         public virtual Statuses Statuses { get; set; }
         public virtual Users Users { get; set; }
-        public virtual Users Users1 { get; set; }
-        public virtual Engineers Engineers { get; set; }
     }
 }
