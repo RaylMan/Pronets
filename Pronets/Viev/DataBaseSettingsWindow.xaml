@@ -5,12 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pronets.Viev"
         mc:Ignorable="d"
-        Title="Настройки" Height="179.333" Width="319.333" ResizeMode="NoResize">
+        Title="Настройки" Height="290" Width="320" ResizeMode="NoResize"  WindowStartupLocation="CenterScreen">
     <Grid>
         <Label Content="Имя сервера" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,10,0,0"/>
         <TextBox x:Name="tbxServer" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,37,0,0" Width="268"  ></TextBox>
+        
         <Label Content="Имя базы данных" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,64,0,0"/>
         <TextBox x:Name="tbxBase" VerticalAlignment="Top" HorizontalAlignment="Left"  Margin="10,90,0,0" Width="268"  />
+        
+        <Label Content="Логин" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,112,0,0"/>
+        <TextBox x:Name="tbxLogin" VerticalAlignment="Top" HorizontalAlignment="Left"  Margin="10,143,0,0" Width="268"  />
+
+        <Label Content="Пароль" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,165,0,0"/>
+        <PasswordBox x:Name="tbxPassword" VerticalAlignment="Top" HorizontalAlignment="Left"  Margin="10,196,0,0" Width="268"  />
         <Button x:Name="btnSave" Content="  Сохранить  " Click="BtnSave_Click" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="10"/>
     </Grid>
 </Window>

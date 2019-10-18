@@ -25,17 +25,18 @@ namespace Pronets.Viev.Users_f
         public UsersWindow()
         {
             InitializeComponent();
+            Style rowStyle = new Style(typeof(DataGridRow));
+            rowStyle.Setters.Add(new EventSetter(DataGridRow.MouseDoubleClickEvent,
+                                     new MouseButtonEventHandler(Row_DoubleClick)));
+            dataGrid.RowStyle = rowStyle;
         }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
         {
             try
             {
                 Users user = (Users)dataGrid.SelectedItem;
                 UserInfoWindow win = new UserInfoWindow(user);
                 win.Show();
-                this.Close();
-
             }
             catch (System.InvalidCastException)
             {

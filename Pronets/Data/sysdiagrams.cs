@@ -12,14 +12,12 @@ namespace Pronets.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class v_Receipt_Document
+    public partial class sysdiagrams
     {
-        public int Document_Id { get; set; }
-        public string Client { get; set; }
-        public string Inspector { get; set; }
-        public Nullable<System.DateTime> Date { get; set; }
-        public string Status { get; set; }
-        public Nullable<System.DateTime> DepartureDate { get; set; }
-        public string Note { get; set; }
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }

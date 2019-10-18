@@ -10,7 +10,7 @@ namespace Pronets.EntityRequests
         private static ObservableCollection<Statuses> statuses = new ObservableCollection<Statuses>();
         public static ObservableCollection<Statuses> FillList()
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 if (statuses != null)
                     statuses.Clear();
@@ -29,7 +29,7 @@ namespace Pronets.EntityRequests
             isExeption = true; //проверка на копию в базе
             if (status != null && status.Length > 0)
             {
-                using (var db = new PronetsDataBaseEntities())
+                using (var db = ConnectionTools.GetConnection())
                 {
                     try
                     {
@@ -47,7 +47,7 @@ namespace Pronets.EntityRequests
         public static void RemoveFromBase(Statuses status, out bool isExeption)
         {
             isExeption = true;
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 if (status != null)
                 {

@@ -10,7 +10,7 @@ namespace Pronets.EntityRequests.Nomenclature_f
         private static ObservableCollection<Nomenclature> nomenclatures = new ObservableCollection<Nomenclature>();
         public static ObservableCollection<Nomenclature> FillList()
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 if (nomenclatures != null)
                     nomenclatures.Clear();
@@ -30,7 +30,7 @@ namespace Pronets.EntityRequests.Nomenclature_f
         public static void AddToBase(Nomenclature nomenenclature, out bool isExeption)
         {
             isExeption = true;
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 try
                 {
@@ -52,7 +52,7 @@ namespace Pronets.EntityRequests.Nomenclature_f
         public static void RemoveFromBase(Nomenclature nomenclature, out bool isExeption)
         {
             isExeption = true;
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 if (nomenclature != null)
                 {

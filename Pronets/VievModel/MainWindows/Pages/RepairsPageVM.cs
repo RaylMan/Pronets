@@ -1,6 +1,7 @@
 ﻿using Pronets.Data;
 using Pronets.EntityRequests;
 using Pronets.EntityRequests.Clients_f;
+using Pronets.EntityRequests.Other;
 using Pronets.EntityRequests.Repairs_f;
 using Pronets.EntityRequests.Users_f;
 using Pronets.Model;
@@ -252,6 +253,7 @@ namespace Pronets.VievModel.MainWindows.Pages
                         if (repair != null)
                         {
                             RepairsRequest.EditItem(repair);
+                            ReceiptDocumentRequest.SetStatus((int)repair.DocumentId, "В ремонте");
                         }
                     }
                 }

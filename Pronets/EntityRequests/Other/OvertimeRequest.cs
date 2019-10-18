@@ -15,7 +15,7 @@ namespace Pronets.EntityRequests.Other
 
         public static ObservableCollection<OverTime> FillList()
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 try
                 {
@@ -30,7 +30,7 @@ namespace Pronets.EntityRequests.Other
         }
         public static ObservableCollection<OverTime> FillList(string lastName)
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 try
                 {
@@ -46,7 +46,7 @@ namespace Pronets.EntityRequests.Other
         }
         public static ObservableCollection<OverTime> FillList(string lastName, string status)
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 try
                 {
@@ -62,7 +62,7 @@ namespace Pronets.EntityRequests.Other
         }
         public static void GetStatus(int id, string status)
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 try
                 {
@@ -82,7 +82,7 @@ namespace Pronets.EntityRequests.Other
         }
         public static void AddToBase(OverTime overtime)
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 try
                 {
@@ -100,7 +100,7 @@ namespace Pronets.EntityRequests.Other
         }
         public static void RemoveFromBase(OverTime overtime)
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 if (overtime != null)
                 {

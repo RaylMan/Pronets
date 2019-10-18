@@ -21,7 +21,7 @@ namespace Pronets.EntityRequests.Repairs_f
 
         public static ObservableCollection<Repairs> FillList()
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 repairs.Clear();
                 foreach (var item in db.Repairs)
@@ -50,7 +50,8 @@ namespace Pronets.EntityRequests.Repairs_f
                         ReceiptDocument = item.ReceiptDocument,
                         Statuses = item.Statuses,
                         Users = item.Users,
-                        Users1 = item.Users1
+                        
+                        //Users1 = item.Users1
 
                     });
                 }
@@ -60,7 +61,7 @@ namespace Pronets.EntityRequests.Repairs_f
 
         public static ObservableCollection<v_Repairs> v_FillList()
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 if (v_Repairs != null)
                     v_Repairs.Clear();
@@ -74,7 +75,7 @@ namespace Pronets.EntityRequests.Repairs_f
         {
             try
             {
-                using (var db = new PronetsDataBaseEntities())
+                using (var db = ConnectionTools.GetConnection())
                 {
                     if (v_Repairs != null)
                         v_Repairs.Clear();
@@ -92,7 +93,7 @@ namespace Pronets.EntityRequests.Repairs_f
         }
         public static ObservableCollection<v_Repairs> FillListPronets(string status)
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 if (v_Repairs != null)
                     v_Repairs.Clear();
@@ -107,7 +108,7 @@ namespace Pronets.EntityRequests.Repairs_f
         }
         public static ObservableCollection<Repairs> GetPronetsRepairs()
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 if (repairs != null)
                     repairs.Clear();
@@ -119,7 +120,7 @@ namespace Pronets.EntityRequests.Repairs_f
         }
         public static ObservableCollection<Repairs> GetPronetsRepairs(string status)
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 if (repairs != null)
                     repairs.Clear();
@@ -131,7 +132,7 @@ namespace Pronets.EntityRequests.Repairs_f
         }
         public static ObservableCollection<v_Repairs> FillList(int DocumentId)
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 if (v_Repairs != null)
                     v_Repairs.Clear();
@@ -144,7 +145,7 @@ namespace Pronets.EntityRequests.Repairs_f
         }
         public static ObservableCollection<v_Repairs> FillReportList(int DocumentId)
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 if (repairsTable != null)
                     repairsTable.Clear();
@@ -157,7 +158,7 @@ namespace Pronets.EntityRequests.Repairs_f
         }
         public static ObservableCollection<v_Repairs> FillListClient(int clientId)
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 if (v_Repairs != null)
                     v_Repairs.Clear();
@@ -172,7 +173,7 @@ namespace Pronets.EntityRequests.Repairs_f
         #region Sorting by client
         public static ObservableCollection<v_Repairs> SortList(int clientId, string status = null)
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 if (v_Repairs != null)
                     v_Repairs.Clear();
@@ -197,7 +198,7 @@ namespace Pronets.EntityRequests.Repairs_f
         }
         public static ObservableCollection<v_Repairs> SortList(int clientId, int documentId, string status = null)
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 if (v_Repairs != null)
                     v_Repairs.Clear();
@@ -223,7 +224,7 @@ namespace Pronets.EntityRequests.Repairs_f
         }
         public static ObservableCollection<v_Repairs> SortList(int clientId, string warranty, int documentId, string status = null)
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 if (v_Repairs != null)
                     v_Repairs.Clear();
@@ -251,7 +252,7 @@ namespace Pronets.EntityRequests.Repairs_f
         }
         public static ObservableCollection<v_Repairs> SortList(string warranty, int clientId, string status = null)
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 if (v_Repairs != null)
                     v_Repairs.Clear();
@@ -278,7 +279,7 @@ namespace Pronets.EntityRequests.Repairs_f
         }
         public static ObservableCollection<v_Repairs> SortList(int clientId, string nomenclature, string status = null)
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 if (v_Repairs != null)
                     v_Repairs.Clear();
@@ -305,7 +306,7 @@ namespace Pronets.EntityRequests.Repairs_f
         }
         public static ObservableCollection<v_Repairs> SortListDocNom(int clientId, int documentId, string nomenclature, string status = null)
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 if (v_Repairs != null)
                     v_Repairs.Clear();
@@ -334,7 +335,7 @@ namespace Pronets.EntityRequests.Repairs_f
         }
         public static ObservableCollection<v_Repairs> SortListWarNom(int clientId, string warranty, string nomenclature, string status = null)
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 if (v_Repairs != null)
                     v_Repairs.Clear();
@@ -363,7 +364,7 @@ namespace Pronets.EntityRequests.Repairs_f
         }
         public static ObservableCollection<v_Repairs> SortList(int clientId, int documentId, string nomenclature, string warranty, string status = null)
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 if (v_Repairs != null)
                     v_Repairs.Clear();
@@ -399,7 +400,7 @@ namespace Pronets.EntityRequests.Repairs_f
         #region Sorting by User
         public static ObservableCollection<v_Repairs> SortUserList(int userId)
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 if (v_Repairs != null)
                     v_Repairs.Clear();
@@ -412,7 +413,7 @@ namespace Pronets.EntityRequests.Repairs_f
         }
         public static ObservableCollection<v_Repairs> SortUserList(int userId, DateTime firstDate, DateTime secondDate)
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 if (v_Repairs != null)
                     v_Repairs.Clear();
@@ -427,7 +428,7 @@ namespace Pronets.EntityRequests.Repairs_f
 
         public static ObservableCollection<v_Repairs> SortUserList(int userId, DateTime firstDate, DateTime secondDate, string category)
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 if (v_Repairs != null)
                     v_Repairs.Clear();
@@ -446,7 +447,7 @@ namespace Pronets.EntityRequests.Repairs_f
         {
             ObservableCollection<v_Repairs> v_RepairsCopy = new ObservableCollection<v_Repairs>();
 
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
 
                 var result = from repair in db.v_Repairs
@@ -460,7 +461,7 @@ namespace Pronets.EntityRequests.Repairs_f
 
         public static Repairs GetRepair(int repairId)
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 return db.Repairs.Where(r => r.RepairId == repairId).FirstOrDefault();
             }
@@ -468,7 +469,7 @@ namespace Pronets.EntityRequests.Repairs_f
         }
         public static v_Repairs v_GetRepair(int repairId)
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 return db.v_Repairs.Where(r => r.RepairId == repairId).FirstOrDefault();
             }
@@ -477,7 +478,7 @@ namespace Pronets.EntityRequests.Repairs_f
 
         public static void AddToBase(ObservableCollection<Repairs> repairs)
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 if (repairs != null)
                 {
@@ -525,7 +526,7 @@ namespace Pronets.EntityRequests.Repairs_f
         }
         public static void EditItem(Repairs repair)
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 var result = db.Repairs.SingleOrDefault(r => r.RepairId == repair.RepairId);
                 if (result != null)
@@ -550,7 +551,7 @@ namespace Pronets.EntityRequests.Repairs_f
         }
         public static void EditItemStatusToSendToClient(int documentId, DateTime date)
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 var result = db.Repairs.Where(r => r.DocumentId == documentId).ToList();
                 result.ForEach(s => { s.Status = "Отправлен заказчику"; s.Departure_Date = date; });
@@ -560,7 +561,7 @@ namespace Pronets.EntityRequests.Repairs_f
 
         public static void EditItemStatus(int repairId, DateTime date)
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 var result = db.Repairs.Where(r => r.RepairId == repairId).ToList();
                 result.ForEach(s => { s.Status = "Отправлен заказчику"; s.Departure_Date = date; });
@@ -571,7 +572,7 @@ namespace Pronets.EntityRequests.Repairs_f
 
         public static void SetRepairRecipient(int repairId, string clientName)
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 try
                 {
@@ -591,7 +592,7 @@ namespace Pronets.EntityRequests.Repairs_f
         }
         public static void EditItemClient(int documentID, int clientId)
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 var result = db.Repairs.Where(r => r.DocumentId == documentID).ToList();
                 result.ForEach(c => c.Client = clientId);
@@ -602,7 +603,7 @@ namespace Pronets.EntityRequests.Repairs_f
         public static void RemoveFromBase(Repairs repair, out bool isExeption)
         {
             isExeption = true;
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 if (repair != null)
                 {
@@ -623,7 +624,7 @@ namespace Pronets.EntityRequests.Repairs_f
         public static void RemoveFromBaseById(int repairId, out bool isExeption)
         {
             isExeption = true;
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 try
                 {
@@ -643,7 +644,7 @@ namespace Pronets.EntityRequests.Repairs_f
         public static void RemoveFromBase(int documentId, out bool isExeption)
         {
             isExeption = true;
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 if (documentId != 0)
                 {
@@ -664,7 +665,7 @@ namespace Pronets.EntityRequests.Repairs_f
         public static ObservableCollection<v_Repairs> SearchItem(string word, int clientId)
         {
 
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 Int32.TryParse(word, out int numericWord);
                 v_Repairs.Clear();
@@ -694,7 +695,7 @@ namespace Pronets.EntityRequests.Repairs_f
         public static ObservableCollection<v_Repairs> SearchItem(string word)
         {
 
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 Int32.TryParse(word, out int numericWord);
                 v_Repairs.Clear();

@@ -31,7 +31,35 @@
         <DataGrid x:Name="docunents" ItemsSource="{Binding Path=ReceiptDocuments}" SelectedIndex="{Binding SelectedIndex}" 
                   SelectedValue="{Binding SelectedItem}" Margin="5" Grid.Row="1" Grid.Column="0" AutoGenerateColumns="False"
                   Grid.ColumnSpan="2" SelectionMode="Single"  HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999">
-            <DataGrid.RowStyle>
+            <DataGrid.Resources>
+                <Style TargetType="DataGridRow">
+                    <EventSetter Event="MouseDoubleClick" Handler="Row_DoubleClick"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Status}" Value="Готов">
+                            <Setter Property="Background" Value="Lime"></Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Status}" Value="Донор">
+                            <Setter Property="Background" Value="Tomato"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Status}" Value="Не смогли починить">
+                            <Setter Property="Background" Value="Tomato"></Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Status}" Value="Утерян">
+                            <Setter Property="Background" Value="Red"></Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Status}" Value="Частично готовый">
+                            <Setter Property="Background" Value="#FFFFF300"></Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Status}" Value="В ремонте">
+                            <Setter Property="Background" Value="#FF4061F9"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Status}" Value="Отправлен заказчику">
+                            <Setter Property="Background" Value="DarkGray"></Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.Resources>
+            <!--<DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding Status}" Value="Готов">
@@ -46,15 +74,18 @@
                         <DataTrigger Binding="{Binding Status}" Value="Утерян">
                             <Setter Property="Background" Value="Red"></Setter>
                         </DataTrigger>
+                        <DataTrigger Binding="{Binding Status}" Value="Частично готовый">
+                            <Setter Property="Background" Value="#FFFFF300"></Setter>
+                        </DataTrigger>
                         <DataTrigger Binding="{Binding Status}" Value="В ремонте">
-                            <Setter Property="Background" Value="#FFF9F14C"/>
+                            <Setter Property="Background" Value="#FF4061F9"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Status}" Value="Отправлен заказчику">
                             <Setter Property="Background" Value="DarkGray"></Setter>
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
-            </DataGrid.RowStyle>
+            </DataGrid.RowStyle>-->
             <DataGrid.Columns>
                 <DataGridTextColumn Header="№" Binding="{Binding Path=Document_Id}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Клиент" Binding="{Binding Path=Client}" IsReadOnly="True" />
@@ -71,13 +102,6 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTemplateColumn>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button Content="Открыть" Click="Button_Click" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
           </Grid>

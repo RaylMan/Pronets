@@ -17,7 +17,7 @@ namespace Pronets.EntityRequests.Other
        
         public static ObservableCollection<Parts> FillList()
         {
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 if (parts != null)
                     parts.Clear();
@@ -36,7 +36,7 @@ namespace Pronets.EntityRequests.Other
         public static void AddToBase(Parts part, out bool isExeption)
         {
             isExeption = true;
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 try
                 {
@@ -58,7 +58,7 @@ namespace Pronets.EntityRequests.Other
         public static void RemoveFromBase(Parts part, out bool isExeption)
         {
             isExeption = true;
-            using (var db = new PronetsDataBaseEntities())
+            using (var db = ConnectionTools.GetConnection())
             {
                 if (part != null)
                 {

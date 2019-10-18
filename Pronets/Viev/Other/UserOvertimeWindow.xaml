@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Pronets.Viev.Other"
         xmlns:vm="clr-namespace:Pronets.VievModel.Other"
         mc:Ignorable="d"
-        Title="{Binding Head}" Height="450" Width="800" MinHeight="450" MinWidth="800" Background="Gainsboro">
+        Title="{Binding Head}" Height="450" Width="800" MinHeight="450" MinWidth="800"  WindowStartupLocation="CenterScreen" Background="Gainsboro">
 
     <Grid>
         <Grid.ColumnDefinitions>

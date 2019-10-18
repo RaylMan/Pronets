@@ -31,7 +31,12 @@
         <!--Row 1-->
         <DataGrid x:Name="dataGrid" ItemsSource="{Binding Users, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1"  Margin="5" AutoGenerateColumns="False" 
                   SelectedIndex="{Binding SelectedIndex}" SelectedValue="{Binding SelectedItem}"  SelectionMode="Single"  
-                  HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999" >
+                  HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999" CanUserAddRows="False" >
+            <DataGrid.Resources>
+                <Style TargetType="DataGridRow">
+                    <EventSetter Event="MouseDoubleClick" Handler="Row_DoubleClick"/>
+                </Style>
+            </DataGrid.Resources>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding Path=UserId, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Уровень Доступа" Binding="{Binding Path=Position, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" />
@@ -56,13 +61,6 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTemplateColumn >
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button Content="Открыть" Click="Button_Click" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

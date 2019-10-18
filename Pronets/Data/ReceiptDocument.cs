@@ -24,15 +24,13 @@ namespace Pronets.Data
         public int ClientId { get; set; }
         public int InspectorId { get; set; }
         public Nullable<System.DateTime> Date { get; set; }
+        public Nullable<System.DateTime> DepartureDate { get; set; }
         public string Status { get; set; }
         public string Note { get; set; }
-        public Nullable<System.DateTime> DepartureDate { get; set; }
     
         public virtual Clients Clients { get; set; }
         public virtual Users Users { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Repairs> Repairs { get; set; }
-        public virtual ReceiptDocument ReceiptDocument1 { get; set; }
-        public virtual ReceiptDocument ReceiptDocument2 { get; set; }
     }
 }

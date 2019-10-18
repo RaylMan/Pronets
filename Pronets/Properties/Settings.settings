@@ -38,8 +38,11 @@
     <Setting Name="BaseName" Type="System.String" Scope="User">
       <Value Profile="(Default)">PronetsDB</Value>
     </Setting>
-    <Setting Name="ConnectionString" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+    <Setting Name="ServerLogin" Type="System.String" Scope="User">
+      <Value Profile="(Default)">sa</Value>
+    </Setting>
+    <Setting Name="ServerPassword" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Pronetspassword123</Value>
     </Setting>
   </Settings>
 </SettingsFile>
