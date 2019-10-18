@@ -37,6 +37,9 @@
     <ApplicationIcon>photo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.9.1.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
+      <HintPath>..\packages\DocumentFormat.OpenXml.2.9.1\lib\net40\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -166,6 +169,9 @@
     <Compile Include="Model\DocumentPaginatorWrapper.cs" />
     <Compile Include="Model\EditChars.cs" />
     <Compile Include="Model\FittedDocumentPaginator.cs" />
+    <Compile Include="Model\FromXlsxToSQL\SheetsId.cs" />
+    <Compile Include="Model\FromXlsxToSQL\WorkList.cs" />
+    <Compile Include="Model\FromXlsxToSQL\XslxExporter.cs" />
     <Compile Include="Model\RepairsModel.cs" />
     <Compile Include="Model\SerialNumbers.cs" />
     <Compile Include="Model\SortingRepair.cs" />
@@ -177,6 +183,7 @@
     <Compile Include="VievModel\Clients_f\AddClientVM.cs" />
     <Compile Include="VievModel\Clients_f\ClientInfoWIndowVM.cs" />
     <Compile Include="VievModel\Clients_f\ClientsVM.cs" />
+    <Compile Include="VievModel\ConvertToSQL\ConvertToSQLWindowVM.cs" />
     <Compile Include="VievModel\MainWindows\Pages\DefectsPageVM.cs" />
     <Compile Include="VievModel\MainWindows\Pages\EquipmentWindowVM.cs" />
     <Compile Include="VievModel\MainWindows\Pages\Page404VM.cs" />
@@ -212,6 +219,9 @@
     </Compile>
     <Compile Include="Viev\Clients_f\ClientsWindow.xaml.cs">
       <DependentUpon>ClientsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Viev\ConvertToSQL\ConvertToSQLWindow.xaml.cs">
+      <DependentUpon>ConvertToSQLWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Viev\DataBaseSettingsWindow.xaml.cs">
       <DependentUpon>DataBaseSettingsWindow.xaml</DependentUpon>
@@ -346,6 +356,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Viev\Clients_f\ClientsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Viev\ConvertToSQL\ConvertToSQLWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,0 +1,60 @@
+﻿<Window x:Class="Pronets.Viev.ConvertToSQL.ConvertToSQLWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Pronets.Viev.ConvertToSQL"
+        xmlns:vm="clr-namespace:Pronets.VievModel.ConvertToSQL"
+        mc:Ignorable="d"
+        Title="Импорт в базу" Height="450" Width="800">
+    <Window.DataContext>
+        <vm:ConvertToSQLWindowVM/>
+    </Window.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBox x:Name="tbxPath" Text="{Binding Path, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  VerticalAlignment="Top" HorizontalAlignment="Left" Width="341" Margin="10,10,0,0"/>
+        <Button x:Name="open" Content="  Открыть файл  " Click="Open_Click" Command="{Binding OpenCommand}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="356,8,0,0"/>
+        <Label Content=" Выбрать лист" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,30,0,0"/>
+        
+
+        <Button x:Name="export" Content="  Экспорт в базу  " Command="{Binding ExportCommand}" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,5,10,0"/>
+        <Label Content=" Экспортирует только выделенные элементы" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,30,10,0"/>
+        <ComboBox x:Name="cmbList" Margin="0,34,538,0" ItemsSource="{Binding Sheets}" SelectedItem="{Binding SelectedSheet}" Width="162" HorizontalAlignment="Right" VerticalAlignment="Top" SelectedValue="{Binding SelectedWarranty}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding SheetName}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <DataGrid x:Name="workList" ItemsSource="{Binding WorkList, UpdateSourceTrigger=PropertyChanged}"  CanUserAddRows="False" 
+                   Grid.Row="1" Margin="5,5,5,0" AutoGenerateColumns="False" SelectionMode="Single" HorizontalGridLinesBrush="#FF999999"
+                  VerticalGridLinesBrush="#FF999999">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.Header>
+                        <CheckBox x:Name="allChecked" Checked="AllChecked_Checked" Unchecked="AllChecked_Unchecked"  VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox x:Name="chkbx" IsChecked="{Binding Path=IsChecked, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Название" Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="S/n" Binding="{Binding SerialNumber, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Заявл. Неиспр." Binding="{Binding Claimed_Malfunction, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Клиент" Binding="{Binding Client, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Дата приема" Binding="{Binding DateOfReceipt, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Гарантия" Binding="{Binding Warranty, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Выявл. неиспр." Binding="{Binding IdentifyFault, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Ремонт" Binding="{Binding WorkDone, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Инженер" Binding="{Binding Engineer, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Дата" Binding="{Binding Date, StringFormat='dd.MM.yyyy', UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>

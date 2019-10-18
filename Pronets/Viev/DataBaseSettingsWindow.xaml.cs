@@ -33,7 +33,7 @@ namespace Pronets.Viev
         {
             Properties.Settings.Default.ServerName = tbxServer.Text;
             Properties.Settings.Default.BaseName = tbxBase.Text;
-            Properties.Settings.Default.ConnectionString = $"metadata=res://*/Data.PronetsDB.csdl|res://*/Data.PronetsDB.ssdl|res://*/Data.PronetsDB.msl;provider=System.Data.SqlClient;provider connection string=&quot;Data Source={tbxServer.Text};initial catalog={tbxBase.Text};integrated security=True;MultipleActiveResultSets=True;App=EntityFramework&quot;";
+            Properties.Settings.Default.ConnectionString = $"Data Source={tbxServer.Text};initial catalog={tbxBase.Text};integrated security=True;MultipleActiveResultSets=True;App=EntityFramework&quot;";
             Properties.Settings.Default.Save();
         }
     }
