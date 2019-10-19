@@ -87,7 +87,7 @@
             </Grid.ColumnDefinitions>
 
             <Label Content="Из таблицы Excel" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Column="0"/>
-            <DataGrid x:Name="workList" ItemsSource="{Binding WorkList, UpdateSourceTrigger=PropertyChanged}"  CanUserAddRows="False" 
+            <DataGrid x:Name="workList" ItemsSource="{Binding WorkList, UpdateSourceTrigger=PropertyChanged}" CanUserAddRows="False" CanUserDeleteRows="False"
                    Grid.Column="0" Margin="5,26,1,5" AutoGenerateColumns="False" SelectionMode="Single" HorizontalGridLinesBrush="#FF999999"
                   VerticalGridLinesBrush="#FF999999">
                 <DataGrid.Columns>
@@ -108,17 +108,15 @@
             <GridSplitter Grid.Column="1" ShowsPreview="False" Margin="0,26,0,0" Width="5" HorizontalAlignment="Center" VerticalAlignment="Stretch" />
 
             <!--Row 1 Column 1-->
-            <CheckBox Content="Все" IsChecked="{Binding AllChecked,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" FontSize="10" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left"  Margin="5,8,0,0" />
+            <CheckBox Content="Все" IsChecked="{Binding AllChecked,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" FontSize="10" Grid.Column="2"
+                      VerticalAlignment="Top" HorizontalAlignment="Left"  Margin="5,8,0,0" />
             
             <Label Content="Таблица в SQL для переноса в основной ремонт" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Column="2" />
-            <DataGrid x:Name="baseFromExcel" ItemsSource="{Binding BaseFromExcel, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  CanUserAddRows="False" 
-                   Grid.Column="2" Margin="1,26,5,5" AutoGenerateColumns="False" SelectionMode="Single" HorizontalGridLinesBrush="#FF999999"
-                  VerticalGridLinesBrush="#FF999999">
+            <DataGrid x:Name="baseFromExcel" ItemsSource="{Binding BaseFromExcel, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  CanUserAddRows="False"
+                      CanUserDeleteRows="False" Grid.Column="2" Margin="1,26,5,5" AutoGenerateColumns="False" SelectionMode="Single" 
+                      HorizontalGridLinesBrush="#FF999999"  VerticalGridLinesBrush="#FF999999">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn>
-                        <!--<DataGridTemplateColumn.Header>
-                            <CheckBox x:Name="allChecked" Checked="AllChecked_Checked" Unchecked="AllChecked_Unchecked"  VerticalAlignment="Center" HorizontalAlignment="Center" />
-                        </DataGridTemplateColumn.Header>-->
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <CheckBox x:Name="chkbx" IsChecked="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>

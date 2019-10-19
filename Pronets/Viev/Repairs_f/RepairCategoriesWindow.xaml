@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Pronets.Viev.Repairs_f"
         xmlns:vm="clr-namespace:Pronets.VievModel.Repairs_f"
         mc:Ignorable="d"
-         Title="Категории ремонтов" Height="400" Width="600" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" >
+         Title="Категории ремонта" Height="400" Width="600" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" >
     <Window.DataContext>
         <vm:RepairCategoriesVM/>
     </Window.DataContext>
@@ -18,7 +18,7 @@
         </Grid.ColumnDefinitions>
         <DataGrid x:Name="dataGrid" Grid.Column="0" ItemsSource="{Binding Repair_Categories}" Margin="5" AutoGenerateColumns="False"
                   SelectedIndex="{Binding SelectedIndex}" SelectedValue="{Binding SelectedItem}" SelectionMode="Single"  
-                  HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999">
+                  HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999" CanUserAddRows="False" CanUserDeleteRows="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Категория ремонта" Width="*" Binding="{Binding Path=Category}"  IsReadOnly="True" />
                 <DataGridTextColumn Header="Цена" Binding="{Binding Path=Price}" IsReadOnly="True"/>

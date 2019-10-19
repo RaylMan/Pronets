@@ -6,47 +6,86 @@
         xmlns:local="clr-namespace:Pronets.Viev.Nomenclature_f"
         xmlns:vm="clr-namespace:Pronets.VievModel.Nomenclature_f"
         mc:Ignorable="d"
-        Title="Номенклатура" Height="400" Width="700" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" >
+        Title="Номенклатура" Height="400" Width="700" WindowStartupLocation="CenterScreen" >
     <Window.DataContext>
         <vm:NomenclatureVM/>
     </Window.DataContext>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="400"></ColumnDefinition>
-            <ColumnDefinition>
+            <ColumnDefinition ></ColumnDefinition>
+            <ColumnDefinition Width="295">
             </ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <DataGrid x:Name="dataGrid" Grid.Column="0" ItemsSource="{Binding Nomenclature, UpdateSourceTrigger=PropertyChanged}" Margin="5" AutoGenerateColumns="False"
-                  SelectedIndex="{Binding SelectedIndex}" SelectedValue="{Binding SelectedItem}" SelectionMode="Single" HorizontalGridLinesBrush="#FF999999"
-                  VerticalGridLinesBrush="#FF999999">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="170"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <DataGrid x:Name="dataGrid" Grid.Column="0" Grid.RowSpan="2" ItemsSource="{Binding Nomenclature, UpdateSourceTrigger=PropertyChanged}" Margin="5" AutoGenerateColumns="False"
+                  SelectedIndex="{Binding SelectedIndex}" SelectedValue="{Binding SelectedNomenclatureItem}" SelectionMode="Single" HorizontalGridLinesBrush="#FF999999"
+                  VerticalGridLinesBrush="#FF999999" CanUserAddRows="False" CanUserDeleteRows="False">
+            <DataGrid.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="White" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#0078D7"/>
+            </DataGrid.Resources>
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Удалить" Command="{Binding RemoveCommand}" CommandParameter="{Binding SelectedIndex}"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Наименование" Width="*" Binding="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"  IsReadOnly="True" />
                 <DataGridTextColumn Header="Тип" Binding="{Binding Path=Type, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Цена" Binding="{Binding Path=Price, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
             </DataGrid.Columns>
         </DataGrid>
-        <TextBox x:Name="textBox" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="25" Margin="63,46,0,0" TextWrapping="NoWrap" MaxLength="50" VerticalAlignment="Top" Width="200"/>
 
-        <TextBox x:Name="textBox1" Grid.Column="1" Text="{Binding Price, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="25" Margin="63,102,0,0" TextWrapping="NoWrap" MaxLength="50" VerticalAlignment="Top" Width="200"/>
-        <ComboBox x:Name="comboBox" Grid.Column="1" HorizontalAlignment="Left" Margin="63,75,0,0" VerticalAlignment="Top" Width="173"  ItemsSource="{Binding Nomenclature_Types}" SelectedValue="{Binding SelItem}">
-            <ComboBox.ItemTemplate>
+
+        <TextBox x:Name="textBox" Grid.Column="1" Grid.Row="0" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left"
+                 Height="25" Margin="63,46,0,0" TextWrapping="NoWrap" MaxLength="50" VerticalAlignment="Top" Width="200"/>
+
+        <TextBox x:Name="textBox1" Grid.Column="1" Grid.Row="0" Text="{Binding Price, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left"
+                 Height="25" Margin="63,102,0,0" TextWrapping="NoWrap" MaxLength="50" VerticalAlignment="Top" Width="200"/>
+
+
+        <TextBox Text="{Binding Type, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1"  Grid.Row="0" HorizontalAlignment="Left" Margin="63,75,0,0" 
+                 VerticalAlignment="Top"  Width="200" Height="22">
+
+        </TextBox>
+        <Label x:Name="label" Content="Добавить номенклатуру" Grid.Column="1" Grid.Row="0" FontSize="15" HorizontalAlignment="Center" Margin="0,10,0,0"
+               VerticalAlignment="Top"/>
+        <Label x:Name="label1" Content="Название" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="0,46,0,0" VerticalAlignment="Top" Height="25"/>
+        <Label x:Name="label2" Content=" Тип" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="10,71,0,0" VerticalAlignment="Top" Height="31"
+                Width="42"/>
+        <Label x:Name="label3" Content="Цена" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="10,102,0,0" VerticalAlignment="Top" Height="25"
+               Width="42"/>
+        <Button x:Name="button" Content="Добавить" Command="{Binding AddCommand}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" Margin="0,132,0,0" 
+                VerticalAlignment="Top" Width="95"/>
+        <!--<Button x:Name="button2" Content="Обновить" Command="{Binding FillListCommand}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left"
+                Margin="163,132,0,0" VerticalAlignment="Top" Width="100"/>-->
+
+        <!--Nomenclature Types-->
+        <Label Content="Типы оборудования" Grid.Column="1" FontSize="15"  VerticalAlignment="Top" HorizontalAlignment="Center" Margin="73,164,72,0" Grid.RowSpan="2"/>
+        <ListBox x:Name="listBox" ItemsSource="{Binding Nomenclature_Types}" Grid.Column="1" Grid.Row="1" SelectedIndex="{Binding SelectedTypeIndex}"
+                 SelectedValue="{Binding SelectedNomenclature_type}" Margin="0,24,5,52" >
+            <ListBox.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="White" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#0078D7"/>
+            </ListBox.Resources>
+            <ListBox.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Удалить" Command="{Binding RemoveTypeCommand}" CommandParameter="{Binding SelectedTypeIndex}"/>
+                </ContextMenu>
+            </ListBox.ContextMenu>
+            <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Type, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock Text="{Binding Type}"/>
                 </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
-        <Label x:Name="label" Content="Добавить номенклатуру" Grid.Column="1" FontSize="15" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.002,0.404"/>
-        <Label x:Name="label1" Content="Название" Grid.Column="1" HorizontalAlignment="Left" Margin="0,46,0,0" VerticalAlignment="Top" Height="25"/>
-        <Label x:Name="label2" Content=" Тип" Grid.Column="1" HorizontalAlignment="Left" Margin="10,71,0,0" VerticalAlignment="Top" Height="31" RenderTransformOrigin="1.189,0.577" Width="42"/>
-        <Label x:Name="label3" Content="Цена" Grid.Column="1" HorizontalAlignment="Left" Margin="10,102,0,0" VerticalAlignment="Top" Height="25" Width="42"/>
-        <Button x:Name="button" Content="Добавить" Command="{Binding AddCommand}" Grid.Column="1" HorizontalAlignment="Left" Margin="63,132,0,0" VerticalAlignment="Top" Width="95"/>
-        <Button x:Name="button1" Content="Удалить" Command="{Binding RemoveCommand}" Grid.Column="1" HorizontalAlignment="Left" Margin="63,157,0,0" VerticalAlignment="Top" Width="95"/>
-        <Button x:Name="button2" Content="Обновить" Command="{Binding FillListCommand}" Grid.Column="1" HorizontalAlignment="Left" Margin="163,132,0,0" VerticalAlignment="Top" Width="100"/>
-        <Button x:Name="button3" Content="Новый Тип" Grid.Column="1" HorizontalAlignment="Left" Margin="163,157,0,0" VerticalAlignment="Top" Width="100" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type local:Nomenclature_TypesWindow}"/>
-        <Button x:Name="button4" Grid.Column="1" Command="{Binding FillComboBoxCommand}" HorizontalAlignment="Left" Margin="241,75,0,0" VerticalAlignment="Top" Width="22" RenderTransformOrigin="0.236,0.55" Height="22">
-            <Image Source="reset.png" Height="18" Width="19" RenderTransformOrigin="0.882,0.514"/>
-        </Button>
-
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <TextBox  Text="{Binding NomType, UpdateSourceTrigger=PropertyChanged}" MaxLength="50" Grid.Column="1" Grid.Row="1" 
+                 TextWrapping="NoWrap" VerticalAlignment="Bottom" HorizontalAlignment="Center"  Width="179" Margin="20,0,96,22"/>
+        <Button   Command="{Binding AddTypeCommand}" Content="  Добавить  "  Margin="215,0,0,19" 
+                Grid.Column="1" Grid.Row="1" VerticalAlignment="Bottom"  HorizontalAlignment="Left" Height="23" />
 
     </Grid>
 

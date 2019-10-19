@@ -21,9 +21,9 @@
         </Grid.RowDefinitions>
         <!--Parts-->
         <Grid Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" >
-            <DataGrid x:Name="grdParts" ItemsSource="{Binding Parts}" AutoGenerateColumns="False" SelectedIndex="{Binding SelectedIndex}" SelectedValue="{Binding SelectedPart}" 
-                      SelectionMode="Single" HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999" HorizontalAlignment="Left" Margin="5,5,200,5"
-                      CanUserAddRows="False" SelectionChanged="DataGrid_SelectionChanged">
+            <DataGrid x:Name="grdParts" ItemsSource="{Binding Parts}" AutoGenerateColumns="False" SelectedIndex="{Binding SelectedIndex}" 
+                      SelectedValue="{Binding SelectedPart}"  SelectionMode="Single" HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999"
+                      HorizontalAlignment="Left" Margin="5,5,200,5" CanUserAddRows="False" CanUserDeleteRows="False" SelectionChanged="DataGrid_SelectionChanged">
 
                 <DataGrid.InputBindings>
                     <MouseBinding  MouseAction="LeftDoubleClick" Command="{Binding DoubleClickCommand}"/>
@@ -52,9 +52,10 @@
         <!--Receipt of Parts-->
         <Grid Grid.Row="1" Grid.Column="1" Margin="0,5,0,0" >
             <Button Content="  Новый заказ  " Command="{Binding AddRecipeCommand}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5,0,0"/>
-            <DataGrid ItemsSource="{Binding ReceiptOfParts, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" SelectedIndex="{Binding SelectedReceiptIndex}" SelectedValue="{Binding SelectedDocument}" 
-                      SelectionMode="Single" HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999" HorizontalAlignment="Left"
-                      Margin="0,30,5,5" CanUserAddRows="False">
+            <DataGrid ItemsSource="{Binding ReceiptOfParts, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False"
+                      SelectedIndex="{Binding SelectedReceiptIndex}" SelectedValue="{Binding SelectedDocument}"  SelectionMode="Single"
+                      HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999" HorizontalAlignment="Left"
+                      Margin="0,30,5,5" CanUserAddRows="False" CanUserDeleteRows="False">
                 <DataGrid.Resources>
                     <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="White" />
                     <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#0078D7"/>
@@ -92,9 +93,11 @@
         <Grid Grid.Column="1" Grid.Row="0" >
             <TextBlock Text="{Binding OrderTitleName, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="5" />
             <Button Content=" Сохранить " Command="{Binding AddPartOrderCommand}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5,0,0" Height="22"/>
-            <ComboBox ItemsSource="{Binding Statuses}" SelectedItem="{Binding SelectedStatus, Mode=TwoWay}" Text="Select Option" Margin="0,5,5,0" HorizontalAlignment="Right" VerticalAlignment="Top" Width="130"/>
-            <DataGrid ItemsSource="{Binding PartsOrder}" AutoGenerateColumns="False" SelectedIndex="{Binding SelectedOrderIndex}" SelectedValue="{Binding SelectedOrder}" 
-                       HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999" Margin="0,30,5,5" CanUserAddRows="False">
+            <ComboBox ItemsSource="{Binding Statuses}" SelectedItem="{Binding SelectedStatus, Mode=TwoWay}" Text="Select Option" Margin="0,5,5,0"
+                      HorizontalAlignment="Right" VerticalAlignment="Top" Width="130"/>
+            <DataGrid ItemsSource="{Binding PartsOrder}" AutoGenerateColumns="False" SelectedIndex="{Binding SelectedOrderIndex}" 
+                      SelectedValue="{Binding SelectedOrder}"   HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999" 
+                      Margin="0,30,5,5" CanUserAddRows="False" CanUserDeleteRows="False">
                 <DataGrid.Resources>
                     <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="White" />
                     <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#0078D7"/>

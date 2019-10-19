@@ -53,13 +53,13 @@
             </MenuItem>
             <MenuItem Header="Оборудование">
                 <MenuItem Name="Nomenclature" Header="Номенклатура" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type nom:NomenclatureWindow}"></MenuItem>
-                <MenuItem Name="Nomenclature_Types" Header="Типы оборудования" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type nom:Nomenclature_TypesWindow}"></MenuItem>
+                <!--<MenuItem Name="Nomenclature_Types" Header="Типы оборудования" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type nom:Nomenclature_TypesWindow}"></MenuItem>-->
                 <MenuItem Name="Parts" Header="Запчасти" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type other:PartsWindow}"></MenuItem>
             </MenuItem>
             <MenuItem Header="Ремонт">
-                <MenuItem Name="Repairs" Header="База ремонтов" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type repair:AllRepairsWindow}"></MenuItem>
-                <MenuItem Name="Statuses" Header="Статус ремонта" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type repair:StatusesWindow}" ></MenuItem>
-                <MenuItem Name="RepairCategories" Header="Виды ремонта" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type repair:RepairCategoriesWindow}"></MenuItem>
+                <MenuItem Name="Repairs" Header="Список ремонтов" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type repair:AllRepairsWindow}"></MenuItem>
+                <MenuItem Name="Statuses" Header="Статусы ремонта" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type repair:StatusesWindow}" ></MenuItem>
+                <MenuItem Name="RepairCategories" Header="Категории ремонта" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type repair:RepairCategoriesWindow}"></MenuItem>
                 <MenuItem Name="export" Header="Выгрузка из Excel" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type xlsx:ConvertToSQLWindow}"></MenuItem>
             </MenuItem>
         </Menu>

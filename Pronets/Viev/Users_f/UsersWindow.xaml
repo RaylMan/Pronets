@@ -31,7 +31,7 @@
         <!--Row 1-->
         <DataGrid x:Name="dataGrid" ItemsSource="{Binding Users, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1"  Margin="5" AutoGenerateColumns="False" 
                   SelectedIndex="{Binding SelectedIndex}" SelectedValue="{Binding SelectedItem}"  SelectionMode="Single"  
-                  HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999" CanUserAddRows="False" >
+                  HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999" CanUserAddRows="False" CanUserDeleteRows="False" >
             <DataGrid.Resources>
                 <Style TargetType="DataGridRow">
                     <EventSetter Event="MouseDoubleClick" Handler="Row_DoubleClick"/>

@@ -124,7 +124,7 @@
         <!--Row 2-->
         <DataGrid x:Name="Repairs" ItemsSource="{Binding V_Repairs}" SelectedIndex="{Binding SelectedIndex}" SelectedValue="{Binding SelectedRepairItem}"
                  Grid.Row="2" FrozenColumnCount="3" Margin="5" AutoGenerateColumns="False" SelectionMode="Single" HorizontalGridLinesBrush="#FF999999"
-                  VerticalGridLinesBrush="#FF999999">
+                  VerticalGridLinesBrush="#FF999999" CanUserAddRows="False" CanUserDeleteRows="False">
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
                     <Style.Triggers>

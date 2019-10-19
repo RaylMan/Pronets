@@ -219,7 +219,6 @@
     <Compile Include="VievModel\Repairs_f\ReceiptDocumentInspectorVM.cs" />
     <Compile Include="VievModel\Repairs_f\RepairCategoriesVM.cs" />
     <Compile Include="VievModel\Repairs_f\StatusesVM.cs" />
-    <Compile Include="VievModel\StartWindowVM.cs" />
     <Compile Include="VievModel\Users_f\AddUserVM.cs" />
     <Compile Include="VievModel\Users_f\UserInfoWindowVM.cs" />
     <Compile Include="VievModel\Users_f\UsersVM.cs" />
@@ -238,6 +237,9 @@
     </Compile>
     <Compile Include="Viev\DataBaseSettingsWindow.xaml.cs">
       <DependentUpon>DataBaseSettingsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Viev\LoginWindow.xaml.cs">
+      <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Viev\MainWindows\Pages\DefectsPage.xaml.cs">
       <DependentUpon>DefectsPage.xaml</DependentUpon>
@@ -301,9 +303,6 @@
     </Compile>
     <Compile Include="Viev\Repairs_f\StatusesWindow.xaml.cs">
       <DependentUpon>StatusesWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Viev\StartWindow.xaml.cs">
-      <DependentUpon>StartWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Viev\Users_f\AddUser.xaml.cs">
       <DependentUpon>AddUser.xaml</DependentUpon>
@@ -377,6 +376,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Viev\DataBaseSettingsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Viev\LoginWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -464,10 +467,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Viev\StartWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Viev\Users_f\AddUser.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -496,6 +495,7 @@
       <DependentUpon>PronetsDBEntities.edmx</DependentUpon>
       <LastGenOutput>PronetsDBEntities.cs</LastGenOutput>
     </Content>
+    <Resource Include="Viev\Settings.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

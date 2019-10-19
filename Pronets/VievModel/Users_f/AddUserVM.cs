@@ -59,42 +59,48 @@ namespace Pronets.VievModel.Users_f
                 RaisedPropertyChanged("AddCommand");
             }
         }
+
         public void AddItem(object Parameter)
         {
             Users user = null;
             if (selItem != null && login != null && login != "" && password != null && password != "" && lastName != "")
             {
-                var engineer = new Engineers
+                if (!UsersRequest.IsSameLogin(login))
                 {
-                    LastName = base.LastName,
-                    Position = selItem.Position
-                };
-                user = new Users
-                {
-                    Login = base.Login,
-                    Password = base.Password,
-                    Position = selItem.Position,
-                    FirstName = base.FirstName,
-                    LastName = base.LastName,
-                    Patronymic = base.Patronymic,
-                    Birthday = base.Birthday,
-                    Telephone = base.Telephone,
-                    Adress = base.Adress
-                };
-                var result = MessageBox.Show("Вы Действительно хотете добавить работника?\nПроверьте правильность данных!", "Создание экземпляра", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                if (result == MessageBoxResult.Yes)
-                {
-                    UsersRequest.AddEngineer(engineer);
-                    UsersRequest.AddToBase(user);
-                    Login = string.Empty;
-                    Password = string.Empty;
-                    FirstName = string.Empty;
-                    LastName = string.Empty;
-                    Patronymic = string.Empty;
-                    Birthday = DateTime.MinValue;
-                    Telephone = string.Empty;
-                    Adress = string.Empty;
+                    var engineer = new Engineers
+                    {
+                        LastName = base.LastName,
+                        Position = selItem.Position
+                    };
+                    user = new Users
+                    {
+                        Login = base.Login,
+                        Password = base.Password,
+                        Position = selItem.Position,
+                        FirstName = base.FirstName,
+                        LastName = base.LastName,
+                        Patronymic = base.Patronymic,
+                        Birthday = base.Birthday,
+                        Telephone = base.Telephone,
+                        Adress = base.Adress
+                    };
+                    var result = MessageBox.Show("Вы Действительно хотете добавить работника?\nПроверьте правильность данных!", "Создание экземпляра", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        UsersRequest.AddEngineer(engineer);
+                        UsersRequest.AddToBase(user);
+                        Login = string.Empty;
+                        Password = string.Empty;
+                        FirstName = string.Empty;
+                        LastName = string.Empty;
+                        Patronymic = string.Empty;
+                        Birthday = DateTime.MinValue;
+                        Telephone = string.Empty;
+                        Adress = string.Empty;
+                    }
                 }
+                else
+                    MessageBox.Show("Пользователь с таким логином уже существует!", "Ошибка");
             }
             else
                 MessageBox.Show("Необходимо заполнить поля: \n1)Логин\n2)Пароль\n3)Фамилия\n4)Выбрать уровень доступа!", "Ошибка");

@@ -278,5 +278,24 @@ namespace Pronets.EntityRequests.Users_f
 
             }
         }
+        public static bool IsSameLogin(string login)
+        {
+            bool isSame = false;
+            using (var db = ConnectionTools.GetConnection())
+            {
+                try
+                {
+                    var result = db.Users.Where(u => u.Login == login).FirstOrDefault();
+                    if (result != null)
+                        isSame = true;
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
+
+            }
+            return isSame;
+        }
     }
 }

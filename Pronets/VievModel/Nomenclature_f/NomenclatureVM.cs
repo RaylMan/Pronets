@@ -55,14 +55,14 @@ namespace Pronets.VievModel.Nomenclature_f
                 RaisedPropertyChanged("Price");
             }
         }
-        protected Nomenclature selectedItem;
-        public Nomenclature SelectedItem
+        private Nomenclature selectedNomenclatureItem;
+        public Nomenclature SelectedNomenclatureItem
         {
-            get { return selectedItem; }
+            get { return selectedNomenclatureItem; }
             set
             {
-                selectedItem = value;
-                RaisedPropertyChanged("SelectedItem");
+                selectedNomenclatureItem = value;
+                RaisedPropertyChanged("SelectedNomenclatureItem");
             }
         }
 
@@ -77,17 +77,39 @@ namespace Pronets.VievModel.Nomenclature_f
                 RaisedPropertyChanged("Nomenclature_Types");
             }
         }
-        private Nomenclature_Types selItem;
-        public Nomenclature_Types SelItem
+        private Nomenclature_Types selectedNomenclature_type;
+        public Nomenclature_Types SelectedNomenclature_type
         {
-            get { return selItem; }
+            get { return selectedNomenclature_type; }
             set
             {
-                selItem = value;
-                RaisedPropertyChanged("SelItem");
+                selectedNomenclature_type = value;
+                if (selectedNomenclature_type != null)
+                    Type = selectedNomenclature_type.Type;
+
+                RaisedPropertyChanged("SelectedNomenclature_type");
             }
         }
-
+        private string nomType;
+        public string NomType
+        {
+            get { return nomType; }
+            set
+            {
+                nomType = value;
+                RaisedPropertyChanged("NomType");
+            }
+        }
+        private int selectedTypeIndex;
+        public int SelectedTypeIndex
+        {
+            get { return selectedTypeIndex; }
+            set
+            {
+                selectedTypeIndex = value;
+                RaisedPropertyChanged("SelectedTypeIndex");
+            }
+        }
         #endregion
         public NomenclatureVM()
         {
@@ -117,12 +139,12 @@ namespace Pronets.VievModel.Nomenclature_f
         }
         public void AddItem(object Parameter)
         {
-            if (name != null && name != " " && name != "" && selItem != null)
+            if (name != null && name != " " && name != "" && selectedNomenclature_type != null)
             {
                 Nomenclature nom = new Nomenclature
                 {
                     Name = this.Name,
-                    Type = selItem.Type,
+                    Type = selectedNomenclature_type.Type,
                     Price = this.Price
                 };
 
@@ -168,30 +190,6 @@ namespace Pronets.VievModel.Nomenclature_f
         }
         #endregion
 
-        #region FillComboBox
-        protected ICommand fillComboItems;
-        public ICommand FillComboBoxCommand
-        {
-            get
-            {
-                if (fillComboItems == null)
-                {
-                    fillComboItems = new RelayCommand(new Action<object>(FillComboBox));
-                }
-                return fillComboItems;
-            }
-            set
-            {
-                fillItems = value;
-                RaisedPropertyChanged("FillComboBoxCommand");
-            }
-        }
-        public void FillComboBox(object Parametr)
-        {
-            nomenclature_Types.Clear();
-            nomenclature_Types = Nomenclature_TypesRequest.FillList();
-        }
-        #endregion
 
         #region RemoveCommand
         protected ICommand removeItem;
@@ -213,19 +211,100 @@ namespace Pronets.VievModel.Nomenclature_f
         }
         public void RemoveItem(object Parameter)
         {
-            if (selectedItem != null)
+            if (selectedNomenclatureItem != null)
             {
                 var result = MessageBox.Show("Вы Действительно хотете удалить?", "Удаление", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    NomenclatureRequest.RemoveFromBase(SelectedItem, out bool ex);
+                    NomenclatureRequest.RemoveFromBase(SelectedNomenclatureItem, out bool ex);
                     if (ex)
                         nomenclature.RemoveAt(SelectedIndex);
+                    Type = string.Empty;
                 }
             }
             else
                 MessageBox.Show("Необходимо выбрать элемент в таблице!", "Ошибка");
+        }
+        #endregion
+
+        #region AddToBase type
+        private ICommand addTypeItem;
+        public ICommand AddTypeCommand
+        {
+            get
+            {
+                if (addTypeItem == null)
+                {
+                    addTypeItem = new RelayCommand(new Action<object>(AddType));
+                }
+                return addTypeItem;
+            }
+            set
+            {
+                addTypeItem = value;
+                RaisedPropertyChanged("AddTypeCommand");
+
+            }
+        }
+        public void AddType(object Parameter)
+        {
+            if (!string.IsNullOrWhiteSpace(nomType))
+            {
+                Nomenclature_Types nt = new Nomenclature_Types
+                {
+                    Type = nomType
+                };
+                var result = MessageBox.Show("Вы Действительно хотете добавить?\nПроверьте правильность данных!", "Создание экземпляра", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.Yes)
+                {
+                    Nomenclature_TypesRequest.AddToBase(nt, out bool ex);
+                    if (ex) //если ex == true, нет копии в базе, происходит запись в таблицу viev
+                    {
+                        nomenclature_Types.Add(nt);
+                    }
+                    NomType = string.Empty;
+                }
+            }
+            else
+                MessageBox.Show("Необходимо ввести название!", "Ошибка");
+        }
+        #endregion
+
+        #region Remove Type Item
+        private ICommand removeTypeItem;
+        public ICommand RemoveTypeCommand
+        {
+            get
+            {
+                if (removeTypeItem == null)
+                {
+                    removeTypeItem = new RelayCommand(new Action<object>(RemoveType));
+                }
+                return removeTypeItem;
+            }
+            set
+            {
+                removeItem = value;
+                RaisedPropertyChanged("RemoveTypeCommand");
+            }
+        }
+
+        public void RemoveType(object Parameter)
+        {
+            if (selectedNomenclature_type != null)
+            {
+                var result = MessageBox.Show("Вы Действительно хотете удалить?", "Удаление", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    Nomenclature_TypesRequest.RemoveFromBase(selectedNomenclature_type, out bool ex);
+                    if (ex)
+                        nomenclature_Types.RemoveAt(SelectedTypeIndex);
+                }
+            }
+            else
+                MessageBox.Show("Необходимо выбрать элемент в списке!", "Ошибка");
         }
         #endregion
     }

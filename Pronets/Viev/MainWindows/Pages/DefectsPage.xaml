@@ -35,7 +35,7 @@
         <!--Column 1-->
         <DataGrid x:Name="Docunents1" ItemsSource="{Binding V_Repairs}" SelectedValue="{Binding SelectedItem}" SelectedIndex="{Binding SelectedRepairIndex}"
                    Grid.Column="1" Margin="5,38,5,10" AutoGenerateColumns="False" SelectionMode="Single" HorizontalGridLinesBrush="#FF999999" 
-                  VerticalGridLinesBrush="#FF999999"  CanUserAddRows="False" >
+                  VerticalGridLinesBrush="#FF999999"  CanUserAddRows="False" CanUserDeleteRows="False" >
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Удалить" Command="{Binding RemoveRepairCommand}" CommandParameter="{Binding SelectedRepairIndex}" />

@@ -51,7 +51,7 @@
                        Content="Только не оплаченые" HorizontalAlignment="Left" Margin="5,8,0,0" VerticalAlignment="Top" Height="15" Width="140"/>
         <DataGrid x:Name="overtime" ItemsSource="{Binding OvertimeList}" AutoGenerateColumns="False" Grid.Column="1" 
                   SelectedIndex="{Binding SelectedIndex}" SelectedValue="{Binding SelectedOvertime}" 
-                       HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999" Margin="5,30,5,5" CanUserAddRows="False">
+                       HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999" Margin="5,30,5,5" CanUserAddRows="False" CanUserDeleteRows="False">
             <DataGrid.Resources>
                 <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="White" />
                 <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#0078D7"/>

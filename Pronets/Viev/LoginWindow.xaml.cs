@@ -1,7 +1,8 @@
-﻿using System;
+﻿using Pronets.Data;
+using Pronets.EntityRequests.Users_f;
+using Pronets.Viev.MainWindows;
+using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,36 +14,38 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using Pronets.Data;
-using Pronets.EntityRequests.Users_f;
-using Pronets.Viev.MainWindows;
 
 namespace Pronets.Viev
 {
     /// <summary>
-    /// Логика взаимодействия для StartWindow.xaml
+    /// Логика взаимодействия для LoginWindow.xaml
     /// </summary>
-    public partial class StartWindow : Window
+    public partial class LoginWindow : Window
     {
-        public Users user;
-        public StartWindow()
+        Users user;
+        public LoginWindow()
         {
             InitializeComponent();
+            if (Properties.Settings.Default.SaveLogin)
+            {
+                cbxSaveLogin.IsChecked = Properties.Settings.Default.SaveLogin;
+                tbxLogin.Text = Properties.Settings.Default.Login;
+            }
         }
         private void Start_Click(object sender, RoutedEventArgs e)
         {
             WorkWindowAdmin workWindowAdmin = new WorkWindowAdmin(UsersRequest.Login("admin", "password"));
             workWindowAdmin.Show();
             this.Close();
-            Properties.Settings.Default.ProgOpen++;
             Properties.Settings.Default.Save();
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            SaveLogin();
             user = UsersRequest.Login(tbxLogin.Text, tbxPassword.Password);
             if (user != null)
             {
-                if (user.Position == "Администратор")
+                if (user.Position == "Администратор" && user.Position == "Директор")
                 {
                     WorkWindowAdmin workWindowAdmin = new WorkWindowAdmin(user);
                     workWindowAdmin.Show();
@@ -66,7 +69,8 @@ namespace Pronets.Viev
             }
             else
             {
-                tbxLogin.Clear();
+                if (!Properties.Settings.Default.SaveLogin)
+                    tbxLogin.Clear();
                 tbxPassword.Clear();
                 MessageBox.Show("Введен не правильный логин или пароль");
             }
@@ -82,6 +86,22 @@ namespace Pronets.Viev
         {
             DataBaseSettingsWindow win = new DataBaseSettingsWindow();
             win.Show();
+        }
+        private void SaveLogin()
+        {
+            if (cbxSaveLogin.IsChecked == true)
+            {
+                Properties.Settings.Default.Login = tbxLogin.Text;
+                Properties.Settings.Default.SaveLogin = true;
+                Properties.Settings.Default.Save();
+            }
+            else
+            {
+                Properties.Settings.Default.Login = "";
+                Properties.Settings.Default.SaveLogin = false;
+                Properties.Settings.Default.Save();
+            }
+
         }
     }
 }

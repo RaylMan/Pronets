@@ -38,7 +38,7 @@
             <TextBox TextWrapping="Wrap" Text="{Binding SearchString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="TextBox_SelectionChanged" GotFocus="TextBox_GotFocus"
                      ToolTip="Search" HorizontalAlignment="Right" VerticalAlignment="Top" Width="155"  Grid.Row="1" Margin="0,5,0,0"/>
             <DataGrid ItemsSource="{Binding SortingEquipments, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedSortingEquipent}"
-                  AutoGenerateColumns="False" IsReadOnly="True" Grid.Column="0" 
+                  AutoGenerateColumns="False" IsReadOnly="True" Grid.Column="0" CanUserAddRows="False" CanUserDeleteRows="False" 
                    SelectionMode="Single"  HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999"  Grid.Row="1" Margin="5,28,0,20" >
                 <DataGrid.Resources>
                     <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="White" />
@@ -55,7 +55,7 @@
 
         <!--Column 2-->
         <DataGrid ItemsSource="{Binding RepairsByNomenclature, UpdateSourceTrigger=PropertyChanged}"
-                  AutoGenerateColumns="False" IsReadOnly="True" Grid.Column="1"
+                  AutoGenerateColumns="False" IsReadOnly="True" Grid.Column="1" CanUserAddRows="False" CanUserDeleteRows="False"
                    SelectionMode="Single"  HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999" Margin="5">
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">

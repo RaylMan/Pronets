@@ -30,7 +30,8 @@
         <!--Row 1-->
         <DataGrid x:Name="docunents" ItemsSource="{Binding Path=ReceiptDocuments}" SelectedIndex="{Binding SelectedIndex}" 
                   SelectedValue="{Binding SelectedItem}" Margin="5" Grid.Row="1" Grid.Column="0" AutoGenerateColumns="False"
-                  Grid.ColumnSpan="2" SelectionMode="Single"  HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999">
+                  Grid.ColumnSpan="2" SelectionMode="Single"  HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999"
+                  CanUserAddRows="False" CanUserDeleteRows="False">
             <DataGrid.Resources>
                 <Style TargetType="DataGridRow">
                     <EventSetter Event="MouseDoubleClick" Handler="Row_DoubleClick"/>
@@ -61,33 +62,6 @@
                 <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="White" />
                 <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#0078D7"/>
             </DataGrid.Resources>
-            <!--<DataGrid.RowStyle>
-                <Style TargetType="DataGridRow">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding Status}" Value="Готов">
-                            <Setter Property="Background" Value="Lime"></Setter>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding Status}" Value="Донор">
-                            <Setter Property="Background" Value="Tomato"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding Status}" Value="Не смогли починить">
-                            <Setter Property="Background" Value="Tomato"></Setter>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding Status}" Value="Утерян">
-                            <Setter Property="Background" Value="Red"></Setter>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding Status}" Value="Частично готовый">
-                            <Setter Property="Background" Value="#FFFFF300"></Setter>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding Status}" Value="В ремонте">
-                            <Setter Property="Background" Value="#FF4061F9"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding Status}" Value="Отправлен заказчику">
-                            <Setter Property="Background" Value="DarkGray"></Setter>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </DataGrid.RowStyle>-->
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Удалить" Command="{Binding RemoveCommand}" CommandParameter="{Binding SelectedIndex}"/>

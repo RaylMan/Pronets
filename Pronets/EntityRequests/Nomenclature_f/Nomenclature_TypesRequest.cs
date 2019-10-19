@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Windows;
 
@@ -68,5 +69,24 @@ namespace Pronets.EntityRequests.Nomenclature_f
                 }
             }
         }
+        public static void EditType(string type, string newType, out bool isExeption)
+        {
+            isExeption = true;
+            using (var db = ConnectionTools.GetConnection())
+            {
+                try
+                {
+                    var result = db.Nomenclature_Types.Where(t => t.Type == type).FirstOrDefault();
+                    if (result != null)
+                        result.Type = newType;
+                    db.SaveChanges();
+                }
+                catch (Exception e )
+                {
+                    MessageBox.Show(e.Message, "Ошибка");
+                }
+            }
+        }
+
     }
 }
