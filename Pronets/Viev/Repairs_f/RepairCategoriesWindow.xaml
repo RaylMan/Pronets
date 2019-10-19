@@ -19,20 +19,28 @@
         <DataGrid x:Name="dataGrid" Grid.Column="0" ItemsSource="{Binding Repair_Categories}" Margin="5" AutoGenerateColumns="False"
                   SelectedIndex="{Binding SelectedIndex}" SelectedValue="{Binding SelectedItem}" SelectionMode="Single"  
                   HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999" CanUserAddRows="False" CanUserDeleteRows="False">
+            <DataGrid.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="White" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#0078D7"/>
+            </DataGrid.Resources>
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Удалить" Command="{Binding RemoveCommand}" CommandParameter="{Binding SelectedIndex}"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Категория ремонта" Width="*" Binding="{Binding Path=Category}"  IsReadOnly="True" />
-                <DataGridTextColumn Header="Цена" Binding="{Binding Path=Price}" IsReadOnly="True"/>
+                <!--<DataGridTextColumn Header="Цена" Binding="{Binding Path=Price}" IsReadOnly="True"/>-->
             </DataGrid.Columns>
         </DataGrid>
         <TextBox x:Name="textBox" Grid.Column="1" Text="{Binding Category, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="25" Margin="80,46,0,0" TextWrapping="NoWrap" MaxLength="50" VerticalAlignment="Top" Width="185"/>
-        <TextBox x:Name="textBox1" Grid.Column="1" Text="{Binding Price, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="25" Margin="80,76,0,0" TextWrapping="NoWrap" MaxLength="50" VerticalAlignment="Top" Width="185"/>
-
+        <!--<TextBox x:Name="textBox1" Grid.Column="1" Text="{Binding Price, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="25" Margin="80,76,0,0" TextWrapping="NoWrap" MaxLength="50" VerticalAlignment="Top" Width="185"/>-->
+        <!--<Label x:Name="label2" Content="Цена" Grid.Column="1" HorizontalAlignment="Left" Margin="24,77,0,0" VerticalAlignment="Top" Height="25"/>-->
         <Label x:Name="label" Content="Добавить категорию ремонта" Grid.Column="1" FontSize="15" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.002,0.404"/>
         <Label x:Name="label1" Content="Категория" Grid.Column="1" HorizontalAlignment="Left" Margin="10,47,0,0" VerticalAlignment="Top" Height="25"/>
-        <Label x:Name="label2" Content="Цена" Grid.Column="1" HorizontalAlignment="Left" Margin="24,77,0,0" VerticalAlignment="Top" Height="25"/>
-        <Button x:Name="button" Content="Добавить" Command="{Binding AddCommand}" Grid.Column="1" HorizontalAlignment="Left" Margin="110,106,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button x:Name="button1" Content="Удалить" Command="{Binding RemoveCommand}" Grid.Column="1" HorizontalAlignment="Left" Margin="110,156,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button x:Name="button2" Content="Обновить" Command="{Binding FillListCommand}" Grid.Column="1" HorizontalAlignment="Left" Margin="110,131,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button x:Name="button" Content="Добавить" Command="{Binding AddCommand}" Grid.Column="1" HorizontalAlignment="Center" Margin="0,76,0,0" VerticalAlignment="Top" Width="75"/>
+        <!--<Button x:Name="button1" Content="Удалить" Command="{Binding RemoveCommand}" Grid.Column="1" HorizontalAlignment="Left" Margin="110,156,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button x:Name="button2" Content="Обновить" Command="{Binding FillListCommand}" Grid.Column="1" HorizontalAlignment="Left" Margin="110,131,0,0" VerticalAlignment="Top" Width="75"/>-->
     </Grid>
 
 </Window>

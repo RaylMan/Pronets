@@ -13,6 +13,9 @@ namespace Pronets.EntityRequests.Other
     {
         private static ObservableCollection<OverTime> overtimeList = new ObservableCollection<OverTime>();
 
+        /// <summary>
+        /// <para>Возращает коллекцию OverTime</para>
+        /// </summary>
         public static ObservableCollection<OverTime> FillList()
         {
             using (var db = ConnectionTools.GetConnection())
@@ -28,6 +31,9 @@ namespace Pronets.EntityRequests.Other
             }
             return overtimeList;
         }
+        /// <summary>
+        /// <para>Возращает коллекцию OverTime по фамилии</para>
+        /// </summary>
         public static ObservableCollection<OverTime> FillList(string lastName)
         {
             using (var db = ConnectionTools.GetConnection())
@@ -44,6 +50,9 @@ namespace Pronets.EntityRequests.Other
             }
             return overtimeList;
         }
+        /// <summary>
+        /// <para>Возращает коллекцию OverTime по фамилии и статусу</para>
+        /// </summary>
         public static ObservableCollection<OverTime> FillList(string lastName, string status)
         {
             using (var db = ConnectionTools.GetConnection())
@@ -60,6 +69,9 @@ namespace Pronets.EntityRequests.Other
             }
             return overtimeList;
         }
+        /// <summary>
+        /// <para>Установить статус по id</para>
+        /// </summary>
         public static void GetStatus(int id, string status)
         {
             using (var db = ConnectionTools.GetConnection())
@@ -80,6 +92,9 @@ namespace Pronets.EntityRequests.Other
                 }
             }
         }
+        /// <summary>
+        /// <para>Добавляет в базу экземпляр OverTime</para>
+        /// </summary>
         public static void AddToBase(OverTime overtime)
         {
             using (var db = ConnectionTools.GetConnection())
@@ -98,6 +113,9 @@ namespace Pronets.EntityRequests.Other
                 }
             }
         }
+        /// <summary>
+        /// <para>Удаляет из базы экземпляр OverTime</para>
+        /// </summary>
         public static void RemoveFromBase(OverTime overtime)
         {
             using (var db = ConnectionTools.GetConnection())

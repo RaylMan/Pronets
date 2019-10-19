@@ -15,100 +15,178 @@ namespace Pronets.EntityRequests.Users_f
         private static ObservableCollection<Positions> positions = new ObservableCollection<Positions>();
         private static Users user;
         private static Engineers engineer;
+
+        /// <summary>
+        /// <para>Возращает коллекцию Users</para>
+        /// </summary>
         public static ObservableCollection<Users> FillList()
         {
             using (var db = ConnectionTools.GetConnection())
             {
-                if (users != null)
-                    users.Clear();
-                foreach (var item in db.Users)
+                try
                 {
-                    users.Add(new Users
+                    if (users != null)
+                        users.Clear();
+                    foreach (var item in db.Users)
                     {
-                        UserId = item.UserId,
-                        Login = item.Login,
-                        Password = item.Password,
-                        Position = item.Position,
-                        FirstName = item.FirstName,
-                        LastName = item.LastName,
-                        Patronymic = item.Patronymic,
-                        Birthday = item.Birthday,
-                        Telephone = item.Telephone,
-                        Adress = item.Adress
-                    });
+                        users.Add(new Users
+                        {
+                            UserId = item.UserId,
+                            Login = item.Login,
+                            Password = item.Password,
+                            Position = item.Position,
+                            FirstName = item.FirstName,
+                            LastName = item.LastName,
+                            Patronymic = item.Patronymic,
+                            Birthday = item.Birthday,
+                            Telephone = item.Telephone,
+                            Adress = item.Adress
+                        });
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
             return users;
         }
+
+        /// <summary>
+        /// <para>Возращает коллекцию Engineers</para>
+        /// </summary>
         public static ObservableCollection<Engineers> FillListEngineers()
         {
             using (var db = ConnectionTools.GetConnection())
             {
-                if (engineers != null)
-                    engineers.Clear();
-                foreach (var item in db.Engineers)
+                try
                 {
-                    engineers.Add(new Engineers
+                    if (engineers != null)
+                        engineers.Clear();
+                    foreach (var item in db.Engineers)
                     {
-                        Id = item.Id,
-                        LastName = item.LastName,
-                        Position = item.Position,
-                        Repairs = item.Repairs
-                    });
+                        engineers.Add(new Engineers
+                        {
+                            Id = item.Id,
+                            LastName = item.LastName,
+                            Position = item.Position,
+                            Repairs = item.Repairs
+                        });
+                    }
+
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
             return engineers;
         }
 
+        /// <summary>
+        /// <para>Возращает экземпляр Users по Id</para>
+        /// </summary>
         public static Users GetUser(int? id)
         {
             using (var db = ConnectionTools.GetConnection())
             {
-                return user = db.Users.Where(u => u.UserId == id).FirstOrDefault();
+                try
+                {
+                    user = db.Users.Where(u => u.UserId == id).FirstOrDefault();
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Ошибка");
+                }
             }
+            return user;
         }
-       
+
+        /// <summary>
+        /// <para>Возращает экземпляр Engineers по Id</para>
+        /// </summary>
         public static Engineers GetEngineer(int? id)
         {
             using (var db = ConnectionTools.GetConnection())
             {
-                return engineer = db.Engineers.Where(e => e.Id == id).FirstOrDefault();
+                try
+                {
+                    engineer = db.Engineers.Where(e => e.Id == id).FirstOrDefault();
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Ошибка");
+                }
             }
+            return engineer;
         }
+
+        /// <summary>
+        /// <para>Возращает экземпляр Engineers по фамилии</para>
+        /// </summary>
         public static Engineers GetEngineer(string lastName)
         {
             using (var db = ConnectionTools.GetConnection())
             {
-                return engineer = db.Engineers.Where(e => e.LastName == lastName).FirstOrDefault();
+                try
+                {
+                    engineer = db.Engineers.Where(e => e.LastName == lastName).FirstOrDefault();
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Ошибка");
+                }
             }
+            return engineer;
         }
-        
+        /// <summary>
+        /// <para>Возращает коллецию Positions</para>
+        /// </summary>
         public static ObservableCollection<Positions> FillPosoitions()
         {
             if (positions != null)
                 positions.Clear();
             using (var db = ConnectionTools.GetConnection())
             {
-                foreach (var item in db.Positions)
+                try
                 {
-                    positions.Add(new Positions { Position = item.Position });
+                    foreach (var item in db.Positions)
+                    {
+                        positions.Add(new Positions { Position = item.Position });
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
             return positions;
         }
 
+        /// <summary>
+        /// <para>Добавляет в базу экземпляр Users</para>
+        /// </summary>
         public static void AddToBase(Users user)
         {
             using (var db = ConnectionTools.GetConnection())
             {
                 if (user != null)
                 {
-                    db.Users.Add(user);
-                    db.SaveChanges();
+                    try
+                    {
+                        db.Users.Add(user);
+                        db.SaveChanges();
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(e.Message, "Ошибка");
+                    }
                 }
-
             }
         }
+        /// <summary>
+        /// <para>Добавляет в базу экземпляр Engineers</para>
+        /// </summary>
         public static void AddEngineer(Engineers engineer)
         {
             using (var db = ConnectionTools.GetConnection())
@@ -124,11 +202,15 @@ namespace Pronets.EntityRequests.Users_f
                     {
                         MessageBox.Show(ex.Message, "Ошибка");
                     }
-                    
+
                 }
 
             }
         }
+
+        /// <summary>
+        /// <para>Удаляет из базы экземпляр Users</para>
+        /// </summary>
         public static void RemoveFromBase(Users user, out bool isExeption)
         {
             isExeption = true;
@@ -142,14 +224,22 @@ namespace Pronets.EntityRequests.Users_f
                         db.Users.Remove(user);
                         db.SaveChanges();
                     }
-                    catch (Exception e)
+                    catch (System.Data.Entity.Infrastructure.DbUpdateException)
                     {
                         MessageBox.Show("Невозможно удалить , так как есть связи с данными!", "Ошибка");
+                        isExeption = false;
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(e.Message, "Ошибка");
                         isExeption = false;
                     }
                 }
             }
         }
+        /// <summary>
+        /// <para>Удаляет из базы экземпляр Engineers по фамилии</para>
+        /// </summary>
         public static void RemoveFromBaseEngineer(string name, out bool isExeption)
         {
             isExeption = true;
@@ -159,70 +249,109 @@ namespace Pronets.EntityRequests.Users_f
                 {
                     try
                     {
-                        db.Engineers.Attach(db.Engineers.Where(e=> e.LastName == name).FirstOrDefault());
+                        db.Engineers.Attach(db.Engineers.Where(e => e.LastName == name).FirstOrDefault());
                         db.Engineers.Remove(db.Engineers.Where(e => e.LastName == name).FirstOrDefault());
                         db.SaveChanges();
                     }
-                    catch (Exception e)
+                    catch (System.Data.Entity.Infrastructure.DbUpdateException)
                     {
                         MessageBox.Show("Невозможно удалить , так как есть связи с данными!", "Ошибка");
+                        isExeption = false;
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(e.Message, "Ошибка");
                         isExeption = false;
                     }
                 }
             }
         }
+
+        /// <summary>
+        /// <para>Изменяет в базе экземпляр Users</para>
+        /// </summary>
         public static void EditItem(Users user)
         {
             using (var db = ConnectionTools.GetConnection())
             {
-                var result = db.Users.SingleOrDefault(u => u.UserId == user.UserId);
-                if (result != null)
+                try
                 {
-                    result.UserId = user.UserId;
-                    result.Login = user.Login;
-                    result.Password = user.Password;
-                    result.Position = user.Position;
-                    result.FirstName = user.FirstName;
-                    result.LastName = user.LastName;
-                    result.Patronymic = user.Patronymic;
-                    result.Birthday = user.Birthday;
-                    result.Telephone = user.Telephone;
-                    result.Adress = user.Adress;
-                    db.SaveChanges();
+                    var result = db.Users.SingleOrDefault(u => u.UserId == user.UserId);
+                    if (result != null)
+                    {
+                        result.UserId = user.UserId;
+                        result.Login = user.Login;
+                        result.Password = user.Password;
+                        result.Position = user.Position;
+                        result.FirstName = user.FirstName;
+                        result.LastName = user.LastName;
+                        result.Patronymic = user.Patronymic;
+                        result.Birthday = user.Birthday;
+                        result.Telephone = user.Telephone;
+                        result.Adress = user.Adress;
+                        db.SaveChanges();
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
         }
+
+        /// <summary>
+        /// <para>Изменяет в базе экземпляр Engineers</para>
+        /// </summary>
         public static void EditEngineer(Engineers eng)
         {
             using (var db = ConnectionTools.GetConnection())
             {
-                engineer = db.Engineers.Where(e => e.Id == eng.Id).FirstOrDefault();
-                engineer.LastName = eng.LastName;
-                engineer.Position = eng.Position;
-                db.SaveChanges();
-                
+                try
+                {
+                    engineer = db.Engineers.Where(e => e.Id == eng.Id).FirstOrDefault();
+                    engineer.LastName = eng.LastName;
+                    engineer.Position = eng.Position;
+                    db.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Ошибка");
+                }
             }
         }
+
+        /// <summary>
+        /// <para>Возращает коллекцию Users по ключевому слову</para>
+        /// </summary>
         public static ObservableCollection<Users> SearchItem(string word)
         {
-
             using (var db = ConnectionTools.GetConnection())
             {
-                var searchItems = from u in db.Users
-                                  where u.Login.Contains(word) ||
-                                                u.Password.Contains(word) ||
-                                                u.Position.Contains(word) ||
-                                                u.FirstName.Contains(word) ||
-                                                u.LastName.Contains(word) ||
-                                                u.Patronymic.Contains(word) ||
-                                                u.Telephone.Contains(word) ||
-                                               u.Adress.Contains(word)
-                                  select u;
-                searchUsers = new ObservableCollection<Users>(searchItems);
+                try
+                {
+                    var searchItems = from u in db.Users
+                                      where u.Login.Contains(word) ||
+                                                    u.Password.Contains(word) ||
+                                                    u.Position.Contains(word) ||
+                                                    u.FirstName.Contains(word) ||
+                                                    u.LastName.Contains(word) ||
+                                                    u.Patronymic.Contains(word) ||
+                                                    u.Telephone.Contains(word) ||
+                                                   u.Adress.Contains(word)
+                                      select u;
+                    searchUsers = new ObservableCollection<Users>(searchItems);
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Ошибка");
+                }
             }
             return searchUsers;
         }
-        public static Users Login(string name, string password)
+        /// <summary>
+        /// <para>Возращает экземпляр Users по логину и паролю</para>
+        /// </summary>
+        public static Users Login(string login, string password)
         {
             using (var db = ConnectionTools.GetConnection())
             {
@@ -230,7 +359,7 @@ namespace Pronets.EntityRequests.Users_f
                 {
                     if (loginUser != null)
                         loginUser = null;
-                    loginUser = db.Users.Where(u => u.Login == name && u.Password == password).FirstOrDefault();
+                    loginUser = db.Users.Where(u => u.Login == login && u.Password == password).FirstOrDefault();
                 }
                 catch (Exception e)
                 {
@@ -239,6 +368,10 @@ namespace Pronets.EntityRequests.Users_f
                 return loginUser;
             }
         }
+
+        /// <summary>
+        /// <para>Изменяет в экземпляре Users пароль, по id пользователя</para>
+        /// </summary>
         public static void ChangePassword(int id, string password)
         {
             using (var db = ConnectionTools.GetConnection())
@@ -258,6 +391,9 @@ namespace Pronets.EntityRequests.Users_f
                 }
             }
         }
+        /// <summary>
+        /// <para>Изменяет в экземпляре Users логин, по id пользователя</para>
+        /// </summary>
         public static void ChangeLogin(int id, string login)
         {
             using (var db = ConnectionTools.GetConnection())
@@ -278,6 +414,10 @@ namespace Pronets.EntityRequests.Users_f
 
             }
         }
+
+        /// <summary>
+        /// <para>Проверяет на совпадение логин в базе, если есть совпадение возвращает true</para>
+        /// </summary>
         public static bool IsSameLogin(string login)
         {
             bool isSame = false;
@@ -293,7 +433,6 @@ namespace Pronets.EntityRequests.Users_f
                 {
                     MessageBox.Show(e.Message);
                 }
-
             }
             return isSame;
         }

@@ -1,6 +1,7 @@
 ﻿using Pronets.Data;
 using System;
 using System.Collections.ObjectModel;
+using System.Data.Entity.Infrastructure;
 using System.Windows;
 
 namespace Pronets.EntityRequests.Nomenclature_f
@@ -8,25 +9,39 @@ namespace Pronets.EntityRequests.Nomenclature_f
     class NomenclatureRequest
     {
         private static ObservableCollection<Nomenclature> nomenclatures = new ObservableCollection<Nomenclature>();
+
+        /// <summary>
+        /// <para>Возращает коллекцию Nomenclature</para>
+        /// </summary>
         public static ObservableCollection<Nomenclature> FillList()
         {
             using (var db = ConnectionTools.GetConnection())
             {
-                if (nomenclatures != null)
-                    nomenclatures.Clear();
-                foreach (var item in db.Nomenclature)
+                try
                 {
-                    nomenclatures.Add(new Nomenclature
+                    if (nomenclatures != null)
+                        nomenclatures.Clear();
+                    foreach (var item in db.Nomenclature)
                     {
-                        Name = item.Name,
-                        Type = item.Type,
-                        Price = item.Price
-                    });
+                        nomenclatures.Add(new Nomenclature
+                        {
+                            Name = item.Name,
+                            Type = item.Type,
+                            Price = item.Price
+                        });
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
             return nomenclatures;
         }
 
+        /// <summary>
+        /// <para>Записывает в базу экземпляр Nomenclature</para>
+        /// </summary>
         public static void AddToBase(Nomenclature nomenenclature, out bool isExeption)
         {
             isExeption = true;
@@ -42,13 +57,22 @@ namespace Pronets.EntityRequests.Nomenclature_f
                     });
                     db.SaveChanges();
                 }
-                catch (Exception e)
+                catch (DbUpdateException e)
                 {
                     MessageBox.Show("Элемент уже существует в базе!", "Ошибка");
                     isExeption = false;
                 }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Ошибка");
+                    isExeption = false;
+                }
             }
         }
+
+        /// <summary>
+        /// <para>Удаляет экземпляр Nomenclature</para>
+        /// </summary>
         public static void RemoveFromBase(Nomenclature nomenclature, out bool isExeption)
         {
             isExeption = true;
@@ -65,6 +89,11 @@ namespace Pronets.EntityRequests.Nomenclature_f
                     catch (System.Data.Entity.Infrastructure.DbUpdateException)
                     {
                         MessageBox.Show("Невозможно удалить , так как есть связи с данными!", "Ошибка");
+                        isExeption = false;
+                    }
+                    catch(Exception e)
+                    {
+                        MessageBox.Show(e.Message, "Ошибка");
                         isExeption = false;
                     }
                 }

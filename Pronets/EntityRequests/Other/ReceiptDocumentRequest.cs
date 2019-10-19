@@ -9,91 +9,136 @@ namespace Pronets.EntityRequests.Other
 {
     class ReceiptDocumentRequest
     {
+        ReceiptDocument document;
         private static ObservableCollection<ReceiptDocument> receiptDocuments = new ObservableCollection<ReceiptDocument>();
         private static ObservableCollection<v_Receipt_Document> v_ReceiptDocuments = new ObservableCollection<v_Receipt_Document>();
 
         #region FillLists
+
+        /// <summary>
+        /// <para>Возращает коллекцию ReceiptDocument</para>
+        /// </summary>
         public static ObservableCollection<ReceiptDocument> FillList()
         {
             using (var db = ConnectionTools.GetConnection())
             {
-                if (receiptDocuments != null)
-                    receiptDocuments.Clear();
-                foreach (var item in db.ReceiptDocument)
+                try
                 {
-                    receiptDocuments.Add(new ReceiptDocument
+                    if (receiptDocuments != null)
+                        receiptDocuments.Clear();
+                    foreach (var item in db.ReceiptDocument)
                     {
-                        DocumentId = item.DocumentId,
-                        ClientId = item.ClientId,
-                        InspectorId = item.InspectorId,
-                        Date = item.Date,
-                        DepartureDate = item.DepartureDate,
-                        Status = item.Status,
-                        Note = item.Note,
-                        Clients = item.Clients,
-                        Users = item.Users
-                    });
+                        receiptDocuments.Add(new ReceiptDocument
+                        {
+                            DocumentId = item.DocumentId,
+                            ClientId = item.ClientId,
+                            InspectorId = item.InspectorId,
+                            Date = item.Date,
+                            DepartureDate = item.DepartureDate,
+                            Status = item.Status,
+                            Note = item.Note,
+                            Clients = item.Clients,
+                            Users = item.Users
+                        });
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
             return receiptDocuments;
         }
 
-        public static ObservableCollection<ReceiptDocument> FillListClient(int clientId) // сортировка по клиенту
+        /// <summary>
+        /// <para>Возращает коллекцию ReceiptDocument по id Клиента</para>
+        /// </summary>
+        public static ObservableCollection<ReceiptDocument> FillListClient(int clientId)
         {
             using (var db = ConnectionTools.GetConnection())
             {
-                if (receiptDocuments != null)
-                    receiptDocuments.Clear();
-                var result = from document in db.ReceiptDocument
-                             where document.ClientId == clientId
-                             select document;
-                receiptDocuments = new ObservableCollection<ReceiptDocument>(result);
+                try
+                {
+                    if (receiptDocuments != null)
+                        receiptDocuments.Clear();
+                    var result = from document in db.ReceiptDocument
+                                 where document.ClientId == clientId
+                                 select document;
+                    receiptDocuments = new ObservableCollection<ReceiptDocument>(result);
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Ошибка");
+                }
             }
             return receiptDocuments;
         }
 
-        public static ObservableCollection<ReceiptDocument> FillListWithStatus(string status) // сортировка по статусу ремонта
+        /// <summary>
+        /// <para>Возращает коллекцию ReceiptDocument по статусу</para>
+        /// </summary>
+        public static ObservableCollection<ReceiptDocument> FillListWithStatus(string status)
         {
             using (var db = ConnectionTools.GetConnection())
             {
-                if (receiptDocuments != null)
-                    receiptDocuments.Clear();
-                var result = from document in db.ReceiptDocument
-                             where document.Status == status
-                             select document;
-                receiptDocuments = new ObservableCollection<ReceiptDocument>(result);
+                try
+                {
+                    if (receiptDocuments != null)
+                        receiptDocuments.Clear();
+                    var result = from document in db.ReceiptDocument
+                                 where document.Status == status
+                                 select document;
+                    receiptDocuments = new ObservableCollection<ReceiptDocument>(result);
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Ошибка");
+                }
             }
             return receiptDocuments;
         }
 
+        /// <summary>
+        /// <para>Возращает коллекцию v_ReceiptDocument(Представление SQL)</para>
+        /// </summary>
         public static ObservableCollection<v_Receipt_Document> v_FillList() // Представление(вместо Id - имена)
         {
             using (var db = ConnectionTools.GetConnection())
             {
-                if (v_ReceiptDocuments != null)
-                    v_ReceiptDocuments.Clear();
-
-                foreach (var item in db.v_Receipt_Document)
+                try
                 {
-                    v_ReceiptDocuments.Add(new v_Receipt_Document
+                    if (v_ReceiptDocuments != null)
+                        v_ReceiptDocuments.Clear();
+
+                    foreach (var item in db.v_Receipt_Document)
                     {
-                        Document_Id = item.Document_Id,
-                        Client = item.Client,
-                        Inspector = item.Inspector,
-                        Date = item.Date,
-                        DepartureDate = item.DepartureDate,
-                        Status = item.Status,
-                        Note = item.Note,
-                        Count = db.Repairs.Count(r => r.DocumentId == item.Document_Id)
-                    });
+                        v_ReceiptDocuments.Add(new v_Receipt_Document
+                        {
+                            Document_Id = item.Document_Id,
+                            Client = item.Client,
+                            Inspector = item.Inspector,
+                            Date = item.Date,
+                            DepartureDate = item.DepartureDate,
+                            Status = item.Status,
+                            Note = item.Note,
+                            Count = db.Repairs.Count(r => r.DocumentId == item.Document_Id)
+                        });
+                    }
+                    v_ReceiptDocuments = new ObservableCollection<v_Receipt_Document>(v_ReceiptDocuments.OrderByDescending(i => i.Document_Id));
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
-            v_ReceiptDocuments = new ObservableCollection<v_Receipt_Document>(v_ReceiptDocuments.OrderByDescending(i => i.Document_Id));
             return v_ReceiptDocuments;
         }
 
         #endregion
 
+        /// <summary>
+        /// <para>Возращает экземпляр v_ReceiptDocument(Представление SQL)</para>
+        /// </summary>
         public static v_Receipt_Document GetDocument(int documentId)
         {
             using (var db = ConnectionTools.GetConnection())
@@ -102,33 +147,60 @@ namespace Pronets.EntityRequests.Other
                 return document;
             }
         }
+
+        /// <summary>
+        /// <para>Возращает номер последней записи в базе ReceiptDocument</para>
+        /// </summary>
         public static int GetDocumentID()
         {
+            int lastId = 0;
             using (var db = ConnectionTools.GetConnection())
             {
-                return db.ReceiptDocument.Max(d => (int)d.DocumentId);
+                try
+                {
+                    lastId = db.ReceiptDocument.Max(d => (int)d.DocumentId);
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Ошибка");
+                }
             }
+            return lastId;
         }
 
+        /// <summary>
+        /// <para>Добавляет в базу экземпляр ReceiptDocument</para>
+        /// </summary>
         public static void AddToBase(ReceiptDocument document)
         {
             using (var db = ConnectionTools.GetConnection())
             {
                 if (document != null)
                 {
-                    db.ReceiptDocument.Add(new ReceiptDocument
+                    try
                     {
-                        ClientId = document.ClientId,
-                        InspectorId = document.InspectorId,
-                        Date = document.Date,
-                        Status = document.Status,
-                        DepartureDate = document.DepartureDate,
-                        Note = document.Note,
-                    });
-                    db.SaveChanges();
+                        db.ReceiptDocument.Add(new ReceiptDocument
+                        {
+                            ClientId = document.ClientId,
+                            InspectorId = document.InspectorId,
+                            Date = document.Date,
+                            Status = document.Status,
+                            DepartureDate = document.DepartureDate,
+                            Note = document.Note,
+                        });
+                        db.SaveChanges();
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(e.Message, "Ошибка");
+                    }
                 }
             }
         }
+
+        /// <summary>
+        /// <para>Удаляет из базы экземпляр ReceiptDocument</para>
+        /// </summary>
         public static void RemoveFromBase(ReceiptDocument document, out bool isExeption)
         {
             isExeption = true;
@@ -142,14 +214,23 @@ namespace Pronets.EntityRequests.Other
                         db.ReceiptDocument.Remove(document);
                         db.SaveChanges();
                     }
-                    catch (Exception e)
+                    catch (System.Data.Entity.Infrastructure.DbUpdateException)
                     {
                         MessageBox.Show("Невозможно удалить , так как есть связи с данными!", "Ошибка");
+                        isExeption = false;
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(e.Message, "Ошибка");
                         isExeption = false;
                     }
                 }
             }
         }
+
+        /// <summary>
+        /// <para>Удаляет из базы элемент ReceiptDocument по documentId</para>
+        /// </summary>
         public static void RemoveFromBase(int documentId, out bool isExeption)
         {
             isExeption = true;
@@ -165,38 +246,66 @@ namespace Pronets.EntityRequests.Other
                         db.ReceiptDocument.Remove(removableDocument);
                         db.SaveChanges();
                     }
-                    catch (Exception e)
+                    catch (System.Data.Entity.Infrastructure.DbUpdateException)
                     {
                         MessageBox.Show("Невозможно удалить , так как есть связи с данными!", "Ошибка");
+                        isExeption = false;
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(e.Message, "Ошибка");
                         isExeption = false;
                     }
                 }
             }
         }
+
+        /// <summary>
+        /// <para>Изменяет в базе экземпляр ReceiptDocument</para>
+        /// </summary>
         public static void EditItem(ReceiptDocument document)
         {
             using (var db = ConnectionTools.GetConnection())
             {
-                var result = db.ReceiptDocument.SingleOrDefault(d => d.DocumentId == document.DocumentId);
-                if (result != null)
+                try
                 {
-                    result.ClientId = document.ClientId;
-                    result.Status = document.Status;
-                    result.DepartureDate = document.DepartureDate;
-                    result.Note = document.Note;
-                    db.SaveChanges();
+                    var result = db.ReceiptDocument.SingleOrDefault(d => d.DocumentId == document.DocumentId);
+                    if (result != null)
+                    {
+                        result.ClientId = document.ClientId;
+                        result.Status = document.Status;
+                        result.DepartureDate = document.DepartureDate;
+                        result.Note = document.Note;
+                        db.SaveChanges();
+                    }
                 }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Ошибка");
+                }
+
             }
         }
+
+        /// <summary>
+        /// <para>Устанавливает статус ReceiptDocument по documentId</para>
+        /// </summary>
         public static void SetStatus(int documentId, string status)
         {
             using (var db = ConnectionTools.GetConnection())
             {
-                var result = db.ReceiptDocument.SingleOrDefault(d => d.DocumentId == documentId);
-                if (result != null)
+                try
                 {
-                    result.Status = status;
-                    db.SaveChanges();
+                    var result = db.ReceiptDocument.SingleOrDefault(d => d.DocumentId == documentId);
+                    if (result != null)
+                    {
+                        result.Status = status;
+                        db.SaveChanges();
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
         }

@@ -16,63 +16,88 @@ namespace Pronets.EntityRequests.Clients_f
         private static Clients client;
 
         /// <summary>
-        /// <para> List all customers</para>
+        /// <para>Возвращает коллекцию Clients</para>
         /// </summary>
         public static ObservableCollection<Clients> FillList()
         {
             using (var db = ConnectionTools.GetConnection())
             {
-                if (clients != null)
-                    clients.Clear();
-                db.ReceiptDocument.Load();
-                db.Repairs.Load();
-
-                foreach (var item in db.Clients)
+                try
                 {
-                    clients.Add(new Clients
+                    if (clients != null)
+                        clients.Clear();
+                    db.ReceiptDocument.Load();
+                    db.Repairs.Load();
+
+                    foreach (var item in db.Clients)
                     {
-                        ClientId = item.ClientId,
-                        ClientName = item.ClientName,
-                        Inn = item.Inn,
-                        Contact_Person = item.Contact_Person,
-                        Telephone_1 = item.Telephone_1,
-                        Telephone_2 = item.Telephone_2,
-                        Telephone_3 = item.Telephone_3,
-                        Email = item.Email,
-                        Adress = item.Adress,
-                        ReceiptDocument = item.ReceiptDocument,
-                        Repairs = item.Repairs
-                    });
+                        clients.Add(new Clients
+                        {
+                            ClientId = item.ClientId,
+                            ClientName = item.ClientName,
+                            Inn = item.Inn,
+                            Contact_Person = item.Contact_Person,
+                            Telephone_1 = item.Telephone_1,
+                            Telephone_2 = item.Telephone_2,
+                            Telephone_3 = item.Telephone_3,
+                            Email = item.Email,
+                            Adress = item.Adress,
+                            ReceiptDocument = item.ReceiptDocument,
+                            Repairs = item.Repairs
+                        });
+                    }
+                }
+                catch (Exception e)
+                {
+
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
             return clients;
         }
         /// <summary>
-        /// <para>Returns a client instance by Id</para>
+        /// <para>Возвращает экземпляр Clients, по его Id</para>
         /// </summary>
         public static Clients GetClient(int? id)
         {
             using (var db = ConnectionTools.GetConnection())
             {
-                return client = db.Clients.Where(c => c.ClientId == id).FirstOrDefault();
+                try
+                {
+                    client = db.Clients.Where(c => c.ClientId == id).FirstOrDefault();
+                }
+                catch (Exception e)
+                {
+
+                    MessageBox.Show(e.Message, "Ошибка");
+                }
+                return client;
             }
         }
         /// <summary>
-        /// <para>Write a new client to the DataBase</para>
+        /// <para>Записывает в базу экземпляр Clients</para>
         /// </summary>
         public static void AddToBase(Clients client)
         {
             using (var db = ConnectionTools.GetConnection())
             {
-                if (client != null)
+                try
                 {
-                    db.Clients.Add(client);
-                    db.SaveChanges();
+                    if (client != null)
+                    {
+                        db.Clients.Add(client);
+                        db.SaveChanges();
+                    }
+                }
+                catch (Exception e)
+                {
+
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
         }
         /// <summary>
-        /// <para> Removes a client instance from the database</para>
+        /// <para>Удаляет экземпляр Clients</para>
         /// </summary>
         public static void RemoveFromBase(Clients client, out bool isExeption)
         {
@@ -88,16 +113,20 @@ namespace Pronets.EntityRequests.Clients_f
                         db.SaveChanges();
                     }
                 }
-                catch (Exception e)
+                catch (InvalidOperationException e)
                 {
                     MessageBox.Show("Невозможно удалить , так как есть связи с данными!", "Ошибка");
                     isExeption = false;
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
         }
 
         /// <summary>
-        /// <para>Modifies a received customer</para>
+        /// <para>Изменяет экземпляр Clients</para>
         /// </summary>
         public static void EditItem(Clients client)
         {
@@ -134,38 +163,56 @@ namespace Pronets.EntityRequests.Clients_f
                         }
                         MessageBox.Show(error, "Ошибка");
                     }
+                    catch(Exception e)
+                    {
+                        MessageBox.Show(e.Message, "Ошибка");
+                    }
 
                 }
             }
         }
         /// <summary>
-        /// <para>Returns a list of customers</para>
+        /// <para>Возвращает коллекию Clients по ключевому слову</para>
         /// </summary>
         public static ObservableCollection<Clients> SearchItem(string word)
         {
             using (var db = ConnectionTools.GetConnection())
             {
-                var searchItems = db.Clients.Where(c => c.ClientName.Contains(word) ||
-                                                c.Contact_Person.Contains(word) ||
-                                                c.Inn.Contains(word) ||
-                                                c.Telephone_1.Contains(word) ||
-                                                c.Telephone_2.Contains(word) ||
-                                                c.Telephone_3.Contains(word) ||
-                                                c.Email.Contains(word) ||
-                                                c.Adress.Contains(word)).ToList();
-                //c.Adress.Contains(word)).Include(rd => rd.ReceiptDocument).Include(r => r.Repairs).ToList();
-                searchClients = new ObservableCollection<Clients>(searchItems);
+                try
+                {
+                    var searchItems = db.Clients.Where(c => c.ClientName.Contains(word) ||
+                                               c.Contact_Person.Contains(word) ||
+                                               c.Inn.Contains(word) ||
+                                               c.Telephone_1.Contains(word) ||
+                                               c.Telephone_2.Contains(word) ||
+                                               c.Telephone_3.Contains(word) ||
+                                               c.Email.Contains(word) ||
+                                               c.Adress.Contains(word)).ToList();
+                    searchClients = new ObservableCollection<Clients>(searchItems);
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Ошибка");
+                }
             }
             return searchClients;
         }
         /// <summary>
-        /// <para>Returns a Pronets Client</para>
+        /// <para>Возращает экземпляр Clients "Пронетс" по Id</para>
         /// </summary>
         public static Clients GetPronetsClient()
         {
             using (var db = ConnectionTools.GetConnection())
             {
-                client = db.Clients.FirstOrDefault(c => c.ClientName == "Пронетс");
+                try
+                {
+                    client = db.Clients.FirstOrDefault(c => c.ClientName == "Пронетс");
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Ошибка");
+                }
+                
             }
             return client;
         }

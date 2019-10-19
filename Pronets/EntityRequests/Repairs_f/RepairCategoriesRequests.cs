@@ -8,24 +8,39 @@ namespace Pronets.EntityRequests.Repairs_f
     public static class RepairCategoriesRequests
     {
         private static ObservableCollection<Repair_Categories> repair_Categories = new ObservableCollection<Repair_Categories>();
+
+        /// <summary>
+        /// <para>Возращает коллекцию Repair_Categories</para>
+        /// </summary>
         public static ObservableCollection<Repair_Categories> FillList()
         {
             using (var db = ConnectionTools.GetConnection())
             {
-                if (repair_Categories != null)
-                    repair_Categories.Clear();
-                foreach (var item in db.Repair_Categories)
+                try
                 {
-                    repair_Categories.Add(new Repair_Categories
+                    if (repair_Categories != null)
+                        repair_Categories.Clear();
+                    foreach (var item in db.Repair_Categories)
                     {
-                        Category = item.Category,
-                        Price = item.Price
-                    });
+                        repair_Categories.Add(new Repair_Categories
+                        {
+                            Category = item.Category,
+                            Price = item.Price
+                        });
+                    }
                 }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Ошибка");
+                }
+
             }
             return repair_Categories;
         }
-        
+
+        /// <summary>
+        /// <para>Добавляет в базу экземпляр Repair_Categories</para>
+        /// </summary>
         public static void AddToBase(Repair_Categories category, out bool isExeption)
         {
             isExeption = true;
@@ -45,8 +60,16 @@ namespace Pronets.EntityRequests.Repairs_f
                     MessageBox.Show("Элемент уже существует в базе!", "Ошибка");
                     isExeption = false;
                 }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Ошибка");
+                }
             }
         }
+
+        /// <summary>
+        /// <para>Удаляет из базы экземпляр Repair_Categories</para>
+        /// </summary>
         public static void RemoveFromBase(Repair_Categories category, out bool isExeption)
         {
             isExeption = true;
@@ -60,9 +83,14 @@ namespace Pronets.EntityRequests.Repairs_f
                         db.Repair_Categories.Remove(category);
                         db.SaveChanges();
                     }
-                    catch (Exception e)
+                    catch (System.Data.Entity.Infrastructure.DbUpdateException)
                     {
                         MessageBox.Show("Невозможно удалить , так как есть связи с данными!", "Ошибка");
+                        isExeption = false;
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(e.Message, "Ошибка");
                         isExeption = false;
                     }
                 }

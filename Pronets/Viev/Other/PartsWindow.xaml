@@ -32,22 +32,26 @@
                     <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="White" />
                     <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#0078D7"/>
                 </DataGrid.Resources>
+                <DataGrid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Удалить" Command="{Binding RemovePartCommand}" CommandParameter="{Binding SelectedIndex}"/>
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Название" Binding="{Binding Path=Part_Name, UpdateSourceTrigger=PropertyChanged}" Width="*" IsReadOnly="True" />
-                    <DataGridTextColumn Header="Цена" Binding="{Binding Path=Part_Price, UpdateSourceTrigger=PropertyChanged}" Width="70" IsReadOnly="True"/>
+                    <!--<DataGridTextColumn Header="Цена" Binding="{Binding Path=Part_Price, UpdateSourceTrigger=PropertyChanged}" Width="70" IsReadOnly="True"/>-->
                 </DataGrid.Columns>
             </DataGrid>
             <Label Content=" Название запчасти " HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,9,54,0" Height="23"/>
             <TextBox Text="{Binding Part_Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Right" MaxLength="49" VerticalAlignment="Top" Width="150" Margin="0,30,24,0"/>
-            <Label Content=" Цена " HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,42,130,0" Height="26"/>
-            <TextBox Text="{Binding Part_Price, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Right" VerticalAlignment="Top" Width="150" Margin="0,63,24,0"/>
-            <Button Content=" Добавить " Command="{Binding AddPartCommand}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,93,72,0" />
-            <Button Content=" Удалить " Command="{Binding RemovePartCommand}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,118,72,0" Width="63" />
+            <!--<Label Content=" Цена " HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,42,130,0" Height="26"/>
+            <TextBox Text="{Binding Part_Price, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Right" VerticalAlignment="Top" Width="150" Margin="0,63,24,0"/>-->
+            <Button Content=" Добавить " Command="{Binding AddPartCommand}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,63,72,0" />
             <TextBox TextWrapping="Wrap" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" GotFocus="TbxSearch_GotFocus"
-                     SelectionChanged="TbxSearch_SelectionChanged" HorizontalAlignment="Right" VerticalAlignment="Top" Width="150" Margin="0,169,24,0"/>
-            <Button Content="  Поиск  " Command="{Binding SearchCommand}" HorizontalAlignment="Right" VerticalAlignment="Top"  Grid.Row="0" Margin="0,192,123,0"/>
-            <Button Content="  Далее  " Command="{Binding SearchNextCommand}" HorizontalAlignment="Right" VerticalAlignment="Top"  Grid.Row="0" RenderTransformOrigin="5.26,4.85" Margin="0,192,24,0"/>
-            <Label Content=" Поиск " HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,148,124,0" Height="26"/>
+                     SelectionChanged="TbxSearch_SelectionChanged" HorizontalAlignment="Right" VerticalAlignment="Top" Width="150" Margin="0,124,24,0"/>
+            <Button Content="  Поиск  " Command="{Binding SearchCommand}" HorizontalAlignment="Right" VerticalAlignment="Top"  Grid.Row="0" Margin="0,147,123,0"/>
+            <Button Content="  Далее  " Command="{Binding SearchNextCommand}" HorizontalAlignment="Right" VerticalAlignment="Top"  Grid.Row="0" RenderTransformOrigin="5.26,4.85" Margin="0,147,24,0"/>
+            <Label Content=" Поиск " HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,103,124,0" Height="26"/>
         </Grid>
         <!--Receipt of Parts-->
         <Grid Grid.Row="1" Grid.Column="1" Margin="0,5,0,0" >

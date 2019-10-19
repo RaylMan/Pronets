@@ -13,6 +13,9 @@ namespace Pronets.EntityRequests.Other
     {
         private static ObservableCollection<BaseFromExcel> baseFromExcel = new ObservableCollection<BaseFromExcel>();
 
+        /// <summary>
+        /// <para>Возвращает колекцию BaseFromExcel</para>
+        /// </summary>
         public static ObservableCollection<BaseFromExcel> FillList()
         {
 
@@ -30,6 +33,9 @@ namespace Pronets.EntityRequests.Other
             return baseFromExcel;
         }
 
+        /// <summary>
+        /// <para>Добавляет в базу эксемпляр BaseFromExcel</para>
+        /// </summary>
         public static void AddToBase(BaseFromExcel item)
         {
             using (var db = ConnectionTools.GetConnection())
@@ -48,6 +54,10 @@ namespace Pronets.EntityRequests.Other
                 }
             }
         }
+
+        /// <summary>
+        /// <para>Удаляет экземпляр BaseFromExcel</para>
+        /// </summary>
         public static void RemoveFromBase(BaseFromExcel item)
         {
             using (var db = ConnectionTools.GetConnection())
@@ -68,6 +78,9 @@ namespace Pronets.EntityRequests.Other
             }
         }
 
+        /// <summary>
+        /// <para>Очищает таблицу BaseFromExcel</para>
+        /// </summary>
         public static void ClearBase()
         {
             using (var db = ConnectionTools.GetConnection())

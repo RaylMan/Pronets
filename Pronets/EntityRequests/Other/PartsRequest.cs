@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,26 +14,41 @@ namespace Pronets.EntityRequests.Other
     {
         
         private static ObservableCollection<Parts> parts = new ObservableCollection<Parts>();
-        
-       
+
+
+        /// <summary>
+        /// <para>Возращает коллекцию Parts</para>
+        /// </summary>
         public static ObservableCollection<Parts> FillList()
         {
             using (var db = ConnectionTools.GetConnection())
             {
-                if (parts != null)
-                    parts.Clear();
-                foreach (var item in db.Parts)
+                try
                 {
-                    parts.Add(new Parts
+                    if (parts != null)
+                        parts.Clear();
+                    foreach (var item in db.Parts)
                     {
-                        Part_Name = item.Part_Name,
-                        Part_Price = item.Part_Price,
-                        PartsOrder = item.PartsOrder
-                    });
+                        parts.Add(new Parts
+                        {
+                            Part_Name = item.Part_Name,
+                            Part_Price = item.Part_Price,
+                            PartsOrder = item.PartsOrder
+                        });
+                    }
                 }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Ошибка");
+                }
+                
             }
             return parts;
         }
+
+        /// <summary>
+        /// <para>Добавляет в базу экземпляр Parts</para>
+        /// </summary>
         public static void AddToBase(Parts part, out bool isExeption)
         {
             isExeption = true;
@@ -48,13 +64,22 @@ namespace Pronets.EntityRequests.Other
                     });
                     db.SaveChanges();
                 }
-                catch (Exception e)
+                catch (DbUpdateException e)
                 {
                     MessageBox.Show("Запчасть с таким именем уже существует в базе!", "Ошибка");
                     isExeption = false;
                 }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Ошибка");
+                    isExeption = false;
+                }
             }
         }
+
+        /// <summary>
+        /// <para>Удаляет из базы экземпляр Parts</para>
+        /// </summary>
         public static void RemoveFromBase(Parts part, out bool isExeption)
         {
             isExeption = true;
@@ -71,6 +96,11 @@ namespace Pronets.EntityRequests.Other
                     catch (System.Data.Entity.Infrastructure.DbUpdateException)
                     {
                         MessageBox.Show("Невозможно удалить , так как есть связи с данными!", "Ошибка");
+                        isExeption = false;
+                    }
+                    catch(Exception e)
+                    {
+                        MessageBox.Show(e.Message, "Ошибка");
                         isExeption = false;
                     }
                 }

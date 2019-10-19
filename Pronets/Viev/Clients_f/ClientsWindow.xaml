@@ -27,8 +27,7 @@
         <Button x:Name="btnSearch" Grid.Row="0" Content=" Поиск " Command="{Binding SearchCommand}"  CommandParameter="{Binding ElementName=txbSearch}" HorizontalAlignment="Left" Margin="160,5,0,0" VerticalAlignment="Top" />
         <Button x:Name="btnVievData" Grid.Row="0" Content=" Все клиенты " Command="{Binding FillListCommand}" HorizontalAlignment="Left" Margin="210,5,0,0" VerticalAlignment="Top" />
         <Button x:Name="btnAdd" Grid.Row="0" Content=" Добавить клиента " HorizontalAlignment="Left" Margin="293,5,0,0" VerticalAlignment="Top" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type local:AddClient}"/>
-        <Button x:Name="button" Content=" Удалить " Command="{Binding RemoveCommand}" HorizontalAlignment="Left" Margin="423,5,0,0" VerticalAlignment="Top" Width="74"/>
-
+        
         <!--Row 2-->
         <DataGrid x:Name="dataGrid" ItemsSource="{Binding Clients}" Grid.Row="1"  Margin="5" AutoGenerateColumns="False" 
                   SelectedIndex="{Binding SelectedIndex}" SelectedValue="{Binding SelectedItem}" SelectionMode="Single"  
@@ -37,7 +36,14 @@
                 <Style TargetType="DataGridRow">
                     <EventSetter Event="MouseDoubleClick" Handler="Row_DoubleClick"/>
                 </Style>
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="White" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#0078D7"/>
             </DataGrid.Resources>
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Удалить" Command="{Binding RemoveCommand}" CommandParameter="{Binding SelectedIndex}"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Название организации" Binding="{Binding Path=ClientName}" Width="*" IsReadOnly="True">
                     <DataGridTextColumn.ElementStyle>

@@ -8,22 +8,37 @@ namespace Pronets.EntityRequests
     public static class StatusesRequests
     {
         private static ObservableCollection<Statuses> statuses = new ObservableCollection<Statuses>();
+
+        /// <summary>
+        /// <para>Возращает коллекцию Statuses</para>
+        /// </summary>
         public static ObservableCollection<Statuses> FillList()
         {
             using (var db = ConnectionTools.GetConnection())
             {
-                if (statuses != null)
-                    statuses.Clear();
-                foreach (var item in db.Statuses)
+                try
                 {
-                    statuses.Add(new Statuses
+                    if (statuses != null)
+                        statuses.Clear();
+                    foreach (var item in db.Statuses)
                     {
-                        Status = item.Status
-                    });
+                        statuses.Add(new Statuses
+                        {
+                            Status = item.Status
+                        });
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
             return statuses;
         }
+
+        /// <summary>
+        /// <para>Добавляет в базу экземпляр Statuses</para>
+        /// </summary>
         public static void AddToBase(string status, out bool isExeption)
         {
             isExeption = true; //проверка на копию в базе
@@ -41,9 +56,16 @@ namespace Pronets.EntityRequests
                         MessageBox.Show("Элемент уже существует в базе!", "Ошибка");
                         isExeption = false;
                     }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(e.Message, "Ошибка");
+                    }
                 }
             }
         }
+        /// <summary>
+        /// <para>Удаляет из базы экземпляр Statuses</para>
+        /// </summary>
         public static void RemoveFromBase(Statuses status, out bool isExeption)
         {
             isExeption = true;
@@ -57,9 +79,14 @@ namespace Pronets.EntityRequests
                         db.Statuses.Remove(status);
                         db.SaveChanges();
                     }
+                    catch (System.Data.Entity.Infrastructure.DbUpdateException)
+                    {
+                        MessageBox.Show("Невозможно удалить , так как есть связи с данными!", "Ошибка");
+                        isExeption = false;
+                    }
                     catch (Exception e)
                     {
-                        MessageBox.Show("Невозможно удалить , так как есть связи с данными!","Ошибка");
+                        MessageBox.Show(e.Message, "Ошибка");
                         isExeption = false;
                     }
                 }

@@ -13,36 +13,62 @@ namespace Pronets.EntityRequests.Other
     {
         private static ObservableCollection<PartsOrder> partsOrder = new ObservableCollection<PartsOrder>();
 
+        /// <summary>
+        /// <para>Возращает коллекцию PartsOrder</para>
+        /// </summary>
         public static ObservableCollection<PartsOrder> FillList()
         {
             using (var db = ConnectionTools.GetConnection())
             {
-                if (partsOrder != null)
-                    partsOrder.Clear();
-                foreach (var item in db.PartsOrder)
+                try
                 {
-                    partsOrder.Add(new PartsOrder
+                    if (partsOrder != null)
+                        partsOrder.Clear();
+                    foreach (var item in db.PartsOrder)
                     {
-                        OrderId = item.OrderId,
-                        DocumentId = item.DocumentId,
-                        PartName = item.PartName,
-                        Count = item.Count
-                    });
+                        partsOrder.Add(new PartsOrder
+                        {
+                            OrderId = item.OrderId,
+                            DocumentId = item.DocumentId,
+                            PartName = item.PartName,
+                            Count = item.Count
+                        });
+                    }
                 }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Ошибка");
+                }
+
             }
             return partsOrder;
         }
+
+        /// <summary>
+        /// <para>Возращает коллекцию PartsOrder по номеру документа</para>
+        /// </summary>
         public static ObservableCollection<PartsOrder> FillList(int documentId)
         {
             using (var db = ConnectionTools.GetConnection())
             {
-                if (partsOrder != null)
-                    partsOrder.Clear();
-                var result = db.PartsOrder.Where(o => o.DocumentId == documentId).ToList();
-                partsOrder = new ObservableCollection<PartsOrder>(result);
+                try
+                {
+                    if (partsOrder != null)
+                        partsOrder.Clear();
+                    var result = db.PartsOrder.Where(o => o.DocumentId == documentId).ToList();
+                    partsOrder = new ObservableCollection<PartsOrder>(result);
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Ошибка");
+                }
             }
             return partsOrder;
         }
+
+        /// <summary>
+        /// <para>добавляет в базу экземпляр PartsOrder</para>
+        /// </summary>
         public static void AddToBase(PartsOrder partOrder)
         {
             using (var db = ConnectionTools.GetConnection())
@@ -63,6 +89,10 @@ namespace Pronets.EntityRequests.Other
                 }
             }
         }
+
+        /// <summary>
+        /// <para>Удаляет из базы экземпляр PartsOrder</para>
+        /// </summary>
         public static void RemoveFromBase(PartsOrder partOrder, out bool isExeption)
         {
             isExeption = true;
@@ -81,9 +111,18 @@ namespace Pronets.EntityRequests.Other
                         MessageBox.Show("Невозможно удалить , так как есть связи с данными!", "Ошибка");
                         isExeption = false;
                     }
+                    catch(Exception e)
+                    {
+                        MessageBox.Show(e.Message, "Ошибка");
+                        isExeption = false;
+                    }
                 }
             }
         }
+
+        /// <summary>
+        /// <para>Удаляет из базы элементы PartsOrder по номеру документа</para>
+        /// </summary>
         public static void RemoveFromBase(int documentId, out bool isExeption)
         {
             isExeption = true;

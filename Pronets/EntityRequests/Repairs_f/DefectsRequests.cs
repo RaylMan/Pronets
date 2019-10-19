@@ -12,25 +12,39 @@ namespace Pronets.EntityRequests.Repairs_f
     public static class DefectsRequests
     {
         private static ObservableCollection<Defects> defects = new ObservableCollection<Defects>();
+
+        /// <summary>
+        /// <para>Возращает коллекцию Defects</para>
+        /// </summary>
         public static ObservableCollection<Defects> FillList()
         {
             using (var db = ConnectionTools.GetConnection())
             {
-                if (defects != null)
-                    defects.Clear();
-                foreach (var item in db.Defects)
+                try
                 {
-                    defects.Add(new Defects
+                    if (defects != null)
+                        defects.Clear();
+                    foreach (var item in db.Defects)
                     {
-                        Id = item.Id,
-                        Defect = item.Defect,
-                        Work = item.Work
-                    });
+                        defects.Add(new Defects
+                        {
+                            Id = item.Id,
+                            Defect = item.Defect,
+                            Work = item.Work
+                        });
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
             return defects;
         }
 
+        /// <summary>
+        /// <para>Добавляет в базу экземпляр Defects</para>
+        /// </summary>
         public static void AddToBase(Defects defect, out bool isExeption)
         {
             isExeption = true;
@@ -51,8 +65,16 @@ namespace Pronets.EntityRequests.Repairs_f
                     MessageBox.Show("Элемент уже существует в базе!", "Ошибка");
                     isExeption = false;
                 }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Ошибка");
+                }
             }
         }
+
+        /// <summary>
+        /// <para>Удаляет из базы экземпляр Defects</para>
+        /// </summary>
         public static void RemoveFromBase(Defects defect, out bool isExeption)
         {
             isExeption = true;
@@ -66,9 +88,14 @@ namespace Pronets.EntityRequests.Repairs_f
                         db.Defects.Remove(defect);
                         db.SaveChanges();
                     }
-                    catch (Exception e)
+                    catch (System.Data.Entity.Infrastructure.DbUpdateException)
                     {
                         MessageBox.Show("Невозможно удалить , так как есть связи с данными!", "Ошибка");
+                        isExeption = false;
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(e.Message, "Ошибка");
                         isExeption = false;
                     }
                 }

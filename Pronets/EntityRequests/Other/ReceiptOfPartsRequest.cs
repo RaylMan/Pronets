@@ -13,29 +13,43 @@ namespace Pronets.EntityRequests.Other
     {
         private static ObservableCollection<ReceiptOfParts> receiptOfParts = new ObservableCollection<ReceiptOfParts>();
 
+        /// <summary>
+        /// <para>Возращает коллекцию ReceiptOfParts</para>
+        /// </summary>
         public static ObservableCollection<ReceiptOfParts> FillList()
         {
             using (var db = ConnectionTools.GetConnection())
             {
-                if (receiptOfParts != null)
-                    receiptOfParts.Clear();
-                foreach (var item in db.ReceiptOfParts)
+                try
                 {
-                    receiptOfParts.Add(new ReceiptOfParts
+                    if (receiptOfParts != null)
+                        receiptOfParts.Clear();
+                    foreach (var item in db.ReceiptOfParts)
                     {
-                        Id = item.Id,
-                        Order_Date = item.Order_Date,
-                        Date_Arrival = item.Date_Arrival,
-                        Status = item.Status
-                    });
+                        receiptOfParts.Add(new ReceiptOfParts
+                        {
+                            Id = item.Id,
+                            Order_Date = item.Order_Date,
+                            Date_Arrival = item.Date_Arrival,
+                            Status = item.Status
+                        });
+                    }
+                    receiptOfParts = new ObservableCollection<ReceiptOfParts>(receiptOfParts.OrderByDescending(i => i.Id));
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
-            receiptOfParts = new ObservableCollection<ReceiptOfParts>(receiptOfParts.OrderByDescending(i => i.Id));
+           
             return receiptOfParts;
         }
+
+        /// <summary>
+        /// <para>Добавляет в базу экземпляр ReceiptOfParts</para>
+        /// </summary>
         public static void AddToBase(ReceiptOfParts receiptOfParts)
         {
-           
             using (var db = ConnectionTools.GetConnection())
             {
                 try
@@ -53,6 +67,10 @@ namespace Pronets.EntityRequests.Other
                 }
             }
         }
+
+        /// <summary>
+        /// <para>Удаляет из базы экземпляр ReceiptOfParts</para>
+        /// </summary>
         public static void RemoveFromBase(ReceiptOfParts receiptOfParts, out bool isExeption)
         {
             isExeption = true;
@@ -71,20 +89,36 @@ namespace Pronets.EntityRequests.Other
                         MessageBox.Show("Невозможно удалить , так как есть связи с данными!", "Ошибка");
                         isExeption = false;
                     }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(e.Message, "Ошибка");
+                        isExeption = false;
+                    }
                 }
             }
         }
+
+        /// <summary>
+        /// <para>Изменяет в базе экземпляр ReceiptOfParts</para>
+        /// </summary>
         public static void EditItem(ReceiptOfParts document)
         {
             using (var db = ConnectionTools.GetConnection())
             {
-                var result = db.ReceiptOfParts.SingleOrDefault(d => d.Id == document.Id);
-                if (result != null)
+                try
                 {
-                    result.Order_Date = document.Order_Date;
-                    result.Date_Arrival = document.Date_Arrival;
-                    result.Status = document.Status;
-                    db.SaveChanges();
+                    var result = db.ReceiptOfParts.SingleOrDefault(d => d.Id == document.Id);
+                    if (result != null)
+                    {
+                        result.Order_Date = document.Order_Date;
+                        result.Date_Arrival = document.Date_Arrival;
+                        result.Status = document.Status;
+                        db.SaveChanges();
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
         }
