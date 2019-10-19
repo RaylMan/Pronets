@@ -17,7 +17,7 @@
             </ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="170"></RowDefinition>
+            <RowDefinition Height="130"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <DataGrid x:Name="dataGrid" Grid.Column="0" Grid.RowSpan="2" ItemsSource="{Binding Nomenclature, UpdateSourceTrigger=PropertyChanged}" Margin="5" AutoGenerateColumns="False"
@@ -35,16 +35,17 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Наименование" Width="*" Binding="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"  IsReadOnly="True" />
                 <DataGridTextColumn Header="Тип" Binding="{Binding Path=Type, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Цена" Binding="{Binding Path=Price, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                <!--<DataGridTextColumn Header="Цена" Binding="{Binding Path=Price, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>-->
             </DataGrid.Columns>
         </DataGrid>
 
 
         <TextBox x:Name="textBox" Grid.Column="1" Grid.Row="0" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left"
                  Height="25" Margin="63,46,0,0" TextWrapping="NoWrap" MaxLength="50" VerticalAlignment="Top" Width="200"/>
-
+        <!--<Label x:Name="label3" Content="Цена" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="10,102,0,0" VerticalAlignment="Top" Height="25"
+               Width="42"/>
         <TextBox x:Name="textBox1" Grid.Column="1" Grid.Row="0" Text="{Binding Price, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left"
-                 Height="25" Margin="63,102,0,0" TextWrapping="NoWrap" MaxLength="50" VerticalAlignment="Top" Width="200"/>
+                 Height="25" Margin="63,102,0,0" TextWrapping="NoWrap" MaxLength="50" VerticalAlignment="Top" Width="200"/>-->
 
 
         <TextBox Text="{Binding Type, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1"  Grid.Row="0" HorizontalAlignment="Left" Margin="63,75,0,0" 
@@ -56,17 +57,16 @@
         <Label x:Name="label1" Content="Название" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="0,46,0,0" VerticalAlignment="Top" Height="25"/>
         <Label x:Name="label2" Content=" Тип" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="10,71,0,0" VerticalAlignment="Top" Height="31"
                 Width="42"/>
-        <Label x:Name="label3" Content="Цена" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="10,102,0,0" VerticalAlignment="Top" Height="25"
-               Width="42"/>
-        <Button x:Name="button" Content="Добавить" Command="{Binding AddCommand}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" Margin="0,132,0,0" 
+        
+        <Button x:Name="button" Content="Добавить" Command="{Binding AddCommand}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" Margin="0,102,0,0" 
                 VerticalAlignment="Top" Width="95"/>
         <!--<Button x:Name="button2" Content="Обновить" Command="{Binding FillListCommand}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left"
                 Margin="163,132,0,0" VerticalAlignment="Top" Width="100"/>-->
 
         <!--Nomenclature Types-->
-        <Label Content="Типы оборудования" Grid.Column="1" FontSize="15"  VerticalAlignment="Top" HorizontalAlignment="Center" Margin="73,164,72,0" Grid.RowSpan="2"/>
+        <Label Content="Типы оборудования" Grid.Column="1" FontSize="15"  VerticalAlignment="Top" HorizontalAlignment="Center" Grid.Row="1"/>
         <ListBox x:Name="listBox" ItemsSource="{Binding Nomenclature_Types}" Grid.Column="1" Grid.Row="1" SelectedIndex="{Binding SelectedTypeIndex}"
-                 SelectedValue="{Binding SelectedNomenclature_type}" Margin="0,24,5,52" >
+                 SelectedValue="{Binding SelectedNomenclature_type}" Margin="0,30,5,52" >
             <ListBox.Resources>
                 <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="White" />
                 <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#0078D7"/>
