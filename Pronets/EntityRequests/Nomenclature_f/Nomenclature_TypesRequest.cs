@@ -61,6 +61,11 @@ namespace Pronets.EntityRequests.Nomenclature_f
                     MessageBox.Show("Элемент уже существует в базе!", "Ошибка");
                     isExeption = false;
                 }
+                catch (System.Data.Entity.Core.EntityException)
+                {
+                    MessageBox.Show("Отсутствует соединение с сервером!", "Ошибка");
+                    isExeption = false;
+                }
                 catch (Exception e)
                 {
                     MessageBox.Show(e.Message, "Ошибка");
@@ -90,9 +95,15 @@ namespace Pronets.EntityRequests.Nomenclature_f
                         MessageBox.Show("Невозможно удалить , так как есть связи с данными!", "Ошибка");
                         isExeption = false;
                     }
-                    catch(Exception e)
+                    catch (System.Data.Entity.Core.EntityException)
+                    {
+                        MessageBox.Show("Отсутствует соединение с сервером!", "Ошибка");
+                        isExeption = false;
+                    }
+                    catch (Exception e)
                     {
                         MessageBox.Show(e.Message, "Ошибка");
+                        isExeption = false;
                     }
                 }
             }

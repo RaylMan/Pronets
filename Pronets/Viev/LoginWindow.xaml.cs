@@ -65,7 +65,6 @@ namespace Pronets.Viev
                 }
                 else
                     MessageBox.Show("Неверные права доступа у пользователя!\nОбратитесь к администратору!", "Ошибка");
-
             }
             else
             {
@@ -101,7 +100,6 @@ namespace Pronets.Viev
                 Properties.Settings.Default.SaveLogin = false;
                 Properties.Settings.Default.Save();
             }
-
         }
     }
 }

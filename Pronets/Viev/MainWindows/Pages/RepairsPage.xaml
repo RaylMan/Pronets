@@ -106,7 +106,7 @@
             <TextBox Text="{Binding Serial_Number, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Background="Gainsboro" Grid.Column="1" Grid.Row="2" IsReadOnly="True"/>
             <TextBox x:Name="tbxDocimentId" Text="{Binding DocumentId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Background="Gainsboro" Grid.Column="1" Grid.Row="3" IsReadOnly="True" Margin="0,0,50,0"/>
             <Button x:Name="btnOpen" Content="Открыть" HorizontalContentAlignment="Right" Grid.Column="1" Grid.Row="3" Background="Gainsboro"  Click="Button_Click" HorizontalAlignment="Right" />
-            <TextBox Text="{Binding InspectorName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Background="Gainsboro" Grid.Column="1" Grid.Row="4" IsReadOnly="True"/>
+            <TextBox Text="{Binding InspectorName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Background="Gainsboro" Grid.Column="1" Grid.Row="4" IsReadOnly="True" TextChanged="TextBox_TextChanged"/>
             <TextBox Text="{Binding Warranty, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Background="Gainsboro" Grid.Column="1" Grid.Row="5" IsReadOnly="True"/>
             <TextBox Text="{Binding Claimed_Malfunction, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Background="Gainsboro" Grid.Column="1" Grid.Row="6" TextWrapping="Wrap" AcceptsReturn="True" IsReadOnly="True"/>
 

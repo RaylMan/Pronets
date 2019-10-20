@@ -44,6 +44,7 @@ namespace Pronets.EntityRequests.Users_f
                         });
                     }
                 }
+
                 catch (Exception e)
                 {
                     MessageBox.Show(e.Message, "Ошибка");
@@ -360,6 +361,10 @@ namespace Pronets.EntityRequests.Users_f
                     if (loginUser != null)
                         loginUser = null;
                     loginUser = db.Users.Where(u => u.Login == login && u.Password == password).FirstOrDefault();
+                }
+                catch (System.Data.Entity.Core.EntityException)
+                {
+                    MessageBox.Show("Отсутствует соединение с сервером!", "Ошибка");
                 }
                 catch (Exception e)
                 {
