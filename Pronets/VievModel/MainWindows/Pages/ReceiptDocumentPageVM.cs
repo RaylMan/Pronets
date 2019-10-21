@@ -10,11 +10,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace Pronets.VievModel.MainWindows.Pages
 {
     public class ReceiptDocumentPageVM : VievModelBase
     {
+        Dispatcher _dispatcher;
         public OpenWindowCommand OpenWindowCommand { get; set; }
         
         private ObservableCollection<v_Receipt_Document> receiptDocuments = new ObservableCollection<v_Receipt_Document>();
@@ -122,10 +124,26 @@ namespace Pronets.VievModel.MainWindows.Pages
 
         public ReceiptDocumentPageVM()
         {
-            ReceiptDocuments.Clear();
-            ReceiptDocuments = ReceiptDocumentRequest.v_FillList();
-            ReceiptDocuments = new ObservableCollection<v_Receipt_Document>(ReceiptDocuments.OrderByDescending(i => i.Document_Id));
+            _dispatcher = Dispatcher.CurrentDispatcher;
+            GetDocumentsAsync();
+            //ReceiptDocuments.Clear();
+            //ReceiptDocuments = ReceiptDocumentRequest.v_FillList();
+            //ReceiptDocuments = new ObservableCollection<v_Receipt_Document>(ReceiptDocuments.OrderByDescending(i => i.Document_Id));
             OpenWindowCommand = new OpenWindowCommand(); // создание экземпляра открытия окна
+        }
+
+        private async void GetDocumentsAsync()
+        {
+            receiptDocuments.Clear();
+            await Task.Run(() => GetDocuments());
+        }
+        private void GetDocuments()
+        {
+            _dispatcher.Invoke(new Action(() =>
+            {
+                receiptDocuments = ReceiptDocumentRequest.v_FillList();
+                receiptDocuments = new ObservableCollection<v_Receipt_Document>(ReceiptDocuments.OrderByDescending(i => i.Document_Id));
+            }));
         }
         #region AddCommand
         private ICommand fillList;

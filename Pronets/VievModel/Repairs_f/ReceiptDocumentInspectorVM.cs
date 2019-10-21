@@ -21,8 +21,9 @@ namespace Pronets.VievModel.Repairs_f
 {
     public class ReceiptDocumentInspectorVM : RepairsModel
     {
-        Dispatcher _dispatcher;
+
         #region Properties
+        Dispatcher _dispatcher;
         private ObservableCollection<Statuses> statuses;
         public ObservableCollection<Statuses> Statuses
         {

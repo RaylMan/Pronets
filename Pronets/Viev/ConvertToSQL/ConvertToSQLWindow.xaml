@@ -103,7 +103,10 @@
                     <DataGridTextColumn Header="Дата" Binding="{Binding Date, StringFormat='dd.MM.yyyy', UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
                 </DataGrid.Columns>
             </DataGrid>
-
+            <!--<ProgressBar Minimum="0" Value="{Binding ProgressValue, UpdateSourceTrigger=PropertyChanged}"  Grid.Column="0" VerticalAlignment="Bottom" HorizontalAlignment="Left"
+                         Maximum="{Binding MaxValue, UpdateSourceTrigger=PropertyChanged}" Margin="3,0,0,5" Height="17" Width="461">
+                
+            </ProgressBar>-->
 
             <GridSplitter Grid.Column="1" ShowsPreview="False" Margin="0,26,0,0" Width="5" HorizontalAlignment="Center" VerticalAlignment="Stretch" />
 

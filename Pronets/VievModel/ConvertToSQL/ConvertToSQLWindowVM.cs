@@ -131,7 +131,6 @@ namespace Pronets.VievModel.ConvertToSQL
             set
             {
                 selectedSheet = value;
-                //GetTableFromSheet();
                 GetTableFromSheetAsync();
                 RaisedPropertyChanged("SelectedSheet");
             }
@@ -157,6 +156,26 @@ namespace Pronets.VievModel.ConvertToSQL
                 RaisedPropertyChanged("AllChecked");
             }
         }
+        private int progressValue;
+        public int ProgressValue
+        {
+            get { return progressValue; }
+            set
+            {
+                progressValue = value;
+                RaisedPropertyChanged("ProgressValue");
+            }
+        }
+        private int maxValue;
+        public int MaxValue
+        {
+            get { return maxValue; }
+            set
+            {
+                maxValue = value;
+                RaisedPropertyChanged("MaxValue");
+            }
+        }
 
         #endregion
 
@@ -167,6 +186,7 @@ namespace Pronets.VievModel.ConvertToSQL
             nomenclature = NomenclatureRequest.FillList();
             statuses = StatusesRequests.FillList();
             _dispatcher = Dispatcher.CurrentDispatcher;
+            progressValue = 0;
 
         }
 
@@ -191,20 +211,19 @@ namespace Pronets.VievModel.ConvertToSQL
         }
         private async void GetTableFromSheetAsync()
         {
+            workList.Clear();
             await Task.Run(() => GetTableFromSheet());
         }
         void GetTableFromSheet()
         {
-            _dispatcher.Invoke(new Action(() =>
-
+            if (SelectedSheet != null && !string.IsNullOrWhiteSpace(path))
             {
-                workList.Clear();
-                if (SelectedSheet != null && !string.IsNullOrWhiteSpace(path))
+                foreach (var item in exporter.ReadAsDataTable(path, SelectedSheet.SheetID).AsEnumerable())
                 {
-                    foreach (var item in exporter.ReadAsDataTable(path, SelectedSheet.SheetID).AsEnumerable())
-                    {
-                        if (!string.IsNullOrWhiteSpace(item["SN"].ToString()) && item["SN"].ToString() != "0")
+                    if (!string.IsNullOrWhiteSpace(item["SN"].ToString()) && item["SN"].ToString() != "0")
+                        _dispatcher.Invoke(new Action(() =>
 
+                        {
                             workList.Add(new WorkList
                             {
                                 Name = Regex.Replace(Convert.ToString(item["Наименование оборудования"]), " {2,}", " "),
@@ -218,9 +237,10 @@ namespace Pronets.VievModel.ConvertToSQL
                                 Engineer = Regex.Replace(Convert.ToString(item["ФИО Мастера"]), " {2,}", " ").Split(' ').First(),
                                 Date = exporter.ConvToDate(Convert.ToString(item["Дата"]))
                             });
-                    }
+                        }));
                 }
-            }));
+            }
+            MessageBox.Show("Загрузка закончена!");
         }
         #region OpenCommand
         private ICommand openCommand;
@@ -283,30 +303,33 @@ namespace Pronets.VievModel.ConvertToSQL
         }
         public void Export(/*object Parameter*/)
         {
-            _dispatcher.Invoke(new Action(() =>
+            foreach (var item in workList)
+            {
+                _dispatcher.Invoke(new Action(() =>
 
-            {
-                foreach (var item in workList)
-            {
-                baseFromExcel.Add(new Data.BaseFromExcel
                 {
-                    Name = item.Name.Length < 50 ? item.Name : item.Name.Substring(0, 50),
-                    SerialNumber = item.SerialNumber.Length < 50 ? item.SerialNumber : item.SerialNumber.Substring(0, 50),
-                    Claimed_Malfunction = item.Claimed_Malfunction.Length < 200 ? item.Claimed_Malfunction : item.Claimed_Malfunction.Substring(0, 200),
-                    Client = item.Client.Length < 50 ? item.Client : item.Client.Substring(0, 50),
-                    DateOfReceipt = item.DateOfReceipt,
-                    Warranty = item.Warranty.Length < 50 ? item.Warranty : item.Warranty.Substring(0, 50),
-                    IdentifyFault = item.IdentifyFault.Length < 200 ? item.IdentifyFault : item.IdentifyFault.Substring(0, 200),
-                    WorkDone = item.WorkDone.Length < 200 ? item.WorkDone : item.WorkDone.Substring(0, 200),
-                    Engineer = item.Engineer.Length < 50 ? item.Engineer : item.Engineer.Substring(0, 50),
-                    Date = item.Date
-                });
+                    baseFromExcel.Add(new Data.BaseFromExcel
+                    {
+                        Name = item.Name.Length < 50 ? item.Name : item.Name.Substring(0, 50),
+                        SerialNumber = item.SerialNumber.Length < 50 ? item.SerialNumber : item.SerialNumber.Substring(0, 50),
+                        Claimed_Malfunction = item.Claimed_Malfunction.Length < 200 ? item.Claimed_Malfunction : item.Claimed_Malfunction.Substring(0, 200),
+                        Client = item.Client.Length < 50 ? item.Client : item.Client.Substring(0, 50),
+                        DateOfReceipt = item.DateOfReceipt,
+                        Warranty = item.Warranty.Length < 50 ? item.Warranty : item.Warranty.Substring(0, 50),
+                        IdentifyFault = item.IdentifyFault.Length < 200 ? item.IdentifyFault : item.IdentifyFault.Substring(0, 200),
+                        WorkDone = item.WorkDone.Length < 200 ? item.WorkDone : item.WorkDone.Substring(0, 200),
+                        Engineer = item.Engineer.Length < 50 ? item.Engineer : item.Engineer.Substring(0, 50),
+                        Date = item.Date
+                    });
+
+                }));
+
             }
             foreach (var item in baseFromExcel)
             {
                 BaseFromExcelRequest.AddToBase(item);//запись на строну sql
             }
-            }));
+            MessageBox.Show("Загрузка закончена!");
         }
         #endregion
 
@@ -335,6 +358,7 @@ namespace Pronets.VievModel.ConvertToSQL
         }
         #endregion
 
+
         #region SaveAtRepairsCommand
         private ICommand saveAtRepairsCommand;
         public ICommand SaveAtRepairsCommand
@@ -343,7 +367,7 @@ namespace Pronets.VievModel.ConvertToSQL
             {
                 if (saveAtRepairsCommand == null)
                 {
-                    saveAtRepairsCommand = new RelayCommand(new Action<object>(SaveAtRepairs));
+                    saveAtRepairsCommand = new RelayCommand(new Action<object>(SaveAtRepairsAsync));
                 }
                 return saveAtRepairsCommand;
             }
@@ -353,7 +377,13 @@ namespace Pronets.VievModel.ConvertToSQL
                 RaisedPropertyChanged("SaveAtRepairsCommand");
             }
         }
-        public void SaveAtRepairs(object Parameter)
+        private async void SaveAtRepairsAsync(object Parameter)
+        {
+            await Task.Run(() => SaveAtRepairs());
+            GetBaseFromExcel();
+            MessageBox.Show("Успешная запись!", "Запись");
+        }
+        public void SaveAtRepairs(/*object Parameter*/)
         {
             if (selectedClient != null && selectedStatus != null)
             {
@@ -382,31 +412,33 @@ namespace Pronets.VievModel.ConvertToSQL
                         foreach (var item in BaseFromExcel)
                         {
                             var engineer = UsersRequest.GetEngineer(item.Engineer) ?? defaultEngineer;
+                            _dispatcher.Invoke(new Action(() =>
 
-                            if (item.IsSelected)
                             {
-                                var repair = new Repairs
+                                if (item.IsSelected)
                                 {
-                                    DocumentId = documentId,
-                                    Nomenclature = selectedNomenclature != null ? selectedNomenclature.Name : "Отсутствует",
-                                    Serial_Number = item.SerialNumber,
-                                    Claimed_Malfunction = item.Claimed_Malfunction,
-                                    Client = SelectedClient.ClientId,
-                                    Status = SelectedStatus.Status,
-                                    Date_Of_Receipt = item.DateOfReceipt > defaultDate ? item.DateOfReceipt : defaultDate,
-                                    Engineer = engineer.Id,
-                                    Inspector = Properties.Settings.Default.DefaultUserId,
-                                    Warranty = item.Warranty,
-                                    Identifie_Fault = item.IdentifyFault,
-                                    Work_Done = item.WorkDone,
-                                    Repair_Date = item.Date > defaultDate ? item.DateOfReceipt : defaultDate
-                                };
-                                RepairsRequest.AddToBase(repair);
-                                BaseFromExcelRequest.RemoveFromBase(item);
-                            }
+                                    var repair = new Repairs
+                                    {
+                                        DocumentId = documentId,
+                                        Nomenclature = selectedNomenclature != null ? selectedNomenclature.Name : "Отсутствует",
+                                        Serial_Number = item.SerialNumber,
+                                        Claimed_Malfunction = item.Claimed_Malfunction,
+                                        Client = SelectedClient.ClientId,
+                                        Status = SelectedStatus.Status,
+                                        Date_Of_Receipt = item.DateOfReceipt > defaultDate ? item.DateOfReceipt : defaultDate,
+                                        Engineer = engineer.Id,
+                                        Inspector = Properties.Settings.Default.DefaultUserId,
+                                        Warranty = item.Warranty,
+                                        Identifie_Fault = item.IdentifyFault,
+                                        Work_Done = item.WorkDone,
+                                        Repair_Date = item.Date > defaultDate ? item.DateOfReceipt : defaultDate
+                                    };
+                                    RepairsRequest.AddToBase(repair);
+                                    BaseFromExcelRequest.RemoveFromBase(item);
+                                }
+                            }));
                         }
-                        GetBaseFromExcel();
-                        MessageBox.Show("Успешная запись!", "Запись");
+                        
                     }
                 }
             }

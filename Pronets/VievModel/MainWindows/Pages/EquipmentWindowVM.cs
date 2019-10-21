@@ -13,12 +13,14 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace Pronets.VievModel.MainWindows.Pages
 {
     public class EquipmentWindowVM : RepairsModel
     {
         #region Properties
+        Dispatcher _dispatcher;
         private Clients pronetsClient;
 
         public OpenWindowCommand OpenWindowCommand { get; set; }
@@ -94,8 +96,10 @@ namespace Pronets.VievModel.MainWindows.Pages
 
         public EquipmentWindowVM()
         {
+            _dispatcher = Dispatcher.CurrentDispatcher;
             GetStatuses();
-            GetContent();
+            GetContentAsync();
+            //GetContent();
             OpenWindowCommand = new OpenWindowCommand();
         }
         #region refresh page
@@ -106,7 +110,7 @@ namespace Pronets.VievModel.MainWindows.Pages
             {
                 if (refresh == null)
                 {
-                    refresh = new RelayCommand(new Action<object>(GetContent));
+                    refresh = new RelayCommand(new Action<object>(GetContentAsync));
                 }
                 return refresh;
             }
@@ -116,11 +120,22 @@ namespace Pronets.VievModel.MainWindows.Pages
                 RaisedPropertyChanged("RefreshCommand");
             }
         }
-        private void GetContent(object parametr) // обновление листа без учета типа оборудования
+        private async void GetContentAsync()
         {
             pronetsClient = null;
             repairs.Clear();
             sortingEquipments.Clear();
+            await Task.Run(() => GetContent());
+        }
+        private async void GetContentAsync(object parametr)
+        {
+            pronetsClient = null;
+            repairs.Clear();
+            sortingEquipments.Clear();
+            await Task.Run(() => GetContent());
+        }
+        private void GetContent(/*object parametr*/) // обновление листа без учета типа оборудования
+        {
             pronetsClient = ClientsRequests.GetPronetsClient();
             foreach (var status in statuses)
             {
@@ -128,7 +143,10 @@ namespace Pronets.VievModel.MainWindows.Pages
                 {
                     foreach (var item in RepairsRequest.GetPronetsRepairs(status.Status))
                     {
-                        repairs.Add(item);
+                        _dispatcher.Invoke(new Action(() =>
+                        {
+                            repairs.Add(item);
+                        }));
                     }
                 }
             }
@@ -144,53 +162,56 @@ namespace Pronets.VievModel.MainWindows.Pages
                              select new { n.Key.Nomenclature, Count = n.Count() };
                 foreach (var item in result)
                 {
-                    sortingEquipments.Add(new SortingRepair
+                    _dispatcher.Invoke(new Action(() =>
                     {
-                        NomenclatureName = item.Nomenclature,
-                        RepairsCount = item.Count
-                    });
+                        sortingEquipments.Add(new SortingRepair
+                        {
+                            NomenclatureName = item.Nomenclature,
+                            RepairsCount = item.Count
+                        });
+                    }));
                 }
             }
             GetTotalAmount();
         }
 
-        private void GetContent() // вывод в список с учетов типа оборудования
-        {
-            pronetsClient = null;
-            repairs.Clear();
-            sortingEquipments.Clear();
+        //private void GetContent() // вывод в список с учетов типа оборудования
+        //{
+        //    pronetsClient = null;
+        //    repairs.Clear();
+        //    sortingEquipments.Clear();
 
-            pronetsClient = ClientsRequests.GetPronetsClient();
-            foreach (var status in statuses)
-            {
-                if (status.IsSelected == true)
-                {
-                    foreach (var item in RepairsRequest.GetPronetsRepairs(status.Status))
-                    {
-                        repairs.Add(item);
-                    }
-                }
-            }
-            if (repairs != null && repairs.Count > 0)
-            {
-                var result = from equip in repairs
-                             group equip by new
-                             {
-                                 equip.Nomenclature
-                             } into n
-                             select new { n.Key.Nomenclature, Count = n.Count() };
+        //    pronetsClient = ClientsRequests.GetPronetsClient();
+        //    foreach (var status in statuses)
+        //    {
+        //        if (status.IsSelected == true)
+        //        {
+        //            foreach (var item in RepairsRequest.GetPronetsRepairs(status.Status))
+        //            {
+        //                repairs.Add(item);
+        //            }
+        //        }
+        //    }
+        //    if (repairs != null && repairs.Count > 0)
+        //    {
+        //        var result = from equip in repairs
+        //                     group equip by new
+        //                     {
+        //                         equip.Nomenclature
+        //                     } into n
+        //                     select new { n.Key.Nomenclature, Count = n.Count() };
 
-                foreach (var item in result)
-                {
-                    sortingEquipments.Add(new SortingRepair
-                    {
-                        NomenclatureName = item.Nomenclature,
-                        RepairsCount = item.Count
-                    });
-                }
-            }
-            GetTotalAmount();
-        }
+        //        foreach (var item in result)
+        //        {
+        //            sortingEquipments.Add(new SortingRepair
+        //            {
+        //                NomenclatureName = item.Nomenclature,
+        //                RepairsCount = item.Count
+        //            });
+        //        }
+        //    }
+        //    GetTotalAmount();
+        //}
         #endregion
 
         #region Search
