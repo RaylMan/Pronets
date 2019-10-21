@@ -182,6 +182,7 @@
     <Compile Include="Model\DocumentPaginatorWrapper.cs" />
     <Compile Include="Model\EditChars.cs" />
     <Compile Include="Model\FittedDocumentPaginator.cs" />
+    <Compile Include="Model\FontSizes.cs" />
     <Compile Include="Model\FromXlsxToSQL\SheetsId.cs" />
     <Compile Include="Model\FromXlsxToSQL\WorkList.cs" />
     <Compile Include="Model\FromXlsxToSQL\XslxExporter.cs" />

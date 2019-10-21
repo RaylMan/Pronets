@@ -15,12 +15,13 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace Pronets.VievModel.Repairs_f
 {
     public class ReceiptDocumentInspectorVM : RepairsModel
     {
-
+        Dispatcher _dispatcher;
         #region Properties
         private ObservableCollection<Statuses> statuses;
         public ObservableCollection<Statuses> Statuses
@@ -153,8 +154,10 @@ namespace Pronets.VievModel.Repairs_f
                 GetStatus();
                 GetClient();
                 v_Repairs = RepairsRequest.FillList(document.Document_Id);
-                GetCopyRepairs();
+                //GetCopyRepairs();
+                GetCopyRepairsAsync();
                 DepartureDate = DateTime.Now;
+                _dispatcher = Dispatcher.CurrentDispatcher;
             }
             else
                 MessageBox.Show("Не передан экземпляр класса в конструктор!", "Системаня ошибка!");
@@ -345,6 +348,10 @@ namespace Pronets.VievModel.Repairs_f
         #endregion
 
         #region Copy Repairs
+        private async void GetCopyRepairsAsync()
+        {
+            await Task.Run(() => GetCopyRepairs());
+        }
         private void GetCopyRepairs()
         {
             if (v_RepairsCopy != null)
@@ -354,7 +361,11 @@ namespace Pronets.VievModel.Repairs_f
             {
                 foreach (var copy in RepairsRequest.GetCopy(repair.RepairId, repair.Serial_Number))
                 {
-                    v_RepairsCopy.Add(copy);
+                    _dispatcher.Invoke(new Action(() =>
+
+                    {
+                        v_RepairsCopy.Add(copy);
+                    }));
                 }
             }
         }

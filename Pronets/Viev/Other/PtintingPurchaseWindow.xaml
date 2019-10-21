@@ -12,6 +12,16 @@
                 <TextBlock Text="  Печать  " />
             </Viewbox>
         </Button>
+        <Label Content="Размер шрифта" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="130,8,0,0"/>
+        <ComboBox x:Name="comboBoxWarranty" ItemsSource="{Binding FontSizes}" SelectedValue="{Binding SelectedSize}" 
+                  HorizontalAlignment="Left" Margin="230,11,0,0" VerticalAlignment="Top" Width="57">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding FontSize}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        
         <FlowDocumentScrollViewer x:Name="flowViever" Margin="10,40,10,10" BorderBrush="Black" BorderThickness="1" >
             <FlowDocument x:Name="flowDocument">
                 <Table Margin="2">
@@ -20,15 +30,15 @@
                         <TableColumn></TableColumn>
                         <TableColumn></TableColumn>
                     </Table.Columns>
-                    <TableRowGroup FontSize="14" FontFamily="Times New Roman">
-                        <TableRow FontSize="15" FontFamily="Times New Roman">
+                    <TableRowGroup>
+                        <TableRow>
                             <TableCell>
                                 <Paragraph></Paragraph>
                             </TableCell>
                             <TableCell>
                                 <Paragraph TextAlignment="Center" >
                                     <InlineUIContainer>
-                                        <TextBlock Text="{Binding Title}" FontSize="15" FontFamily="Times New Roman"/>
+                                        <TextBlock Text="{Binding Title}" FontSize="{Binding TitleFontSize, UpdateSourceTrigger=PropertyChanged}" FontFamily="Times New Roman"/>
                                     </InlineUIContainer>
                                 </Paragraph>
                             </TableCell>
@@ -42,24 +52,24 @@
                         </TableRow>
                     </TableRowGroup>
                 </Table>
-                <Paragraph TextAlignment="Left" Margin="2" FontSize="10" FontFamily="Times New Roman" >
+                <Paragraph TextAlignment="Left" Margin="2">
                     Исполнитель
                 </Paragraph>
-                <Paragraph TextAlignment="Left" Margin="2" FontSize="10" BorderBrush="Black" BorderThickness="1" FontFamily="Times New Roman">
+                <Paragraph TextAlignment="Left" Margin="2" BorderBrush="Black" BorderThickness="1">
                     <InlineUIContainer>
-                        <TextBlock Text="{Binding PronetsInfo}" FontSize="10" FontFamily="Times New Roman"></TextBlock>
+                        <TextBlock Text="{Binding PronetsInfo}" FontSize="{Binding FontSize, UpdateSourceTrigger=PropertyChanged}" FontFamily="Times New Roman"></TextBlock>
                     </InlineUIContainer>
                 </Paragraph>
-                <Paragraph TextAlignment="Left" Margin="2" FontSize="10" FontFamily="Times New Roman" >
+                <Paragraph TextAlignment="Left" Margin="2"  FontSize="{Binding FontSize, UpdateSourceTrigger=PropertyChanged}" FontFamily="Times New Roman" >
                     Заказчик
                 </Paragraph>
                 <Paragraph TextAlignment="Left" Margin="2" BorderBrush="Black" BorderThickness="1" >
                     <InlineUIContainer>
-                        <TextBlock Text="{Binding ClientInfo}" FontSize="10" FontFamily="Times New Roman"></TextBlock>
+                        <TextBlock Text="{Binding ClientInfo}"  FontSize="{Binding FontSize, UpdateSourceTrigger=PropertyChanged}" FontFamily="Times New Roman"></TextBlock>
                     </InlineUIContainer>
                 </Paragraph>
 
-                <Table x:Name="Table1" Margin="2,10,10,2" BorderBrush="Black" Background="Black" FontSize="9" BorderThickness="1" FontFamily="Times New Roman">
+                <Table x:Name="Table1" Margin="2,10,10,2" BorderBrush="Black" Background="Black"  FontSize="{Binding FontSize, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1" FontFamily="Times New Roman">
                 </Table>
 
                 <Table Margin="2,20">
@@ -68,20 +78,24 @@
                         <TableColumn></TableColumn>
                         <TableColumn></TableColumn>
                     </Table.Columns>
-                    <TableRowGroup FontSize="14" FontFamily="Times New Roman">
-                        <TableRow FontSize="15" FontFamily="Times New Roman">
+                    <TableRowGroup>
+                        <TableRow>
 
                             <TableCell>
                                 <Paragraph TextAlignment="Left" >
                                     <InlineUIContainer>
-                                        <TextBlock FontSize="10" FontFamily="Times New Roman">Оборудование сдал: _________________/__________</TextBlock>
+                                        <TextBlock  FontSize="{Binding FontSize, UpdateSourceTrigger=PropertyChanged}" FontFamily="Times New Roman">
+                                            Оборудование сдал: _________________/__________
+                                        </TextBlock>
                                     </InlineUIContainer>
                                 </Paragraph>
                             </TableCell>
                             <TableCell>
                                 <Paragraph TextAlignment="Right" >
                                     <InlineUIContainer>
-                                        <TextBlock FontSize="10" FontFamily="Times New Roman">Оборудование принял: _________________/__________</TextBlock>
+                                        <TextBlock  FontSize="{Binding FontSize, UpdateSourceTrigger=PropertyChanged}" FontFamily="Times New Roman">
+                                            Оборудование принял: _________________/__________
+                                        </TextBlock>
                                     </InlineUIContainer>
                                 </Paragraph>
                             </TableCell>

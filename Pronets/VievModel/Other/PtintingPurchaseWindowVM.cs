@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Pronets.Data;
 using Pronets.EntityRequests.Clients_f;
 using Pronets.EntityRequests.Repairs_f;
+using Pronets.Model;
 
 namespace Pronets.VievModel.Other
 {
@@ -27,6 +28,34 @@ namespace Pronets.VievModel.Other
             {
                 repairsTable = value;
                 RaisedPropertyChanged("RepairsTable");
+            }
+        }
+
+        private ObservableCollection<FontSizes> fontSizes = new ObservableCollection<FontSizes>();
+
+        public ObservableCollection<FontSizes> FontSizes
+        {
+            get { return fontSizes; }
+
+            set
+            {
+                fontSizes = value;
+                RaisedPropertyChanged("FontSizes");
+            }
+        }
+
+        private FontSizes selectedSize;
+
+        public FontSizes SelectedSize
+        {
+            get { return selectedSize; }
+
+            set
+            {
+                selectedSize = value;
+                FontSize = SelectedSize.FontSize;
+                TitleFontSize = SelectedSize.FontSize + 5;
+                RaisedPropertyChanged("SelectedSize");
             }
         }
 
@@ -123,6 +152,28 @@ namespace Pronets.VievModel.Other
                 RaisedPropertyChanged("Adress");
             }
         }
+
+        private int fontSize;
+        public int FontSize
+        {
+            get { return fontSize; }
+            set
+            {
+                fontSize = value;
+                RaisedPropertyChanged("FontSize");
+            }
+        }
+
+        private int titleFontSize;
+        public int TitleFontSize
+        {
+            get { return titleFontSize; }
+            set
+            {
+                titleFontSize = value;
+                RaisedPropertyChanged("TitleFontSize");
+            }
+        }
         #endregion
 
         public PtintingPurchaseWindowVM(v_Receipt_Document document, int clientId)
@@ -132,8 +183,21 @@ namespace Pronets.VievModel.Other
             if (clientId > 0)
                 client = ClientsRequests.GetClient(clientId);
             GetInfo();
+            SetFontSizes();
         }
-        
+
+        private void SetFontSizes()
+        {
+            for (int i = 6; i < 25; i++)
+            {
+                fontSizes.Add(new FontSizes { FontSize = i });
+            }
+            foreach (var item in fontSizes)
+            {
+                if (item.FontSize == 10)
+                    selectedSize = item;
+            }
+        }
 
         private void GetInfo()
         {

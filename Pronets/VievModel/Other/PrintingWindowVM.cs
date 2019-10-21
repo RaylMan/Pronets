@@ -33,6 +33,34 @@ namespace Pronets.VievModel.Other
             }
         }
 
+        private ObservableCollection<FontSizes> fontSizes = new ObservableCollection<FontSizes>();
+
+        public ObservableCollection<FontSizes> FontSizes
+        {
+            get { return fontSizes; }
+
+            set
+            {
+                fontSizes = value;
+                RaisedPropertyChanged("FontSizes");
+            }
+        }
+
+        private FontSizes selectedSize;
+
+        public FontSizes SelectedSize
+        {
+            get { return selectedSize; }
+
+            set
+            {
+                selectedSize = value;
+                FontSize = SelectedSize.FontSize;
+                TitleFontSize = SelectedSize.FontSize + 5;
+                RaisedPropertyChanged("SelectedSize");
+            }
+        }
+
         private string dateOfDocument = "3. Дата заполнения: " + DateTime.Now.ToString("dd.MM.yyyy");
         public string DateOfDocument
         {
@@ -126,6 +154,28 @@ namespace Pronets.VievModel.Other
                 RaisedPropertyChanged("Adress");
             }
         }
+
+        private int fontSize;
+        public int FontSize
+        {
+            get { return fontSize; }
+            set
+            {
+                fontSize = value;
+                RaisedPropertyChanged("FontSize");
+            }
+        }
+
+        private int titleFontSize;
+        public int TitleFontSize
+        {
+            get { return titleFontSize; }
+            set
+            {
+                titleFontSize = value;
+                RaisedPropertyChanged("TitleFontSize");
+            }
+        }
         #endregion
 
         public PrintingWindowVM(v_Receipt_Document document, int clientId)
@@ -135,6 +185,9 @@ namespace Pronets.VievModel.Other
             if (clientId > 0)
                 client = ClientsRequests.GetClient(clientId);
             GetInfo();
+            SetFontSizes();
+            fontSize = 10;
+            titleFontSize = fontSize + 5;
         }
         public PrintingWindowVM(List<int> repairsId, int clientId)
         {
@@ -146,8 +199,23 @@ namespace Pronets.VievModel.Other
             if (clientId > 0)
                 client = ClientsRequests.GetClient(clientId);
             GetInfo();
+            SetFontSizes();
+            fontSize = 10;
+            titleFontSize = fontSize + 5;
         }
 
+        private void SetFontSizes()
+        {
+            for(int i = 6; i < 25; i++)
+            {
+                fontSizes.Add(new FontSizes { FontSize = i });
+            }
+            foreach (var item in fontSizes)
+            {
+                if (item.FontSize == 10)
+                    selectedSize = item;
+            }
+        }
         private void GetInfo()
         {
             clientPronets = ClientsRequests.GetPronetsClient();

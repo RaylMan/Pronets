@@ -183,9 +183,11 @@ namespace Pronets.EntityRequests.Repairs_f
             }
             return repairs;
         }
+
         /// <summary>
         /// <para>Возращает коллекцию v_Repairs(Представление SQL) по номеру документа</para>
         /// </summary>
+        /// 
         public static ObservableCollection<v_Repairs> FillList(int DocumentId)
         {
             using (var db = ConnectionTools.GetConnection())

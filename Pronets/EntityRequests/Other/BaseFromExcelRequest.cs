@@ -33,6 +33,7 @@ namespace Pronets.EntityRequests.Other
             return baseFromExcel;
         }
 
+        
         /// <summary>
         /// <para>Добавляет в базу эксемпляр BaseFromExcel</para>
         /// </summary>

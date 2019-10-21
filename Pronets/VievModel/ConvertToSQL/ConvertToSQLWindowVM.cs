@@ -20,6 +20,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace Pronets.VievModel.ConvertToSQL
 {
@@ -27,6 +28,7 @@ namespace Pronets.VievModel.ConvertToSQL
     {
 
         #region Properties
+        Dispatcher _dispatcher;
         XslxExporter exporter = new XslxExporter();
         private ObservableCollection<BaseFromExcel> baseFromExcel = new ObservableCollection<BaseFromExcel>();
         public ObservableCollection<BaseFromExcel> BaseFromExcel
@@ -129,7 +131,8 @@ namespace Pronets.VievModel.ConvertToSQL
             set
             {
                 selectedSheet = value;
-                GetTableFromSheet();
+                //GetTableFromSheet();
+                GetTableFromSheetAsync();
                 RaisedPropertyChanged("SelectedSheet");
             }
         }
@@ -163,6 +166,7 @@ namespace Pronets.VievModel.ConvertToSQL
             clients = ClientsRequests.FillList();
             nomenclature = NomenclatureRequest.FillList();
             statuses = StatusesRequests.FillList();
+            _dispatcher = Dispatcher.CurrentDispatcher;
 
         }
 
@@ -175,9 +179,8 @@ namespace Pronets.VievModel.ConvertToSQL
                     item.IsSelected = allChecked;
                 }
             }
-
         }
-       
+
         void GetBaseFromExcel()
         {
             baseFromExcel.Clear();
@@ -186,30 +189,38 @@ namespace Pronets.VievModel.ConvertToSQL
                 baseFromExcel.Add(item);
             }
         }
-
+        private async void GetTableFromSheetAsync()
+        {
+            await Task.Run(() => GetTableFromSheet());
+        }
         void GetTableFromSheet()
         {
-            workList.Clear();
-            if (SelectedSheet != null && !string.IsNullOrWhiteSpace(path))
+            _dispatcher.Invoke(new Action(() =>
+
             {
-                foreach (var item in exporter.ReadAsDataTable(path, SelectedSheet.SheetID).AsEnumerable())
+                workList.Clear();
+                if (SelectedSheet != null && !string.IsNullOrWhiteSpace(path))
                 {
-                    if (!string.IsNullOrWhiteSpace(item["SN"].ToString()) && item["SN"].ToString() != "0")
-                        workList.Add(new WorkList
-                        {
-                            Name = Regex.Replace(Convert.ToString(item["Наименование оборудования"]), " {2,}", " "),
-                            SerialNumber = Regex.Replace(Convert.ToString(item["SN"]), " {2,}", " "),
-                            Claimed_Malfunction = Regex.Replace(Convert.ToString(item["Заявленная Неисправность"]), " {2,}", " "),
-                            Client = Regex.Replace(Convert.ToString(item["Клиент"]), " {2,}", " "),
-                            DateOfReceipt = exporter.ConvToDate(Convert.ToString(item["Дата сдачи в СЦ"])),
-                            Warranty = Regex.Replace(Convert.ToString(item["Гарантия"]), " {2,}", " "),
-                            IdentifyFault = Regex.Replace(Convert.ToString(item["Выявленная неисправность "]), " {2,}", " "),
-                            WorkDone = Regex.Replace(Convert.ToString(item["Проделанный ремонт"]), " {2,}", " "),
-                            Engineer = Regex.Replace(Convert.ToString(item["ФИО Мастера"]), " {2,}", " ").Split(' ').First(),
-                            Date = exporter.ConvToDate(Convert.ToString(item["Дата"]))
-                        });
+                    foreach (var item in exporter.ReadAsDataTable(path, SelectedSheet.SheetID).AsEnumerable())
+                    {
+                        if (!string.IsNullOrWhiteSpace(item["SN"].ToString()) && item["SN"].ToString() != "0")
+
+                            workList.Add(new WorkList
+                            {
+                                Name = Regex.Replace(Convert.ToString(item["Наименование оборудования"]), " {2,}", " "),
+                                SerialNumber = Regex.Replace(Convert.ToString(item["SN"]), " {2,}", " "),
+                                Claimed_Malfunction = Regex.Replace(Convert.ToString(item["Заявленная Неисправность"]), " {2,}", " "),
+                                Client = Regex.Replace(Convert.ToString(item["Клиент"]), " {2,}", " "),
+                                DateOfReceipt = exporter.ConvToDate(Convert.ToString(item["Дата сдачи в СЦ"])),
+                                Warranty = Regex.Replace(Convert.ToString(item["Гарантия"]), " {2,}", " "),
+                                IdentifyFault = Regex.Replace(Convert.ToString(item["Выявленная неисправность "]), " {2,}", " "),
+                                WorkDone = Regex.Replace(Convert.ToString(item["Проделанный ремонт"]), " {2,}", " "),
+                                Engineer = Regex.Replace(Convert.ToString(item["ФИО Мастера"]), " {2,}", " ").Split(' ').First(),
+                                Date = exporter.ConvToDate(Convert.ToString(item["Дата"]))
+                            });
+                    }
                 }
-            }
+            }));
         }
         #region OpenCommand
         private ICommand openCommand;
@@ -256,7 +267,7 @@ namespace Pronets.VievModel.ConvertToSQL
             {
                 if (exportCommand == null)
                 {
-                    exportCommand = new RelayCommand(new Action<object>(Export));
+                    exportCommand = new RelayCommand(new Action<object>(GetCopyRepairsAsync));
                 }
                 return exportCommand;
             }
@@ -266,10 +277,16 @@ namespace Pronets.VievModel.ConvertToSQL
                 RaisedPropertyChanged("ExportCommand");
             }
         }
-
-        public void Export(object Parameter)
+        private async void GetCopyRepairsAsync(object Parameter)
         {
-            foreach (var item in workList)
+            await Task.Run(() => Export());
+        }
+        public void Export(/*object Parameter*/)
+        {
+            _dispatcher.Invoke(new Action(() =>
+
+            {
+                foreach (var item in workList)
             {
                 baseFromExcel.Add(new Data.BaseFromExcel
                 {
@@ -289,6 +306,7 @@ namespace Pronets.VievModel.ConvertToSQL
             {
                 BaseFromExcelRequest.AddToBase(item);//запись на строну sql
             }
+            }));
         }
         #endregion
 
@@ -339,6 +357,7 @@ namespace Pronets.VievModel.ConvertToSQL
         {
             if (selectedClient != null && selectedStatus != null)
             {
+                DateTime defaultDate = new DateTime(2017, 1, 1);
                 var result = MessageBox.Show("Вы Действительно хотете записать в базу?\nПроверьте правильность данных!", "Создание экземпляра", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
                 {
@@ -374,13 +393,13 @@ namespace Pronets.VievModel.ConvertToSQL
                                     Claimed_Malfunction = item.Claimed_Malfunction,
                                     Client = SelectedClient.ClientId,
                                     Status = SelectedStatus.Status,
-                                    Date_Of_Receipt = item.DateOfReceipt,
+                                    Date_Of_Receipt = item.DateOfReceipt > defaultDate ? item.DateOfReceipt : defaultDate,
                                     Engineer = engineer.Id,
                                     Inspector = Properties.Settings.Default.DefaultUserId,
                                     Warranty = item.Warranty,
                                     Identifie_Fault = item.IdentifyFault,
                                     Work_Done = item.WorkDone,
-                                    Repair_Date = item.Date
+                                    Repair_Date = item.Date > defaultDate ? item.DateOfReceipt : defaultDate
                                 };
                                 RepairsRequest.AddToBase(repair);
                                 BaseFromExcelRequest.RemoveFromBase(item);
@@ -396,7 +415,7 @@ namespace Pronets.VievModel.ConvertToSQL
         }
         #endregion
     }
-   
+
 }
 
 
