@@ -41,7 +41,7 @@
         </ComboBox>
 
         <Button x:Name="clearDB" Content="  Очистить промежуточную базу  " FontSize="10" Command="{Binding ClearCommand}" VerticalAlignment="Top"
-                HorizontalAlignment="Left" Margin="233,80,0,0" Height="20" Width="157"  Grid.Row="0" Grid.Column="0"/>
+                HorizontalAlignment="Left" Margin="233,80,0,0" Height="20" Width="165"  Grid.Row="0" Grid.Column="0"/>
 
         <!--Row 0 Column 1-->
         <Label Content=" Сохраняет только выделенные элементы" HorizontalAlignment="Center" VerticalAlignment="Top"   Grid.Row="0" Grid.Column="1"/>

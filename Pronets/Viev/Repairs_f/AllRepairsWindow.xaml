@@ -19,7 +19,7 @@
         <!--Row 0-->
         <!--Text="{Binding SearchString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"-->
         <Label Content="Поиск по серийному номеру" Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,7,0,0"/>
-        <TextBox Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="15" GotFocus="TbxSearch_GotFocus" SelectionChanged="TbxSearch_SelectionChanged"
+        <TextBox Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" GotFocus="TbxSearch_GotFocus" SelectionChanged="TbxSearch_SelectionChanged"
                      ToolTip="Search" Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="175,8,0,0" Width="251" Height="23"/>
         <Button Content="  Поиск  " Command="{Binding SearchCommand}" HorizontalAlignment="Left" Margin="431,8,0,4" Grid.Row="0"/>
         <Button Content="  Далее  " Command="{Binding SearchNextCommand}" HorizontalAlignment="Left" Margin="487,8,0,4" Grid.Row="0"/>
