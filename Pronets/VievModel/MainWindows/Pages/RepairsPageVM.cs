@@ -26,14 +26,14 @@ namespace Pronets.VievModel.MainWindows.Pages
         private Clients clientInstance;
         private Users user;
         private Engineers engineer;
-        private ObservableCollection<Repair_Categories> categories = new ObservableCollection<Repair_Categories>();
-        public ObservableCollection<Repair_Categories> Categories
+        private ObservableCollection<Repair_Categories> repair_Categories = new ObservableCollection<Repair_Categories>();
+        public ObservableCollection<Repair_Categories> Repair_Categories
         {
-            get { return categories; }
+            get { return repair_Categories; }
 
             set
             {
-                categories = value;
+                repair_Categories = value;
                 RaisedPropertyChanged("Repair_Categories");
             }
         }
@@ -187,7 +187,7 @@ namespace Pronets.VievModel.MainWindows.Pages
         {
             _dispatcher.Invoke(new Action(() =>
             {
-                Categories = RepairCategoriesRequests.FillList();
+                Repair_Categories = RepairCategoriesRequests.FillList();
                 Engineers = UsersRequest.FillListEngineers();
                 Statuses = StatusesRequests.FillList();
             }));
@@ -321,7 +321,7 @@ namespace Pronets.VievModel.MainWindows.Pages
         }
         public void GetCategory()
         {
-            foreach (var category in categories)
+            foreach (var category in Repair_Categories)
             {
                 if (category.Category == selectedRepair.Repair_Category)
                     SelectedCategory = category;
