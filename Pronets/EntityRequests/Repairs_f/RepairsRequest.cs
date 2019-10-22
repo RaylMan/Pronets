@@ -16,49 +16,51 @@ namespace Pronets.EntityRequests.Repairs_f
     {
         private static Repairs repair;
         private static v_Repairs v_Repair;
-        private static ObservableCollection<Repairs> repairs = new ObservableCollection<Repairs>();
-        private static ObservableCollection<v_Repairs> v_Repairs = new ObservableCollection<v_Repairs>();
-        private static ObservableCollection<v_Repairs> repairsTable = new ObservableCollection<v_Repairs>();
+        //private static ObservableCollection<Repairs> repairs = new ObservableCollection<Repairs>();
+        //private static ObservableCollection<v_Repairs> v_Repairs = new ObservableCollection<v_Repairs>();
+        //private static ObservableCollection<v_Repairs> repairsTable = new ObservableCollection<v_Repairs>();
 
         /// <summary>
         /// <para>Возращает коллекцию Repairs</para>
         /// </summary>
         public static ObservableCollection<Repairs> FillList()
         {
+            ObservableCollection<Repairs> repairs = null;
             using (var db = ConnectionTools.GetConnection())
             {
                 try
                 {
                     repairs.Clear();
-                    foreach (var item in db.Repairs)
-                    {
-                        repairs.Add(new Repairs
-                        {
-                            RepairId = item.RepairId,
-                            DocumentId = item.DocumentId,
-                            Nomenclature = item.Nomenclature,
-                            Serial_Number = item.Serial_Number,
-                            Client = item.Client,
-                            Date_Of_Receipt = item.Date_Of_Receipt,
-                            Departure_Date = item.Departure_Date,
-                            Recipient = item.Recipient,
-                            Inspector = item.Inspector,
-                            Warranty = item.Warranty,
-                            Identifie_Fault = item.Identifie_Fault,
-                            Work_Done = item.Work_Done,
-                            Repair_Category = item.Repair_Category,
-                            Engineer = item.Engineer,
-                            Repair_Date = item.Repair_Date,
-                            Status = item.Status,
-                            Note = item.Note,
-                            Clients = item.Clients,
-                            Nomenclature1 = item.Nomenclature1,
-                            ReceiptDocument = item.ReceiptDocument,
-                            Statuses = item.Statuses,
-                            Users = item.Users,
-                            //Users1 = item.Users1
-                        });
-                    }
+                    repairs = new ObservableCollection<Repairs>(db.Repairs.ToList());
+                    //foreach (var item in db.Repairs)
+                    //{
+                    //    repairs.Add(new Repairs
+                    //    {
+                    //        RepairId = item.RepairId,
+                    //        DocumentId = item.DocumentId,
+                    //        Nomenclature = item.Nomenclature,
+                    //        Serial_Number = item.Serial_Number,
+                    //        Client = item.Client,
+                    //        Date_Of_Receipt = item.Date_Of_Receipt,
+                    //        Departure_Date = item.Departure_Date,
+                    //        Recipient = item.Recipient,
+                    //        Inspector = item.Inspector,
+                    //        Warranty = item.Warranty,
+                    //        Identifie_Fault = item.Identifie_Fault,
+                    //        Work_Done = item.Work_Done,
+                    //        Repair_Category = item.Repair_Category,
+                    //        Engineer = item.Engineer,
+                    //        Repair_Date = item.Repair_Date,
+                    //        Status = item.Status,
+                    //        Note = item.Note,
+                    //        Clients = item.Clients,
+                    //        Nomenclature1 = item.Nomenclature1,
+                    //        ReceiptDocument = item.ReceiptDocument,
+                    //        Statuses = item.Statuses,
+                    //        Users = item.Users,
+                    //        //Users1 = item.Users1
+                    //    });
+                    //}
                 }
                 catch (Exception e)
                 {
@@ -73,28 +75,26 @@ namespace Pronets.EntityRequests.Repairs_f
         /// </summary>
         public static ObservableCollection<v_Repairs> v_FillList()
         {
+            ObservableCollection<v_Repairs> v_RepairsAll = null ;
             using (var db = ConnectionTools.GetConnection())
             {
                 try
                 {
-                    if (v_Repairs != null)
-                        v_Repairs.Clear();
-                    var result = from repair in db.v_Repairs
-                                 select repair;
-                    v_Repairs = new ObservableCollection<v_Repairs>(result);
+                    v_RepairsAll = new ObservableCollection<v_Repairs>(db.v_Repairs.ToList());
                 }
                 catch (Exception e)
                 {
                     MessageBox.Show(e.Message, "Ошибка");
                 }
             }
-            return v_Repairs;
+            return v_RepairsAll;
         }
         /// <summary>
         /// <para>Возращает коллекцию v_Repairs(Представление SQL) по серийному номеру</para>
         /// </summary>
         public static ObservableCollection<v_Repairs> v_FillList(string SerialNumber)
         {
+            ObservableCollection<v_Repairs> v_Repairs = null;
             using (var db = ConnectionTools.GetConnection())
             {
                 try
@@ -118,6 +118,7 @@ namespace Pronets.EntityRequests.Repairs_f
         /// </summary>
         public static ObservableCollection<v_Repairs> FillListPronets(string status)
         {
+            ObservableCollection<v_Repairs> v_Repairs = null;
             using (var db = ConnectionTools.GetConnection())
             {
                 try
@@ -144,6 +145,7 @@ namespace Pronets.EntityRequests.Repairs_f
         /// </summary>
         public static ObservableCollection<Repairs> GetPronetsRepairs()
         {
+            ObservableCollection<Repairs> repairs = null;
             using (var db = ConnectionTools.GetConnection())
             {
                 try
@@ -166,6 +168,7 @@ namespace Pronets.EntityRequests.Repairs_f
         /// </summary>
         public static ObservableCollection<Repairs> GetPronetsRepairs(string status)
         {
+            ObservableCollection<Repairs> repairs = null;
             using (var db = ConnectionTools.GetConnection())
             {
                 try
@@ -190,6 +193,7 @@ namespace Pronets.EntityRequests.Repairs_f
         /// 
         public static ObservableCollection<v_Repairs> FillList(int DocumentId)
         {
+            ObservableCollection<v_Repairs> v_Repairs = null;
             using (var db = ConnectionTools.GetConnection())
             {
                 try
@@ -214,6 +218,7 @@ namespace Pronets.EntityRequests.Repairs_f
         /// </summary>
         public static ObservableCollection<v_Repairs> FillReportList(int DocumentId)
         {
+            ObservableCollection<v_Repairs> repairsTable = null;
             using (var db = ConnectionTools.GetConnection())
             {
                 try
@@ -238,6 +243,7 @@ namespace Pronets.EntityRequests.Repairs_f
         /// </summary>
         public static ObservableCollection<v_Repairs> FillListClient(int clientId)
         {
+            ObservableCollection<v_Repairs> v_Repairs = null;
             using (var db = ConnectionTools.GetConnection())
             {
                 try
@@ -264,6 +270,7 @@ namespace Pronets.EntityRequests.Repairs_f
         /// </summary>
         public static ObservableCollection<v_Repairs> SortList(int clientId, string status = null)
         {
+            ObservableCollection<v_Repairs> v_Repairs = null;
             using (var db = ConnectionTools.GetConnection())
             {
                 try
@@ -299,6 +306,7 @@ namespace Pronets.EntityRequests.Repairs_f
         /// </summary>
         public static ObservableCollection<v_Repairs> SortList(int clientId, int documentId, string status = null)
         {
+            ObservableCollection<v_Repairs> v_Repairs = null;
             using (var db = ConnectionTools.GetConnection())
             {
                 try
@@ -335,6 +343,7 @@ namespace Pronets.EntityRequests.Repairs_f
         /// </summary>
         public static ObservableCollection<v_Repairs> SortList(int clientId, string warranty, int documentId, string status = null)
         {
+            ObservableCollection<v_Repairs> v_Repairs = null;
             using (var db = ConnectionTools.GetConnection())
             {
                 try
@@ -373,6 +382,7 @@ namespace Pronets.EntityRequests.Repairs_f
         /// </summary>
         public static ObservableCollection<v_Repairs> SortList(string warranty, int clientId, string status = null)
         {
+            ObservableCollection<v_Repairs> v_Repairs = null;
             using (var db = ConnectionTools.GetConnection())
             {
                 try
@@ -410,6 +420,7 @@ namespace Pronets.EntityRequests.Repairs_f
         /// </summary>
         public static ObservableCollection<v_Repairs> SortList(int clientId, string nomenclature, string status = null)
         {
+            ObservableCollection<v_Repairs> v_Repairs = null;
             using (var db = ConnectionTools.GetConnection())
             {
                 try
@@ -447,6 +458,7 @@ namespace Pronets.EntityRequests.Repairs_f
         /// </summary>
         public static ObservableCollection<v_Repairs> SortListDocNom(int clientId, int documentId, string nomenclature, string status = null)
         {
+            ObservableCollection<v_Repairs> v_Repairs = null;
             using (var db = ConnectionTools.GetConnection())
             {
                 try
@@ -486,6 +498,7 @@ namespace Pronets.EntityRequests.Repairs_f
         /// </summary>
         public static ObservableCollection<v_Repairs> SortListWarNom(int clientId, string warranty, string nomenclature, string status = null)
         {
+            ObservableCollection<v_Repairs> v_Repairs = null;
             using (var db = ConnectionTools.GetConnection())
             {
                 try
@@ -524,6 +537,7 @@ namespace Pronets.EntityRequests.Repairs_f
         /// </summary>
         public static ObservableCollection<v_Repairs> SortList(int clientId, int documentId, string nomenclature, string warranty, string status = null)
         {
+            ObservableCollection<v_Repairs> v_Repairs = null;
             using (var db = ConnectionTools.GetConnection())
             {
                 try
@@ -570,6 +584,7 @@ namespace Pronets.EntityRequests.Repairs_f
         /// </summary>
         public static ObservableCollection<v_Repairs> SortUserList(int userId)
         {
+            ObservableCollection<v_Repairs> v_Repairs = null;
             using (var db = ConnectionTools.GetConnection())
             {
                 try
@@ -594,6 +609,7 @@ namespace Pronets.EntityRequests.Repairs_f
         /// </summary>
         public static ObservableCollection<v_Repairs> SortUserList(int userId, DateTime firstDate, DateTime secondDate)
         {
+            ObservableCollection<v_Repairs> v_Repairs = null;
             using (var db = ConnectionTools.GetConnection())
             {
                 try
@@ -619,6 +635,7 @@ namespace Pronets.EntityRequests.Repairs_f
         /// </summary>
         public static ObservableCollection<v_Repairs> SortUserList(int userId, DateTime firstDate, DateTime secondDate, string category)
         {
+            ObservableCollection<v_Repairs> v_Repairs = null;
             using (var db = ConnectionTools.GetConnection())
             {
                 try
@@ -993,12 +1010,13 @@ namespace Pronets.EntityRequests.Repairs_f
         /// </summary>
         public static ObservableCollection<v_Repairs> SearchItem(string word, int clientId)
         {
+
+            ObservableCollection<v_Repairs> v_Repairs = null;
             using (var db = ConnectionTools.GetConnection())
             {
                 try
                 {
                     Int32.TryParse(word, out int numericWord);
-                    v_Repairs.Clear();
                     var clientsItems = from u in db.v_Repairs
                                        where u.Client_Id == clientId
                                        select u;
@@ -1034,12 +1052,12 @@ namespace Pronets.EntityRequests.Repairs_f
         /// </summary>
         public static ObservableCollection<v_Repairs> SearchItem(string word)
         {
+            ObservableCollection<v_Repairs> v_Repairs = null;
             using (var db = ConnectionTools.GetConnection())
             {
                 try
                 {
                     Int32.TryParse(word, out int numericWord);
-                    v_Repairs.Clear();
                     var searchItems = from u in db.v_Repairs
                                       where
                                       u.Serial_Number.Contains(word) ||
@@ -1060,7 +1078,6 @@ namespace Pronets.EntityRequests.Repairs_f
                 catch (Exception e)
                 {
                     MessageBox.Show(e.Message, "Ошибка");
-
                 }
             }
             return v_Repairs;

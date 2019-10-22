@@ -18,28 +18,17 @@ namespace Pronets.EntityRequests.Other
         /// </summary>
         public static ObservableCollection<PartsOrder> FillList()
         {
+            ObservableCollection<PartsOrder> partsOrder = null;
             using (var db = ConnectionTools.GetConnection())
             {
                 try
                 {
-                    if (partsOrder != null)
-                        partsOrder.Clear();
-                    foreach (var item in db.PartsOrder)
-                    {
-                        partsOrder.Add(new PartsOrder
-                        {
-                            OrderId = item.OrderId,
-                            DocumentId = item.DocumentId,
-                            PartName = item.PartName,
-                            Count = item.Count
-                        });
-                    }
+                    partsOrder = new ObservableCollection<PartsOrder>(db.PartsOrder.ToList());
                 }
                 catch (Exception e)
                 {
                     MessageBox.Show(e.Message, "Ошибка");
                 }
-
             }
             return partsOrder;
         }
@@ -49,12 +38,11 @@ namespace Pronets.EntityRequests.Other
         /// </summary>
         public static ObservableCollection<PartsOrder> FillList(int documentId)
         {
+            ObservableCollection<PartsOrder> partsOrder = null;
             using (var db = ConnectionTools.GetConnection())
             {
                 try
                 {
-                    if (partsOrder != null)
-                        partsOrder.Clear();
                     var result = db.PartsOrder.Where(o => o.DocumentId == documentId).ToList();
                     partsOrder = new ObservableCollection<PartsOrder>(result);
                 }

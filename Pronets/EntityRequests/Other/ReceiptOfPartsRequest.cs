@@ -11,37 +11,25 @@ namespace Pronets.EntityRequests.Other
 {
     public static class ReceiptOfPartsRequest
     {
-        private static ObservableCollection<ReceiptOfParts> receiptOfParts = new ObservableCollection<ReceiptOfParts>();
+        //private static ObservableCollection<ReceiptOfParts> receiptOfParts = new ObservableCollection<ReceiptOfParts>();
 
         /// <summary>
         /// <para>Возращает коллекцию ReceiptOfParts</para>
         /// </summary>
         public static ObservableCollection<ReceiptOfParts> FillList()
         {
+            ObservableCollection<ReceiptOfParts> receiptOfParts = null;
             using (var db = ConnectionTools.GetConnection())
             {
                 try
                 {
-                    if (receiptOfParts != null)
-                        receiptOfParts.Clear();
-                    foreach (var item in db.ReceiptOfParts)
-                    {
-                        receiptOfParts.Add(new ReceiptOfParts
-                        {
-                            Id = item.Id,
-                            Order_Date = item.Order_Date,
-                            Date_Arrival = item.Date_Arrival,
-                            Status = item.Status
-                        });
-                    }
-                    receiptOfParts = new ObservableCollection<ReceiptOfParts>(receiptOfParts.OrderByDescending(i => i.Id));
+                    receiptOfParts = new ObservableCollection<ReceiptOfParts>(db.ReceiptOfParts.ToList().OrderByDescending(i => i.Id));
                 }
                 catch (Exception e)
                 {
                     MessageBox.Show(e.Message, "Ошибка");
                 }
             }
-           
             return receiptOfParts;
         }
 

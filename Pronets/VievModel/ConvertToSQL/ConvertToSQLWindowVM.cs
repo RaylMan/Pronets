@@ -182,9 +182,9 @@ namespace Pronets.VievModel.ConvertToSQL
         public ConvertToSQLWindowVM()
         {
             GetBaseFromExcel();
-            clients = ClientsRequests.FillList();
-            nomenclature = NomenclatureRequest.FillList();
-            statuses = StatusesRequests.FillList();
+            Clients = ClientsRequests.FillList();
+            Nomenclature = NomenclatureRequest.FillList();
+            Statuses = StatusesRequests.FillList();
             _dispatcher = Dispatcher.CurrentDispatcher;
             progressValue = 0;
 
@@ -206,7 +206,7 @@ namespace Pronets.VievModel.ConvertToSQL
             baseFromExcel.Clear();
             foreach (var item in BaseFromExcelRequest.FillList())
             {
-                baseFromExcel.Add(item);
+                BaseFromExcel.Add(item);
             }
         }
         private async void GetTableFromSheetAsync()
@@ -224,7 +224,7 @@ namespace Pronets.VievModel.ConvertToSQL
                         _dispatcher.Invoke(new Action(() =>
 
                         {
-                            workList.Add(new WorkList
+                            WorkList.Add(new WorkList
                             {
                                 Name = Regex.Replace(Convert.ToString(item["Наименование оборудования"]), " {2,}", " "),
                                 SerialNumber = Regex.Replace(Convert.ToString(item["SN"]), " {2,}", " "),
@@ -272,7 +272,7 @@ namespace Pronets.VievModel.ConvertToSQL
 
                     foreach (var sheet in sheetsXls)
                     {
-                        sheets.Add(new SheetsId() { SheetID = sheet.Id, SheetName = sheet.Name });
+                        Sheets.Add(new SheetsId() { SheetID = sheet.Id, SheetName = sheet.Name });
                     }
                 }
             }
@@ -308,7 +308,7 @@ namespace Pronets.VievModel.ConvertToSQL
                 _dispatcher.Invoke(new Action(() =>
 
                 {
-                    baseFromExcel.Add(new Data.BaseFromExcel
+                    BaseFromExcel.Add(new Data.BaseFromExcel
                     {
                         Name = item.Name.Length < 50 ? item.Name : item.Name.Substring(0, 50),
                         SerialNumber = item.SerialNumber.Length < 50 ? item.SerialNumber : item.SerialNumber.Substring(0, 50),
@@ -438,7 +438,6 @@ namespace Pronets.VievModel.ConvertToSQL
                                 }
                             }));
                         }
-                        
                     }
                 }
             }

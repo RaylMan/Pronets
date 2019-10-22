@@ -21,7 +21,7 @@
         <TextBlock Text="{Binding TextDocumentId, Mode=TwoWay}" HorizontalAlignment="Center" FontSize="18"/>
 
         <!--ROW 1-->
-        <Button x:Name="Write" Grid.Row="1" Command="{Binding AddCommand}" FontSize="14"  Content=" Записать " Margin="5,0,0,0" HorizontalAlignment="Left" Width="65"/>
+        <Button x:Name="Write" Grid.Row="1" Command="{Binding AddCommand}"  Content=" Записать " Margin="2" HorizontalAlignment="Left" Width="65"/>
         <Label x:Name="label1" Content="Клиент" Grid.Row="1" HorizontalAlignment="Left" Margin="75,0,0,0" RenderTransformOrigin="0.556,0.467"/>
         <ComboBox x:Name="cbxClient" ItemsSource="{Binding Clients}" SelectedValue="{Binding SelectClientItem}" HorizontalAlignment="Left" Margin="128,3,0,0" Grid.Row="1" VerticalAlignment="Top" Width="211">
             <ComboBox.ItemTemplate>

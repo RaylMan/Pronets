@@ -10,15 +10,18 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace Pronets.VievModel.MainWindows.Pages
 {
     class RepairsPageVM : RepairsModel
     {
         #region Properties
+        Dispatcher _dispatcher;
         private v_Repairs v_Repair = new Data.v_Repairs();
         private Clients clientInstance;
         private Users user;
@@ -173,11 +176,22 @@ namespace Pronets.VievModel.MainWindows.Pages
         public RepairsPageVM()
         {
             Date_Of_Receipt = DateTime.Now;
-            categories = RepairCategoriesRequests.FillList();
-            engineers = UsersRequest.FillListEngineers();
-            statuses = StatusesRequests.FillList();
+            _dispatcher = Dispatcher.CurrentDispatcher;
+            GetContentAsync();
         }
-
+        private async void GetContentAsync()
+        {
+            await Task.Run(() => GetContent());
+        }
+        private void GetContent()
+        {
+            _dispatcher.Invoke(new Action(() =>
+            {
+                Categories = RepairCategoriesRequests.FillList();
+                Engineers = UsersRequest.FillListEngineers();
+                Statuses = StatusesRequests.FillList();
+            }));
+        }
         #region Search Command
         protected ICommand searchItem;
         public ICommand SearchCommand
@@ -186,7 +200,7 @@ namespace Pronets.VievModel.MainWindows.Pages
             {
                 if (searchItem == null)
                 {
-                    searchItem = new RelayCommand(new Action<object>(SearchItem));
+                    searchItem = new RelayCommand(new Action<object>(SearchItemAsync));
                 }
                 return searchItem;
             }
@@ -196,16 +210,22 @@ namespace Pronets.VievModel.MainWindows.Pages
                 RaisedPropertyChanged("SearchCommand");
             }
         }
-
-        public void SearchItem(object Parameter)
+        public async void SearchItemAsync(object Parameter)
+        {
+            V_Repairs.Clear();
+            await Task.Run(() => SearchItem());
+        }
+        public void SearchItem()
         {
             if (SearchText != null && SearchText != "")
             {
-                v_Repairs.Clear();
                 string engWord = IsChecked != true ? EditChars.ToEnglish(SearchText) : SearchText;
                 foreach (var repair in RepairsRequest.SearchItem(engWord))
                 {
-                    v_Repairs.Add(repair);
+                    _dispatcher.Invoke(new Action(() =>
+                    {
+                        V_Repairs.Add(repair);
+                    }));
                 }
                 //SearchText = string.Empty;
             }

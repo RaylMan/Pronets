@@ -2,34 +2,26 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Data.Entity.Infrastructure;
+using System.Linq;
 using System.Windows;
 
 namespace Pronets.EntityRequests.Nomenclature_f
 {
     class NomenclatureRequest
     {
-        private static ObservableCollection<Nomenclature> nomenclatures = new ObservableCollection<Nomenclature>();
+        //private static ObservableCollection<Nomenclature> nomenclatures = new ObservableCollection<Nomenclature>();
 
         /// <summary>
         /// <para>Возращает коллекцию Nomenclature</para>
         /// </summary>
         public static ObservableCollection<Nomenclature> FillList()
         {
+            ObservableCollection<Nomenclature> nomenclatures = null;
             using (var db = ConnectionTools.GetConnection())
             {
                 try
                 {
-                    if (nomenclatures != null)
-                        nomenclatures.Clear();
-                    foreach (var item in db.Nomenclature)
-                    {
-                        nomenclatures.Add(new Nomenclature
-                        {
-                            Name = item.Name,
-                            Type = item.Type,
-                            Price = item.Price
-                        });
-                    }
+                    nomenclatures = new ObservableCollection<Nomenclature>(db.Nomenclature.ToList());
                 }
                 catch (Exception e)
                 {

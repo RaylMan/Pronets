@@ -62,12 +62,10 @@ namespace Pronets.VievModel.Clients_f
                         Email = string.Empty;
                         Adress = string.Empty;
                     }
-
                 }
             }
             else
                 MessageBox.Show("Необходимо ввести Название организации", "Сошибка");
-            
         }
         #endregion
     }

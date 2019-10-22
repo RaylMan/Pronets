@@ -20,40 +20,20 @@ namespace Pronets.EntityRequests.Clients_f
         /// </summary>
         public static ObservableCollection<Clients> FillList()
         {
+            ObservableCollection<Clients> allClients = new ObservableCollection<Clients>();
             using (var db = ConnectionTools.GetConnection())
             {
                 try
                 {
-                    if (clients != null)
-                        clients.Clear();
-                    db.ReceiptDocument.Load();
-                    db.Repairs.Load();
-
-                    foreach (var item in db.Clients)
-                    {
-                        clients.Add(new Clients
-                        {
-                            ClientId = item.ClientId,
-                            ClientName = item.ClientName,
-                            Inn = item.Inn,
-                            Contact_Person = item.Contact_Person,
-                            Telephone_1 = item.Telephone_1,
-                            Telephone_2 = item.Telephone_2,
-                            Telephone_3 = item.Telephone_3,
-                            Email = item.Email,
-                            Adress = item.Adress,
-                            ReceiptDocument = item.ReceiptDocument,
-                            Repairs = item.Repairs
-                        });
-                    }
+                    allClients = new ObservableCollection<Clients>(db.Clients.ToList());
+                    //db.ReceiptDocument.Load();
                 }
                 catch (Exception e)
                 {
-
                     MessageBox.Show(e.Message, "Ошибка");
                 }
             }
-            return clients;
+            return allClients;
         }
         /// <summary>
         /// <para>Возвращает экземпляр Clients, по его Id</para>

@@ -1,6 +1,7 @@
 ﻿using Pronets.Data;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 
 namespace Pronets.EntityRequests.Repairs_f
@@ -14,20 +15,12 @@ namespace Pronets.EntityRequests.Repairs_f
         /// </summary>
         public static ObservableCollection<Repair_Categories> FillList()
         {
+            ObservableCollection<Repair_Categories> repair_Categories = null;
             using (var db = ConnectionTools.GetConnection())
             {
                 try
                 {
-                    if (repair_Categories != null)
-                        repair_Categories.Clear();
-                    foreach (var item in db.Repair_Categories)
-                    {
-                        repair_Categories.Add(new Repair_Categories
-                        {
-                            Category = item.Category,
-                            Price = item.Price
-                        });
-                    }
+                    repair_Categories = new ObservableCollection<Repair_Categories>(db.Repair_Categories.ToList());
                 }
                 catch (Exception e)
                 {

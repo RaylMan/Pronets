@@ -81,7 +81,7 @@ namespace Pronets.VievModel.Repairs_f
                     StatusesRequests.AddToBase(status, out bool ex);
                     if (ex) //если ex == true, нет копии в базе, происходит запись в таблицу viev
                     {
-                        statuses.Add(new Statuses { Status = status });
+                        Statuses.Add(new Statuses { Status = status });
                     }
                     Status = string.Empty;
                 }
@@ -119,7 +119,7 @@ namespace Pronets.VievModel.Repairs_f
                 {
                     StatusesRequests.RemoveFromBase(SelectedItem, out bool ex);
                     if (ex)
-                        statuses.RemoveAt(selectedIndex);
+                        Statuses.RemoveAt(selectedIndex);
                 }
 
             }

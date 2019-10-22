@@ -91,8 +91,10 @@ namespace Pronets.VievModel.MainWindows.Pages
         #endregion
         public DefectsPageVM()
         {
-            clients = ClientsRequests.FillList();
+            Clients = ClientsRequests.FillList();
         }
+
+
         #region AddToTable
         private ICommand addToTableCommand;
         public ICommand AddToTableCommand
@@ -118,7 +120,7 @@ namespace Pronets.VievModel.MainWindows.Pages
             {
                 foreach (var repair in RepairsRequest.v_FillList(serial.Serial))
                 {
-                    v_Repairs.Add(repair);
+                    V_Repairs.Add(repair);
                 }
             }
         }
@@ -144,8 +146,8 @@ namespace Pronets.VievModel.MainWindows.Pages
         }
         private void Clear(object Parameter)
         {
-            serialNumbers.Clear();
-            v_Repairs.Clear();
+            SerialNumbers.Clear();
+            V_Repairs.Clear();
         }
         #endregion
 

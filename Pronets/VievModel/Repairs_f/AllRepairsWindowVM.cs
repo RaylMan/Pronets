@@ -12,13 +12,14 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace Pronets.VievModel.Repairs_f
 {
     class AllRepairsWindowVM : RepairsModel
     {
         #region Properties
-
+        Dispatcher _dispatcher;
         public OpenWindowCommand OpenWindowCommand { get; set; }
         private v_Repairs selectedItem;
         private List<v_Repairs> searchRepairs = new List<v_Repairs>(); // список для поиска
@@ -45,8 +46,32 @@ namespace Pronets.VievModel.Repairs_f
 
         public AllRepairsWindowVM()
         {
-            v_Repairs = RepairsRequest.v_FillList();
+            _dispatcher = Dispatcher.CurrentDispatcher;
+            GetRepairsAsync();
+           // v_Repairs = RepairsRequest.v_FillList();
             OpenWindowCommand = new OpenWindowCommand();
+        }
+        private async void GetRepairsAsync()
+        {
+            if (V_Repairs != null)
+                V_Repairs.Clear();
+            await Task.Run(() => GetRepairs());
+        }
+        private void GetRepairs()
+        {
+            try
+            {
+                foreach (var repair in RepairsRequest.v_FillList())
+                {
+                    _dispatcher.Invoke(new Action(() =>
+                    {
+                        V_Repairs.Add(repair);
+                    }));
+                }
+            }
+            catch (Exception)
+            {
+            }
         }
         #region Search
         int searchCount = 0; // общеек количество совпадения поиска

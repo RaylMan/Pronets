@@ -154,9 +154,10 @@ namespace Pronets.VievModel.Repairs_f
                 NoteOfDocument = document.Note;
                 GetStatus();
                 GetClient();
-                v_Repairs = RepairsRequest.FillList(document.Document_Id);
+                GetRepairsAsync();
+                //v_Repairs = RepairsRequest.FillList(document.Document_Id);
                 //GetCopyRepairs();
-                GetCopyRepairsAsync();
+                
                 DepartureDate = DateTime.Now;
                 _dispatcher = Dispatcher.CurrentDispatcher;
             }
@@ -181,6 +182,30 @@ namespace Pronets.VievModel.Repairs_f
             {
                 if (client.ClientName == Document.Client)
                     SelectedClientItem = client;
+            }
+        }
+
+        private async void GetRepairsAsync()
+        {
+            if (V_Repairs != null)
+                V_Repairs.Clear();
+            await Task.Run(() => GetRepairs());
+            GetCopyRepairsAsync();
+        }
+        private void GetRepairs()
+        {
+            try
+            {
+                foreach (var repair in RepairsRequest.FillList(Document.Document_Id))
+                {
+                    _dispatcher.Invoke(new Action(() =>
+                    {
+                        V_Repairs.Add(repair);
+                    }));
+                }
+            }
+            catch (Exception)
+            {
             }
         }
         #endregion
@@ -349,25 +374,34 @@ namespace Pronets.VievModel.Repairs_f
         #endregion
 
         #region Copy Repairs
+        /// <summary>
+        /// <para>Заполняет коллекцию v_RepairsCopy совпадениями по серийным номера</para>
+        /// </summary>
         private async void GetCopyRepairsAsync()
         {
+            if (V_RepairsCopy != null)
+                V_RepairsCopy.Clear();
+
             await Task.Run(() => GetCopyRepairs());
         }
         private void GetCopyRepairs()
         {
-            if (v_RepairsCopy != null)
-                v_RepairsCopy.Clear();
-
-            foreach (var repair in v_Repairs)
+            try
             {
-                foreach (var copy in RepairsRequest.GetCopy(repair.RepairId, repair.Serial_Number))
+                foreach (var repair in v_Repairs)
                 {
-                    _dispatcher.Invoke(new Action(() =>
-
+                    foreach (var copy in RepairsRequest.GetCopy(repair.RepairId, repair.Serial_Number))
                     {
-                        v_RepairsCopy.Add(copy);
-                    }));
+                        _dispatcher.Invoke(new Action(() =>
+
+                        {
+                            V_RepairsCopy.Add(copy);
+                        }));
+                    }
                 }
+            }
+            catch (Exception)
+            {
             }
         }
         #endregion

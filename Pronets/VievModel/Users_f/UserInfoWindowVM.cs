@@ -13,7 +13,7 @@ using System.Windows.Input;
 
 namespace Pronets.VievModel.Users_f
 {
-    class UserInfoWindowVM : UsersVM
+    class UserInfoWindowVM : VievModelBase
     {
         #region Properties
         Users user;
@@ -28,7 +28,6 @@ namespace Pronets.VievModel.Users_f
                 RaisedPropertyChanged("Positions");
             }
         }
-
 
         private ObservableCollection<v_Repairs> v_Repairs = new ObservableCollection<v_Repairs>();
         public ObservableCollection<v_Repairs> V_Repairs
@@ -142,7 +141,148 @@ namespace Pronets.VievModel.Users_f
                 RaisedPropertyChanged("Information");
             }
         }
+        private ObservableCollection<Users> users = new ObservableCollection<Users>();
+        public ObservableCollection<Users> Users
+        {
+            get { return users; }
+            set
+            {
+                users = value;
+                RaisedPropertyChanged("Users");
+            }
+        }
 
+        private string userId;
+        public string UserId
+        {
+            get { return userId; }
+            set
+            {
+                userId = value;
+                RaisedPropertyChanged("UserId");
+            }
+        }
+
+        private string login;
+        public string Login
+        {
+            get { return login; }
+            set
+            {
+                login = value;
+                RaisedPropertyChanged("Login");
+            }
+        }
+
+        private string password;
+        public string Password
+        {
+            get { return password; }
+            set
+            {
+                password = value;
+                RaisedPropertyChanged("Password");
+            }
+        }
+
+        private string position;
+        public string Position
+        {
+            get { return position; }
+            set
+            {
+                position = value;
+                RaisedPropertyChanged("Position");
+            }
+        }
+
+        private string lastName;
+        public string LastName
+        {
+            get { return lastName; }
+            set
+            {
+                lastName = value;
+                RaisedPropertyChanged("LastName");
+            }
+        }
+
+        private string firstName;
+        public string FirstName
+        {
+            get { return firstName; }
+            set
+            {
+                firstName = value;
+                RaisedPropertyChanged("FirstName");
+            }
+        }
+
+        private string patronymic;
+        public string Patronymic
+        {
+            get { return patronymic; }
+            set
+            {
+                patronymic = value;
+                RaisedPropertyChanged("Patronymic");
+            }
+        }
+
+        private DateTime? birthday;
+        public DateTime? Birthday
+        {
+            get { return birthday; }
+            set
+            {
+                birthday = value;
+                RaisedPropertyChanged("Birthday");
+            }
+        }
+
+        private string telephone;
+        public string Telephone
+        {
+            get { return telephone; }
+            set
+            {
+                telephone = value;
+                RaisedPropertyChanged("Telephone");
+            }
+        }
+
+        private string adress;
+        public string Adress
+        {
+            get { return adress; }
+            set
+            {
+                adress = value;
+                RaisedPropertyChanged("Adress");
+            }
+        }
+
+        private string searchText;
+        public string SearchText
+        {
+            get { return searchText; }
+            set
+            {
+                searchText = value;
+                RaisedPropertyChanged("SearchText");
+            }
+        }
+
+        private Users selectedItem;
+        public Users SelectedItem
+        {
+            get { return selectedItem; }
+            set
+            {
+                selectedItem = value;
+                RaisedPropertyChanged("SelectedItem");
+            }
+        }
 
         #endregion
         public UserInfoWindowVM(Users user)
@@ -161,7 +301,7 @@ namespace Pronets.VievModel.Users_f
             GetPosition();
             FirstDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
             SecondDate = DateTime.Now.Date.AddHours(23);
-            repair_Categories = RepairCategoriesRequests.FillList();
+            Repair_Categories = RepairCategoriesRequests.FillList();
             engineer = UsersRequest.GetEngineer(user.LastName);
             StartInfo();
         }
@@ -198,11 +338,11 @@ namespace Pronets.VievModel.Users_f
         {
             foreach (var item in RepairsRequest.SortUserList(engineer.Id, firstDate, secondDate))
             {
-                v_Repairs.Add(item);
+                V_Repairs.Add(item);
             }
-            if (v_Repairs != null)
+            if (V_Repairs != null)
             {
-                var result = from equip in v_Repairs
+                var result = from equip in V_Repairs
                              group equip by new
                              {
                                  equip.Nomenclature
@@ -210,7 +350,7 @@ namespace Pronets.VievModel.Users_f
                              select new { n.Key.Nomenclature, Count = n.Count() };
                 foreach (var item in result)
                 {
-                    sortingRepair.Add(new SortingRepair { NomenclatureName = item.Nomenclature, RepairsCount = item.Count });
+                    SortingRepair.Add(new SortingRepair { NomenclatureName = item.Nomenclature, RepairsCount = item.Count });
                 }
             }
             GetRepairInfo(firstDate, secondDate);
@@ -251,11 +391,11 @@ namespace Pronets.VievModel.Users_f
                 {
                     foreach (var item in RepairsRequest.SortUserList(engineer.Id, firstDate, secondDate, selectedCategory.Category))
                     {
-                        v_Repairs.Add(item);
+                        V_Repairs.Add(item);
                     }
-                    if (v_Repairs != null)
+                    if (V_Repairs != null)
                     {
-                        var result = from equip in v_Repairs
+                        var result = from equip in V_Repairs
                                      group equip by new
                                      {
                                          equip.Nomenclature
@@ -263,7 +403,7 @@ namespace Pronets.VievModel.Users_f
                                      select new { n.Key.Nomenclature, Count = n.Count() };
                         foreach (var item in result)
                         {
-                            sortingRepair.Add(new SortingRepair { NomenclatureName = item.Nomenclature, RepairsCount = item.Count });
+                            SortingRepair.Add(new SortingRepair { NomenclatureName = item.Nomenclature, RepairsCount = item.Count });
                         }
                     }
                 }
@@ -278,7 +418,7 @@ namespace Pronets.VievModel.Users_f
 
         #region Edit Command
 
-        protected ICommand editItem;
+        private ICommand editItem;
         public ICommand EditCommand
         {
             get

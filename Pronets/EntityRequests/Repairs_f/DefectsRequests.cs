@@ -11,28 +11,19 @@ namespace Pronets.EntityRequests.Repairs_f
 {
     public static class DefectsRequests
     {
-        private static ObservableCollection<Defects> defects = new ObservableCollection<Defects>();
+        //private static ObservableCollection<Defects> defects = new ObservableCollection<Defects>();
 
         /// <summary>
         /// <para>Возращает коллекцию Defects</para>
         /// </summary>
         public static ObservableCollection<Defects> FillList()
         {
+            ObservableCollection<Defects> defects = null;
             using (var db = ConnectionTools.GetConnection())
             {
                 try
                 {
-                    if (defects != null)
-                        defects.Clear();
-                    foreach (var item in db.Defects)
-                    {
-                        defects.Add(new Defects
-                        {
-                            Id = item.Id,
-                            Defect = item.Defect,
-                            Work = item.Work
-                        });
-                    }
+                    defects = new ObservableCollection<Defects>(db.Defects.ToList());
                 }
                 catch (Exception e)
                 {

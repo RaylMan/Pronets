@@ -158,7 +158,7 @@ namespace Pronets.VievModel.Users_f
 
         public UsersVM()
         {
-            users = UsersRequest.FillList();
+            Users = UsersRequest.FillList();
             OpenWindowCommand = new OpenWindowCommand();
         }
 
@@ -183,16 +183,16 @@ namespace Pronets.VievModel.Users_f
         }
         public void RemoveItem(object Parameter)
         {
-            if (selectedItem != null)
+            if (SelectedItem != null)
             {
                 var result = MessageBox.Show("Вы Действительно хотете удалить?", "Удаление", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    UsersRequest.RemoveFromBase(selectedItem, out bool ex);
-                    UsersRequest.RemoveFromBaseEngineer(selectedItem.LastName, out bool ex1);
+                    UsersRequest.RemoveFromBase(SelectedItem, out bool ex);
+                    UsersRequest.RemoveFromBaseEngineer(SelectedItem.LastName, out bool ex1);
                     if (ex && ex1)
-                        users.RemoveAt(SelectedIndex);
+                        Users.RemoveAt(SelectedIndex);
                 }
             }
             else
@@ -200,10 +200,7 @@ namespace Pronets.VievModel.Users_f
         }
         #endregion
 
-      
-
         #region FillList button command
-
         protected ICommand fillItems;
         public ICommand FillListCommand
         {
@@ -223,8 +220,8 @@ namespace Pronets.VievModel.Users_f
         }
         void FillList(object Parameter)
         {
-            users.Clear();
-            users = UsersRequest.FillList();
+            Users.Clear();
+            Users = UsersRequest.FillList();
         }
 
         #endregion

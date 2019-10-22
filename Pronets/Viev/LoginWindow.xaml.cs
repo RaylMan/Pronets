@@ -23,6 +23,7 @@ namespace Pronets.Viev
     public partial class LoginWindow : Window
     {
         Users user;
+        private bool isExceprion = false;
         public LoginWindow()
         {
             InitializeComponent();
@@ -34,7 +35,7 @@ namespace Pronets.Viev
         }
         private void Start_Click(object sender, RoutedEventArgs e)
         {
-            WorkWindowAdmin workWindowAdmin = new WorkWindowAdmin(UsersRequest.Login("admin", "password"));
+            WorkWindowAdmin workWindowAdmin = new WorkWindowAdmin(UsersRequest.Login("admin", "password", out bool ex));
             workWindowAdmin.Show();
             this.Close();
             Properties.Settings.Default.Save();
@@ -42,36 +43,42 @@ namespace Pronets.Viev
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             SaveLogin();
-            user = UsersRequest.Login(tbxLogin.Text, tbxPassword.Password);
-            if (user != null)
+            LoginAsync(tbxLogin.Text, tbxPassword.Password);
+            user = UsersRequest.Login(tbxLogin.Text, tbxPassword.Password, out bool ex);
+            isExceprion = ex;
+           
+            if (isExceprion)
             {
-                if (user.Position == "Администратор" && user.Position == "Директор")
+                if (user != null)
                 {
-                    WorkWindowAdmin workWindowAdmin = new WorkWindowAdmin(user);
-                    workWindowAdmin.Show();
-                    this.Close();
-                }
-                else if (user.Position == "Инженер")
-                {
-                    WorkWindowEngineer workWindowEngineer = new WorkWindowEngineer(user);
-                    workWindowEngineer.Show();
-                    this.Close();
-                }
-                else if (user.Position == "Приемщик")
-                {
-                    WorkWindowInspector workWindowInspector = new WorkWindowInspector(user);
-                    workWindowInspector.Show();
-                    this.Close();
+                    if (user.Position == "Администратор" && user.Position == "Директор")
+                    {
+                        WorkWindowAdmin workWindowAdmin = new WorkWindowAdmin(user);
+                        workWindowAdmin.Show();
+                        this.Close();
+                    }
+                    else if (user.Position == "Инженер")
+                    {
+                        WorkWindowEngineer workWindowEngineer = new WorkWindowEngineer(user);
+                        workWindowEngineer.Show();
+                        this.Close();
+                    }
+                    else if (user.Position == "Приемщик")
+                    {
+                        WorkWindowInspector workWindowInspector = new WorkWindowInspector(user);
+                        workWindowInspector.Show();
+                        this.Close();
+                    }
+                    else
+                        MessageBox.Show("Неверные права доступа у пользователя!\nОбратитесь к администратору!", "Ошибка");
                 }
                 else
-                    MessageBox.Show("Неверные права доступа у пользователя!\nОбратитесь к администратору!", "Ошибка");
-            }
-            else
-            {
-                if (!Properties.Settings.Default.SaveLogin)
-                    tbxLogin.Clear();
-                tbxPassword.Clear();
-                MessageBox.Show("Введен не правильный логин или пароль");
+                {
+                    if (!Properties.Settings.Default.SaveLogin)
+                        tbxLogin.Clear();
+                    tbxPassword.Clear();
+                    MessageBox.Show("Введен не правильный логин или пароль");
+                }
             }
         }
 
@@ -100,6 +107,14 @@ namespace Pronets.Viev
                 Properties.Settings.Default.SaveLogin = false;
                 Properties.Settings.Default.Save();
             }
+        }
+        private async void LoginAsync(string login, string password)
+        {
+            await Task.Run(() => Login(login, password));
+        }
+        private void Login(string login, string password)
+        {
+           
         }
     }
 }

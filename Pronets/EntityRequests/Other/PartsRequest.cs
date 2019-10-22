@@ -12,8 +12,8 @@ namespace Pronets.EntityRequests.Other
 {
     public static class PartsRequest
     {
-        
-        private static ObservableCollection<Parts> parts = new ObservableCollection<Parts>();
+
+        //private static ObservableCollection<Parts> parts = new ObservableCollection<Parts>();
 
 
         /// <summary>
@@ -21,27 +21,18 @@ namespace Pronets.EntityRequests.Other
         /// </summary>
         public static ObservableCollection<Parts> FillList()
         {
+            ObservableCollection<Parts> parts = null;
             using (var db = ConnectionTools.GetConnection())
             {
                 try
                 {
-                    if (parts != null)
-                        parts.Clear();
-                    foreach (var item in db.Parts)
-                    {
-                        parts.Add(new Parts
-                        {
-                            Part_Name = item.Part_Name,
-                            Part_Price = item.Part_Price,
-                            PartsOrder = item.PartsOrder
-                        });
-                    }
+                    parts = new ObservableCollection<Parts>(db.Parts.ToList());
                 }
                 catch (Exception e)
                 {
                     MessageBox.Show(e.Message, "Ошибка");
                 }
-                
+
             }
             return parts;
         }
@@ -98,7 +89,7 @@ namespace Pronets.EntityRequests.Other
                         MessageBox.Show("Невозможно удалить , так как есть связи с данными!", "Ошибка");
                         isExeption = false;
                     }
-                    catch(Exception e)
+                    catch (Exception e)
                     {
                         MessageBox.Show(e.Message, "Ошибка");
                         isExeption = false;
@@ -106,6 +97,5 @@ namespace Pronets.EntityRequests.Other
                 }
             }
         }
-
     }
 }

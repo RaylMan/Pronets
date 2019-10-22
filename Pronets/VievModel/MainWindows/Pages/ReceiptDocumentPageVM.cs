@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -16,9 +17,10 @@ namespace Pronets.VievModel.MainWindows.Pages
 {
     public class ReceiptDocumentPageVM : VievModelBase
     {
+        #region Properties
         Dispatcher _dispatcher;
         public OpenWindowCommand OpenWindowCommand { get; set; }
-        
+
         private ObservableCollection<v_Receipt_Document> receiptDocuments = new ObservableCollection<v_Receipt_Document>();
         public ObservableCollection<v_Receipt_Document> ReceiptDocuments
         {
@@ -122,28 +124,30 @@ namespace Pronets.VievModel.MainWindows.Pages
             }
         }
 
+        #endregion
+
         public ReceiptDocumentPageVM()
         {
             _dispatcher = Dispatcher.CurrentDispatcher;
             GetDocumentsAsync();
-            //ReceiptDocuments.Clear();
-            //ReceiptDocuments = ReceiptDocumentRequest.v_FillList();
-            //ReceiptDocuments = new ObservableCollection<v_Receipt_Document>(ReceiptDocuments.OrderByDescending(i => i.Document_Id));
             OpenWindowCommand = new OpenWindowCommand(); // создание экземпляра открытия окна
         }
 
         private async void GetDocumentsAsync()
         {
-            receiptDocuments.Clear();
+            ReceiptDocuments.Clear();
             await Task.Run(() => GetDocuments());
         }
         private void GetDocuments()
         {
-            _dispatcher.Invoke(new Action(() =>
+            foreach (var item in ReceiptDocumentRequest.v_FillList())
             {
-                receiptDocuments = ReceiptDocumentRequest.v_FillList();
-                receiptDocuments = new ObservableCollection<v_Receipt_Document>(ReceiptDocuments.OrderByDescending(i => i.Document_Id));
-            }));
+                _dispatcher.Invoke(new Action(() =>
+                {
+                    ReceiptDocuments.Add(item);
+                }));
+            }
+            receiptDocuments = new ObservableCollection<v_Receipt_Document>(ReceiptDocuments.OrderByDescending(i => i.Document_Id));
         }
         #region AddCommand
         private ICommand fillList;
@@ -199,7 +203,7 @@ namespace Pronets.VievModel.MainWindows.Pages
                     RepairsRequest.RemoveFromBase(SelectedItem.Document_Id, out bool ex);
                     ReceiptDocumentRequest.RemoveFromBase(SelectedItem.Document_Id, out bool ex0);
                     if (ex && ex0)
-                        receiptDocuments.RemoveAt(selectedIndex);
+                        ReceiptDocuments.RemoveAt(selectedIndex);
                 }
 
             }

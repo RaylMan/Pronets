@@ -11,7 +11,7 @@ namespace Pronets.VievModel.Repairs_f
     {
         public RepairCategoriesVM()
         {
-            repair_Categories = RepairCategoriesRequests.FillList();
+            Repair_Categories = RepairCategoriesRequests.FillList();
         }
 
         #region Property
@@ -91,7 +91,7 @@ namespace Pronets.VievModel.Repairs_f
                     RepairCategoriesRequests.AddToBase(rc, out bool ex);
                     if (ex) //если ex == true, нет копии в базе, происходит запись в таблицу viev
                     {
-                        repair_Categories.Add(rc);
+                        Repair_Categories.Add(rc);
                     }
                     Category = string.Empty;
                     Price = 0;
@@ -122,8 +122,8 @@ namespace Pronets.VievModel.Repairs_f
         }
         void FillList(object Parameter)
         {
-            repair_Categories.Clear();
-            repair_Categories = RepairCategoriesRequests.FillList();
+            Repair_Categories.Clear();
+            Repair_Categories = RepairCategoriesRequests.FillList();
         }
         #endregion
 
@@ -155,7 +155,7 @@ namespace Pronets.VievModel.Repairs_f
                 {
                     RepairCategoriesRequests.RemoveFromBase(SelectedItem, out bool ex);
                     if (ex)
-                        repair_Categories.RemoveAt(SelectedIndex);
+                        Repair_Categories.RemoveAt(SelectedIndex);
                 }
             }
             else

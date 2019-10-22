@@ -16,11 +16,11 @@ using System.Windows.Input;
 
 namespace Pronets.VievModel.Clients_f
 {
-    class ClientInfoWIndowVM : ClientsVM
+    class ClientInfoWIndowVM : VievModelBase
     {
         #region Repairs Properties
-        protected Repairs repair;
-        protected ObservableCollection<v_Repairs> v_repairs = new ObservableCollection<v_Repairs>();
+        private Repairs repair;
+        private ObservableCollection<v_Repairs> v_repairs = new ObservableCollection<v_Repairs>();
         public ObservableCollection<v_Repairs> V_Repairs
         {
             get { return v_repairs; }
@@ -31,7 +31,7 @@ namespace Pronets.VievModel.Clients_f
                 RaisedPropertyChanged("V_Repairs");
             }
         }
-        protected int? repairId;
+        private int? repairId;
         public int? RepairId
         {
             get { return repairId; }
@@ -41,7 +41,7 @@ namespace Pronets.VievModel.Clients_f
                 RaisedPropertyChanged("RepairId");
             }
         }
-        protected int? documentId;
+        private int? documentId;
         public int? DocumentId
         {
             get { return documentId; }
@@ -51,7 +51,7 @@ namespace Pronets.VievModel.Clients_f
                 RaisedPropertyChanged("DocumentId");
             }
         }
-        protected string nomenclature;
+        private string nomenclature;
         public string Nomenclature
         {
             get { return nomenclature; }
@@ -61,7 +61,7 @@ namespace Pronets.VievModel.Clients_f
                 RaisedPropertyChanged("Nomenclature");
             }
         }
-        protected string serial_Number;
+        private string serial_Number;
         public string Serial_Number
         {
             get { return serial_Number; }
@@ -71,7 +71,7 @@ namespace Pronets.VievModel.Clients_f
                 RaisedPropertyChanged("Serial_Number");
             }
         }
-        protected string claimed_Malfunction;
+        private string claimed_Malfunction;
         public string Claimed_Malfunction
         {
             get { return claimed_Malfunction; }
@@ -81,7 +81,7 @@ namespace Pronets.VievModel.Clients_f
                 RaisedPropertyChanged("Claimed_Malfunction");
             }
         }
-        protected int client_Id;
+        private int client_Id;
         public int Client_Id
         {
             get { return client_Id; }
@@ -91,7 +91,7 @@ namespace Pronets.VievModel.Clients_f
                 RaisedPropertyChanged("Client_Id");
             }
         }
-        protected string client_Name;
+        private string client_Name;
         public string Client_Name
         {
             get { return clientName; }
@@ -102,7 +102,7 @@ namespace Pronets.VievModel.Clients_f
             }
         }
 
-        protected DateTime? date_Of_Receipt;
+        private DateTime? date_Of_Receipt;
         public DateTime? Date_Of_Receipt
         {
             get { return date_Of_Receipt; }
@@ -112,7 +112,7 @@ namespace Pronets.VievModel.Clients_f
                 RaisedPropertyChanged("Date_Of_Receipt");
             }
         }
-        protected DateTime? departure_Date;
+        private DateTime? departure_Date;
         public DateTime? Departure_Date
         {
             get { return departure_Date; }
@@ -122,7 +122,7 @@ namespace Pronets.VievModel.Clients_f
                 RaisedPropertyChanged("Departure_Date");
             }
         }
-        protected int inspectorId;
+        private int inspectorId;
         public int InspectorId
         {
             get { return inspectorId; }
@@ -132,7 +132,7 @@ namespace Pronets.VievModel.Clients_f
                 RaisedPropertyChanged("InspectorId");
             }
         }
-        protected string inspector;
+        private string inspector;
         public string Inspector
         {
             get { return inspector; }
@@ -142,7 +142,7 @@ namespace Pronets.VievModel.Clients_f
                 RaisedPropertyChanged("Inspector");
             }
         }
-        protected string warranty;
+        private string warranty;
         public string Warranty
         {
             get { return warranty; }
@@ -152,7 +152,7 @@ namespace Pronets.VievModel.Clients_f
                 RaisedPropertyChanged("Warranty");
             }
         }
-        protected string identifie_Fault;
+        private string identifie_Fault;
         public string Identifie_Fault
         {
             get { return identifie_Fault; }
@@ -162,7 +162,7 @@ namespace Pronets.VievModel.Clients_f
                 RaisedPropertyChanged("Identifie_Fault");
             }
         }
-        protected string work_Done;
+        private string work_Done;
         public string Work_Done
         {
             get { return work_Done; }
@@ -172,7 +172,7 @@ namespace Pronets.VievModel.Clients_f
                 RaisedPropertyChanged("Work_Done");
             }
         }
-        protected int engineerId;
+        private int engineerId;
         public int EngineerId
         {
             get { return engineerId; }
@@ -182,7 +182,7 @@ namespace Pronets.VievModel.Clients_f
                 RaisedPropertyChanged("EngineerId");
             }
         }
-        protected string engineer;
+        private string engineer;
         public string Engineer
         {
             get { return engineer; }
@@ -193,7 +193,7 @@ namespace Pronets.VievModel.Clients_f
             }
         }
 
-        protected string repair_Category;
+        private string repair_Category;
         public string Repair_Category
         {
             get { return repair_Category; }
@@ -204,7 +204,7 @@ namespace Pronets.VievModel.Clients_f
             }
         }
 
-        protected DateTime? repair_Date;
+        private DateTime? repair_Date;
         public DateTime? Repair_Date
         {
             get { return repair_Date; }
@@ -214,7 +214,7 @@ namespace Pronets.VievModel.Clients_f
                 RaisedPropertyChanged("Repair_Date");
             }
         }
-        protected string status;
+        private string status;
         public string Status
         {
             get { return status; }
@@ -224,7 +224,7 @@ namespace Pronets.VievModel.Clients_f
                 RaisedPropertyChanged("Status");
             }
         }
-        protected string note;
+        private string note;
         public string Note
         {
             get { return note; }
@@ -235,7 +235,7 @@ namespace Pronets.VievModel.Clients_f
             }
         }
 
-        protected v_Repairs selectedRepairItem;
+        private v_Repairs selectedRepairItem;
         public v_Repairs SelectedRepairItem
         {
             get { return selectedRepairItem; }
@@ -245,8 +245,132 @@ namespace Pronets.VievModel.Clients_f
                 RaisedPropertyChanged("SelectedRepairItem");
             }
         }
-        #endregion
 
+        #endregion
+        #region Clients properties
+        private ObservableCollection<Clients> clients = new ObservableCollection<Clients>();
+        public ObservableCollection<Clients> Clients
+        {
+            get { return clients; }
+            set
+            {
+                clients = value;
+                RaisedPropertyChanged("Clients");
+            }
+        }
+
+        private int clientId;
+        public int ClientId
+        {
+            get { return clientId; }
+            set
+            {
+                clientId = value;
+                RaisedPropertyChanged("ClientId");
+            }
+        }
+        private string clientName;
+        public string ClientName
+        {
+            get { return clientName; }
+            set
+            {
+                clientName = value;
+                RaisedPropertyChanged("ClientName");
+            }
+        }
+        private string inn;
+        public string Inn
+        {
+            get { return inn; }
+            set
+            {
+                inn = value;
+                RaisedPropertyChanged("Inn");
+            }
+        }
+        private string contact_Person;
+        public string Contact_Person
+        {
+            get { return contact_Person; }
+            set
+            {
+                contact_Person = value;
+                RaisedPropertyChanged("Contact_Person");
+            }
+        }
+        private string telephone_1;
+        public string Telephone_1
+        {
+            get { return telephone_1; }
+            set
+            {
+                telephone_1 = value;
+                RaisedPropertyChanged("Telephone_1");
+            }
+        }
+        private string telephone_2;
+        public string Telephone_2
+        {
+            get { return telephone_2; }
+            set
+            {
+                telephone_2 = value;
+                RaisedPropertyChanged("Telephone_2");
+            }
+        }
+        private string telephone_3;
+        public string Telephone_3
+        {
+            get { return telephone_3; }
+            set
+            {
+                telephone_3 = value;
+                RaisedPropertyChanged("Telephone_3");
+            }
+        }
+        private string email;
+        public string Email
+        {
+            get { return email; }
+            set
+            {
+                email = value;
+                RaisedPropertyChanged("Email");
+            }
+        }
+        private string adress;
+        public string Adress
+        {
+            get { return adress; }
+            set
+            {
+                adress = value;
+                RaisedPropertyChanged("Adress");
+            }
+        }
+
+        private Clients selectedItem;
+        public Clients SelectedItem
+        {
+            get { return selectedItem; }
+            set
+            {
+                selectedItem = value;
+                RaisedPropertyChanged("SelectedItem");
+            }
+        }
+        private string searchText;
+        public string SearchText
+        {
+            get { return searchText; }
+            set
+            {
+                searchText = value;
+                RaisedPropertyChanged("SearchText");
+            }
+        }
+        #endregion
         #region Other Properties
         private Clients clientInstance;
 
@@ -435,10 +559,10 @@ namespace Pronets.VievModel.Clients_f
             Telephone_2 = client.Telephone_2;
             Telephone_3 = client.Telephone_3;
             Adress = client.Adress;
-            nomenclaturesList = NomenclatureRequest.FillList();
-            v_repairs = RepairsRequest.FillListClient(client.ClientId);
-            statuses = StatusesRequests.FillList();
-            receiptDocuments = ReceiptDocumentRequest.FillListClient(client.ClientId);
+            NomenclaturesList = NomenclatureRequest.FillList();
+            V_Repairs = RepairsRequest.FillListClient(client.ClientId);
+            Statuses = StatusesRequests.FillList();
+            ReceiptDocuments = ReceiptDocumentRequest.FillListClient(client.ClientId);
             AddDocumentName();
             RepairsCount = v_repairs.Count.ToString();
             warrantysList.Add(new Warrantys { Warranty = "Нет" });
@@ -464,7 +588,7 @@ namespace Pronets.VievModel.Clients_f
                 RaisedPropertyChanged("Sort");
             }
         }
-        protected void SortRepairs(object Parameter)
+        private void SortRepairs(object Parameter)
         {
             int count = 0; //переменная для проверки количества не отмеченых статусов ремонта
             v_repairs.Clear();
@@ -618,7 +742,7 @@ namespace Pronets.VievModel.Clients_f
 
         #region Edit Command
 
-        protected ICommand editItem;
+        private ICommand editItem;
         public ICommand EditCommand
         {
             get
@@ -668,7 +792,7 @@ namespace Pronets.VievModel.Clients_f
         #endregion
 
         #region Search Command
-        protected ICommand searchRepairCommand;
+        private ICommand searchRepairCommand;
         public ICommand SearchRepairCommand
         {
             get

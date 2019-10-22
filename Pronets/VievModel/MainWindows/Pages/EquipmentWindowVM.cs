@@ -11,6 +11,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -96,10 +97,10 @@ namespace Pronets.VievModel.MainWindows.Pages
 
         public EquipmentWindowVM()
         {
+            
             _dispatcher = Dispatcher.CurrentDispatcher;
-            GetStatuses();
+            //GetStatuses();
             GetContentAsync();
-            //GetContent();
             OpenWindowCommand = new OpenWindowCommand();
         }
         #region refresh page
@@ -123,21 +124,22 @@ namespace Pronets.VievModel.MainWindows.Pages
         private async void GetContentAsync()
         {
             pronetsClient = null;
-            repairs.Clear();
-            sortingEquipments.Clear();
+            Repairs.Clear();
+            SortingEquipments.Clear();
             await Task.Run(() => GetContent());
         }
         private async void GetContentAsync(object parametr)
         {
             pronetsClient = null;
-            repairs.Clear();
-            sortingEquipments.Clear();
+            Repairs.Clear();
+            SortingEquipments.Clear();
             await Task.Run(() => GetContent());
         }
         private void GetContent(/*object parametr*/) // обновление листа без учета типа оборудования
         {
+            GetStatuses();
             pronetsClient = ClientsRequests.GetPronetsClient();
-            foreach (var status in statuses)
+            foreach (var status in Statuses)
             {
                 if (status.IsSelected == true)
                 {
@@ -145,7 +147,7 @@ namespace Pronets.VievModel.MainWindows.Pages
                     {
                         _dispatcher.Invoke(new Action(() =>
                         {
-                            repairs.Add(item);
+                            Repairs.Add(item);
                         }));
                     }
                 }
@@ -164,7 +166,7 @@ namespace Pronets.VievModel.MainWindows.Pages
                 {
                     _dispatcher.Invoke(new Action(() =>
                     {
-                        sortingEquipments.Add(new SortingRepair
+                        SortingEquipments.Add(new SortingRepair
                         {
                             NomenclatureName = item.Nomenclature,
                             RepairsCount = item.Count
@@ -173,6 +175,7 @@ namespace Pronets.VievModel.MainWindows.Pages
                 }
             }
             GetTotalAmount();
+          
         }
 
         //private void GetContent() // вывод в список с учетов типа оборудования
@@ -258,7 +261,7 @@ namespace Pronets.VievModel.MainWindows.Pages
         }
         private void GetRepairByNomenclature()
         {
-
+            GetStatuses();
             foreach (var status in statuses)
             {
                 if (status.IsSelected == true)
@@ -267,19 +270,19 @@ namespace Pronets.VievModel.MainWindows.Pages
                     {
                         _dispatcher.Invoke(new Action(() =>
                         {
-                            v_Repairs.Add(item);
+                            V_Repairs.Add(item);
                         }));
                     }
                 }
             }
-            var result = from repair in v_Repairs
+            var result = from repair in V_Repairs
                          where repair.Nomenclature == selectedSortingEquipent.NomenclatureName
                          select repair;
             foreach (var item in result)
             {
                 _dispatcher.Invoke(new Action(() =>
                 {
-                    repairsByNomenclature.Add(item);
+                    RepairsByNomenclature.Add(item);
                 }));
             }
         }
@@ -289,7 +292,7 @@ namespace Pronets.VievModel.MainWindows.Pages
             statuses = StatusesRequests.FillList();
             if (statuses != null)
             {
-                foreach (var status in statuses)
+                foreach (var status in Statuses)
                 {
                     if (status.Status == "Готов" ||
                         status.Status == "На складе (без ремонта)" ||
@@ -303,7 +306,7 @@ namespace Pronets.VievModel.MainWindows.Pages
         private void GetTotalAmount() //Общее количество ремонтов
         {
             int count = 0;
-            foreach (var item in sortingEquipments)
+            foreach (var item in SortingEquipments)
             {
                 count += item.RepairsCount;
             }

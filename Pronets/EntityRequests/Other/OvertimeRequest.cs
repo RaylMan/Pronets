@@ -11,13 +11,14 @@ namespace Pronets.EntityRequests.Other
 {
     public static class OvertimeRequest
     {
-        private static ObservableCollection<OverTime> overtimeList = new ObservableCollection<OverTime>();
+        //private static ObservableCollection<OverTime> overtimeList = new ObservableCollection<OverTime>();
 
         /// <summary>
         /// <para>Возращает коллекцию OverTime</para>
         /// </summary>
         public static ObservableCollection<OverTime> FillList()
         {
+            ObservableCollection<OverTime> overtimeList = null;
             using (var db = ConnectionTools.GetConnection())
             {
                 try
@@ -36,6 +37,8 @@ namespace Pronets.EntityRequests.Other
         /// </summary>
         public static ObservableCollection<OverTime> FillList(string lastName)
         {
+
+            ObservableCollection<OverTime> overtimeList = null;
             using (var db = ConnectionTools.GetConnection())
             {
                 try
@@ -55,6 +58,7 @@ namespace Pronets.EntityRequests.Other
         /// </summary>
         public static ObservableCollection<OverTime> FillList(string lastName, string status)
         {
+            ObservableCollection<OverTime> overtimeList = null;
             using (var db = ConnectionTools.GetConnection())
             {
                 try

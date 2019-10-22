@@ -199,8 +199,8 @@ namespace Pronets.VievModel.Clients_f
         }
         protected void FillList(object Parameter)
         {
-            clients.Clear();
-            clients = ClientsRequests.FillList();
+            Clients.Clear();
+            Clients = ClientsRequests.FillList();
         }
         #endregion
 

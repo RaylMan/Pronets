@@ -9,10 +9,10 @@ namespace Pronets.EntityRequests.Users_f
     public static class UsersRequest
     {
         private static Users loginUser = new Users();
-        private static ObservableCollection<Users> users = new ObservableCollection<Users>();
-        private static ObservableCollection<Engineers> engineers = new ObservableCollection<Engineers>();
-        private static ObservableCollection<Users> searchUsers = new ObservableCollection<Users>();
-        private static ObservableCollection<Positions> positions = new ObservableCollection<Positions>();
+        //private static ObservableCollection<Users> users = new ObservableCollection<Users>();
+        //private static ObservableCollection<Engineers> engineers = new ObservableCollection<Engineers>();
+        //private static ObservableCollection<Users> searchUsers = new ObservableCollection<Users>();
+        //private static ObservableCollection<Positions> positions = new ObservableCollection<Positions>();
         private static Users user;
         private static Engineers engineer;
 
@@ -21,28 +21,12 @@ namespace Pronets.EntityRequests.Users_f
         /// </summary>
         public static ObservableCollection<Users> FillList()
         {
+            ObservableCollection<Users> allUsers = null;
             using (var db = ConnectionTools.GetConnection())
             {
                 try
                 {
-                    if (users != null)
-                        users.Clear();
-                    foreach (var item in db.Users)
-                    {
-                        users.Add(new Users
-                        {
-                            UserId = item.UserId,
-                            Login = item.Login,
-                            Password = item.Password,
-                            Position = item.Position,
-                            FirstName = item.FirstName,
-                            LastName = item.LastName,
-                            Patronymic = item.Patronymic,
-                            Birthday = item.Birthday,
-                            Telephone = item.Telephone,
-                            Adress = item.Adress
-                        });
-                    }
+                    allUsers = new ObservableCollection<Users>(db.Users.ToList());
                 }
 
                 catch (Exception e)
@@ -50,7 +34,7 @@ namespace Pronets.EntityRequests.Users_f
                     MessageBox.Show(e.Message, "Ошибка");
                 }
             }
-            return users;
+            return allUsers;
         }
 
         /// <summary>
@@ -58,22 +42,15 @@ namespace Pronets.EntityRequests.Users_f
         /// </summary>
         public static ObservableCollection<Engineers> FillListEngineers()
         {
+            ObservableCollection<Engineers> engineers = null;
             using (var db = ConnectionTools.GetConnection())
             {
                 try
                 {
                     if (engineers != null)
                         engineers.Clear();
-                    foreach (var item in db.Engineers)
-                    {
-                        engineers.Add(new Engineers
-                        {
-                            Id = item.Id,
-                            LastName = item.LastName,
-                            Position = item.Position,
-                            Repairs = item.Repairs
-                        });
-                    }
+                    var result = db.Engineers.ToList();
+                    engineers = new ObservableCollection<Engineers>(result);
 
                 }
                 catch (Exception e)
@@ -145,16 +122,12 @@ namespace Pronets.EntityRequests.Users_f
         /// </summary>
         public static ObservableCollection<Positions> FillPosoitions()
         {
-            if (positions != null)
-                positions.Clear();
+            ObservableCollection<Positions> positions = null;
             using (var db = ConnectionTools.GetConnection())
             {
                 try
                 {
-                    foreach (var item in db.Positions)
-                    {
-                        positions.Add(new Positions { Position = item.Position });
-                    }
+                    positions = new ObservableCollection<Positions>(db.Positions.ToList());
                 }
                 catch (Exception e)
                 {
@@ -326,6 +299,7 @@ namespace Pronets.EntityRequests.Users_f
         /// </summary>
         public static ObservableCollection<Users> SearchItem(string word)
         {
+            ObservableCollection<Users> searchUsers = null;
             using (var db = ConnectionTools.GetConnection())
             {
                 try
@@ -352,8 +326,9 @@ namespace Pronets.EntityRequests.Users_f
         /// <summary>
         /// <para>Возращает экземпляр Users по логину и паролю</para>
         /// </summary>
-        public static Users Login(string login, string password)
+        public static Users Login(string login, string password, out bool ex)
         {
+            ex = true;
             using (var db = ConnectionTools.GetConnection())
             {
                 try
@@ -365,10 +340,12 @@ namespace Pronets.EntityRequests.Users_f
                 catch (System.Data.Entity.Core.EntityException)
                 {
                     MessageBox.Show("Отсутствует соединение с сервером!", "Ошибка");
+                    ex = false;
                 }
                 catch (Exception e)
                 {
                     MessageBox.Show(e.Message);
+                    ex = false;
                 }
                 return loginUser;
             }

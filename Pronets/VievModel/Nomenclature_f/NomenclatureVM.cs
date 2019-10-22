@@ -113,8 +113,8 @@ namespace Pronets.VievModel.Nomenclature_f
         #endregion
         public NomenclatureVM()
         {
-            nomenclature = NomenclatureRequest.FillList();
-            nomenclature_Types = Nomenclature_TypesRequest.FillList();
+            Nomenclature = NomenclatureRequest.FillList();
+            Nomenclature_Types = Nomenclature_TypesRequest.FillList();
             OpenWindowCommand = new OpenWindowCommand();
 
         }
@@ -154,7 +154,7 @@ namespace Pronets.VievModel.Nomenclature_f
                     NomenclatureRequest.AddToBase(nom, out bool ex);
                     if (ex) //если ex == true, нет копии в базе, происходит запись в таблицу viev
                     {
-                        nomenclature.Add(nom);
+                        Nomenclature.Add(nom);
                     }
                     Name = string.Empty;
                     Price = 0;
@@ -185,8 +185,8 @@ namespace Pronets.VievModel.Nomenclature_f
         }
         void FillList(object Parameter)
         {
-            nomenclature.Clear();
-            nomenclature = NomenclatureRequest.FillList();
+            Nomenclature.Clear();
+            Nomenclature = NomenclatureRequest.FillList();
         }
         #endregion
 
@@ -219,7 +219,7 @@ namespace Pronets.VievModel.Nomenclature_f
                 {
                     NomenclatureRequest.RemoveFromBase(SelectedNomenclatureItem, out bool ex);
                     if (ex)
-                        nomenclature.RemoveAt(SelectedIndex);
+                        Nomenclature.RemoveAt(SelectedIndex);
                     Type = string.Empty;
                 }
             }
@@ -261,7 +261,7 @@ namespace Pronets.VievModel.Nomenclature_f
                     Nomenclature_TypesRequest.AddToBase(nt, out bool ex);
                     if (ex) //если ex == true, нет копии в базе, происходит запись в таблицу viev
                     {
-                        nomenclature_Types.Add(nt);
+                        Nomenclature_Types.Add(nt);
                     }
                     NomType = string.Empty;
                 }
@@ -292,15 +292,15 @@ namespace Pronets.VievModel.Nomenclature_f
 
         public void RemoveType(object Parameter)
         {
-            if (selectedNomenclature_type != null)
+            if (SelectedNomenclature_type != null)
             {
                 var result = MessageBox.Show("Вы Действительно хотете удалить?", "Удаление", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    Nomenclature_TypesRequest.RemoveFromBase(selectedNomenclature_type, out bool ex);
+                    Nomenclature_TypesRequest.RemoveFromBase(SelectedNomenclature_type, out bool ex);
                     if (ex)
-                        nomenclature_Types.RemoveAt(SelectedTypeIndex);
+                        Nomenclature_Types.RemoveAt(SelectedTypeIndex);
                 }
             }
             else

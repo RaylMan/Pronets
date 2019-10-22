@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using Pronets.Data;
 
@@ -7,26 +8,19 @@ namespace Pronets.EntityRequests
 {
     public static class StatusesRequests
     {
-        private static ObservableCollection<Statuses> statuses = new ObservableCollection<Statuses>();
+       // private static ObservableCollection<Statuses> statuses = new ObservableCollection<Statuses>();
 
         /// <summary>
         /// <para>Возращает коллекцию Statuses</para>
         /// </summary>
         public static ObservableCollection<Statuses> FillList()
         {
+            ObservableCollection<Statuses> statuses = null;
             using (var db = ConnectionTools.GetConnection())
             {
                 try
                 {
-                    if (statuses != null)
-                        statuses.Clear();
-                    foreach (var item in db.Statuses)
-                    {
-                        statuses.Add(new Statuses
-                        {
-                            Status = item.Status
-                        });
-                    }
+                    statuses = new ObservableCollection<Statuses>(db.Statuses.ToList());
                 }
                 catch (Exception e)
                 {

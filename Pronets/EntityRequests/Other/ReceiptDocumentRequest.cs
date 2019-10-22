@@ -10,8 +10,8 @@ namespace Pronets.EntityRequests.Other
     class ReceiptDocumentRequest
     {
         ReceiptDocument document;
-        private static ObservableCollection<ReceiptDocument> receiptDocuments = new ObservableCollection<ReceiptDocument>();
-        private static ObservableCollection<v_Receipt_Document> v_ReceiptDocuments = new ObservableCollection<v_Receipt_Document>();
+        //private static ObservableCollection<ReceiptDocument> receiptDocuments = new ObservableCollection<ReceiptDocument>();
+        //private static ObservableCollection<v_Receipt_Document> v_ReceiptDocuments = new ObservableCollection<v_Receipt_Document>();
 
         #region FillLists
 
@@ -20,27 +20,12 @@ namespace Pronets.EntityRequests.Other
         /// </summary>
         public static ObservableCollection<ReceiptDocument> FillList()
         {
+            ObservableCollection<ReceiptDocument> receiptDocuments = null;
             using (var db = ConnectionTools.GetConnection())
             {
                 try
                 {
-                    if (receiptDocuments != null)
-                        receiptDocuments.Clear();
-                    foreach (var item in db.ReceiptDocument)
-                    {
-                        receiptDocuments.Add(new ReceiptDocument
-                        {
-                            DocumentId = item.DocumentId,
-                            ClientId = item.ClientId,
-                            InspectorId = item.InspectorId,
-                            Date = item.Date,
-                            DepartureDate = item.DepartureDate,
-                            Status = item.Status,
-                            Note = item.Note,
-                            Clients = item.Clients,
-                            Users = item.Users
-                        });
-                    }
+                    receiptDocuments = new ObservableCollection<ReceiptDocument>(db.ReceiptDocument.ToList());
                 }
                 catch (Exception e)
                 {
@@ -55,12 +40,11 @@ namespace Pronets.EntityRequests.Other
         /// </summary>
         public static ObservableCollection<ReceiptDocument> FillListClient(int clientId)
         {
+            ObservableCollection<ReceiptDocument> receiptDocuments = null;
             using (var db = ConnectionTools.GetConnection())
             {
                 try
                 {
-                    if (receiptDocuments != null)
-                        receiptDocuments.Clear();
                     var result = from document in db.ReceiptDocument
                                  where document.ClientId == clientId
                                  select document;
@@ -79,12 +63,11 @@ namespace Pronets.EntityRequests.Other
         /// </summary>
         public static ObservableCollection<ReceiptDocument> FillListWithStatus(string status)
         {
+            ObservableCollection<ReceiptDocument> receiptDocuments = null;
             using (var db = ConnectionTools.GetConnection())
             {
                 try
                 {
-                    if (receiptDocuments != null)
-                        receiptDocuments.Clear();
                     var result = from document in db.ReceiptDocument
                                  where document.Status == status
                                  select document;
@@ -103,13 +86,11 @@ namespace Pronets.EntityRequests.Other
         /// </summary>
         public static ObservableCollection<v_Receipt_Document> v_FillList() // Представление(вместо Id - имена)
         {
+            ObservableCollection<v_Receipt_Document> v_ReceiptDocuments = new ObservableCollection<v_Receipt_Document>();
             using (var db = ConnectionTools.GetConnection())
             {
                 try
                 {
-                    if (v_ReceiptDocuments != null)
-                        v_ReceiptDocuments.Clear();
-
                     foreach (var item in db.v_Receipt_Document)
                     {
                         v_ReceiptDocuments.Add(new v_Receipt_Document
@@ -283,7 +264,6 @@ namespace Pronets.EntityRequests.Other
                 {
                     MessageBox.Show(e.Message, "Ошибка");
                 }
-
             }
         }
 

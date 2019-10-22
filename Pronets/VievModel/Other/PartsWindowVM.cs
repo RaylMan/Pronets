@@ -271,8 +271,8 @@ namespace Pronets.VievModel.Other
 
         public PartsWindowVM()
         {
-            receiptOfParts = ReceiptOfPartsRequest.FillList();
-            parts = PartsRequest.FillList();
+            ReceiptOfParts = ReceiptOfPartsRequest.FillList();
+            Parts = PartsRequest.FillList();
         }
         #region Parts
         #region Add Part
@@ -340,15 +340,15 @@ namespace Pronets.VievModel.Other
         }
         public void RemovePart(object Parameter)
         {
-            if (selectedPart != null)
+            if (SelectedPart != null)
             {
                 var result = MessageBox.Show("Вы Действительно хотете удалить?", "Удаление", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    PartsRequest.RemoveFromBase(selectedPart, out bool ex);
+                    PartsRequest.RemoveFromBase(SelectedPart, out bool ex);
                     if (ex)
-                        parts.RemoveAt(SelectedIndex);
+                        Parts.RemoveAt(SelectedIndex);
                 }
             }
             else
@@ -378,7 +378,7 @@ namespace Pronets.VievModel.Other
         {
             if (document != null && document.Id != 0)
             {
-                partsOrder.Add(new PartsOrder
+                PartsOrder.Add(new PartsOrder
                 {
                     PartName = selectedPart.Part_Name
                 });
@@ -501,7 +501,7 @@ namespace Pronets.VievModel.Other
                 var result = MessageBox.Show("Вы Действительно хотете сохранить?\nПроверьте правильность данных!", "Сохранение", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
                 {
-                    foreach (var order in partsOrder)
+                    foreach (var order in PartsOrder)
                     {
                         if (order.OrderId == 0)
                         {
@@ -509,7 +509,7 @@ namespace Pronets.VievModel.Other
                             PartsOrderRequest.AddToBase(order);
                         }
                     }
-                    if (selectedStatus == "Принято")
+                    if (SelectedStatus == "Принято")
                     {
                         document.Status = selectedStatus;
                         document.Date_Arrival = DateTime.Now.Date;
@@ -544,20 +544,20 @@ namespace Pronets.VievModel.Other
         }
         public void RemoveOrder(object Parameter)
         {
-            if (selectedOrder != null)
+            if (SelectedOrder != null)
             {
                 var result = MessageBox.Show("Вы Действительно хотете удалить?", "Удаление", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    if (selectedOrder.DocumentId != 0)
+                    if (SelectedOrder.DocumentId != 0)
                     {
-                        PartsOrderRequest.RemoveFromBase(selectedOrder, out bool ex);
+                        PartsOrderRequest.RemoveFromBase(SelectedOrder, out bool ex);
                         if (ex)
-                            partsOrder.RemoveAt(SelectedOrderIndex);
+                           PartsOrder.RemoveAt(SelectedOrderIndex);
                     }
                     else
-                        partsOrder.RemoveAt(SelectedOrderIndex);
+                        PartsOrder.RemoveAt(SelectedOrderIndex);
                 }
             }
             else
@@ -594,8 +594,8 @@ namespace Pronets.VievModel.Other
                 Status = "Ожидает заказа"
             };
             ReceiptOfPartsRequest.AddToBase(recipe);
-            receiptOfParts.Clear();
-            receiptOfParts = ReceiptOfPartsRequest.FillList();
+            ReceiptOfParts.Clear();
+            ReceiptOfParts = ReceiptOfPartsRequest.FillList();
         }
         #endregion
 
@@ -619,19 +619,19 @@ namespace Pronets.VievModel.Other
         }
         public void RemoveDocument(object Parameter)
         {
-            if (selectedDocument != null)
+            if (SelectedDocument != null)
             {
                 var result = MessageBox.Show("Вы Действительно хотете удалить?", "Удаление", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    PartsOrderRequest.RemoveFromBase(selectedDocument.Id, out bool ex1);
+                    PartsOrderRequest.RemoveFromBase(SelectedDocument.Id, out bool ex1);
                     if (ex1)
                     {
-                        ReceiptOfPartsRequest.RemoveFromBase(selectedDocument, out bool ex);
+                        ReceiptOfPartsRequest.RemoveFromBase(SelectedDocument, out bool ex);
                         if (ex)
                             ReceiptOfParts.RemoveAt(SelectedReceiptIndex);
-                        partsOrder.Clear();
+                        PartsOrder.Clear();
                         document = null;
                     }
 

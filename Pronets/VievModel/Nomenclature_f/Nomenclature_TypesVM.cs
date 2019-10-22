@@ -81,7 +81,7 @@ namespace Pronets.VievModel.Nomenclature_f
                     Nomenclature_TypesRequest.AddToBase(nt, out bool ex);
                     if (ex) //если ex == true, нет копии в базе, происходит запись в таблицу viev
                     {
-                        nomenclatures_Types.Add(nt);
+                        Nomenclatures_Types.Add(nt);
                     }
                     NomType = string.Empty;
                 }
@@ -120,7 +120,7 @@ namespace Pronets.VievModel.Nomenclature_f
                 {
                     Nomenclature_TypesRequest.RemoveFromBase(SelectedItem, out bool ex);
                     if (ex)
-                        nomenclatures_Types.RemoveAt(SelectedIndex);
+                        Nomenclatures_Types.RemoveAt(SelectedIndex);
                 }
             }
             else

@@ -23,14 +23,17 @@ namespace Pronets.EntityRequests.Nomenclature_f
                 {
                     if (nomenclature_Types != null)
                         nomenclature_Types.Clear();
+
+                    var result = db.Nomenclature_Types.ToList();
                     foreach (var item in db.Nomenclature_Types)
-                    {
-                        nomenclature_Types.Add(new Nomenclature_Types
-                        {
-                            Type = item.Type,
-                            Nomenclature = item.Nomenclature
-                        });
-                    }
+                        //{
+                        //    nomenclature_Types.Add(new Nomenclature_Types
+                        //    {
+                        //        Type = item.Type,
+                        //        Nomenclature = item.Nomenclature
+                        //    });
+                        //}
+                        nomenclature_Types = new ObservableCollection<Nomenclature_Types>(result);
                 }
                 catch (Exception e)
                 {

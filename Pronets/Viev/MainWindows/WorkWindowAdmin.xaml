@@ -18,7 +18,7 @@
     </Window.DataContext>
     <Grid x:Name="main">
         <Grid.RowDefinitions>
-            <RowDefinition Height="20"></RowDefinition>
+            <RowDefinition Height="25"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
 
         </Grid.RowDefinitions>
@@ -39,7 +39,7 @@
             <Frame  x:Name="MainFrame" NavigationUIVisibility="Hidden" Grid.Column="3" Background="#CCCCCC" Grid.ColumnSpan="2" Margin="0,0,0,25"/>
         </Grid>
 
-        <Menu Height="20" Grid.Row="0" VerticalAlignment="Top" Grid.ColumnSpan="2" Grid.RowSpan="2">
+        <Menu Height="20" Grid.Row="0">
             <MenuItem Header="Файл">
                 <MenuItem Name="Settings" Header="Настройки" Click="Settings_Click"></MenuItem>
                 <MenuItem Name="exit" Header="Выход" Click="Exit_Click"></MenuItem>

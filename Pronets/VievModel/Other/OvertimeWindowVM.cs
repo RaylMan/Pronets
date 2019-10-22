@@ -133,9 +133,9 @@ namespace Pronets.VievModel.Other
         #endregion
         public OvertimeWindowVM()
         {
-            users = UsersRequest.FillList();
-            statuses.Add(new OvertimeStatuses { Status = "Оплачено" });
-            statuses.Add(new OvertimeStatuses { Status = "Не оплачено" });
+            Users = UsersRequest.FillList();
+            Statuses.Add(new OvertimeStatuses { Status = "Оплачено" });
+            Statuses.Add(new OvertimeStatuses { Status = "Не оплачено" });
             onlyAmounted = true;
         }
         private void GetOvertimeList()
@@ -144,19 +144,19 @@ namespace Pronets.VievModel.Other
             {
                 if (onlyAmounted)
                 {
-                    overtimeList.Clear();
+                    OvertimeList.Clear();
 
                     foreach (var item in OvertimeRequest.FillList(SelectedUser.LastName, "Не оплачено"))
                     {
-                        overtimeList.Add(item);
+                        OvertimeList.Add(item);
                     }
                 }
                 else
                 {
-                    overtimeList.Clear();
+                    OvertimeList.Clear();
                     foreach (var item in OvertimeRequest.FillList(SelectedUser.LastName))
                     {
-                        overtimeList.Add(item);
+                        OvertimeList.Add(item);
                     }
                 }
             }
@@ -184,7 +184,7 @@ namespace Pronets.VievModel.Other
         {
             if (SelectedStatus != null)
             {
-                foreach (var item in overtimeList)
+                foreach (var item in OvertimeList)
                 {
                     if (item.IsSelected == true)
                         OvertimeRequest.GetStatus(item.Id, SelectedStatus.Status);
@@ -220,7 +220,7 @@ namespace Pronets.VievModel.Other
             if (SelectedOvertime != null)
             {
                 OvertimeRequest.RemoveFromBase(SelectedOvertime);
-                overtimeList.Remove(SelectedOvertime);
+                OvertimeList.Remove(SelectedOvertime);
             }
 
         }
@@ -246,10 +246,10 @@ namespace Pronets.VievModel.Other
         }
         public void GetAmount(object Parameter)
         {
-            if (overtimeList.Count > 0)
+            if (OvertimeList.Count > 0)
             {
                 int hoursCount = 0, daysCount = 0;
-                foreach (var overtime in overtimeList)
+                foreach (var overtime in OvertimeList)
                 {
                     if (overtime.Status == "Не оплачено")
                     {
@@ -276,10 +276,10 @@ namespace Pronets.VievModel.Other
         }
         public void GetAmount()
         {
-            if (overtimeList.Count > 0)
+            if (OvertimeList.Count > 0)
             {
                 int hoursCount = 0, daysCount = 0;
-                foreach (var overtime in overtimeList)
+                foreach (var overtime in OvertimeList)
                 {
                     if (overtime.Status == "Не оплачено")
                     {
