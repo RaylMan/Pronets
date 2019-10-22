@@ -69,7 +69,7 @@ namespace Pronets.VievModel.MainWindows.Pages
                 RaisedPropertyChanged("IsSelected");
             }
         }
-       
+
         private SortingRepair selectedSortingEquipent;
         public SortingRepair SelectedSortingEquipent
         {
@@ -78,7 +78,7 @@ namespace Pronets.VievModel.MainWindows.Pages
             {
                 selectedSortingEquipent = value;
                 if (selectedSortingEquipent != null)
-                    GetRepairByNomenclature();
+                    GetRepairByNomenclatureAsync();
                 RaisedPropertyChanged("SelectedSortingEquipent");
             }
         }
@@ -250,17 +250,25 @@ namespace Pronets.VievModel.MainWindows.Pages
         }
         #endregion
 
-        private void GetRepairByNomenclature()
+        private async void GetRepairByNomenclatureAsync()
         {
             v_Repairs.Clear();
             repairsByNomenclature.Clear();
+            await Task.Run(() => GetRepairByNomenclature());
+        }
+        private void GetRepairByNomenclature()
+        {
+
             foreach (var status in statuses)
             {
                 if (status.IsSelected == true)
                 {
                     foreach (var item in RepairsRequest.FillListPronets(status.Status))
                     {
-                        v_Repairs.Add(item);
+                        _dispatcher.Invoke(new Action(() =>
+                        {
+                            v_Repairs.Add(item);
+                        }));
                     }
                 }
             }
@@ -269,7 +277,10 @@ namespace Pronets.VievModel.MainWindows.Pages
                          select repair;
             foreach (var item in result)
             {
-                repairsByNomenclature.Add(item);
+                _dispatcher.Invoke(new Action(() =>
+                {
+                    repairsByNomenclature.Add(item);
+                }));
             }
         }
 
