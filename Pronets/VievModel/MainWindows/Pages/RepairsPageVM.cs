@@ -252,6 +252,7 @@ namespace Pronets.VievModel.MainWindows.Pages
                 RaisedPropertyChanged("EditCommand");
             }
         }
+
         public void EditItem(object Parameter)
         {
             if (SelectedRepair != null)
