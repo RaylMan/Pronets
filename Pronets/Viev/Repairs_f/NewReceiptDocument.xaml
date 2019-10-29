@@ -30,14 +30,14 @@
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
-        <Label x:Name="label" Content="Приемщик" HorizontalAlignment="Left" Margin="342,0,0,0" Grid.Row="1" VerticalAlignment="Top" Height="30"/>
+        <!--<Label x:Name="label" Content="Приемщик" HorizontalAlignment="Left" Margin="342,0,0,0" Grid.Row="1" VerticalAlignment="Top" Height="30"/>
         <ComboBox x:Name="cbxUsers" ItemsSource="{Binding Users}" SelectedValue="{Binding SelectUserItem}" HorizontalAlignment="Left" Margin="417,3,0,0" Grid.Row="1" VerticalAlignment="Top" Width="140">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding LastName}"/>
                 </DataTemplate>
             </ComboBox.ItemTemplate>
-        </ComboBox>
+        </ComboBox>-->
         <!--ROW 2-->
         <TextBlock Grid.Row="2" HorizontalAlignment="Left" Margin="5,5,0,5" Width="76" Text="Заполнение выделенных строк" TextWrapping="Wrap" />
         <Label x:Name="label3" Content="Наименование" HorizontalAlignment="Left" Margin="89,5,0,0" Grid.Row="2" VerticalAlignment="Top" Height="25" Width="95"/>
@@ -64,14 +64,18 @@
 
         <!--ROW 3-->
 
-        <DataGrid x:Name="repairsGrid"  ItemsSource="{Binding Repairs, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" FrozenColumnCount="4"
+        <DataGrid x:Name="repairsGrid"  ItemsSource="{Binding Repairs, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" FrozenColumnCount="4" SelectedIndex="{Binding SelectedIndex}"
                   Grid.Row="3" Margin="5"  AutoGenerateColumns="False" CanUserAddRows="True" CanUserDeleteRows="True"
                   RowDetailsVisibilityMode="VisibleWhenSelected"  SelectionMode="Extended" >
-            <!--<DataGrid.RowHeaderStyle>
-                <Style TargetType="{x:Type DataGridRowHeader}">
-                    <Setter Property="Content" Value="    " />
-                </Style>
-            </DataGrid.RowHeaderStyle>-->
+            <DataGrid.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="White" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#0078D7"/>
+            </DataGrid.Resources>
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Удалить" Command="{Binding DeleteCommand}" CommandParameter="{Binding SelectedIndex}" />
+                </ContextMenu>
+            </DataGrid.ContextMenu>
             <DataGrid.Columns >
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.Header>

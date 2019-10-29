@@ -101,6 +101,7 @@ namespace Pronets.EntityRequests.Clients_f
                 catch (Exception e)
                 {
                     MessageBox.Show(e.Message, "Ошибка");
+                    isExeption = false;
                 }
             }
         }

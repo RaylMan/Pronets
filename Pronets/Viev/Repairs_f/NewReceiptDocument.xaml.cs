@@ -56,6 +56,12 @@ namespace Pronets.Viev.Repairs_f
         {
             if (grid.ItemsSource != null)
             {
+                //for (int i = 0; i < repairsGrid.Items.Count; i++)
+                //{
+                //    DataGridRow row = (DataGridRow)repairsGrid.ItemContainerGenerator
+                //                                               .ContainerFromIndex(i);
+                //    yield return row;
+                //}
                 var itemsSource = grid.ItemsSource as IEnumerable;
                 if (null == itemsSource) yield return null;
                 foreach (var item in itemsSource)
@@ -92,7 +98,6 @@ namespace Pronets.Viev.Repairs_f
                 CheckBox checkBox = ItemTemplateFind.FindChild<CheckBox>(elmchbx, "chkbx");
                 checkBox.IsChecked = true;
             }
-
         }
 
         private void AllChecked_Unchecked(object sender, RoutedEventArgs e)

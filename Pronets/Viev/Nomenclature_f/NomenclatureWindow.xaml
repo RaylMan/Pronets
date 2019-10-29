@@ -49,7 +49,7 @@
 
 
         <TextBox Text="{Binding Type, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1"  Grid.Row="0" HorizontalAlignment="Left" Margin="63,75,0,0" 
-                 VerticalAlignment="Top"  Width="200" Height="22">
+                 VerticalAlignment="Top"  Width="200" Height="22" IsReadOnly="True">
 
         </TextBox>
         <Label x:Name="label" Content="Добавить номенклатуру" Grid.Column="1" Grid.Row="0" FontSize="15" HorizontalAlignment="Center" Margin="0,10,0,0"

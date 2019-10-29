@@ -18,6 +18,7 @@ namespace Pronets.Model.FromXlsxToSQL
         public string WorkDone { get; set; }
         public string Engineer { get; set; }
         public DateTime Date { get; set; }
+        public string Status { get; set; }
 
         public int CompareTo(WorkList d)
         {
