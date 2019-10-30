@@ -186,8 +186,6 @@ namespace Pronets.VievModel.ConvertToSQL
             Nomenclature = NomenclatureRequest.FillList();
             Statuses = StatusesRequests.FillList();
             _dispatcher = Dispatcher.CurrentDispatcher;
-            progressValue = 0;
-
         }
 
         public void GetAllChecked()
@@ -445,8 +443,14 @@ namespace Pronets.VievModel.ConvertToSQL
                 MessageBox.Show("Выберите клиента, номенклатуру, статус!", "Ошибка");
         }
         #endregion
+
+
     }
 
+
+
 }
+
+
 
 
