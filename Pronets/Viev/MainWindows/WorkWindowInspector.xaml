@@ -12,7 +12,7 @@
         xmlns:other="clr-namespace:Pronets.Viev.Other"
         xmlns:xlsx="clr-namespace:Pronets.Viev.ConvertToSQL"
         mc:Ignorable="d"
-         Title="Пронетс(Администратор)" Height="595" Width="1020" MinHeight="595" MinWidth="1020" WindowStartupLocation="CenterScreen" Closing="Window_Closing">
+         Title="Пронетс(Приемщик)" Height="595" Width="1020" MinHeight="595" MinWidth="1020" WindowStartupLocation="CenterScreen" Closing="Window_Closing">
     <Window.DataContext>
         <vm:WorkWindowAdminVM/>
     </Window.DataContext>

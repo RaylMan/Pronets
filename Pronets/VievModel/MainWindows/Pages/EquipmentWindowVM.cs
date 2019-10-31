@@ -97,9 +97,9 @@ namespace Pronets.VievModel.MainWindows.Pages
 
         public EquipmentWindowVM()
         {
-            
+
             _dispatcher = Dispatcher.CurrentDispatcher;
-            //GetStatuses();
+            GetStatuses();
             GetContentAsync();
             OpenWindowCommand = new OpenWindowCommand();
         }
@@ -123,6 +123,8 @@ namespace Pronets.VievModel.MainWindows.Pages
         }
         private async void GetContentAsync()
         {
+            V_Repairs.Clear();
+            RepairsByNomenclature.Clear();
             pronetsClient = null;
             Repairs.Clear();
             SortingEquipments.Clear();
@@ -130,14 +132,16 @@ namespace Pronets.VievModel.MainWindows.Pages
         }
         private async void GetContentAsync(object parametr)
         {
+            V_Repairs.Clear();
+            RepairsByNomenclature.Clear();
             pronetsClient = null;
             Repairs.Clear();
             SortingEquipments.Clear();
             await Task.Run(() => GetContent());
         }
-        private void GetContent(/*object parametr*/) // обновление листа без учета типа оборудования
+        private void GetContent() // обновление листа без учета типа оборудования
         {
-            GetStatuses();
+
             pronetsClient = ClientsRequests.GetPronetsClient();
             foreach (var status in Statuses)
             {
@@ -222,7 +226,6 @@ namespace Pronets.VievModel.MainWindows.Pages
         }
         private void GetRepairByNomenclature()
         {
-            GetStatuses();
             foreach (var status in statuses)
             {
                 if (status.IsSelected == true)

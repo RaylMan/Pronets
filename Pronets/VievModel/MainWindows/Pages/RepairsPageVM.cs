@@ -106,8 +106,8 @@ namespace Pronets.VievModel.MainWindows.Pages
                     Warranty = v_Repair.Warranty = selectedRepair.Warranty;
                     Claimed_Malfunction = v_Repair.Claimed_Malfunction = selectedRepair.Claimed_Malfunction;
                     ClientName = this.clientInstance.ClientName;
-                    Identifie_Fault = v_Repair.Identifie_Fault = selectedRepair.Identifie_Fault;
-                    Work_Done = v_Repair.Work_Done = selectedRepair.Work_Done;
+                    v_Repair.Identifie_Fault = selectedRepair.Identifie_Fault;
+                    v_Repair.Work_Done = selectedRepair.Work_Done;
                     Note = v_Repair.Note = selectedRepair.Note;
                     Repair_Date = v_Repair.Repair_Date = selectedRepair.Repair_Date != null ? selectedRepair.Repair_Date : DateTime.Now;
                     GetStatus();
@@ -117,7 +117,7 @@ namespace Pronets.VievModel.MainWindows.Pages
             }
         }
 
-        protected Engineers selectedEngineer;
+        private Engineers selectedEngineer;
         public Engineers SelectedEngineer
         {
             get { return selectedEngineer; }
@@ -127,7 +127,7 @@ namespace Pronets.VievModel.MainWindows.Pages
                 RaisedPropertyChanged("SelectedEngineer");
             }
         }
-        protected Statuses selectedStatus;
+        private Statuses selectedStatus;
         public Statuses SelectedStatus
         {
             get { return selectedStatus; }
@@ -137,7 +137,7 @@ namespace Pronets.VievModel.MainWindows.Pages
                 RaisedPropertyChanged("SelectedStatus");
             }
         }
-        protected Repair_Categories selectedCategory;
+        private Repair_Categories selectedCategory;
         public Repair_Categories SelectedCategory
         {
             get { return selectedCategory; }
@@ -169,7 +169,7 @@ namespace Pronets.VievModel.MainWindows.Pages
             }
         }
 
-        
+
 
         #endregion
 
@@ -193,7 +193,7 @@ namespace Pronets.VievModel.MainWindows.Pages
             }));
         }
         #region Search Command
-        protected ICommand searchItem;
+        private ICommand searchItem;
         public ICommand SearchCommand
         {
             get
@@ -215,6 +215,11 @@ namespace Pronets.VievModel.MainWindows.Pages
             V_Repairs.Clear();
             await Task.Run(() => SearchItem());
         }
+        public async void SearchItemAsync()
+        {
+            V_Repairs.Clear();
+            await Task.Run(() => SearchItem());
+        }
         public void SearchItem()
         {
             if (SearchText != null && SearchText != "")
@@ -227,15 +232,17 @@ namespace Pronets.VievModel.MainWindows.Pages
                         V_Repairs.Add(repair);
                     }));
                 }
+                if (V_Repairs.Count > 0)
+                    SelectedIndex = 0;
                 //SearchText = string.Empty;
             }
         }
 
-        
+
         #endregion
 
         #region EditCommand
-        protected ICommand editItem;
+        private ICommand editItem;
         public ICommand EditCommand
         {
             get
@@ -255,10 +262,12 @@ namespace Pronets.VievModel.MainWindows.Pages
 
         public void EditItem(object Parameter)
         {
+
             if (SelectedRepair != null)
             {
                 if (SelectedEngineer != null)
                 {
+
                     repair = RepairsRequest.GetRepair(SelectedRepair.RepairId);
                     repair.Engineer = SelectedEngineer != null ? SelectedEngineer.Id : 0;
                     repair.Identifie_Fault = Identifie_Fault;
@@ -266,16 +275,22 @@ namespace Pronets.VievModel.MainWindows.Pages
                     repair.Note = Note;
                     repair.Repair_Date = Repair_Date;
                     repair.Repair_Category = SelectedCategory != null ? SelectedCategory.Category : null;
-                    repair.Status = SelectedStatus != null ? SelectedStatus.Status : null;
+                    repair.Status = SelectedStatus != null ? SelectedStatus.Status : "Готов";
 
-                    var result = MessageBox.Show("Вы Действительно хотите редактировать?", "Редактирование", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    var result = MessageBox.Show("Вы действительно хотите редактировать?", "Редактирование", MessageBoxButton.YesNo, MessageBoxImage.Question);
                     if (result == MessageBoxResult.Yes)
                     {
-                        if (repair != null)
+                        if (SelectedStatus.Status != "Принято")
                         {
-                            RepairsRequest.EditItem(repair);
-                            ReceiptDocumentRequest.SetStatus((int)repair.DocumentId, "В ремонте");
+                            if (repair != null)
+                            {
+                                RepairsRequest.EditItem(repair);
+                                ReceiptDocumentRequest.SetStatus((int)repair.DocumentId, "В ремонте");
+                                SearchItemAsync();
+                            }
                         }
+                        else
+                            MessageBox.Show("Установите статус ремонта!", "Ошибка");
                     }
                 }
                 else
@@ -301,7 +316,7 @@ namespace Pronets.VievModel.MainWindows.Pages
             var defaultEngineer = UsersRequest.GetEngineer("Не выбран");
             foreach (var engineer in engineers)
             {
-                if(selectedRepair.EngineerId != defaultEngineer.Id)
+                if (selectedRepair.EngineerId != defaultEngineer.Id)
                 {
                     if (engineer.Id == selectedRepair.EngineerId)
                     {
@@ -327,6 +342,34 @@ namespace Pronets.VievModel.MainWindows.Pages
                 if (category.Category == selectedRepair.Repair_Category)
                     SelectedCategory = category;
             }
+        }
+        #endregion
+
+        #region Refresh command
+        private ICommand refreshCommand;
+        public ICommand RefreshCommand
+        {
+            get
+            {
+                if (refreshCommand == null)
+                {
+                    refreshCommand = new RelayCommand(new Action<object>(Refresh));
+                }
+                return refreshCommand;
+            }
+            set
+            {
+                refreshCommand = value;
+                RaisedPropertyChanged("RefreshCommand");
+            }
+        }
+        /// <summary>
+        /// Обновляет данные на странице
+        /// </summary>
+        /// <param name="parametr"></param>
+        public void Refresh(object parametr)
+        {
+            GetContentAsync();
         }
         #endregion
     }

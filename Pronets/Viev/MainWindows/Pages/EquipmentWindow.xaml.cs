@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Pronets.VievModel.MainWindows.Pages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,7 @@ namespace Pronets.Viev.MainWindows.Pages
         public EquipmentWindow()
         {
             InitializeComponent();
+            DataContext = new EquipmentWindowVM();
         }
         #region Выделить текст в текстбоксе
         private bool isFocused = false;

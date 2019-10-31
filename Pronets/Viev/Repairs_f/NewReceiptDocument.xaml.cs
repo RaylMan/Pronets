@@ -1,4 +1,5 @@
 ﻿using Pronets.Navigation;
+using Pronets.VievModel.Repairs_f;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -25,6 +26,7 @@ namespace Pronets.Viev.Repairs_f
         public NewReceiptDocument()
         {
             InitializeComponent();
+            DataContext = new NewReceiptDocumentVM();
         }
        
         private void ComboBoxNomenclature_SelectionChanged(object sender, SelectionChangedEventArgs e)
