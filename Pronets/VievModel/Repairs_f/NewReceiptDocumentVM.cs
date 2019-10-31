@@ -16,6 +16,7 @@ namespace Pronets.VievModel.Repairs_f
     {
         #region Property
         Users defaultUser;
+        bool isOldDocument = false;
         public OpenWindowCommand OpenWindowCommand { get; set; }
         private ObservableCollection<Repairs> repairs;
         public ObservableCollection<Repairs> Repairs
@@ -277,8 +278,19 @@ namespace Pronets.VievModel.Repairs_f
         #endregion
         public NewReceiptDocumentVM()
         {
-            clients = ClientsRequests.FillList();
+            GetContent();
+        }
+        public NewReceiptDocumentVM(int documentId)
+        {
+            DocumentId = documentId;
+            isOldDocument = true;
+            GetContent();
+            GetClient();
+        }
+        private void GetContent()
+        {
             users = UsersRequest.FillList();
+            clients = ClientsRequests.FillList();
             nomenclatures = NomenclatureRequest.FillList();
             date_Of_Receipt = DateTime.Now;
             repairs = new ObservableCollection<Repairs>();
@@ -289,7 +301,14 @@ namespace Pronets.VievModel.Repairs_f
             GetDefaultUser();
             OpenWindowCommand = new OpenWindowCommand();
         }
-
+        private void GetClient()
+        {
+            foreach (var item in clients)
+            {
+                if (item.ClientName == ReceiptDocumentRequest.GetDocument(DocumentId).Client)
+                    SelectClientItem = item;
+            }
+        }
         #region AddCommand
         private ICommand addItem;
         public ICommand AddCommand
@@ -308,12 +327,21 @@ namespace Pronets.VievModel.Repairs_f
                 RaisedPropertyChanged("AddCommand");
             }
         }
-
         public void AddRepair(object Parameter)
+        {
+            if (!isOldDocument)
+                AddRepair();
+            else
+                AddRepairInOldDocument();
+        }
+        /// <summary>
+        /// Добавляет в базу данных новый документ и ремонты к нему
+        /// </summary>
+        public void AddRepair()
         {
             if (selectClientItem != null && defaultUser != null)
             {
-                var result = MessageBox.Show("Вы Действительно хотете записать в базу?\nПроверьте правильность данных!", "Создание экземпляра", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                var result = MessageBox.Show("Вы действительно хотете записать в базу?\nПроверьте правильность данных!", "Создание экземпляра", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
                 {
                     var defaultEngineer = UsersRequest.GetEngineer("Не выбран");
@@ -326,18 +354,14 @@ namespace Pronets.VievModel.Repairs_f
                     };
                     ReceiptDocumentRequest.AddToBase(newReceiptDocument);
                     DocumentId = ReceiptDocumentRequest.GetDocumentID();
-                    string sn, cm, nm, wt;
+                    string nm, wt;
                     for (int i = 0; i < repairs.Count; i++)
                     {
                         nm = repairs[i].Nomenclature1 != null ? repairs[i].Nomenclature1.Name : "Отсутствует";
-                        //sn = repairs[i].Serial_Number != null ? repairs[i].Serial_Number : "Отсутствует";
-                        //cm = repairs[i].Claimed_Malfunction != null ? repairs[i].Claimed_Malfunction : "Отсутствует";
                         wt = repairs[i].Warrantys != null ? repairs[i].Warrantys.Warranty : "нет";
 
                         repairs[i].DocumentId = DocumentId;
                         repairs[i].Nomenclature = nm;
-                        //repairs[i].Serial_Number = serial_Number;
-                        //repairs[i].Claimed_Malfunction = cm;
                         repairs[i].Client = selectClientItem.ClientId;
                         repairs[i].Status = "Принято";
                         repairs[i].Date_Of_Receipt = date_Of_Receipt;
@@ -347,6 +371,41 @@ namespace Pronets.VievModel.Repairs_f
                     }
                     repairs.GetHashCode();
                    
+                    RepairsRequest.AddToBase(repairs);
+                    repairs.Clear();
+                    MessageBox.Show("Произведена успешная запись в базу данных!", "Результат");
+                }
+            }
+            else
+                MessageBox.Show("Необходимо выбрать клиента!", "Ошибка");
+        }
+        /// <summary>
+        /// Добавляет в базу данных ремонты к существующему документу
+        /// </summary>
+        public void AddRepairInOldDocument()
+        {
+            if (selectClientItem != null && defaultUser != null)
+            {
+                var result = MessageBox.Show("Вы действительно хотете записать в базу?\nПроверьте правильность данных!", "Создание экземпляра", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.Yes)
+                {
+                    var defaultEngineer = UsersRequest.GetEngineer("Не выбран");
+                    
+                    string nm, wt;
+                    for (int i = 0; i < repairs.Count; i++)
+                    {
+                        nm = repairs[i].Nomenclature1 != null ? repairs[i].Nomenclature1.Name : "Отсутствует";
+                        wt = repairs[i].Warrantys != null ? repairs[i].Warrantys.Warranty : "нет";
+
+                        repairs[i].DocumentId = DocumentId;
+                        repairs[i].Nomenclature = nm;
+                        repairs[i].Client = selectClientItem.ClientId;
+                        repairs[i].Status = "Принято";
+                        repairs[i].Date_Of_Receipt = date_Of_Receipt;
+                        repairs[i].Engineer = defaultEngineer.Id;
+                        repairs[i].Inspector = defaultUser.UserId;
+                        repairs[i].Warranty = wt;
+                    }
                     RepairsRequest.AddToBase(repairs);
                     repairs.Clear();
                     MessageBox.Show("Произведена успешная запись в базу данных!", "Результат");
@@ -388,6 +447,7 @@ namespace Pronets.VievModel.Repairs_f
             }
         }
         #endregion
+
         #region Add row
         private ICommand addRowCommand;
         public ICommand AddRowCommand
@@ -410,6 +470,37 @@ namespace Pronets.VievModel.Repairs_f
         public void AddRow(object Parameter)
         {
             repairs.Add(new Repairs());
+        }
+        #endregion
+
+        #region Refresh command
+        private ICommand refreshCommand;
+        public ICommand RefreshCommand
+        {
+            get
+            {
+                if (refreshCommand == null)
+                {
+                    refreshCommand = new RelayCommand(new Action<object>(Refresh));
+                }
+                return refreshCommand;
+            }
+            set
+            {
+                refreshCommand = value;
+                RaisedPropertyChanged("RefreshCommand");
+            }
+        }
+        /// <summary>
+        /// Обновляет данные на странице
+        /// </summary>
+        /// <param name="parametr"></param>
+        public void Refresh(object parametr)
+        {
+            clients.Clear();
+            nomenclatures.Clear();
+            Clients = ClientsRequests.FillList();
+            Nomenclatures = NomenclatureRequest.FillList();
         }
         #endregion
     }

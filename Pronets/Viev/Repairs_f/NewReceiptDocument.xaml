@@ -9,12 +9,17 @@
         Title="Создать приходную накладную" MinHeight="450" MinWidth="950" Height="450" Width="950" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="10"></RowDefinition>
+            <RowDefinition Height="0"></RowDefinition>
             <RowDefinition Height="30"></RowDefinition>
             <RowDefinition Height="60"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <!--ROW 0-->
+        <Menu Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Right">
+            <MenuItem Header="Данные">
+                <MenuItem Header="Обновить данные страницы" Command="{Binding RefreshCommand}"></MenuItem>
+            </MenuItem>
+        </Menu>
         <TextBlock Text="{Binding TextDocumentId, Mode=TwoWay}" HorizontalAlignment="Center" FontSize="18"/>
 
         <!--ROW 1-->

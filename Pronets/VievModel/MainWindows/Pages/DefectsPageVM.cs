@@ -208,5 +208,33 @@ namespace Pronets.VievModel.MainWindows.Pages
                 catch (Exception) { }
         }
         #endregion
+        #region Refresh command
+        private ICommand refreshCommand;
+        public ICommand RefreshCommand
+        {
+            get
+            {
+                if (refreshCommand == null)
+                {
+                    refreshCommand = new RelayCommand(new Action<object>(Refresh));
+                }
+                return refreshCommand;
+            }
+            set
+            {
+                refreshCommand = value;
+                RaisedPropertyChanged("RefreshCommand");
+            }
+        }
+        /// <summary>
+        /// Обновляет данные на странице
+        /// </summary>
+        /// <param name="parametr"></param>
+        public void Refresh(object parametr)
+        {
+            clients.Clear();
+            Clients = ClientsRequests.FillList();
+        }
+        #endregion
     }
 }

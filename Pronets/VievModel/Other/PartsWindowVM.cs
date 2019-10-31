@@ -303,7 +303,7 @@ namespace Pronets.VievModel.Other
                     Part_Price = part_Price
                 };
 
-                var result = MessageBox.Show("Вы Действительно хотете добавить?\nПроверьте правильность данных!", "Создание экземпляра", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                var result = MessageBox.Show("Вы действительно хотете добавить?\nПроверьте правильность данных!", "Создание экземпляра", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
                 {
                     PartsRequest.AddToBase(part, out bool ex);
@@ -342,7 +342,7 @@ namespace Pronets.VievModel.Other
         {
             if (SelectedPart != null)
             {
-                var result = MessageBox.Show("Вы Действительно хотете удалить?", "Удаление", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                var result = MessageBox.Show("Вы действительно хотете удалить?", "Удаление", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
                 if (result == MessageBoxResult.Yes)
                 {
@@ -498,7 +498,7 @@ namespace Pronets.VievModel.Other
             if (partsOrder != null && document != null && document.Id != 0)
             {
 
-                var result = MessageBox.Show("Вы Действительно хотете сохранить?\nПроверьте правильность данных!", "Сохранение", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                var result = MessageBox.Show("Вы действительно хотете сохранить?\nПроверьте правильность данных!", "Сохранение", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
                 {
                     foreach (var order in PartsOrder)
@@ -546,7 +546,7 @@ namespace Pronets.VievModel.Other
         {
             if (SelectedOrder != null)
             {
-                var result = MessageBox.Show("Вы Действительно хотете удалить?", "Удаление", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                var result = MessageBox.Show("Вы действительно хотете удалить?", "Удаление", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
                 if (result == MessageBoxResult.Yes)
                 {
@@ -621,7 +621,7 @@ namespace Pronets.VievModel.Other
         {
             if (SelectedDocument != null)
             {
-                var result = MessageBox.Show("Вы Действительно хотете удалить?", "Удаление", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                var result = MessageBox.Show("Вы действительно хотете удалить?", "Удаление", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
                 if (result == MessageBoxResult.Yes)
                 {

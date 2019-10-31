@@ -216,6 +216,7 @@
     <Compile Include="VievModel\Other\UserOvertimeWindowVM.cs" />
     <Compile Include="VievModel\RelayCommand.cs" />
     <Compile Include="VievModel\Repairs_f\AllRepairsWindowVM.cs" />
+    <Compile Include="VievModel\Repairs_f\EditRepairWindowVM.cs" />
     <Compile Include="VievModel\Repairs_f\NewReceiptDocumentVM.cs" />
     <Compile Include="VievModel\Repairs_f\ReceiptDocumentInspectorVM.cs" />
     <Compile Include="VievModel\Repairs_f\RepairCategoriesVM.cs" />
@@ -292,6 +293,9 @@
     </Compile>
     <Compile Include="Viev\Repairs_f\AllRepairsWindow.xaml.cs">
       <DependentUpon>AllRepairsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Viev\Repairs_f\EditRepairWindow.xaml.cs">
+      <DependentUpon>EditRepairWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Viev\Repairs_f\NewReceiptDocument.xaml.cs">
       <DependentUpon>NewReceiptDocument.xaml</DependentUpon>
@@ -449,6 +453,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Viev\Repairs_f\AllRepairsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Viev\Repairs_f\EditRepairWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

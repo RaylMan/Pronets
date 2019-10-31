@@ -74,11 +74,11 @@ namespace Pronets.Viev.Repairs_f
             }
         }
 
-        private void Edit1_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
+        /// <summary>
+        /// Открывает окно дефектовки
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void NewDefectsDoc_Click(object sender, RoutedEventArgs e)
         {
             if (vm.SelectedClientItem != null)
@@ -87,12 +87,43 @@ namespace Pronets.Viev.Repairs_f
                 win.Show();
             }
         }
-
+       /// <summary>
+       /// Открывает окно приходной накладной
+       /// </summary>
+       /// <param name="sender"></param>
+       /// <param name="e"></param>
         private void NewPurchaseDoc_Click(object sender, RoutedEventArgs e)
         {
             if (vm.SelectedClientItem != null)
             {
                 PtintingPurchaseWindow win = new PtintingPurchaseWindow(document, vm.SelectedClientItem.ClientId);
+                win.Show();
+            }
+        }
+       /// <summary>
+       /// Открывает окно изменения ремонта, по выбранному элементу
+       /// </summary>
+       /// <param name="sender"></param>
+       /// <param name="e"></param>
+        private void OpenEditRepairWindow(object sender, RoutedEventArgs e)
+        {
+            if (Docunents1.SelectedItem != null)
+            {
+                EditRepairWindow window = new EditRepairWindow((v_Repairs)Docunents1.SelectedItem);
+                window.Show();
+            }
+        }
+
+        /// <summary>
+        /// Открывает окно добавления ремонтаов
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AddRepairs_Click(object sender, RoutedEventArgs e)
+        {
+            if(vm.DocumentId > 0)
+            {
+                NewReceiptDocument win = new NewReceiptDocument((int)vm.DocumentId);
                 win.Show();
             }
         }

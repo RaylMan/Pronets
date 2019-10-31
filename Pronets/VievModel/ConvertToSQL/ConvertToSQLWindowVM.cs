@@ -410,7 +410,7 @@ namespace Pronets.VievModel.ConvertToSQL
             if (selectedClient != null && selectedStatus != null)
             {
                 DateTime defaultDate = new DateTime(2017, 1, 1);
-                var result = MessageBox.Show("Вы Действительно хотете записать в базу?\nПроверьте правильность данных!", "Создание экземпляра", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                var result = MessageBox.Show("Вы действительно хотете записать в базу?\nПроверьте правильность данных!", "Создание экземпляра", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
                 {
                     int count = 0;

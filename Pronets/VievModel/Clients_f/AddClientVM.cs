@@ -47,7 +47,7 @@ namespace Pronets.VievModel.Clients_f
                     Adress = base.Adress
                 };
 
-                var result = MessageBox.Show("Вы Действительно хотете добавить клиента?\nПроверьте правильность данных!", "Создание экземпляра", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                var result = MessageBox.Show("Вы действительно хотете добавить клиента?\nПроверьте правильность данных!", "Создание экземпляра", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
                 {
                     if (client != null)

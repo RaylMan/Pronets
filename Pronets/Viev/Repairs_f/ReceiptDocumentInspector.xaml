@@ -28,7 +28,11 @@
             </ComboBox>
 
         </StackPanel>
-
+        <Menu Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right">
+            <MenuItem Header="Данные">
+                <MenuItem Header="Обновить данные страницы" Command="{Binding RefreshCommand}"></MenuItem>
+            </MenuItem>
+        </Menu>
         <!--Row 1-->
         <Button x:Name="Edit1" Command="{Binding EditCommand}" Content="Записать" Grid.Row="1" HorizontalAlignment="Left" Margin="10,16,0,49"
                 RenderTransformOrigin="0.566,-0.08" Width="60" />
@@ -56,8 +60,7 @@
         </GroupBox>
 
 
-        <Button x:Name="btnDelete" Content=" Удалить выделенный эмлемент " Command="{Binding RemoveCommand}" Grid.Row="1" HorizontalAlignment="Right" 
-                VerticalAlignment="Bottom" Margin="0,0,10,4"/>
+        
         <Label Content="Дата отправки" Margin="10,44,0,18" HorizontalAlignment="Left" Grid.Row="1"/>
         <DatePicker HorizontalAlignment="Left" Margin="10,66,0,0" Grid.Row="1" VerticalAlignment="Top" Width="156" SelectedDate="{Binding Path=DepartureDate,
             UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}"/>
@@ -66,6 +69,7 @@
         <TextBox x:Name="tbxSearch" HorizontalAlignment="Right" Height="23" Margin="0,28,10,0" TextWrapping="Wrap"
                      Text="{Binding SearchString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      ToolTip="Search" VerticalAlignment="Top" Width="184" Grid.Row="1"/>
+        <Button x:Name="addRepairs" Content="  Добавить  " Click="AddRepairs_Click" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="5"/>
         <!--Row 2-->
 
         <DataGrid x:Name="Docunents1" ItemsSource="{Binding V_Repairs}" SelectedIndex="{Binding SelectedIndex}" SelectedValue="{Binding SelectedItem}" 
@@ -106,6 +110,7 @@
             </DataGrid.RowStyle>
             <DataGrid.ContextMenu>
                 <ContextMenu>
+                    <MenuItem Header="Редактировать" Click="OpenEditRepairWindow"/>
                     <MenuItem Header="Удалить" Command="{Binding RemoveCommand}" CommandParameter="{Binding SelectedIndex}"/>
                 </ContextMenu>
             </DataGrid.ContextMenu>

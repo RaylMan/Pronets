@@ -74,7 +74,7 @@ namespace Pronets.VievModel.Repairs_f
         {
             if (status != null && status.Length > 0)
             {
-                var result = MessageBox.Show("Вы Действительно хотете добавить в базу?", "Создание экземпляра", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                var result = MessageBox.Show("Вы действительно хотете добавить в базу?", "Создание экземпляра", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
                 if (result == MessageBoxResult.Yes)
                 {
@@ -113,7 +113,7 @@ namespace Pronets.VievModel.Repairs_f
         {
             if (selectedItem != null)
             {
-                var result = MessageBox.Show("Вы Действительно хотете удалить?", "Удаление", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                var result = MessageBox.Show("Вы действительно хотете удалить?", "Удаление", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
                 if (result == MessageBoxResult.Yes)
                 {

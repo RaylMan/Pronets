@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Pronets.Data;
+using Pronets.EntityRequests.Other;
+using Pronets.EntityRequests.Users_f;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -44,6 +47,24 @@ namespace Pronets.Viev.Repairs_f
         {
             if (Docunents1.SelectedItem != null)
                 Docunents1.ScrollIntoView(Docunents1.SelectedItem);
+        }
+
+        private void BtnOpenDocument_Click(object sender, RoutedEventArgs e)
+        {
+            int.TryParse(Properties.Settings.Default.DefaultUserId.ToString(), out int userId);
+            var user = UsersRequest.GetUser(userId);
+            if (user != null && user.Position != "Инженер")
+            {
+                v_Repairs repair = (v_Repairs)Docunents1.SelectedItem;
+                if (repair != null)
+                {
+                    v_Receipt_Document document = ReceiptDocumentRequest.GetDocument((int)repair.DocumentId);
+                    ReceiptDocumentInspector window = new ReceiptDocumentInspector(document);
+                    window.Show();
+                }
+            }
+            else
+                MessageBox.Show("Нет доступа!","Открыть документ");
         }
     }
 }

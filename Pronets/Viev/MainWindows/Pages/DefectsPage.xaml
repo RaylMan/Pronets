@@ -8,9 +8,6 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="DefectsPage">
-    <Page.DataContext>
-        <vm:DefectsPageVM/>
-    </Page.DataContext>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"></ColumnDefinition>
@@ -86,13 +83,12 @@
                 VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,5,5,0" Height="25"/>
         <Label Content="Клиент" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Margin="0,4,0,0"/>
         <ComboBox x:Name="cbxClient" ItemsSource="{Binding Clients, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedItem="{Binding SelectedClientItem}"
-                  HorizontalAlignment="Left"  Grid.Column="1" VerticalAlignment="Top" Width="155" Height="25" Margin="48,5,0,0">
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding ClientName}"/>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
-
+                  HorizontalAlignment="Left"  Grid.Column="1" VerticalAlignment="Top" Width="155" Height="25" Margin="48,5,0,0"
+                   IsTextSearchEnabled="True" TextSearch.TextPath="ClientName" IsEditable="True" DisplayMemberPath="ClientName"/>
+        <Button Command="{Binding RefreshCommand}" HorizontalAlignment="Left" Background="White" Grid.Column="1" VerticalAlignment="Top" Margin="209,5,0,0" Height="25"  >
+            <StackPanel>
+                <Image Source="D:\Projects\Pronets\Pronets\Viev\Nomenclature_f\reset.png" Height="19" Width="21" />
+            </StackPanel>
+        </Button>
     </Grid>
 </Page>

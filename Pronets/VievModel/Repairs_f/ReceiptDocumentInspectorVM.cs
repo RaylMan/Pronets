@@ -24,7 +24,7 @@ namespace Pronets.VievModel.Repairs_f
 
         #region Properties
         Dispatcher _dispatcher;
-        private ObservableCollection<Statuses> statuses;
+        private ObservableCollection<Statuses> statuses = new ObservableCollection<Statuses>();
         public ObservableCollection<Statuses> Statuses
         {
             get { return statuses; }
@@ -35,7 +35,7 @@ namespace Pronets.VievModel.Repairs_f
                 RaisedPropertyChanged("Statuses");
             }
         }
-        private ObservableCollection<Clients> clients;
+        private ObservableCollection<Clients> clients = new ObservableCollection<Clients>();
         public ObservableCollection<Clients> Clients
         {
             get { return clients; }
@@ -148,6 +148,7 @@ namespace Pronets.VievModel.Repairs_f
                 var date = DateTime.MinValue;
                 if (document.Date != null)
                     date = (DateTime)document.Date;
+                DocumentId = document.Document_Id;
                 TitleName = Id = document.Document_Id.ToString() + " От " + document.Date.ToString(/*"dd.MM.yyyy"*/);
                 InspectorName = document.Inspector != null ? document.Inspector : "Отсутствует";
                 ClientName = document.Client != null ? document.Client : "Отсутствует";
@@ -157,7 +158,7 @@ namespace Pronets.VievModel.Repairs_f
                 GetRepairsAsync();
                 //v_Repairs = RepairsRequest.FillList(document.Document_Id);
                 //GetCopyRepairs();
-                
+
                 DepartureDate = DateTime.Now;
                 _dispatcher = Dispatcher.CurrentDispatcher;
             }
@@ -165,18 +166,26 @@ namespace Pronets.VievModel.Repairs_f
                 MessageBox.Show("Не передан экземпляр класса в конструктор!", "Системаня ошибка!");
         }
         #region Select
-        //Устанавливает значение по умолчанию Combobox "статус документа" в соответствии с БД
+
+        /// <summary>
+        /// Выгружает список статусов и БД и устанавливает значение по умолчанию
+        /// </summary>
         public void GetStatus()
         {
-            statuses = StatusesRequests.FillList();
+            statuses.Clear();
+            Statuses = StatusesRequests.FillList();
             foreach (var status in statuses)
             {
                 if (status.Status == Document.Status)
                     SelectedStatusItem = status;
             }
         }
+        /// <summary>
+        /// Выгружает список клиентов из БД
+        /// </summary>
         public void GetClient()
         {
+            clients.Clear();
             clients = ClientsRequests.FillList();
             foreach (var client in clients)
             {
@@ -184,14 +193,18 @@ namespace Pronets.VievModel.Repairs_f
                     SelectedClientItem = client;
             }
         }
-
+       /// <summary>
+       /// Выгружает список ремонтов(асинхронно)
+       /// </summary>
         private async void GetRepairsAsync()
         {
-            if (V_Repairs != null)
-                V_Repairs.Clear();
+            V_Repairs.Clear();
             await Task.Run(() => GetRepairs());
             GetCopyRepairsAsync();
         }
+        /// <summary>
+        /// Выгружает список ремонтов
+        /// </summary>
         private void GetRepairs()
         {
             try
@@ -232,7 +245,7 @@ namespace Pronets.VievModel.Repairs_f
         public void EditDocument(object Parameter)
         {
             DateTime departureDateNotNull = DepartureDate ?? DateTime.Now;
-            var result = MessageBox.Show("Вы Действительно хотете записать в базу?\nПроверьте правильность данных!", "Создание экземпляра", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            var result = MessageBox.Show("Вы действительно хотете записать в базу?\nПроверьте правильность данных!", "Создание экземпляра", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
                 try
@@ -322,7 +335,7 @@ namespace Pronets.VievModel.Repairs_f
         {
             if (selectedItem != null)
             {
-                var result = MessageBox.Show("Вы Действительно хотете удалить?", "Удаление", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                var result = MessageBox.Show("Вы действительно хотете удалить?", "Удаление", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
                 if (result == MessageBoxResult.Yes)
                 {
@@ -403,6 +416,36 @@ namespace Pronets.VievModel.Repairs_f
             catch (Exception)
             {
             }
+        }
+        #endregion
+
+        #region Refresh command
+        private ICommand refreshCommand;
+        public ICommand RefreshCommand
+        {
+            get
+            {
+                if (refreshCommand == null)
+                {
+                    refreshCommand = new RelayCommand(new Action<object>(Refresh));
+                }
+                return refreshCommand;
+            }
+            set
+            {
+                refreshCommand = value;
+                RaisedPropertyChanged("RefreshCommand");
+            }
+        }
+        /// <summary>
+        /// Обновляет данные на странице
+        /// </summary>
+        /// <param name="parametr"></param>
+        public void Refresh(object parametr)
+        {
+            GetStatus();
+            GetClient();
+            GetRepairsAsync();
         }
         #endregion
     }

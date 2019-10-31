@@ -29,12 +29,7 @@ namespace Pronets.Viev.MainWindows.Pages
         {
             InitializeComponent();
             DataContext = new RepairsPageVM();
-            int.TryParse(Properties.Settings.Default.DefaultUserId.ToString(), out int userId);
-            var user = UsersRequest.GetUser(userId);
-            if (user != null && user.Position == "Инженер")
-            {
-                btnOpen.IsEnabled = false;
-            }
+            HideButton();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -75,6 +70,19 @@ namespace Pronets.Viev.MainWindows.Pages
         private void BtnSearch_Click(object sender, RoutedEventArgs e)
         {
             tbxDefect.Focus();
+        }
+        /// <summary>
+        /// Делает кнопку открыть приходный документ неактивной
+        /// для работников с уровнем доступа Инженер
+        /// </summary>
+        private void HideButton()
+        {
+            int.TryParse(Properties.Settings.Default.DefaultUserId.ToString(), out int userId);
+            var user = UsersRequest.GetUser(userId);
+            if (user != null && user.Position == "Инженер")
+            {
+                btnOpen.IsEnabled = false;
+            }
         }
     }
 }

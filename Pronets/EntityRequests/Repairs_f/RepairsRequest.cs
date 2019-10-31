@@ -815,7 +815,9 @@ namespace Pronets.EntityRequests.Repairs_f
                         result.Nomenclature = repair.Nomenclature;
                         result.Serial_Number = repair.Serial_Number;
                         result.Client = repair.Client;
+                        result.Claimed_Malfunction = repair.Claimed_Malfunction;
                         result.Date_Of_Receipt = repair.Date_Of_Receipt;
+                        result.Recipient = repair.Recipient;
                         result.Departure_Date = repair.Departure_Date;
                         result.Inspector = repair.Inspector;
                         result.Warranty = repair.Warranty;

@@ -777,7 +777,7 @@ namespace Pronets.VievModel.Clients_f
                     Adress = Adress
                 };
 
-                var result = MessageBox.Show("Вы Действительно хотите произвести запись?", "Запиьс в базу данных", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                var result = MessageBox.Show("Вы действительно хотите произвести запись?", "Запиьс в базу данных", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
                 {
                     if (modifiedClient != null)

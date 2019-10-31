@@ -84,7 +84,7 @@ namespace Pronets.VievModel.Users_f
                         Telephone = base.Telephone,
                         Adress = base.Adress
                     };
-                    var result = MessageBox.Show("Вы Действительно хотете добавить работника?\nПроверьте правильность данных!", "Создание экземпляра", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    var result = MessageBox.Show("Вы действительно хотете добавить работника?\nПроверьте правильность данных!", "Создание экземпляра", MessageBoxButton.YesNo, MessageBoxImage.Question);
                     if (result == MessageBoxResult.Yes)
                     {
                         UsersRequest.AddEngineer(engineer);

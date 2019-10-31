@@ -461,7 +461,7 @@ namespace Pronets.VievModel.Users_f
                     Position = selectedPosition.Position
                 };
 
-                var result = MessageBox.Show("Вы Действительно хотите редактировать?", "Редактирование", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                var result = MessageBox.Show("Вы действительно хотите редактировать?", "Редактирование", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
                 {
                     if (modifiedUser != null && modifiedEngineer!= null)

@@ -28,7 +28,12 @@ namespace Pronets.Viev.Repairs_f
             InitializeComponent();
             DataContext = new NewReceiptDocumentVM();
         }
-       
+        public NewReceiptDocument(int documentId)
+        {
+            InitializeComponent();
+            DataContext = new NewReceiptDocumentVM(documentId);
+        }
+
         private void ComboBoxNomenclature_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var row = GetDataGridRows(repairsGrid);

@@ -27,6 +27,7 @@ namespace Pronets.Viev.MainWindows.Pages
         public DefectsPage()
         {
             InitializeComponent();
+            DataContext = new DefectsPageVM();
         }
 
         private void BtnCreate_Click(object sender, RoutedEventArgs e)

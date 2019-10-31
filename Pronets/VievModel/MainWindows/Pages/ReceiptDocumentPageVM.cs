@@ -174,6 +174,7 @@ namespace Pronets.VievModel.MainWindows.Pages
             ReceiptDocuments = ReceiptDocumentRequest.v_FillList();
         }
         #endregion
+
         #region Remove From Base
         private ICommand removeItem;
         public ICommand RemoveCommand
@@ -196,7 +197,7 @@ namespace Pronets.VievModel.MainWindows.Pages
         {
             if (selectedItem != null)
             {
-                var result = MessageBox.Show("Вы Действительно хотете удалить?", "Удаление", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                var result = MessageBox.Show("Вы действительно хотете удалить?", "Удаление", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
                 if (result == MessageBoxResult.Yes)
                 {
