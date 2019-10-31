@@ -20,7 +20,9 @@ namespace Pronets.EntityRequests
             {
                 try
                 {
-                    statuses = new ObservableCollection<Statuses>(db.Statuses.ToList());
+                    statuses = new ObservableCollection<Statuses>(db.Statuses.Where(s => s.Status != "Готов").ToList());
+                    
+                    statuses.Add((Statuses)db.Statuses.Where(s => s.Status == "Готов").FirstOrDefault());
                 }
                 catch (Exception e)
                 {

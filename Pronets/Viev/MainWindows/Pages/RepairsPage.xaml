@@ -8,9 +8,6 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="RepairsPage">
-    <Page.DataContext>
-        <vm:RepairsPageVM/>
-    </Page.DataContext>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="35"></RowDefinition>
@@ -26,20 +23,24 @@
                  Width="170" SelectionChanged="TbxSearch_SelectionChanged" GotFocus="TbxSearch_GotFocus" MaxLength="50" Margin="5,5,54,5">
             <TextBox.InputBindings>
                 <KeyBinding 
-            Key="Enter" 
-            Command="{Binding SearchCommand}" 
+            Key="Enter"
+            Command="{Binding SearchCommand}"
             CommandParameter="{Binding Path=SearchText, RelativeSource={RelativeSource AncestorType={x:Type TextBox}}}" />
             </TextBox.InputBindings>
         </TextBox>
         <Button x:Name="btnSearch" Content="Искать" Command="{Binding SearchCommand}"  CommandParameter="{Binding ElementName=tbxSearch}" Grid.Row="0"
-                HorizontalAlignment="Left"  Margin="180,5,0,5" RenderTransformOrigin="-1.503,0.609" />
+                HorizontalAlignment="Left"  Margin="180,5,0,5" RenderTransformOrigin="-1.503,0.609" Click="BtnSearch_Click" />
         <CheckBox x:Name="checkBox" Content="Искать с русскими символами" IsChecked="{Binding IsChecked}" HorizontalAlignment="Left" Margin="243,10,0,0"
                   VerticalAlignment="Top" Grid.ColumnSpan="2" Width="194"/>
-
+        <Menu Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right">
+            <MenuItem Header="Данные">
+                <MenuItem Header="Обновить данные страницы" Command="{Binding RefreshCommand}"></MenuItem>
+            </MenuItem>
+        </Menu>
         <!--Row 1-->
         <DataGrid x:Name="Docunents" ItemsSource="{Binding V_Repairs, UpdateSourceTrigger=PropertyChanged}"  SelectedItem="{Binding SelectedRepair, UpdateSourceTrigger=PropertyChanged}" 
                   Grid.Row="1" Grid.ColumnSpan="2" Margin="5,5,5,10" AutoGenerateColumns="False" SelectionMode="Single" HorizontalGridLinesBrush="#FF999999" 
-                  VerticalGridLinesBrush="#FF999999" CanUserAddRows="False" CanUserDeleteRows="False">
+                  VerticalGridLinesBrush="#FF999999" CanUserAddRows="False" CanUserDeleteRows="False" SelectedIndex="{Binding SelectedIndex, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
             <DataGrid.Resources>
                 <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="White" />
                 <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#0078D7"/>
@@ -54,6 +55,9 @@
                             <Setter Property="Background" Value="Tomato"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Status}" Value="Не смогли починить">
+                            <Setter Property="Background" Value="Tomato"></Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Status}" Value="Восстановлению не подлежит">
                             <Setter Property="Background" Value="Tomato"></Setter>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Status}" Value="Утерян">
@@ -75,6 +79,7 @@
                 <DataGridTextColumn Header="Серийный Номер" Binding="{Binding Path=Serial_Number, UpdateSourceTrigger=PropertyChanged}" Width="*" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Дата приема" Binding="{Binding Path=Date_Of_Receipt, StringFormat='dd.MM.yyyy', UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Гарантия" Binding="{Binding Path=Warranty, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Статус ремонта" Binding="{Binding Path=Status, UpdateSourceTrigger=PropertyChanged}" Width="*" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Статус ремонта" Binding="{Binding Path=Status, UpdateSourceTrigger=PropertyChanged}" Width="*" IsReadOnly="True"/>
             </DataGrid.Columns>
         </DataGrid>
@@ -123,20 +128,21 @@
                 <RowDefinition Height="26"></RowDefinition>
                 <RowDefinition Height="26"></RowDefinition>
                 <RowDefinition Height="26"></RowDefinition>
-                <RowDefinition Height="26"></RowDefinition>
                 <RowDefinition></RowDefinition>
-                <RowDefinition  Height="40"></RowDefinition>
+                <RowDefinition Height="26"></RowDefinition>
+                <RowDefinition Height="40"></RowDefinition>
             </Grid.RowDefinitions>
             <Label Content="Выявленная неисправность:" Grid.Column="0" Grid.Row="0"/>
             <Label Content="Проделанный ремонт:" Grid.Column="0" Grid.Row="1"/>
             <Label Content="Категория ремонта:"  Grid.Column="0" Grid.Row="2"/>
             <Label Content="Инженер:"  Grid.Column="0" Grid.Row="3"/>
             <Label Content="Дата ремонта:"  Grid.Column="0" Grid.Row="4"/>
-            <Label  Content="Статус ремонта:"  Grid.Column="0" Grid.Row="5"/>
-            <Label  Content="Заметка:"  Grid.Column="0" Grid.Row="6"/>
+            <Label  Content="Статус ремонта:"  Grid.Column="0" Grid.Row="6"/>
+            <Label  Content="Заметка:"  Grid.Column="0" Grid.Row="5"/>
             <TextBox x:Name="tbxDefect" Grid.Column="1" Grid.Row="0"  Text="{Binding Identifie_Fault, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                      TextWrapping="Wrap" AcceptsReturn="True" MaxLength="200"/>
-            <TextBox x:Name="tbxWork" Grid.Column="1" Grid.Row="1" Text="{Binding Work_Done, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  TextWrapping="Wrap" AcceptsReturn="True" MaxLength="200"/>
+                      TextWrapping="Wrap" AcceptsReturn="True" MaxLength="200" SelectionChanged="TbxSearch_SelectionChanged" GotFocus="TbxSearch_GotFocus"/>
+            <TextBox x:Name="tbxWork" Grid.Column="1" Grid.Row="1" Text="{Binding Work_Done, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
+                     TextWrapping="Wrap" AcceptsReturn="True" MaxLength="200" SelectionChanged="TbxSearch_SelectionChanged" GotFocus="TbxSearch_GotFocus"/> 
 
             <ComboBox  ItemsSource="{Binding Repair_Categories}" SelectedValue="{Binding SelectedCategory}"  Grid.Column="1" Grid.Row="2" >
                 <ComboBox.ItemTemplate>
@@ -154,14 +160,14 @@
             </ComboBox>
             <DatePicker Grid.Column="1" Grid.Row="4" SelectedDate="{Binding Path=Repair_Date, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
                   ValidatesOnExceptions=true, NotifyOnValidationError=true}"/>
-            <ComboBox  ItemsSource="{Binding Statuses, UpdateSourceTrigger=PropertyChanged}" SelectedValue="{Binding SelectedStatus}"  Grid.Column="1" Grid.Row="5">
+            <ComboBox  ItemsSource="{Binding Statuses, UpdateSourceTrigger=PropertyChanged}" SelectedValue="{Binding SelectedStatus}"  Grid.Column="1" Grid.Row="6" >
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Status}"/>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-            <TextBox Grid.Column="1" Grid.Row="6" Text="{Binding Note, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" AcceptsReturn="True" MaxLength="200"/>
+            <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding Note, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" AcceptsReturn="True" MaxLength="200"/>
             <Button Grid.Column="1" Grid.Row="7" Command="{Binding EditCommand}" HorizontalAlignment="Right" Margin="5" Content="Записать" Width="85"/>
         </Grid>
     </Grid>

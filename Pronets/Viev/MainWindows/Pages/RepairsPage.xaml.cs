@@ -2,6 +2,7 @@
 using Pronets.EntityRequests.Other;
 using Pronets.EntityRequests.Users_f;
 using Pronets.Viev.Repairs_f;
+using Pronets.VievModel.MainWindows.Pages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +28,7 @@ namespace Pronets.Viev.MainWindows.Pages
         public RepairsPage()
         {
             InitializeComponent();
+            DataContext = new RepairsPageVM();
             int.TryParse(Properties.Settings.Default.DefaultUserId.ToString(), out int userId);
             var user = UsersRequest.GetUser(userId);
             if (user != null && user.Position == "Инженер")
@@ -68,6 +70,11 @@ namespace Pronets.Viev.MainWindows.Pages
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
 
+        }
+
+        private void BtnSearch_Click(object sender, RoutedEventArgs e)
+        {
+            tbxDefect.Focus();
         }
     }
 }

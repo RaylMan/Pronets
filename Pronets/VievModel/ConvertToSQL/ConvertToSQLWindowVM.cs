@@ -186,6 +186,7 @@ namespace Pronets.VievModel.ConvertToSQL
             Nomenclature = NomenclatureRequest.FillList();
             Statuses = StatusesRequests.FillList();
             _dispatcher = Dispatcher.CurrentDispatcher;
+            progressValue = 0;
         }
 
         public void GetAllChecked()
@@ -198,7 +199,21 @@ namespace Pronets.VievModel.ConvertToSQL
                 }
             }
         }
-
+        private string SetStatus(string status)
+        {
+            string newStatus = "Принято";
+            if (!string.IsNullOrWhiteSpace(status) && status != "0")
+            {
+                foreach (var item in statuses)
+                {
+                    if (status == item.Status)
+                    {
+                        newStatus = item.Status;
+                    }
+                }
+            }
+            return newStatus;
+        }
         void GetBaseFromExcel()
         {
             baseFromExcel.Clear();
@@ -212,7 +227,7 @@ namespace Pronets.VievModel.ConvertToSQL
             workList.Clear();
             await Task.Run(() => GetTableFromSheet());
         }
-        void GetTableFromSheet()
+        private void GetTableFromSheet()
         {
             if (SelectedSheet != null && !string.IsNullOrWhiteSpace(path))
             {
@@ -233,7 +248,8 @@ namespace Pronets.VievModel.ConvertToSQL
                                 IdentifyFault = Regex.Replace(Convert.ToString(item["Выявленная неисправность "]), " {2,}", " "),
                                 WorkDone = Regex.Replace(Convert.ToString(item["Проделанный ремонт"]), " {2,}", " "),
                                 Engineer = Regex.Replace(Convert.ToString(item["ФИО Мастера"]), " {2,}", " ").Split(' ').First(),
-                                Date = exporter.ConvToDate(Convert.ToString(item["Дата"]))
+                                Date = exporter.ConvToDate(Convert.ToString(item["Дата"])),
+                                Status = SetStatus(Regex.Replace(Convert.ToString(item["Статус"]), " {2,}", " "))
                             });
                         }));
                 }
@@ -317,15 +333,23 @@ namespace Pronets.VievModel.ConvertToSQL
                         IdentifyFault = item.IdentifyFault.Length < 200 ? item.IdentifyFault : item.IdentifyFault.Substring(0, 200),
                         WorkDone = item.WorkDone.Length < 200 ? item.WorkDone : item.WorkDone.Substring(0, 200),
                         Engineer = item.Engineer.Length < 50 ? item.Engineer : item.Engineer.Substring(0, 50),
-                        Date = item.Date
+                        Date = item.Date,
+                        Status = item.Status.Length < 50 ? item.Status : item.Status.Substring(0, 50),
                     });
 
                 }));
 
             }
-            foreach (var item in baseFromExcel)
+            try
             {
-                BaseFromExcelRequest.AddToBase(item);//запись на строну sql
+                foreach (var item in baseFromExcel)
+                {
+                    BaseFromExcelRequest.AddToBase(item);//запись на строну sql
+                }
+            }
+            catch (Exception)
+            {
+
             }
             MessageBox.Show("Загрузка закончена!");
         }
@@ -411,7 +435,6 @@ namespace Pronets.VievModel.ConvertToSQL
                         {
                             var engineer = UsersRequest.GetEngineer(item.Engineer) ?? defaultEngineer;
                             _dispatcher.Invoke(new Action(() =>
-
                             {
                                 if (item.IsSelected)
                                 {
@@ -422,7 +445,7 @@ namespace Pronets.VievModel.ConvertToSQL
                                         Serial_Number = item.SerialNumber,
                                         Claimed_Malfunction = item.Claimed_Malfunction,
                                         Client = SelectedClient.ClientId,
-                                        Status = SelectedStatus.Status,
+                                        Status = item.Status,
                                         Date_Of_Receipt = item.DateOfReceipt > defaultDate ? item.DateOfReceipt : defaultDate,
                                         Engineer = engineer.Id,
                                         Inspector = Properties.Settings.Default.DefaultUserId,
@@ -443,14 +466,8 @@ namespace Pronets.VievModel.ConvertToSQL
                 MessageBox.Show("Выберите клиента, номенклатуру, статус!", "Ошибка");
         }
         #endregion
-
-
     }
 
-
-
 }
-
-
 
 

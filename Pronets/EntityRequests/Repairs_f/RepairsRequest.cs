@@ -166,7 +166,7 @@ namespace Pronets.EntityRequests.Repairs_f
         /// <summary>
         /// <para>Возращает коллекцию Repairs клиента "Пронетс" по статусу</para>
         /// </summary>
-        public static ObservableCollection<Repairs> GetPronetsRepairs(string status)
+        public static ObservableCollection<Repairs> GetPronetsRepairs(string status, int clientId)
         {
             ObservableCollection<Repairs> repairs = null;
             using (var db = ConnectionTools.GetConnection())
@@ -176,7 +176,7 @@ namespace Pronets.EntityRequests.Repairs_f
                     if (repairs != null)
                         repairs.Clear();
 
-                    var result = db.Repairs.Where(r => r.Client == 3 && r.Status == status).Include(r => r.Nomenclature1).ToList();
+                    var result = db.Repairs.Where(r => r.Client == clientId && r.Status == status).Include(r => r.Nomenclature1).ToList();
                     repairs = new ObservableCollection<Repairs>(result);
                 }
                 catch (Exception e)

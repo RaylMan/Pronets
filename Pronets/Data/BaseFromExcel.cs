@@ -25,5 +25,6 @@ namespace Pronets.Data
         public string WorkDone { get; set; }
         public string Engineer { get; set; }
         public Nullable<System.DateTime> Date { get; set; }
+        public string Status { get; set; }
     }
 }

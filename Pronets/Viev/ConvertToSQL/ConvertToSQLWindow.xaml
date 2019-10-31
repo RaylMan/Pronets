@@ -24,7 +24,7 @@
                  Margin="10,10,0,0" Grid.Row="0" Grid.Column="0"/>
 
         <Button x:Name="open" Content="  Открыть файл  " FontSize="10" Click="Open_Click" Command="{Binding OpenCommand}" VerticalAlignment="Top" HorizontalAlignment="Left" 
-                Margin="311,10,0,0" Height="18"  Grid.Row="0" Grid.Column="0" RenderTransformOrigin="0.384,0.537"/>
+                Margin="311,10,0,0" Height="21"  Grid.Row="0" Grid.Column="0" RenderTransformOrigin="0.384,0.537"/>
         <Label Content=" Выбрать лист" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,30,0,0"  Grid.Row="0" Grid.Column="0"/>
 
 
@@ -101,6 +101,7 @@
                     <DataGridTextColumn Header="Ремонт" Binding="{Binding WorkDone, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
                     <DataGridTextColumn Header="Инженер" Binding="{Binding Engineer, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
                     <DataGridTextColumn Header="Дата" Binding="{Binding Date, StringFormat='dd.MM.yyyy', UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Статус" Binding="{Binding Status, StringFormat='dd.MM.yyyy', UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
                 </DataGrid.Columns>
             </DataGrid>
             <GridSplitter Grid.Column="1" ShowsPreview="False" Margin="0,26,0,0" Width="5" HorizontalAlignment="Center" VerticalAlignment="Stretch" />
@@ -131,6 +132,7 @@
                     <DataGridTextColumn Header="Ремонт" Binding="{Binding WorkDone, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
                     <DataGridTextColumn Header="Инженер" Binding="{Binding Engineer, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
                     <DataGridTextColumn Header="Дата" Binding="{Binding Date, StringFormat='dd.MM.yyyy', UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Статус" Binding="{Binding Status, StringFormat='dd.MM.yyyy', UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>

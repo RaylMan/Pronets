@@ -23,7 +23,6 @@ namespace Pronets.Viev
     public partial class LoginWindow : Window
     {
         Users user;
-        private bool isExceprion = false;
         public LoginWindow()
         {
             InitializeComponent();
@@ -43,15 +42,13 @@ namespace Pronets.Viev
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             SaveLogin();
-            LoginAsync(tbxLogin.Text, tbxPassword.Password);
+
             user = UsersRequest.Login(tbxLogin.Text, tbxPassword.Password, out bool ex);
-            isExceprion = ex;
-           
-            if (isExceprion)
+            if (ex)
             {
                 if (user != null)
                 {
-                    if (user.Position == "Администратор" && user.Position == "Директор")
+                    if (user.Position == "Администратор" || user.Position == "Директор")
                     {
                         WorkWindowAdmin workWindowAdmin = new WorkWindowAdmin(user);
                         workWindowAdmin.Show();
@@ -81,18 +78,24 @@ namespace Pronets.Viev
                 }
             }
         }
-
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
                 Button_Click(sender, e);
         }
-
+        /// <summary>
+        /// Открывает окно настроек подключения к SQL server
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnSettings_Click(object sender, RoutedEventArgs e)
         {
             DataBaseSettingsWindow win = new DataBaseSettingsWindow();
             win.Show();
         }
+        /// <summary>
+        /// Сохраняет логин в настройки, для автоматического заполнения tbxLogin при открытии окна.
+        /// </summary>
         private void SaveLogin()
         {
             if (cbxSaveLogin.IsChecked == true)
@@ -107,14 +110,6 @@ namespace Pronets.Viev
                 Properties.Settings.Default.SaveLogin = false;
                 Properties.Settings.Default.Save();
             }
-        }
-        private async void LoginAsync(string login, string password)
-        {
-            await Task.Run(() => Login(login, password));
-        }
-        private void Login(string login, string password)
-        {
-           
         }
     }
 }

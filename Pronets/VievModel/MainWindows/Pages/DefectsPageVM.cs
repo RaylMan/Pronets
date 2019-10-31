@@ -200,7 +200,12 @@ namespace Pronets.VievModel.MainWindows.Pages
         }
         private void RemoveRepair(object Parameter)
         {
-            V_Repairs.RemoveAt(SelectedRepairIndex);
+            if (SelectedRepairIndex >= 0)
+                try
+                {
+                    V_Repairs.RemoveAt(SelectedRepairIndex);
+                }
+                catch (Exception) { }
         }
         #endregion
     }

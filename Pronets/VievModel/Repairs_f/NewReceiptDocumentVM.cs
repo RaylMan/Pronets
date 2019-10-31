@@ -15,6 +15,7 @@ namespace Pronets.VievModel.Repairs_f
     class NewReceiptDocumentVM : VievModelBase
     {
         #region Property
+        Users defaultUser;
         public OpenWindowCommand OpenWindowCommand { get; set; }
         private ObservableCollection<Repairs> repairs;
         public ObservableCollection<Repairs> Repairs
@@ -310,7 +311,7 @@ namespace Pronets.VievModel.Repairs_f
 
         public void AddRepair(object Parameter)
         {
-            if (selectClientItem != null && selectUserItem != null)
+            if (selectClientItem != null && defaultUser != null)
             {
                 var result = MessageBox.Show("Вы Действительно хотете записать в базу?\nПроверьте правильность данных!", "Создание экземпляра", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
@@ -319,7 +320,7 @@ namespace Pronets.VievModel.Repairs_f
                     ReceiptDocument newReceiptDocument = new ReceiptDocument
                     {
                         ClientId = selectClientItem.ClientId,
-                        InspectorId = selectUserItem.UserId,
+                        InspectorId = defaultUser.UserId,
                         Date = DateTime.Now,
                         Status = "Принято"
                     };
@@ -341,7 +342,7 @@ namespace Pronets.VievModel.Repairs_f
                         repairs[i].Status = "Принято";
                         repairs[i].Date_Of_Receipt = date_Of_Receipt;
                         repairs[i].Engineer = defaultEngineer.Id;
-                        repairs[i].Inspector = selectUserItem.UserId;
+                        repairs[i].Inspector = defaultUser.UserId;
                         repairs[i].Warranty = wt;
                     }
                     repairs.GetHashCode();
@@ -352,19 +353,41 @@ namespace Pronets.VievModel.Repairs_f
                 }
             }
             else
-                MessageBox.Show("Необходимо выбрать клиента и приемщика!", "Ошибка");
+                MessageBox.Show("Необходимо выбрать клиента!", "Ошибка");
         }
         #endregion
         private void GetDefaultUser()
         {
-            foreach (var user in users)
+            defaultUser = UsersRequest.GetUser(Properties.Settings.Default.DefaultUserId);
+        }
+
+        #region Delete Command
+        private ICommand deleteItem;
+        public ICommand DeleteCommand
+        {
+            get
             {
-                if(user.UserId == Properties.Settings.Default.DefaultUserId)
+                if (deleteItem == null)
                 {
-                    SelectUserItem = user;
+                    deleteItem = new RelayCommand(new Action<object>(DeleteRepair));
                 }
+                return deleteItem;
+            }
+            set
+            {
+                deleteItem = value;
+                RaisedPropertyChanged("DeleteCommand");
             }
         }
+
+        public void DeleteRepair(object Parameter)
+        {
+            if (selectedIndex > 0)
+            {
+                Repairs.RemoveAt(SelectedIndex);
+            }
+        }
+        #endregion
         #region Add row
         private ICommand addRowCommand;
         public ICommand AddRowCommand

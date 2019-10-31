@@ -97,9 +97,9 @@ namespace Pronets.VievModel.MainWindows.Pages
 
         public EquipmentWindowVM()
         {
-            
+
             _dispatcher = Dispatcher.CurrentDispatcher;
-            //GetStatuses();
+            GetStatuses();
             GetContentAsync();
             OpenWindowCommand = new OpenWindowCommand();
         }
@@ -123,6 +123,8 @@ namespace Pronets.VievModel.MainWindows.Pages
         }
         private async void GetContentAsync()
         {
+            V_Repairs.Clear();
+            RepairsByNomenclature.Clear();
             pronetsClient = null;
             Repairs.Clear();
             SortingEquipments.Clear();
@@ -130,20 +132,22 @@ namespace Pronets.VievModel.MainWindows.Pages
         }
         private async void GetContentAsync(object parametr)
         {
+            V_Repairs.Clear();
+            RepairsByNomenclature.Clear();
             pronetsClient = null;
             Repairs.Clear();
             SortingEquipments.Clear();
             await Task.Run(() => GetContent());
         }
-        private void GetContent(/*object parametr*/) // обновление листа без учета типа оборудования
+        private void GetContent() // обновление листа без учета типа оборудования
         {
-            GetStatuses();
+
             pronetsClient = ClientsRequests.GetPronetsClient();
             foreach (var status in Statuses)
             {
                 if (status.IsSelected == true)
                 {
-                    foreach (var item in RepairsRequest.GetPronetsRepairs(status.Status))
+                    foreach (var item in RepairsRequest.GetPronetsRepairs(status.Status, pronetsClient.ClientId))
                     {
                         _dispatcher.Invoke(new Action(() =>
                         {
@@ -175,46 +179,7 @@ namespace Pronets.VievModel.MainWindows.Pages
                 }
             }
             GetTotalAmount();
-          
         }
-
-        //private void GetContent() // вывод в список с учетов типа оборудования
-        //{
-        //    pronetsClient = null;
-        //    repairs.Clear();
-        //    sortingEquipments.Clear();
-
-        //    pronetsClient = ClientsRequests.GetPronetsClient();
-        //    foreach (var status in statuses)
-        //    {
-        //        if (status.IsSelected == true)
-        //        {
-        //            foreach (var item in RepairsRequest.GetPronetsRepairs(status.Status))
-        //            {
-        //                repairs.Add(item);
-        //            }
-        //        }
-        //    }
-        //    if (repairs != null && repairs.Count > 0)
-        //    {
-        //        var result = from equip in repairs
-        //                     group equip by new
-        //                     {
-        //                         equip.Nomenclature
-        //                     } into n
-        //                     select new { n.Key.Nomenclature, Count = n.Count() };
-
-        //        foreach (var item in result)
-        //        {
-        //            sortingEquipments.Add(new SortingRepair
-        //            {
-        //                NomenclatureName = item.Nomenclature,
-        //                RepairsCount = item.Count
-        //            });
-        //        }
-        //    }
-        //    GetTotalAmount();
-        //}
         #endregion
 
         #region Search
@@ -261,7 +226,6 @@ namespace Pronets.VievModel.MainWindows.Pages
         }
         private void GetRepairByNomenclature()
         {
-            GetStatuses();
             foreach (var status in statuses)
             {
                 if (status.IsSelected == true)

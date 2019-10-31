@@ -50,8 +50,8 @@
         <GroupBox Header="Печать" HorizontalAlignment="Left" Height="85" Margin="535,5,0,0" Grid.Row="1" VerticalAlignment="Top" Width="116">
             <Grid>
                 <Button x:Name="newDefectsDoc"  Content=" Дефектовка " Click="NewDefectsDoc_Click"  HorizontalAlignment="Left" 
-                 Width="87" VerticalAlignment="Top" Margin="7,7,0,0"/>
-                <Button x:Name="newPurchaseDoc"  Content=" Акт приема " Click="NewPurchaseDoc_Click" HorizontalAlignment="Left" Margin="7,32,7,10" Width="87" />
+                 Width="87" VerticalAlignment="Top" Margin="7,7,0,0" Height="24"/>
+                <Button x:Name="newPurchaseDoc"  Content=" Акт приема " Click="NewPurchaseDoc_Click" HorizontalAlignment="Left" Margin="7,35,0,5" Width="87" />
             </Grid>
         </GroupBox>
 
@@ -87,6 +87,9 @@
                             <Setter Property="Background" Value="Tomato"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Status}" Value="Не смогли починить">
+                            <Setter Property="Background" Value="Tomato"></Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Status}" Value="Восстановлению не подлежит">
                             <Setter Property="Background" Value="Tomato"></Setter>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Status}" Value="Утерян">
@@ -129,6 +132,7 @@
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
                 <DataGridTextColumn Header="Дата приема" Binding="{Binding Date_Of_Receipt, StringFormat='dd.MM.yyyy'}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Клиент" Binding="{Binding Client_Name}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Дата отправки" Binding="{Binding Departure_Date, StringFormat='dd.MM.yyyy'}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Получатель" Binding="{Binding Recipient}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Гарантия" Binding="{Binding Warranty}" IsReadOnly="True"/>
@@ -160,7 +164,6 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Клиент" Binding="{Binding Client_Name}" IsReadOnly="True"/>
             </DataGrid.Columns>
         </DataGrid>
         <!--Row 3-->
@@ -181,6 +184,9 @@
                         <DataTrigger Binding="{Binding Status}" Value="Не смогли починить">
                             <Setter Property="Background" Value="Tomato"></Setter>
                         </DataTrigger>
+                        <DataTrigger Binding="{Binding Status}" Value="Восстановлению не подлежит">
+                            <Setter Property="Background" Value="Tomato"></Setter>
+                        </DataTrigger>
                         <DataTrigger Binding="{Binding Status}" Value="Утерян">
                             <Setter Property="Background" Value="Red"></Setter>
                         </DataTrigger>
@@ -198,6 +204,7 @@
                 <DataGridTextColumn Header="Наименование" Binding="{Binding Nomenclature}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Серийный Номер" Binding="{Binding Serial_Number}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="№ Документа" Binding="{Binding DocumentId}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Клиент" Binding="{Binding Client_Name}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Заявленная неисправность" Binding="{Binding Claimed_Malfunction}" MaxWidth="200" IsReadOnly="True">
                     <DataGridTextColumn.ElementStyle>
                         <Style>
@@ -238,7 +245,6 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Клиент" Binding="{Binding Client_Name}" IsReadOnly="True"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
