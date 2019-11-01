@@ -47,7 +47,7 @@
             </DataGrid.Resources>
             <DataGrid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Информация о ремонте" Command="{Binding InfoCommand}" CommandParameter="{Binding SelectedRepair}" />
+                    <MenuItem Header="Информация о ремонте" Command="{Binding GetInfoCommand}" CommandParameter="{Binding SelectedRepair}" />
                 </ContextMenu>
             </DataGrid.ContextMenu>
             <DataGrid.RowStyle>

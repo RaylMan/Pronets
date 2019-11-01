@@ -23,6 +23,7 @@ namespace Pronets.VievModel.Repairs_f
     {
 
         #region Properties
+
         Dispatcher _dispatcher;
         private ObservableCollection<Statuses> statuses = new ObservableCollection<Statuses>();
         public ObservableCollection<Statuses> Statuses
@@ -46,6 +47,17 @@ namespace Pronets.VievModel.Repairs_f
                 RaisedPropertyChanged("Clients");
             }
         }
+        private ObservableCollection<Clients> recipients = new ObservableCollection<Clients>();
+        public ObservableCollection<Clients> Recipients
+        {
+            get { return recipients; }
+
+            set
+            {
+                recipients = value;
+                RaisedPropertyChanged("Recipients");
+            }
+        }
         private v_Receipt_Document Document { get; set; }
 
         private Statuses selectedStatusItem;
@@ -66,6 +78,16 @@ namespace Pronets.VievModel.Repairs_f
             {
                 selectedClientItem = value;
                 RaisedPropertyChanged("SelectedClientItem");
+            }
+        }
+        private Clients selectedRecipientItem;
+        public Clients SelectedRecipientItem
+        {
+            get { return selectedRecipientItem; }
+            set
+            {
+                selectedRecipientItem = value;
+                RaisedPropertyChanged("SelectedRecipientItem");
             }
         }
         private string id;
@@ -185,17 +207,23 @@ namespace Pronets.VievModel.Repairs_f
         /// </summary>
         public void GetClient()
         {
-            clients.Clear();
-            clients = ClientsRequests.FillList();
+            Clients.Clear();
+            Recipients.Clear();
+            Clients = ClientsRequests.FillList();
+            Recipients = ClientsRequests.FillList();
             foreach (var client in clients)
             {
                 if (client.ClientName == Document.Client)
+                {
                     SelectedClientItem = client;
+                    SelectedRecipientItem = client;
+                }
             }
         }
-       /// <summary>
-       /// Выгружает список ремонтов(асинхронно)
-       /// </summary>
+
+        /// <summary>
+        /// Выгружает список ремонтов(асинхронно)
+        /// </summary>
         private async void GetRepairsAsync()
         {
             V_Repairs.Clear();
@@ -245,6 +273,7 @@ namespace Pronets.VievModel.Repairs_f
         public void EditDocument(object Parameter)
         {
             DateTime departureDateNotNull = DepartureDate ?? DateTime.Now;
+            string recipient = selectedRecipientItem != null ? selectedRecipientItem.ClientName : null;
             var result = MessageBox.Show("Вы действительно хотете записать в базу?\nПроверьте правильность данных!", "Создание экземпляра", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
@@ -264,7 +293,7 @@ namespace Pronets.VievModel.Repairs_f
                     {
                         if (RepairsChecked(V_Repairs))
                         {
-                            RepairsRequest.EditItemStatusToSendToClient(Document.Document_Id, departureDateNotNull);
+                            RepairsRequest.EditItemStatusToSendToClient(Document.Document_Id, departureDateNotNull, recipient);
                             editingDocument.Status = "Отправлено заказчику";
                         }
                         else
@@ -273,12 +302,14 @@ namespace Pronets.VievModel.Repairs_f
                             {
                                 if (item.IsChecked)
                                 {
-                                    RepairsRequest.EditItemStatus(item.RepairId, departureDateNotNull);
+                                    RepairsRequest.EditItemStatus(item.RepairId, departureDateNotNull, recipient);
                                 }
                             }
                             editingDocument.Status = "Отправлено заказчику(Частично)";
                         }
                     }
+
+
                     RepairsRequest.EditItemClient(Document.Document_Id, SelectedClientItem.ClientId);
                     ReceiptDocumentRequest.EditItem(editingDocument);
 
@@ -448,6 +479,8 @@ namespace Pronets.VievModel.Repairs_f
             GetRepairsAsync();
         }
         #endregion
+
+
     }
 }
 

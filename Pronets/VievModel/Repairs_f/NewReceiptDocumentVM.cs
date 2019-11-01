@@ -301,6 +301,11 @@ namespace Pronets.VievModel.Repairs_f
             GetDefaultUser();
             OpenWindowCommand = new OpenWindowCommand();
         }
+        private void GetDefaultUser()
+        {
+            defaultUser = UsersRequest.GetUser(Properties.Settings.Default.DefaultUserId);
+        }
+
         private void GetClient()
         {
             foreach (var item in clients)
@@ -415,11 +420,7 @@ namespace Pronets.VievModel.Repairs_f
                 MessageBox.Show("Необходимо выбрать клиента!", "Ошибка");
         }
         #endregion
-        private void GetDefaultUser()
-        {
-            defaultUser = UsersRequest.GetUser(Properties.Settings.Default.DefaultUserId);
-        }
-
+      
         #region Delete Command
         private ICommand deleteItem;
         public ICommand DeleteCommand

@@ -840,14 +840,14 @@ namespace Pronets.EntityRequests.Repairs_f
         /// <summary>
         /// <para>Изменяет в базе у экземляра Repairs статус и дату отправки, по номеру документа</para>
         /// </summary>
-        public static void EditItemStatusToSendToClient(int documentId, DateTime date)
+        public static void EditItemStatusToSendToClient(int documentId, DateTime date, string recipient)
         {
             using (var db = ConnectionTools.GetConnection())
             {
                 try
                 {
                     var result = db.Repairs.Where(r => r.DocumentId == documentId).ToList();
-                    result.ForEach(s => { s.Status = "Отправлено заказчику"; s.Departure_Date = date; });
+                    result.ForEach(s => { s.Status = "Отправлено заказчику"; s.Departure_Date = date; s.Recipient = recipient; });
                     db.SaveChanges();
                 }
                 catch (Exception e)
@@ -860,14 +860,14 @@ namespace Pronets.EntityRequests.Repairs_f
         /// <summary>
         /// <para>Изменяет в базе у экземляра Repairs статус и дату отправки, по номеру ремонта</para>
         /// </summary>
-        public static void EditItemStatus(int repairId, DateTime date)
+        public static void EditItemStatus(int repairId, DateTime date, string recipient)
         {
             using (var db = ConnectionTools.GetConnection())
             {
                 try
                 {
                     var result = db.Repairs.Where(r => r.RepairId == repairId).ToList();
-                    result.ForEach(s => { s.Status = "Отправлено заказчику"; s.Departure_Date = date; });
+                    result.ForEach(s => { s.Status = "Отправлено заказчику"; s.Departure_Date = date; s.Recipient = recipient; });
                     db.SaveChanges();
 
                 }

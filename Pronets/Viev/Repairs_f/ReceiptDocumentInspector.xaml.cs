@@ -25,6 +25,7 @@ namespace Pronets.Viev.Repairs_f
     /// </summary>
     public partial class ReceiptDocumentInspector : Window
     {
+        List<int> repairsIds = new List<int>();
         private v_Receipt_Document document;
         public ReceiptDocumentInspectorVM vm => (ReceiptDocumentInspectorVM)DataContext;
         public ReceiptDocumentInspector(v_Receipt_Document document)
@@ -81,17 +82,18 @@ namespace Pronets.Viev.Repairs_f
         /// <param name="e"></param>
         private void NewDefectsDoc_Click(object sender, RoutedEventArgs e)
         {
+            SetRepairsId();
             if (vm.SelectedClientItem != null)
             {
-                PrintingWindow win = new PrintingWindow(document, vm.SelectedClientItem.ClientId);
+                PrintingWindow win = new PrintingWindow(repairsIds, vm.SelectedClientItem.ClientId);
                 win.Show();
             }
         }
-       /// <summary>
-       /// Открывает окно приходной накладной
-       /// </summary>
-       /// <param name="sender"></param>
-       /// <param name="e"></param>
+        /// <summary>
+        /// Открывает окно приходной накладной
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void NewPurchaseDoc_Click(object sender, RoutedEventArgs e)
         {
             if (vm.SelectedClientItem != null)
@@ -100,11 +102,11 @@ namespace Pronets.Viev.Repairs_f
                 win.Show();
             }
         }
-       /// <summary>
-       /// Открывает окно изменения ремонта, по выбранному элементу
-       /// </summary>
-       /// <param name="sender"></param>
-       /// <param name="e"></param>
+        /// <summary>
+        /// Открывает окно изменения ремонта, по выбранному элементу
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OpenEditRepairWindow(object sender, RoutedEventArgs e)
         {
             if (Docunents1.SelectedItem != null)
@@ -121,10 +123,33 @@ namespace Pronets.Viev.Repairs_f
         /// <param name="e"></param>
         private void AddRepairs_Click(object sender, RoutedEventArgs e)
         {
-            if(vm.DocumentId > 0)
+            if (vm.DocumentId > 0)
             {
                 NewReceiptDocument win = new NewReceiptDocument((int)vm.DocumentId);
                 win.Show();
+            }
+        }
+        /// <summary>
+        /// Заполняет таблицу номерами ремонта из датагрид
+        /// </summary>
+        private void SetRepairsId()
+        {
+            repairsIds.Clear();
+            int count = 0;
+            foreach (var repair in vm.V_Repairs)
+            {
+                if (repair.IsChecked == true)
+                {
+                    repairsIds.Add(repair.RepairId);
+                    count++;
+                }
+            }
+            if (count == 0) //если не установлены чекбоксы, вся таблица передается в окно дефектовки
+            {
+                foreach (var repair in vm.V_Repairs)
+                {
+                    repairsIds.Add(repair.RepairId);
+                }
             }
         }
     }

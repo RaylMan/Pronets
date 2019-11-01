@@ -372,6 +372,48 @@ namespace Pronets.VievModel.MainWindows.Pages
             GetContentAsync();
         }
         #endregion
+
+        #region Info Command
+        private ICommand getInfoCommand;
+        public ICommand GetInfoCommand
+        {
+            get
+            {
+                if (getInfoCommand == null)
+                {
+                    getInfoCommand = new RelayCommand(new Action<object>(GetInfo));
+                }
+                return getInfoCommand;
+            }
+            set
+            {
+                getInfoCommand = value;
+                RaisedPropertyChanged("GetInfoCommand");
+            }
+        }
+        private void GetInfo(object parametr)
+        {
+            string info = $"№ ремонта: {selectedRepair.RepairId}\n" +
+                $"№ документа: {selectedRepair.DocumentId}\n" +
+                $"Наименование: {selectedRepair.Nomenclature}\n" +
+                $"Серийный номер: {selectedRepair.Serial_Number}\n" +
+                $"Клиент: {selectedRepair.Client_Name}\n" +
+                $"Дата приемки: {selectedRepair.Date_Of_Receipt}\n" +
+                $"Приемщик: {selectedRepair.Inspector}\n" +
+                $"Получатель: {selectedRepair.Recipient}\n" +
+                $"Дата отправки: {selectedRepair.Departure_Date}\n" +
+                $"Гарантия: {selectedRepair.Warranty}\n" +
+                $"Заявленная неисправность: {selectedRepair.Claimed_Malfunction}\n" +
+                $"Выявленная неисправность: {selectedRepair.Identifie_Fault}\n" +
+                $"Проделанная работа: {selectedRepair.Work_Done}\n" +
+                $"Инженер: {selectedRepair.Engineer}\n" +
+                $"Дата ремонта: {selectedRepair.Repair_Date}\n" +
+                $"Категория ремонта: {selectedRepair.Repair_Category}\n" +
+                $"Статус ремонта: {selectedRepair.Status}\n" +
+                $"Заметка: {selectedRepair.Note}";
+            MessageBox.Show(info, "Информация о ремонте");
+        }
+        #endregion
     }
 
 }
