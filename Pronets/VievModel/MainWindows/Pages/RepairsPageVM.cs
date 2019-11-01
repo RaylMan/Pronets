@@ -275,7 +275,7 @@ namespace Pronets.VievModel.MainWindows.Pages
                     repair.Note = Note;
                     repair.Repair_Date = Repair_Date;
                     repair.Repair_Category = SelectedCategory != null ? SelectedCategory.Category : null;
-                    repair.Status = SelectedStatus != null ? SelectedStatus.Status : "Готов";
+                    repair.Status = SelectedStatus != null ? SelectedStatus.Status : "Готово";
 
                     var result = MessageBox.Show("Вы действительно хотите редактировать?", "Редактирование", MessageBoxButton.YesNo, MessageBoxImage.Question);
                     if (result == MessageBoxResult.Yes)

@@ -36,7 +36,7 @@
                 <Style TargetType="DataGridRow">
                     <EventSetter Event="MouseDoubleClick" Handler="Row_DoubleClick"/>
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding Status}" Value="Готов">
+                        <DataTrigger Binding="{Binding Status}" Value="Готово">
                             <Setter Property="Background" Value="Lime"></Setter>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Status}" Value="Донор">
@@ -48,16 +48,16 @@
                         <DataTrigger Binding="{Binding Status}" Value="Восстановлению не подлежит">
                             <Setter Property="Background" Value="Tomato"></Setter>
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding Status}" Value="Утерян">
+                        <DataTrigger Binding="{Binding Status}" Value="Утеряно">
                             <Setter Property="Background" Value="Red"></Setter>
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding Status}" Value="Частично готовый">
+                        <DataTrigger Binding="{Binding Status}" Value="Частично Готовоый">
                             <Setter Property="Background" Value="#FFFFF300"></Setter>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Status}" Value="В ремонте">
                             <Setter Property="Background" Value="#FF4061F9"/>
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding Status}" Value="Отправлен заказчику">
+                        <DataTrigger Binding="{Binding Status}" Value="Отправлено заказчику">
                             <Setter Property="Background" Value="DarkGray"></Setter>
                         </DataTrigger>
                     </Style.Triggers>

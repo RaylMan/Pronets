@@ -2775,7 +2775,7 @@
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_23452D7A55164FDB86D40C0585835E2C"
                     {
                     "Sequence" = "3:100"
-                    "DisplayName" = "8:Готово"
+                    "DisplayName" = "8:Готовоо"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
                     "SourcePath" = "8:<VsdDialogDir>\\VsdFinishedDlg.wid"
@@ -2819,7 +2819,7 @@
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_C6EF9A35841747B7A1AA307801011D03"
                     {
                     "Sequence" = "3:100"
-                    "DisplayName" = "8:Готово"
+                    "DisplayName" = "8:Готовоо"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
                     "SourcePath" = "8:<VsdDialogDir>\\VsdAdminFinishedDlg.wid"

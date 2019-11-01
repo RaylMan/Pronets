@@ -847,7 +847,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 try
                 {
                     var result = db.Repairs.Where(r => r.DocumentId == documentId).ToList();
-                    result.ForEach(s => { s.Status = "Отправлен заказчику"; s.Departure_Date = date; });
+                    result.ForEach(s => { s.Status = "Отправлено заказчику"; s.Departure_Date = date; });
                     db.SaveChanges();
                 }
                 catch (Exception e)
@@ -867,7 +867,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 try
                 {
                     var result = db.Repairs.Where(r => r.RepairId == repairId).ToList();
-                    result.ForEach(s => { s.Status = "Отправлен заказчику"; s.Departure_Date = date; });
+                    result.ForEach(s => { s.Status = "Отправлено заказчику"; s.Departure_Date = date; });
                     db.SaveChanges();
 
                 }

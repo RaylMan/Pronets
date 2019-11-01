@@ -256,16 +256,16 @@ namespace Pronets.VievModel.Repairs_f
                         ClientId = SelectedClientItem.ClientId,
                         Note = NoteOfDocument,
                         Status = SelectedStatusItem.Status,
-                        DepartureDate = SelectedStatusItem.Status == "Отправлен заказчику" ? DepartureDate : null
+                        DepartureDate = SelectedStatusItem.Status == "Отправлено заказчику" ? DepartureDate : null
 
                     };
 
-                    if (SelectedStatusItem.Status == "Отправлен заказчику" || SelectedStatusItem.Status == "Отправлен заказчику(Частично)")
+                    if (SelectedStatusItem.Status == "Отправлено заказчику" || SelectedStatusItem.Status == "Отправлено заказчику(Частично)")
                     {
                         if (RepairsChecked(V_Repairs))
                         {
                             RepairsRequest.EditItemStatusToSendToClient(Document.Document_Id, departureDateNotNull);
-                            editingDocument.Status = "Отправлен заказчику";
+                            editingDocument.Status = "Отправлено заказчику";
                         }
                         else
                         {
@@ -276,7 +276,7 @@ namespace Pronets.VievModel.Repairs_f
                                     RepairsRequest.EditItemStatus(item.RepairId, departureDateNotNull);
                                 }
                             }
-                            editingDocument.Status = "Отправлен заказчику(Частично)";
+                            editingDocument.Status = "Отправлено заказчику(Частично)";
                         }
                     }
                     RepairsRequest.EditItemClient(Document.Document_Id, SelectedClientItem.ClientId);

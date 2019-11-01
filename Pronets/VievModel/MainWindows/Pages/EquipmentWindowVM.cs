@@ -258,7 +258,7 @@ namespace Pronets.VievModel.MainWindows.Pages
             {
                 foreach (var status in Statuses)
                 {
-                    if (status.Status == "Готов" ||
+                    if (status.Status == "Готово" ||
                         status.Status == "На складе (без ремонта)" ||
                         status.Status == "Принято")
                     {
