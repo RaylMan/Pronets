@@ -549,27 +549,42 @@ namespace Pronets.VievModel.Clients_f
         public ClientInfoWIndowVM(Clients client)
         {
             clientInstance = client;
-            TitleName = "Информация о клиенте " + client.ClientName;
-            Name = $"{client.ClientName} [{client.ClientId}]";
-            ClientName = client.ClientName;
-            Contact_Person = client.Contact_Person;
-            Email = client.Email;
-            Inn = client.Inn;
-            Telephone_1 = client.Telephone_1;
-            Telephone_2 = client.Telephone_2;
-            Telephone_3 = client.Telephone_3;
-            Adress = client.Adress;
-            NomenclaturesList = NomenclatureRequest.FillList();
-            V_Repairs = RepairsRequest.FillListClient(client.ClientId);
-            Statuses = StatusesRequests.FillList();
-            ReceiptDocuments = ReceiptDocumentRequest.FillListClient(client.ClientId);
-            AddDocumentName();
-            RepairsCount = v_repairs.Count.ToString();
-            warrantysList.Add(new Warrantys { Warranty = "Нет" });
-            warrantysList.Add(new Warrantys { Warranty = "Гарантия Элтекс" });
-            warrantysList.Add(new Warrantys { Warranty = "Наша Гарантия" });
+            GetContent();
         }
+        private void GetContent()
+        {
+            NomenclaturesList.Clear();
+            V_Repairs.Clear();
+            Statuses.Clear();
+            ReceiptDocuments.Clear();
+            WarrantysList.Clear();
 
+            if (clientInstance != null)
+            {
+                TitleName = "Информация о клиенте " + clientInstance.ClientName;
+                Name = $"{clientInstance.ClientName} [{clientInstance.ClientId}]";
+                ClientName = clientInstance.ClientName;
+                Contact_Person = clientInstance.Contact_Person;
+                Email = clientInstance.Email;
+                Inn = clientInstance.Inn;
+                Telephone_1 = clientInstance.Telephone_1;
+                Telephone_2 = clientInstance.Telephone_2;
+                Telephone_3 = clientInstance.Telephone_3;
+                Adress = clientInstance.Adress;
+                NomenclaturesList = NomenclatureRequest.FillList();
+                V_Repairs = RepairsRequest.FillListClient(clientInstance.ClientId);
+                Statuses = StatusesRequests.FillList();
+                ReceiptDocuments = ReceiptDocumentRequest.FillListClient(clientInstance.ClientId);
+                AddDocumentName();
+                RepairsCount = v_repairs.Count.ToString();
+                WarrantysList.Add(new Warrantys { Warranty = "Нет" });
+                WarrantysList.Add(new Warrantys { Warranty = "Гарантия Элтекс" });
+                WarrantysList.Add(new Warrantys { Warranty = "Наша Гарантия" });
+            }
+            else
+                MessageBox.Show("Обновите данные страницы", "Ошибка");
+           
+        }
         #region Sorting
         private ICommand sortCommand;
         public ICommand SortCommand
@@ -822,6 +837,31 @@ namespace Pronets.VievModel.Clients_f
                 }
             }
         }
+        #endregion
+
+        #region SortCommand
+        private ICommand refreshCommand;
+        public ICommand RefreshCommand
+        {
+            get
+            {
+                if (refreshCommand == null)
+                {
+                    refreshCommand = new RelayCommand(new Action<object>(Refresh));
+                }
+                return refreshCommand;
+            }
+            set
+            {
+                refreshCommand = value;
+                RaisedPropertyChanged("RefreshCommand");
+            }
+        }
+        private void Refresh(object parametr)
+        {
+            GetContent();
+        }
+
         #endregion
     }
 }

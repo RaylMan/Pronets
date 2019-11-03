@@ -28,8 +28,8 @@
         <ComboBox x:Name="cbxClient" ItemsSource="{Binding Clients}" SelectedValue="{Binding SelectClientItem}" HorizontalAlignment="Left"
                   Margin="128,3,0,0" Grid.Row="1" VerticalAlignment="Top" Width="211"
                    IsTextSearchEnabled="True" TextSearch.TextPath="ClientName" IsEditable="True" DisplayMemberPath="ClientName"/>
-        
-       
+
+
         <!--ROW 2-->
         <TextBlock Grid.Row="2" HorizontalAlignment="Left" Margin="5,5,0,5" Width="76" Text="Заполнение выделенных строк" TextWrapping="Wrap" />
         <Label x:Name="label3" Content="Наименование" HorizontalAlignment="Left" Margin="89,5,0,0" Grid.Row="2" VerticalAlignment="Top" Height="25" Width="95"/>
@@ -72,7 +72,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-
+                
                 <DataGridTemplateColumn  x:Name="cbxNomenclatureOfRepair" Header="Номенклатура">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -83,7 +83,6 @@
                                       SelectedValuePath="Nomenclature"
                                       IsTextSearchEnabled="True" TextSearch.TextPath="Name" IsEditable="True" >
                             </ComboBox>
-
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

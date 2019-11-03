@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Pronets.Viev.MainWindows;
+using Pronets.Viev.MainWindows.Pages;
+using Pronets.VievModel.Nomenclature_f;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +25,7 @@ namespace Pronets.Viev.Nomenclature_f
         public NomenclatureWindow()
         {
             InitializeComponent();
+            DataContext = new NomenclatureVM();
         }
     }
 }

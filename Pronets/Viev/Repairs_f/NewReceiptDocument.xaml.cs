@@ -1,8 +1,10 @@
-﻿using Pronets.Navigation;
+﻿using Pronets.Data;
+using Pronets.Navigation;
 using Pronets.VievModel.Repairs_f;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,7 +15,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+
 
 namespace Pronets.Viev.Repairs_f
 {
@@ -22,7 +24,7 @@ namespace Pronets.Viev.Repairs_f
     /// </summary>
     public partial class NewReceiptDocument : Window
     {
-        
+
         public NewReceiptDocument()
         {
             InitializeComponent();
@@ -63,20 +65,26 @@ namespace Pronets.Viev.Repairs_f
         {
             if (grid.ItemsSource != null)
             {
-                //for (int i = 0; i < repairsGrid.Items.Count; i++)
-                //{
-                //    DataGridRow row = (DataGridRow)repairsGrid.ItemContainerGenerator
-                //                                               .ContainerFromIndex(i);
-                //    yield return row;
-                //}
+                grid.SelectedIndex = 0;
+                ScrollCarret(0);
                 var itemsSource = grid.ItemsSource as IEnumerable;
                 if (null == itemsSource) yield return null;
                 foreach (var item in itemsSource)
                 {
+                    ScrollCarret(grid.SelectedIndex++);
                     var row = grid.ItemContainerGenerator.ContainerFromItem(item) as DataGridRow;
                     if (null != row) yield return row;
                 }
             }
+        }
+        /// <summary>
+        /// Прокрутка датагрид, чтобы установились все чекбоксы
+        /// </summary>
+        /// <param name="index">Индекс выделенной строки</param>
+        private void ScrollCarret(int index)
+        {
+            if (repairsGrid.SelectedItem != null)
+                repairsGrid.ScrollIntoView(repairsGrid.SelectedItem);
         }
 
         private void ComboBoxWarranty_SelectionChanged(object sender, SelectionChangedEventArgs e)

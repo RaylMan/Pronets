@@ -48,6 +48,7 @@
     </Reference>
     <Reference Include="ReachFramework" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
@@ -179,6 +180,7 @@
     <Compile Include="EntityRequests\Repairs_f\RepairsRequest.cs" />
     <Compile Include="EntityRequests\Repairs_f\StatusesRequests.cs" />
     <Compile Include="EntityRequests\Users_f\UsersRequest.cs" />
+    <Compile Include="Model\DefectsTextModel.cs" />
     <Compile Include="Model\DocumentPaginatorWrapper.cs" />
     <Compile Include="Model\EditChars.cs" />
     <Compile Include="Model\FittedDocumentPaginator.cs" />
@@ -208,6 +210,7 @@
     <Compile Include="VievModel\MainWindows\WorkWindowEngineerVM.cs" />
     <Compile Include="VievModel\Nomenclature_f\NomenclatureVM.cs" />
     <Compile Include="VievModel\Nomenclature_f\Nomenclature_TypesVM.cs" />
+    <Compile Include="VievModel\Other\FaultWindowVM.cs" />
     <Compile Include="VievModel\Other\OvertimeWindowVM.cs" />
     <Compile Include="VievModel\Other\PartsWindowVM.cs" />
     <Compile Include="VievModel\Other\PrintingWindowVM.cs" />
@@ -272,6 +275,9 @@
     </Compile>
     <Compile Include="Viev\Nomenclature_f\Nomenclature_TypesWindow.xaml.cs">
       <DependentUpon>Nomenclature_TypesWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Viev\Other\FaultWindow.xaml.cs">
+      <DependentUpon>FaultWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Viev\Other\OvertimeWindow.xaml.cs">
       <DependentUpon>OvertimeWindow.xaml</DependentUpon>
@@ -425,6 +431,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Viev\Nomenclature_f\Nomenclature_TypesWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Viev\Other\FaultWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

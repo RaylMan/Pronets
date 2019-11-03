@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pronets.Viev.Repairs_f"
         mc:Ignorable="d"
-        Title="{Binding Title}" Height="450" Width="610">
+        Title="{Binding Title}" Height="450" Width="610" Background="Gainsboro" ResizeMode="NoResize" >
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="310"></ColumnDefinition>
@@ -19,11 +19,12 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <Label Content="Номер Документа" Grid.Row="0" Grid.Column="0"  VerticalAlignment="Top" HorizontalAlignment="Left"/>
-        <TextBox Text="{Binding DocumentId}" Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="108,5,0,0" Width="197" IsReadOnly="True"/>
+        <TextBox Text="{Binding DocumentId}" Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Left"
+                 Margin="108,5,0,0" Width="197" IsReadOnly="True" TextWrapping="Wrap"/>
 
         <Label Content="Серийный номер" Grid.Row="0" Grid.Column="0" Margin="0,23,0,0"   VerticalAlignment="Top" HorizontalAlignment="Left" />
         <TextBox Text="{Binding Serial_Number}" Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Left"
-                 MaxLength="50" Margin="108,28,0,0" Width="197" />
+                 MaxLength="50" Margin="108,28,0,0" Width="197" TextWrapping="Wrap"/>
         <Label Content="Номенклатура" Grid.Row="0" Grid.Column="0"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,44,0,0"/>
         <ComboBox ItemsSource="{Binding Nomenclatures}"
                   SelectedValue="{Binding SelectedNomenclatureItem}"
@@ -32,17 +33,17 @@
 
 
         <Label Content="Заявленная неисправность" Grid.Column="0"   VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,62,0,0" Grid.RowSpan="2"/>
-        <TextBox Text="{Binding Claimed_Malfunction}" Grid.Row="1" Grid.Column="0" 
+        <TextBox Text="{Binding Claimed_Malfunction}" Grid.Row="1" Grid.Column="0"  TextWrapping="Wrap"
                  MaxLength="200" Margin="5,0,5,20" />
         <Label Content="Выявленная неисправность" Grid.Row="1" Grid.Column="0"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,58,0,0"/>
-        <TextBox Text="{Binding Identifie_Fault}" Grid.Row="2" Grid.Column="0" 
+        <TextBox Text="{Binding Identifie_Fault}" Grid.Row="2" Grid.Column="0"  TextWrapping="Wrap"
                  MaxLength="200" Margin="5,0,5,20" />
         <Label Content="Проделанная работа" Grid.Row="2" Grid.Column="0"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,62,0,0" Grid.RowSpan="2"/>
         <TextBox Text="{Binding Work_Done}" Grid.Row="3" Grid.Column="0" 
-                 MaxLength="200" Margin="5,0,5,20" />
+                 MaxLength="200" Margin="5,0,5,20" TextWrapping="Wrap"/>
         <Label Content="Заметка" Grid.Row="3" Grid.Column="0"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,62,0,0" Grid.RowSpan="2"/>
         <TextBox Text="{Binding Note}" Grid.Row="4" Grid.Column="0" 
-                 MaxLength="200" Margin="5,0,5,20" />
+                 MaxLength="200" Margin="5,0,5,20" TextWrapping="Wrap" />
 
         <!--Column 1-->
         <Label Content="Клиент " Grid.Row="0"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,1,0,0" Grid.Column="1"/>

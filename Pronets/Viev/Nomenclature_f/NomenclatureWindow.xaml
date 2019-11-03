@@ -7,9 +7,7 @@
         xmlns:vm="clr-namespace:Pronets.VievModel.Nomenclature_f"
         mc:Ignorable="d"
         Title="Номенклатура" Height="400" Width="700" WindowStartupLocation="CenterScreen" >
-    <Window.DataContext>
-        <vm:NomenclatureVM/>
-    </Window.DataContext>
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition ></ColumnDefinition>

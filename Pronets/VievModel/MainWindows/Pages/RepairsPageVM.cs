@@ -23,8 +23,6 @@ namespace Pronets.VievModel.MainWindows.Pages
         #region Properties
         Dispatcher _dispatcher;
         private v_Repairs v_Repair = new Data.v_Repairs();
-        private Clients clientInstance;
-        private Users user;
         private Engineers engineer;
         private ObservableCollection<Repair_Categories> repair_Categories = new ObservableCollection<Repair_Categories>();
         public ObservableCollection<Repair_Categories> Repair_Categories
@@ -59,7 +57,16 @@ namespace Pronets.VievModel.MainWindows.Pages
                 RaisedPropertyChanged("Statuses");
             }
         }
-
+        private string repairsInfo;
+        public string RepairsInfo
+        {
+            get { return repairsInfo; }
+            set
+            {
+                repairsInfo = value;
+                RaisedPropertyChanged("RepairsInfo");
+            }
+        }
         private string inspectorName;
         public string InspectorName
         {
@@ -92,31 +99,13 @@ namespace Pronets.VievModel.MainWindows.Pages
                 RaisedPropertyChanged("SelectedRepair");
                 if (SelectedRepair != null)
                 {
-                    v_Repair.Client_Name = selectedRepair.Client_Name;
-                    v_Repair.Date_Of_Receipt = selectedRepair.Date_Of_Receipt;
-                    v_Repair.Inspector = selectedRepair.Inspector;
-                    v_Repair.Departure_Date = selectedRepair.Departure_Date;
-                    user = UsersRequest.GetUser(selectedRepair.InspectorId);
-                    clientInstance = ClientsRequests.GetClient(selectedRepair.Client_Id);
-                    RepairId = v_Repair.RepairId = selectedRepair.RepairId;
-                    DocumentId = v_Repair.DocumentId = selectedRepair.DocumentId;
-                    Nomenclature = v_Repair.Nomenclature = selectedRepair.Nomenclature;
-                    Serial_Number = v_Repair.Serial_Number = selectedRepair.Serial_Number;
-                    InspectorName = user.LastName;
-                    Warranty = v_Repair.Warranty = selectedRepair.Warranty;
-                    Claimed_Malfunction = v_Repair.Claimed_Malfunction = selectedRepair.Claimed_Malfunction;
-                    ClientName = this.clientInstance.ClientName;
-                    v_Repair.Identifie_Fault = selectedRepair.Identifie_Fault;
-                    v_Repair.Work_Done = selectedRepair.Work_Done;
-                    Note = v_Repair.Note = selectedRepair.Note;
-                    Repair_Date = v_Repair.Repair_Date = selectedRepair.Repair_Date != null ? selectedRepair.Repair_Date : DateTime.Now;
+                    GetRepairInfo();
                     GetStatus();
-                    GetEngineer();
                     GetCategory();
+                    GetRepairInfo();
                 }
             }
         }
-
         private Engineers selectedEngineer;
         public Engineers SelectedEngineer
         {
@@ -169,15 +158,14 @@ namespace Pronets.VievModel.MainWindows.Pages
             }
         }
 
-
-
         #endregion
 
         public RepairsPageVM()
         {
-            Date_Of_Receipt = DateTime.Now;
+            Repair_Date = DateTime.Now;
             _dispatcher = Dispatcher.CurrentDispatcher;
             GetContentAsync();
+            GetEngineer();
         }
         private async void GetContentAsync()
         {
@@ -188,10 +176,10 @@ namespace Pronets.VievModel.MainWindows.Pages
             _dispatcher.Invoke(new Action(() =>
             {
                 Repair_Categories = RepairCategoriesRequests.FillList();
-                Engineers = UsersRequest.FillListEngineers();
                 Statuses = StatusesRequests.FillList();
             }));
         }
+
         #region Search Command
         private ICommand searchItem;
         public ICommand SearchCommand
@@ -262,39 +250,32 @@ namespace Pronets.VievModel.MainWindows.Pages
 
         public void EditItem(object Parameter)
         {
-
             if (SelectedRepair != null)
             {
-                if (SelectedEngineer != null)
+                repair = RepairsRequest.GetRepair(SelectedRepair.RepairId);
+                repair.Engineer = engineer != null ? engineer.Id : 0;
+                repair.Identifie_Fault = Identifie_Fault;
+                repair.Work_Done = Work_Done;
+                repair.Note = Note;
+                repair.Repair_Date = Repair_Date;
+                repair.Repair_Category = SelectedCategory != null ? SelectedCategory.Category : null;
+                repair.Status = SelectedStatus != null ? SelectedStatus.Status : "Готово";
+
+                var result = MessageBox.Show("Вы действительно хотите редактировать?", "Редактирование", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.Yes)
                 {
-
-                    repair = RepairsRequest.GetRepair(SelectedRepair.RepairId);
-                    repair.Engineer = SelectedEngineer != null ? SelectedEngineer.Id : 0;
-                    repair.Identifie_Fault = Identifie_Fault;
-                    repair.Work_Done = Work_Done;
-                    repair.Note = Note;
-                    repair.Repair_Date = Repair_Date;
-                    repair.Repair_Category = SelectedCategory != null ? SelectedCategory.Category : null;
-                    repair.Status = SelectedStatus != null ? SelectedStatus.Status : "Готово";
-
-                    var result = MessageBox.Show("Вы действительно хотите редактировать?", "Редактирование", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                    if (result == MessageBoxResult.Yes)
+                    if (SelectedStatus.Status != "Принято")
                     {
-                        if (SelectedStatus.Status != "Принято")
+                        if (repair != null)
                         {
-                            if (repair != null)
-                            {
-                                RepairsRequest.EditItem(repair);
-                                ReceiptDocumentRequest.SetStatus((int)repair.DocumentId, "В ремонте");
-                                SearchItemAsync();
-                            }
+                            RepairsRequest.EditItem(repair);
+                            ReceiptDocumentRequest.SetStatus((int)repair.DocumentId, "В ремонте");
+                            SearchItemAsync();
                         }
-                        else
-                            MessageBox.Show("Установите статус ремонта!", "Ошибка");
                     }
+                    else
+                        MessageBox.Show("Установите статус ремонта!", "Ошибка");
                 }
-                else
-                    MessageBox.Show("Необходимо выбрать инженера!", "Ошибка");
             }
             else
                 MessageBox.Show("Необходимо выбрать элемент!", "Ошибка");
@@ -302,6 +283,28 @@ namespace Pronets.VievModel.MainWindows.Pages
         #endregion
 
         #region Selectitems
+        private void GetRepairInfo()
+        {
+            RepairsInfo = $"№ ремонта: {selectedRepair.RepairId}\n" +
+               $"№ документа: {selectedRepair.DocumentId}\n" +
+               $"Наименование: {selectedRepair.Nomenclature}\n" +
+               $"Серийный номер: {selectedRepair.Serial_Number}\n" +
+               $"Клиент: {selectedRepair.Client_Name}\n" +
+               $"Заявленная неисправность: {selectedRepair.Claimed_Malfunction}\n" +
+               $"Выявленная неисправность: {selectedRepair.Identifie_Fault}\n" +
+               $"Проделанная работа: {selectedRepair.Work_Done}\n" +
+               $"Заметка: {selectedRepair.Note}\n" +
+               $"Дата приемки: {selectedRepair.Date_Of_Receipt}\n" +
+               $"Приемщик: {selectedRepair.Inspector}\n" +
+               $"Получатель: {selectedRepair.Recipient}\n" +
+               $"Дата отправки: {selectedRepair.Departure_Date}\n" +
+               $"Гарантия: {selectedRepair.Warranty}\n" +
+               $"Инженер: {selectedRepair.Engineer}\n" +
+               $"Дата ремонта: {selectedRepair.Repair_Date}\n" +
+               $"Категория ремонта: {selectedRepair.Repair_Category}\n" +
+               $"Статус ремонта: {selectedRepair.Status}" ;
+
+        }
         //Устанавливает значение по умолчанию Combobox "статус документа" в соответствии с БД
         public void GetStatus()
         {
@@ -313,27 +316,8 @@ namespace Pronets.VievModel.MainWindows.Pages
         }
         public void GetEngineer()
         {
-            var defaultEngineer = UsersRequest.GetEngineer("Не выбран");
-            foreach (var engineer in engineers)
-            {
-                if (selectedRepair.EngineerId != defaultEngineer.Id)
-                {
-                    if (engineer.Id == selectedRepair.EngineerId)
-                    {
-                        SelectedEngineer = engineer;
-                    }
-                }
-                else
-                {
-                    foreach (var item in engineers)
-                    {
-                        if (engineer.LastName == Properties.Settings.Default.DefaultLastName)
-                        {
-                            SelectedEngineer = engineer;
-                        }
-                    }
-                }
-            }
+            var user = UsersRequest.GetUser(Properties.Settings.Default.DefaultUserId);
+            engineer = UsersRequest.GetEngineer(user.LastName);
         }
         public void GetCategory()
         {

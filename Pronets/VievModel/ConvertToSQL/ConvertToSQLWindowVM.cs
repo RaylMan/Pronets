@@ -229,6 +229,7 @@ namespace Pronets.VievModel.ConvertToSQL
         }
         private void GetTableFromSheet()
         {
+
             if (SelectedSheet != null && !string.IsNullOrWhiteSpace(path))
             {
                 foreach (var item in exporter.ReadAsDataTable(path, SelectedSheet.SheetID).AsEnumerable())
@@ -249,8 +250,9 @@ namespace Pronets.VievModel.ConvertToSQL
                                 WorkDone = Regex.Replace(Convert.ToString(item["Проделанный ремонт"]), " {2,}", " "),
                                 Engineer = Regex.Replace(Convert.ToString(item["ФИО Мастера"]), " {2,}", " ").Split(' ').First(),
                                 Date = exporter.ConvToDate(Convert.ToString(item["Дата"])),
-                                Status = SetStatus(Regex.Replace(Convert.ToString(item["Статус"]), " {2,}", " "))
+                                Status = SetStatus(Regex.Replace(Convert.ToString(item["Статус ремонта"]), " {2,}", " "))
                             });
+
                         }));
                 }
             }

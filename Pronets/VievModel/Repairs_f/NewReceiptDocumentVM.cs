@@ -18,7 +18,7 @@ namespace Pronets.VievModel.Repairs_f
         Users defaultUser;
         bool isOldDocument = false;
         public OpenWindowCommand OpenWindowCommand { get; set; }
-        private ObservableCollection<Repairs> repairs;
+        private ObservableCollection<Repairs> repairs = new ObservableCollection<Repairs>();
         public ObservableCollection<Repairs> Repairs
         {
             get { return this.repairs; }
@@ -31,7 +31,7 @@ namespace Pronets.VievModel.Repairs_f
         }
 
 
-        private ObservableCollection<Nomenclature> nomenclatures;
+        private ObservableCollection<Nomenclature> nomenclatures = new ObservableCollection<Nomenclature>();
         public ObservableCollection<Nomenclature> Nomenclatures
         {
             get
@@ -44,7 +44,7 @@ namespace Pronets.VievModel.Repairs_f
             }
 
         }
-        private ObservableCollection<Warrantys> warrantys;
+        private ObservableCollection<Warrantys> warrantys = new ObservableCollection<Warrantys>();
         public ObservableCollection<Warrantys> Warrantys
         {
             get { return this.warrantys; }
@@ -57,7 +57,7 @@ namespace Pronets.VievModel.Repairs_f
 
         }
 
-        private ObservableCollection<Users> users;
+        private ObservableCollection<Users> users = new ObservableCollection<Users>();
         public ObservableCollection<Users> Users
         {
             get { return this.users; }
@@ -68,7 +68,7 @@ namespace Pronets.VievModel.Repairs_f
                 RaisedPropertyChanged("Users");
             }
         }
-        private ObservableCollection<Clients> clients;
+        private ObservableCollection<Clients> clients = new ObservableCollection<Clients>();
         public ObservableCollection<Clients> Clients
         {
             get { return this.clients; }
@@ -279,6 +279,7 @@ namespace Pronets.VievModel.Repairs_f
         public NewReceiptDocumentVM()
         {
             GetContent();
+           
         }
         public NewReceiptDocumentVM(int documentId)
         {
@@ -286,6 +287,14 @@ namespace Pronets.VievModel.Repairs_f
             isOldDocument = true;
             GetContent();
             GetClient();
+            
+        }
+        private void test()
+        {
+            for (int i = 0; i < 30; i++)
+            {
+                Repairs.Add(new Repairs { Serial_Number = i.ToString() });
+            }
         }
         private void GetContent()
         {
@@ -299,13 +308,20 @@ namespace Pronets.VievModel.Repairs_f
             warrantys.Add(new Warrantys { Warranty = "Гарантия Элтекс" });
             warrantys.Add(new Warrantys { Warranty = "Наша Гарантия" });
             GetDefaultUser();
+            GetRepairsFromDocument();
             OpenWindowCommand = new OpenWindowCommand();
         }
         private void GetDefaultUser()
         {
             defaultUser = UsersRequest.GetUser(Properties.Settings.Default.DefaultUserId);
         }
-
+        private void GetRepairsFromDocument()
+        {
+            if (isOldDocument)
+            {
+                Repairs = RepairsRequest.FillListDocument(DocumentId);
+            }
+        }
         private void GetClient()
         {
             foreach (var item in clients)
@@ -375,7 +391,7 @@ namespace Pronets.VievModel.Repairs_f
                         repairs[i].Warranty = wt;
                     }
                     repairs.GetHashCode();
-                   
+
                     RepairsRequest.AddToBase(repairs);
                     repairs.Clear();
                     MessageBox.Show("Произведена успешная запись в базу данных!", "Результат");
@@ -395,7 +411,7 @@ namespace Pronets.VievModel.Repairs_f
                 if (result == MessageBoxResult.Yes)
                 {
                     var defaultEngineer = UsersRequest.GetEngineer("Не выбран");
-                    
+
                     string nm, wt;
                     for (int i = 0; i < repairs.Count; i++)
                     {
@@ -420,7 +436,7 @@ namespace Pronets.VievModel.Repairs_f
                 MessageBox.Show("Необходимо выбрать клиента!", "Ошибка");
         }
         #endregion
-      
+
         #region Delete Command
         private ICommand deleteItem;
         public ICommand DeleteCommand

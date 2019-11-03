@@ -1,6 +1,7 @@
 ﻿using Pronets.Data;
 using Pronets.EntityRequests.Other;
 using Pronets.EntityRequests.Users_f;
+using Pronets.Viev.Other;
 using Pronets.Viev.Repairs_f;
 using Pronets.VievModel.MainWindows.Pages;
 using System;
@@ -29,22 +30,7 @@ namespace Pronets.Viev.MainWindows.Pages
         {
             InitializeComponent();
             DataContext = new RepairsPageVM();
-            HideButton();
         }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            if (tbxDocimentId.Text != null && tbxDocimentId.Text != "")
-            {
-                Int32.TryParse(tbxDocimentId.Text, out int id);
-                v_Receipt_Document document = ReceiptDocumentRequest.GetDocument(id);
-                ReceiptDocumentInspector doc = new ReceiptDocumentInspector(document);
-                doc.Show();
-            }
-            else
-                MessageBox.Show("Не выбран элемент", "Ошибка");
-        }
-
         #region Выделить текст в текстбоксе
         private bool isFocused = false;
         private void TbxSearch_GotFocus(object sender, RoutedEventArgs e)
@@ -62,27 +48,16 @@ namespace Pronets.Viev.MainWindows.Pages
         }
         #endregion
 
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
+        
         private void BtnSearch_Click(object sender, RoutedEventArgs e)
         {
             tbxDefect.Focus();
         }
-        /// <summary>
-        /// Делает кнопку открыть приходный документ неактивной
-        /// для работников с уровнем доступа Инженер
-        /// </summary>
-        private void HideButton()
+       
+        private void BtnOpenDefects_Click(object sender, RoutedEventArgs e)
         {
-            int.TryParse(Properties.Settings.Default.DefaultUserId.ToString(), out int userId);
-            var user = UsersRequest.GetUser(userId);
-            if (user != null && user.Position == "Инженер")
-            {
-                btnOpen.IsEnabled = false;
-            }
+            FaultWindow win = new FaultWindow();
+            win.Show();
         }
     }
 }

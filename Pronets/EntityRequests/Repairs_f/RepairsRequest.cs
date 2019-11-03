@@ -32,35 +32,22 @@ namespace Pronets.EntityRequests.Repairs_f
                 {
                     repairs.Clear();
                     repairs = new ObservableCollection<Repairs>(db.Repairs.ToList());
-                    //foreach (var item in db.Repairs)
-                    //{
-                    //    repairs.Add(new Repairs
-                    //    {
-                    //        RepairId = item.RepairId,
-                    //        DocumentId = item.DocumentId,
-                    //        Nomenclature = item.Nomenclature,
-                    //        Serial_Number = item.Serial_Number,
-                    //        Client = item.Client,
-                    //        Date_Of_Receipt = item.Date_Of_Receipt,
-                    //        Departure_Date = item.Departure_Date,
-                    //        Recipient = item.Recipient,
-                    //        Inspector = item.Inspector,
-                    //        Warranty = item.Warranty,
-                    //        Identifie_Fault = item.Identifie_Fault,
-                    //        Work_Done = item.Work_Done,
-                    //        Repair_Category = item.Repair_Category,
-                    //        Engineer = item.Engineer,
-                    //        Repair_Date = item.Repair_Date,
-                    //        Status = item.Status,
-                    //        Note = item.Note,
-                    //        Clients = item.Clients,
-                    //        Nomenclature1 = item.Nomenclature1,
-                    //        ReceiptDocument = item.ReceiptDocument,
-                    //        Statuses = item.Statuses,
-                    //        Users = item.Users,
-                    //        //Users1 = item.Users1
-                    //    });
-                    //}
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Ошибка");
+                }
+            }
+            return repairs;
+        }
+        public static ObservableCollection<Repairs> FillListDocument(int documentId)
+        {
+            ObservableCollection<Repairs> repairs = null;
+            using (var db = ConnectionTools.GetConnection())
+            {
+                try
+                {
+                    repairs = new ObservableCollection<Repairs>(db.Repairs.Where(d => d.DocumentId == documentId).ToList());
                 }
                 catch (Exception e)
                 {
@@ -75,7 +62,7 @@ namespace Pronets.EntityRequests.Repairs_f
         /// </summary>
         public static ObservableCollection<v_Repairs> v_FillList()
         {
-            ObservableCollection<v_Repairs> v_RepairsAll = null ;
+            ObservableCollection<v_Repairs> v_RepairsAll = null;
             using (var db = ConnectionTools.GetConnection())
             {
                 try

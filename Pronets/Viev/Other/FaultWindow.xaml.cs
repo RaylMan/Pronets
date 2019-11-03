@@ -1,4 +1,4 @@
-﻿using Pronets.VievModel.Repairs_f;
+﻿using Pronets.VievModel.Other;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,17 +13,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Pronets.Viev.Repairs_f
+namespace Pronets.Viev.Other
 {
     /// <summary>
-    /// Логика взаимодействия для StatusesWindow.xaml
+    /// Логика взаимодействия для FaultWindow.xaml
     /// </summary>
-    public partial class StatusesWindow : Window
+    public partial class FaultWindow : Window
     {
-        public StatusesWindow()
+        public FaultWindow()
         {
             InitializeComponent();
-            DataContext = new StatusesVM();
+            DataContext = new FaultWindowVM();
         }
     }
 }

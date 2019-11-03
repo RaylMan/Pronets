@@ -15,6 +15,11 @@
         <!--Row 0-->
         <TextBlock Text="{Binding Name}" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="18"/>
         <Button Content=" Сохранить изменения " Command="{Binding EditCommand}" Grid.Row="0" HorizontalAlignment="Left" Margin="5,12,0,0"/>
+        <Menu Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Right">
+            <MenuItem Header="Данные">
+                <MenuItem Header="Обновить данные страницы" Command="{Binding RefreshCommand}"></MenuItem>
+            </MenuItem>
+        </Menu>
         <!--Row 1-->
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>

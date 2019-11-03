@@ -39,5 +39,28 @@ namespace Pronets.Viev.MainWindows.Pages
             ReceiptDocumentInspector doc = new ReceiptDocumentInspector(document);
             doc.Show();
         }
+
+
+        private void CmbStatuses_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            cbxAllStatus.IsChecked = false;
+        }
+
+        private void CmbClients_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            cbxAllClients.IsChecked = false;
+        }
+
+        private void CbxAllClients_Checked(object sender, RoutedEventArgs e)
+        {
+            cmbClients.SelectedItem = null;
+            cbxAllClients.IsChecked = true;
+        }
+
+        private void CbxAllStatus_Checked(object sender, RoutedEventArgs e)
+        {
+            cmbStatuses.SelectedItem = null;
+            cbxAllStatus.IsChecked = true;
+        }
     }
 }

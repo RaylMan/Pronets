@@ -40,22 +40,26 @@ namespace Pronets.Viev.Other
         }
         public IEnumerable<DataGridRow> GetDataGridRows(DataGrid grid)
         {
+            grid.SelectedIndex = 0;
+            ScrollCarret(0);
             if (grid.ItemsSource != null)
             {
                 var itemsSource = grid.ItemsSource as IEnumerable;
                 if (null == itemsSource) yield return null;
                 foreach (var item in itemsSource)
                 {
+                    ScrollCarret(grid.SelectedIndex++);
                     var row = grid.ItemContainerGenerator.ContainerFromItem(item) as DataGridRow;
                     if (null != row) yield return row;
                 }
             }
         }
-        private object GetDataGridRows(object repairsGrid)
+        private void ScrollCarret(int index)
         {
-            throw new NotImplementedException();
+            if (overtime.SelectedItem != null)
+                overtime.ScrollIntoView(overtime.SelectedItem);
         }
-
+        
         private void AllChecked_Unchecked(object sender, RoutedEventArgs e)
         {
             var row = GetDataGridRows(overtime);

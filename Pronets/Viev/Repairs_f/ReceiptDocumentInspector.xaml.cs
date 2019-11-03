@@ -42,14 +42,22 @@ namespace Pronets.Viev.Repairs_f
         {
             if (grid.ItemsSource != null)
             {
+                grid.SelectedIndex = 0;
+                ScrollCarret(0);
                 var itemsSource = grid.ItemsSource as IEnumerable;
                 if (null == itemsSource) yield return null;
                 foreach (var item in itemsSource)
                 {
+                    ScrollCarret(grid.SelectedIndex++);
                     var row = grid.ItemContainerGenerator.ContainerFromItem(item) as DataGridRow;
                     if (null != row) yield return row;
                 }
             }
+        }
+        private void ScrollCarret(int index)
+        {
+            if (Docunents1.SelectedItem != null)
+                Docunents1.ScrollIntoView(Docunents1.SelectedItem);
         }
 
         private void AllChecked_Checked(object sender, RoutedEventArgs e)

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using Pronets.Navigation;
+using Pronets.VievModel.ConvertToSQL;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace Pronets.Viev.ConvertToSQL
 {
@@ -22,23 +24,40 @@ namespace Pronets.Viev.ConvertToSQL
     /// </summary>
     public partial class ConvertToSQLWindow : Window
     {
+        Dispatcher dispatcher = Dispatcher.CurrentDispatcher;
         public ConvertToSQLWindow()
         {
             InitializeComponent();
+            DataContext = new ConvertToSQLWindowVM();
         }
 
         public IEnumerable<DataGridRow> GetDataGridRows(DataGrid grid)
         {
+            grid.SelectedIndex = 0;
+            ScrollCarret(0);
             if (grid.ItemsSource != null)
             {
                 var itemsSource = grid.ItemsSource as IEnumerable;
                 if (null == itemsSource) yield return null;
                 foreach (var item in itemsSource)
                 {
-                    var row = grid.ItemContainerGenerator.ContainerFromItem(item) as DataGridRow;
+
+                    dispatcher.Invoke(new Action(() =>
+
+                    {
+                        ScrollCarret(grid.SelectedIndex++);
+
+                    }));
+                    DataGridRow row = grid.ItemContainerGenerator.ContainerFromItem(item) as DataGridRow;
                     if (null != row) yield return row;
+
                 }
             }
+        }
+        private void ScrollCarret(int index)
+        {
+            if (baseFromExcel.SelectedItem != null)
+                baseFromExcel.ScrollIntoView(baseFromExcel.SelectedItem);
         }
 
         private void AllChecked_Checked(object sender, RoutedEventArgs e)

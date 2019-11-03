@@ -1,4 +1,6 @@
 ﻿using Pronets.Data;
+using Pronets.EntityRequests;
+using Pronets.EntityRequests.Clients_f;
 using Pronets.EntityRequests.Other;
 using Pronets.EntityRequests.Repairs_f;
 using Pronets.Navigation.WindowsNavigation;
@@ -18,6 +20,7 @@ namespace Pronets.VievModel.MainWindows.Pages
     public class ReceiptDocumentPageVM : VievModelBase
     {
         #region Properties
+        object e = null;
         Dispatcher _dispatcher;
         public OpenWindowCommand OpenWindowCommand { get; set; }
 
@@ -33,6 +36,72 @@ namespace Pronets.VievModel.MainWindows.Pages
             }
 
         }
+        private ObservableCollection<Clients> clients = new ObservableCollection<Clients>();
+        public ObservableCollection<Clients> Clients
+        {
+            get { return clients; }
+            set
+            {
+                clients = value;
+                RaisedPropertyChanged("Clients");
+            }
+        }
+        private ObservableCollection<Statuses> statuses = new ObservableCollection<Statuses>();
+        public ObservableCollection<Statuses> Statuses
+        {
+            get { return statuses; }
+            set
+            {
+                statuses = value;
+                RaisedPropertyChanged("Statuses");
+            }
+        }
+
+        private Clients selectedClientItem;
+        public Clients SelectedClientItem
+        {
+            get { return selectedClientItem; }
+            set
+            {
+                selectedClientItem = value;
+                Sort(e);
+                RaisedPropertyChanged("SelectedClientItem");
+            }
+        }
+        private Statuses selectedStatusItem;
+        public Statuses SelectedStatusItem
+        {
+            get { return selectedStatusItem; }
+            set
+            {
+                selectedStatusItem = value;
+                Sort(e);
+                RaisedPropertyChanged("SelectedStatusItem");
+            }
+        }
+        private bool allClients;
+        public bool AllClients
+        {
+            get { return allClients; }
+            set
+            {
+                allClients = value;
+                Sort(e);
+                RaisedPropertyChanged("AllClients");
+            }
+        }
+        private bool allStatuses;
+        public bool AllStatuses
+        {
+            get { return allStatuses; }
+            set
+            {
+                allStatuses = value;
+                Sort(e);
+                RaisedPropertyChanged("AllStatuses");
+            }
+        }
+
         private int documentId;
         public int DocumentId
         {
@@ -129,10 +198,19 @@ namespace Pronets.VievModel.MainWindows.Pages
         public ReceiptDocumentPageVM()
         {
             _dispatcher = Dispatcher.CurrentDispatcher;
-            GetDocumentsAsync();
-            OpenWindowCommand = new OpenWindowCommand(); // создание экземпляра открытия окна
+           // GetDocumentsAsync(); //Загрузка данных в датагрид происходит в selectedClient, selectedstatus, allclients, allstatuese
+            GetContent();
         }
+        private void GetContent()
+        {
+            Statuses.Clear();
+            Clients.Clear();
+            Statuses = StatusesRequests.FillList();
+            Clients = ClientsRequests.FillList();
+            AllClients = true;
+            AllStatuses = true;
 
+        }
         private async void GetDocumentsAsync()
         {
             ReceiptDocuments.Clear();
@@ -147,31 +225,37 @@ namespace Pronets.VievModel.MainWindows.Pages
                     ReceiptDocuments.Add(item);
                 }));
             }
-            receiptDocuments = new ObservableCollection<v_Receipt_Document>(ReceiptDocuments.OrderByDescending(i => i.Document_Id));
+            ReceiptDocuments = new ObservableCollection<v_Receipt_Document>(ReceiptDocuments.OrderByDescending(i => i.Document_Id));
         }
-        #region AddCommand
-        private ICommand fillList;
-        public ICommand FillListCommand
+        #region RefreshCommand
+        private ICommand sortCommand;
+        public ICommand SortCommand
         {
             get
             {
-                if (fillList == null)
+                if (sortCommand == null)
                 {
-                    fillList = new RelayCommand(new Action<object>(FillList));
+                    sortCommand = new RelayCommand(new Action<object>(Sort));
                 }
-                return fillList;
+                return sortCommand;
             }
             set
             {
-                fillList = value;
-                RaisedPropertyChanged("FillListCommand");
+                sortCommand = value;
+                RaisedPropertyChanged("SortCommand");
             }
         }
-
-        public void FillList(object Parameter)
+        /// <summary>
+        /// Сортировка списка документов
+        /// </summary>
+        /// <param name="Parameter"></param>
+        private void Sort(object Parameter)
         {
+            string status = SelectedStatusItem != null ? SelectedStatusItem.Status : null;
+            string client = SelectedClientItem != null ? selectedClientItem.ClientName : null;
             ReceiptDocuments.Clear();
-            ReceiptDocuments = ReceiptDocumentRequest.v_FillList();
+            ReceiptDocuments = ReceiptDocumentRequest.v_FillList(status, client);
+
         }
         #endregion
 
@@ -211,6 +295,31 @@ namespace Pronets.VievModel.MainWindows.Pages
             else
                 MessageBox.Show("Необходимо выбрать элемент в списке!", "Ошибка");
         }
+        #endregion
+
+        #region SortCommand
+        private ICommand refreshCommand;
+        public ICommand RefreshCommand
+        {
+            get
+            {
+                if (refreshCommand == null)
+                {
+                    refreshCommand = new RelayCommand(new Action<object>(Refresh));
+                }
+                return refreshCommand;
+            }
+            set
+            {
+                refreshCommand = value;
+                RaisedPropertyChanged("RefreshCommand");
+            }
+        }
+        private void Refresh(object parametr)
+        {
+            GetContent();
+        }
+
         #endregion
     }
 }

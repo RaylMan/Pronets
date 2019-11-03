@@ -288,6 +288,10 @@ namespace Pronets.VievModel.Users_f
         public UserInfoWindowVM(Users user)
         {
             this.user = user;
+            GetContent();
+        }
+        private void GetContent()
+        {
             titleName = $"Информация о работнике {user.LastName} {user.FirstName}";
             name = $"{user.LastName} {user.FirstName} [{user.UserId}]";
             Login = user.Login;
@@ -309,7 +313,8 @@ namespace Pronets.VievModel.Users_f
         //Устанавливает значение по умолчанию Combobox "Должность" в соответствии с БД
         private void GetPosition()
         {
-            positions = UsersRequest.FillPosoitions();
+            Positions.Clear();
+            Positions = UsersRequest.FillPosoitions();
             foreach (var item in positions)
             {
                 if (item.Position == user.Position)
@@ -474,5 +479,29 @@ namespace Pronets.VievModel.Users_f
         }
         #endregion
 
+        #region SortCommand
+        private ICommand refreshCommand;
+        public ICommand RefreshCommand
+        {
+            get
+            {
+                if (refreshCommand == null)
+                {
+                    refreshCommand = new RelayCommand(new Action<object>(Refresh));
+                }
+                return refreshCommand;
+            }
+            set
+            {
+                refreshCommand = value;
+                RaisedPropertyChanged("RefreshCommand");
+            }
+        }
+        private void Refresh(object parametr)
+        {
+            GetContent();
+        }
+
+        #endregion
     }
 }

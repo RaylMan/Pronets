@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Pronets.Viev.MainWindows.Pages"
       xmlns:vm="clr-namespace:Pronets.VievModel.MainWindows.Pages"
+      xmlns:text="clr-namespace:Pronets.Model"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="RepairsPage">
@@ -90,35 +91,7 @@
 
         <!--Row 2-->
         <Grid Grid.Row="2" Background="Gainsboro" Margin="5">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="165"></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="26"></RowDefinition>
-                <RowDefinition Height="26"></RowDefinition>
-                <RowDefinition Height="26"></RowDefinition>
-                <RowDefinition Height="26"></RowDefinition>
-                <RowDefinition Height="26"></RowDefinition>
-                <RowDefinition Height="26"></RowDefinition>
-                <RowDefinition></RowDefinition>
-            </Grid.RowDefinitions>
-            <Label Content="Номер ремонта:" Grid.Column="0" Grid.Row="0"/>
-            <Label Content="Клиент:" Grid.Column="0" Grid.Row="1"/>
-            <Label Content="Серийный Номер:"  Grid.Column="0" Grid.Row="2"/>
-            <Label Content="Номер Документа:"  Grid.Column="0" Grid.Row="3"/>
-            <Label Content="Приемщик:"  Grid.Column="0" Grid.Row="4"/>
-            <Label Content="Гарантия:"  Grid.Column="0" Grid.Row="5"/>
-            <Label Content="Заявленная неисправность:"  Grid.Column="0" Grid.Row="6"/>
-            <TextBox Text="{Binding RepairId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Background="Gainsboro" Grid.Column="1" Grid.Row="0" IsReadOnly="True"/>
-            <TextBox Text="{Binding ClientName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Background="Gainsboro" Grid.Column="1" Grid.Row="1" IsReadOnly="True"/>
-            <TextBox Text="{Binding Serial_Number, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Background="Gainsboro" Grid.Column="1" Grid.Row="2" IsReadOnly="True"/>
-            <TextBox x:Name="tbxDocimentId" Text="{Binding DocumentId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Background="Gainsboro" Grid.Column="1" Grid.Row="3" IsReadOnly="True" Margin="0,0,50,0"/>
-            <Button x:Name="btnOpen" Content="Открыть" HorizontalContentAlignment="Right" Grid.Column="1" Grid.Row="3" Background="Gainsboro"  Click="Button_Click" HorizontalAlignment="Right" />
-            <TextBox Text="{Binding InspectorName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Background="Gainsboro" Grid.Column="1" Grid.Row="4" IsReadOnly="True" TextChanged="TextBox_TextChanged"/>
-            <TextBox Text="{Binding Warranty, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Background="Gainsboro" Grid.Column="1" Grid.Row="5" IsReadOnly="True"/>
-            <TextBox Text="{Binding Claimed_Malfunction, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Background="Gainsboro" Grid.Column="1" Grid.Row="6" TextWrapping="Wrap" AcceptsReturn="True" IsReadOnly="True"/>
-
+            <TextBox Text="{Binding RepairsInfo}" IsReadOnly="True" TextWrapping="Wrap" FontSize="14" VerticalScrollBarVisibility="Visible"/>
         </Grid>
 
         <Grid Grid.Row="2" Grid.Column="1" Margin="0,5,5,5" Background="Gainsboro">
@@ -129,50 +102,41 @@
             <Grid.RowDefinitions>
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
-                <RowDefinition Height="26"></RowDefinition>
-                <RowDefinition Height="26"></RowDefinition>
-                <RowDefinition Height="26"></RowDefinition>
                 <RowDefinition></RowDefinition>
+                <RowDefinition Height="26"></RowDefinition>
+                <RowDefinition Height="26"></RowDefinition>
                 <RowDefinition Height="26"></RowDefinition>
                 <RowDefinition Height="40"></RowDefinition>
             </Grid.RowDefinitions>
             <Label Content="Выявленная неисправность:" Grid.Column="0" Grid.Row="0"/>
             <Label Content="Проделанный ремонт:" Grid.Column="0" Grid.Row="1"/>
-            <Label Content="Категория ремонта:"  Grid.Column="0" Grid.Row="2"/>
-            <Label Content="Инженер:"  Grid.Column="0" Grid.Row="3"/>
-            <Label Content="Дата ремонта:"  Grid.Column="0" Grid.Row="4"/>
-            <Label  Content="Статус ремонта:"  Grid.Column="0" Grid.Row="6"/>
-            <Label  Content="Заметка:"  Grid.Column="0" Grid.Row="5"/>
+            <Label  Content="Заметка:"  Grid.Column="0" Grid.Row="2"/>
+            <Label Content="Дата ремонта:"  Grid.Column="0" Grid.Row="3"/>
+            <Label Content="Категория ремонта:"  Grid.Column="0" Grid.Row="4"/>
+            <Label  Content="Статус ремонта:"  Grid.Column="0" Grid.Row="5"/>
+            <!--<Button x:Name="btnOpenDefects" Grid.Column="1" Grid.Row="0" Content=" + " HorizontalAlignment="Right" Click="BtnOpenDefects_Click"/>-->
             <TextBox x:Name="tbxDefect" Grid.Column="1" Grid.Row="0"  Text="{Binding Identifie_Fault, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                       TextWrapping="Wrap" AcceptsReturn="True" MaxLength="200"/>
             <TextBox x:Name="tbxWork" Grid.Column="1" Grid.Row="1" Text="{Binding Work_Done, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
-                     TextWrapping="Wrap" AcceptsReturn="True" MaxLength="200"/> 
-
-            <ComboBox  ItemsSource="{Binding Repair_Categories}" SelectedValue="{Binding SelectedCategory}"  Grid.Column="1" Grid.Row="2" >
+                     TextWrapping="Wrap" AcceptsReturn="True" MaxLength="200"/>
+            <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Note, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" AcceptsReturn="True" MaxLength="200"/>
+            <DatePicker Grid.Column="1" Grid.Row="3" SelectedDate="{Binding Path=Repair_Date, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
+                  ValidatesOnExceptions=true, NotifyOnValidationError=true}"/>
+            <ComboBox  ItemsSource="{Binding Repair_Categories}" SelectedValue="{Binding SelectedCategory}"  Grid.Column="1" Grid.Row="4" >
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Category}"/>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-            <ComboBox  ItemsSource="{Binding Engineers}" SelectedValue="{Binding SelectedEngineer}"  Grid.Column="1" Grid.Row="3" >
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding LastName}"/>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-            <DatePicker Grid.Column="1" Grid.Row="4" SelectedDate="{Binding Path=Repair_Date, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
-                  ValidatesOnExceptions=true, NotifyOnValidationError=true}"/>
-            <ComboBox  ItemsSource="{Binding Statuses, UpdateSourceTrigger=PropertyChanged}" SelectedValue="{Binding SelectedStatus}"  Grid.Column="1" Grid.Row="6" >
+            <ComboBox  ItemsSource="{Binding Statuses, UpdateSourceTrigger=PropertyChanged}" SelectedValue="{Binding SelectedStatus}"  Grid.Column="1" Grid.Row="5" >
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Status}"/>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-            <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding Note, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" AcceptsReturn="True" MaxLength="200"/>
-            <Button Grid.Column="1" Grid.Row="7" Command="{Binding EditCommand}" HorizontalAlignment="Right" Margin="5" Content="Записать" Width="85"/>
+            <Button Grid.Column="1" Grid.Row="6" Command="{Binding EditCommand}" HorizontalAlignment="Right" Margin="5" Content="Записать" Width="85"/>
         </Grid>
     </Grid>
 
