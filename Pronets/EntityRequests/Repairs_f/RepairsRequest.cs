@@ -100,6 +100,31 @@ namespace Pronets.EntityRequests.Repairs_f
             }
             return v_Repairs;
         }
+
+        /// <summary>
+        /// <para>Возращает коллекцию v_Repairs(Представление SQL) по номеру документа</para>
+        /// </summary>
+        public static ObservableCollection<v_Repairs> v_FillList(int documentId)
+        {
+            ObservableCollection<v_Repairs> v_Repairs = null;
+            using (var db = ConnectionTools.GetConnection())
+            {
+                try
+                {
+                    if (v_Repairs != null)
+                        v_Repairs.Clear();
+                    var result = from repair in db.v_Repairs
+                                 where repair.DocumentId == documentId
+                                 select repair;
+                    v_Repairs = new ObservableCollection<v_Repairs>(result);
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Ошибка");
+                }
+            }
+            return v_Repairs;
+        }
         /// <summary>
         /// <para>Возращает коллекцию v_Repairs(Представление SQL) по серийному Статусу</para>
         /// </summary>

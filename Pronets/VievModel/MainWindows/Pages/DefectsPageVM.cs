@@ -88,6 +88,16 @@ namespace Pronets.VievModel.MainWindows.Pages
                 RaisedPropertyChanged("SelectedSerialItem");
             }
         }
+        private bool isDocument;
+        public bool IsDocument
+        {
+            get { return isDocument; }
+            set
+            {
+                isDocument = value;
+                RaisedPropertyChanged("IsDocument");
+            }
+        }
         #endregion
         public DefectsPageVM()
         {
@@ -116,11 +126,25 @@ namespace Pronets.VievModel.MainWindows.Pages
         private void AddToTable(object Parameter)
         {
             V_Repairs.Clear();
-            foreach (var serial in serialNumbers)
+            if(!IsDocument)
             {
-                foreach (var repair in RepairsRequest.v_FillList(serial.Serial))
+                foreach (var serial in serialNumbers)
                 {
-                    V_Repairs.Add(repair);
+                    foreach (var repair in RepairsRequest.v_FillList(serial.Serial))
+                    {
+                        V_Repairs.Add(repair);
+                    }
+                }
+            }
+            else
+            {
+                foreach (var serial in serialNumbers)
+                {
+                    int.TryParse(serial.Serial, out int documentId);
+                    foreach (var repair in RepairsRequest.v_FillList(documentId))
+                    {
+                        V_Repairs.Add(repair);
+                    }
                 }
             }
         }
@@ -171,15 +195,29 @@ namespace Pronets.VievModel.MainWindows.Pages
         }
         private void RemoveSerial(object Parameter)
         {
-            //if(selectedSerialItem != null)
-            //{
-            //    var removedItems = V_Repairs.Where(r => r.Serial_Number == SelectedSerialItem.Serial).ToList();
-            //    foreach (var repair in removedItems)
-            //    {
-            //        v_Repairs.Remove(repair);
-            //    }
-            //    serialNumbers.RemoveAt(SelectedSerialIndex);
-            //}
+            if (selectedSerialItem != null)
+            {
+                if(!IsDocument)
+                {
+                    var removedItems = V_Repairs.Where(r => r.Serial_Number == SelectedSerialItem.Serial).ToList();
+                    foreach (var repair in removedItems)
+                    {
+                        v_Repairs.Remove(repair);
+                    }
+                    serialNumbers.RemoveAt(SelectedSerialIndex);
+                }
+                else
+                {
+                    int.TryParse(SelectedSerialItem.Serial, out int documentId);
+                    var removedItems = V_Repairs.Where(r => r.DocumentId == documentId).ToList();
+                    foreach (var repair in removedItems)
+                    {
+                        v_Repairs.Remove(repair);
+                    }
+                    serialNumbers.RemoveAt(SelectedSerialIndex);
+                }
+                
+            }
         }
         private ICommand removeRepairCommand;
         public ICommand RemoveRepairCommand
@@ -208,6 +246,7 @@ namespace Pronets.VievModel.MainWindows.Pages
                 catch (Exception) { }
         }
         #endregion
+
         #region Refresh command
         private ICommand refreshCommand;
         public ICommand RefreshCommand

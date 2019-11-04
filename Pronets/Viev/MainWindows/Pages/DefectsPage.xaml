@@ -15,8 +15,9 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <!--Column 0-->
-        <DataGrid x:Name="serialsGrid" Grid.Column="0" ItemsSource="{Binding SerialNumbers}" Margin="5,5,5,35" CanUserAddRows="True" HorizontalGridLinesBrush="#FF999999"
-                  VerticalGridLinesBrush="#FF999999" AutoGenerateColumns="False" SelectedItem="{Binding SelectedSerialItem}" SelectedIndex="{Binding SelectedSerialIndex}">
+        <DataGrid x:Name="serialsGrid" Grid.Column="0" ItemsSource="{Binding SerialNumbers}" Margin="5,5,5,55" CanUserAddRows="True" HorizontalGridLinesBrush="#FF999999"
+                  VerticalGridLinesBrush="#FF999999" AutoGenerateColumns="False" SelectedItem="{Binding SelectedSerialItem}" SelectedIndex="{Binding SelectedSerialIndex}"
+                  CanUserDeleteRows="False">
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Удалить" Command="{Binding RemoveSerialCommand}" CommandParameter="{Binding SelectedSerialIndex}" />
@@ -26,10 +27,12 @@
                 <DataGridTextColumn Header="Серийный номер" Binding="{Binding Serial}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
+        <CheckBox x:Name="cbxIsDocument" Content="Выборка по № документа" IsChecked="{Binding IsDocument}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="5,0,0,35"/>
         <Button x:Name="btnAddToTable" Content="  Добавить  " Grid.Column="0" Command="{Binding AddToTableCommand}" VerticalAlignment="Bottom" HorizontalAlignment="Left"
                 Margin="5,0,0,5" Height="25"/>
         <Button x:Name="btnClear" Content="  Очистить  " Grid.Column="0" Command="{Binding ClearCommand}" VerticalAlignment="Bottom" HorizontalAlignment="Right"
                 Margin="0,0,5,5" Height="25"/>
+        
         <!--Column 1-->
         <DataGrid x:Name="Docunents1" ItemsSource="{Binding V_Repairs}" SelectedValue="{Binding SelectedItem}" SelectedIndex="{Binding SelectedRepairIndex}"
                    Grid.Column="1" Margin="5,38,5,10" AutoGenerateColumns="False" SelectionMode="Single" HorizontalGridLinesBrush="#FF999999" 
@@ -86,6 +89,6 @@
         <ComboBox x:Name="cbxClient" ItemsSource="{Binding Clients, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedItem="{Binding SelectedClientItem}"
                   HorizontalAlignment="Left"  Grid.Column="1" VerticalAlignment="Top" Width="155" Height="25" Margin="48,5,0,0"
                    IsTextSearchEnabled="True" TextSearch.TextPath="ClientName" IsEditable="True" DisplayMemberPath="ClientName"/>
-        <Button  Content="Обновить" Command="{Binding RefreshCommand}" HorizontalAlignment="Left" Background="White" Grid.Column="1" VerticalAlignment="Top" Margin="209,5,0,0" Height="25"  />
+        <Button  Content="  Обновить  " Command="{Binding RefreshCommand}" HorizontalAlignment="Left" Background="White" Grid.Column="1" VerticalAlignment="Top" Margin="209,5,0,0" Height="25"  />
     </Grid>
 </Page>
