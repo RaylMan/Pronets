@@ -231,7 +231,7 @@ namespace Pronets.VievModel.ConvertToSQL
         }
         private void GetTableFromSheet()
         {
-
+            TextVisibility = Visibility.Visible;
             if (SelectedSheet != null && !string.IsNullOrWhiteSpace(path))
             {
                 foreach (var item in exporter.ReadAsDataTable(path, SelectedSheet.SheetID).AsEnumerable())
@@ -258,7 +258,8 @@ namespace Pronets.VievModel.ConvertToSQL
                         }));
                 }
             }
-            MessageBox.Show("Загрузка закончена!");
+            TextVisibility = Visibility.Hidden;
+           // MessageBox.Show("Загрузка закончена!");
         }
         #region OpenCommand
         private ICommand openCommand;
@@ -356,7 +357,7 @@ namespace Pronets.VievModel.ConvertToSQL
             {
 
             }
-            MessageBox.Show("Загрузка закончена!");
+           // MessageBox.Show("Загрузка закончена!");
             TextVisibility = Visibility.Hidden;
         }
         #endregion

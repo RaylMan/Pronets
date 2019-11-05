@@ -264,7 +264,7 @@ namespace Pronets.VievModel.MainWindows.Pages
                 var result = MessageBox.Show("Вы действительно хотите редактировать?", "Редактирование", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
                 {
-                    if (SelectedStatus.Status != "Принято")
+                    if (SelectedStatus.Status != "Принято" && SelectedCategory != null)
                     {
                         if (repair != null)
                         {
@@ -274,7 +274,7 @@ namespace Pronets.VievModel.MainWindows.Pages
                         }
                     }
                     else
-                        MessageBox.Show("Установите статус ремонта!", "Ошибка");
+                        MessageBox.Show("Установите статус и категорию ремонта!", "Ошибка");
                 }
             }
             else

@@ -30,6 +30,7 @@ namespace Pronets.Viev
             {
                 cbxSaveLogin.IsChecked = Properties.Settings.Default.SaveLogin;
                 tbxLogin.Text = Properties.Settings.Default.Login;
+                tbxPassword.Password = Properties.Settings.Default.Password;
             }
         }
         private void Start_Click(object sender, RoutedEventArgs e)
@@ -94,19 +95,21 @@ namespace Pronets.Viev
             win.Show();
         }
         /// <summary>
-        /// Сохраняет логин в настройки, для автоматического заполнения tbxLogin при открытии окна.
+        /// Сохраняет логин в настройки, для автоматического заполнения tbxLogin и tbxPassword при открытии окна.
         /// </summary>
         private void SaveLogin()
         {
             if (cbxSaveLogin.IsChecked == true)
             {
                 Properties.Settings.Default.Login = tbxLogin.Text;
+                Properties.Settings.Default.Password = tbxPassword.Password;
                 Properties.Settings.Default.SaveLogin = true;
                 Properties.Settings.Default.Save();
             }
             else
             {
                 Properties.Settings.Default.Login = "";
+                Properties.Settings.Default.Password = "";
                 Properties.Settings.Default.SaveLogin = false;
                 Properties.Settings.Default.Save();
             }

@@ -32,22 +32,24 @@ namespace Pronets.Viev.MainWindows.Pages
 
         private void BtnCreate_Click(object sender, RoutedEventArgs e)
         {
-            repairsId.Clear();
-            foreach (var repair in vm.V_Repairs)
+            if (vm.SelectedTypeItem.Type == "Дефектовка")
             {
-                if (repair != null)
-                    repairsId.Add(repair.RepairId);
+                repairsId.Clear();
+                foreach (var repair in vm.V_Repairs)
+                {
+                    if (repair != null)
+                        repairsId.Add(repair.RepairId);
+                }
+                if (vm.SelectedClientItem != null)
+                {
+                    PrintingWindow win = new PrintingWindow(repairsId, vm.SelectedClientItem.ClientId);
+                    win.Show();
+                }
+                else
+                {
+                    MessageBox.Show("Необходимо выбрать клиента", "Ошибка");
+                }
             }
-            if (vm.SelectedClientItem != null)
-            {
-                PrintingWindow win = new PrintingWindow(repairsId, vm.SelectedClientItem.ClientId);
-                win.Show();
-            }
-            else
-            {
-                MessageBox.Show("Необходимо выбрать клиента", "Ошибка");
-            }
-
         }
     }
 }

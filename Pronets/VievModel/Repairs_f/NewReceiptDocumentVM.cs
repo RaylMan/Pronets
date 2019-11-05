@@ -12,7 +12,7 @@ using System.Windows.Input;
 
 namespace Pronets.VievModel.Repairs_f
 {
-    class NewReceiptDocumentVM : VievModelBase
+    public class NewReceiptDocumentVM : VievModelBase
     {
         #region Property
         Users defaultUser;
@@ -308,7 +308,7 @@ namespace Pronets.VievModel.Repairs_f
             warrantys.Add(new Warrantys { Warranty = "Гарантия Элтекс" });
             warrantys.Add(new Warrantys { Warranty = "Наша Гарантия" });
             GetDefaultUser();
-            GetRepairsFromDocument();
+           // GetRepairsFromDocument();
             OpenWindowCommand = new OpenWindowCommand();
         }
         private void GetDefaultUser()

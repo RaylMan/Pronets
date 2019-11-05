@@ -48,7 +48,6 @@ namespace Pronets.VievModel.Repairs_f
         {
             _dispatcher = Dispatcher.CurrentDispatcher;
             GetRepairsAsync();
-           // v_Repairs = RepairsRequest.v_FillList();
             OpenWindowCommand = new OpenWindowCommand();
         }
         private async void GetRepairsAsync()
@@ -97,8 +96,9 @@ namespace Pronets.VievModel.Repairs_f
         {
             if (!String.IsNullOrWhiteSpace(SearchText))
             {
+                string searchWord = IsChecked != true ? EditChars.ToEnglish(SearchText) : SearchText;
                 searchPosition = 0;
-                searchRepairs = V_Repairs.Where(r => r.Serial_Number.Contains(SearchText)).ToList();
+                searchRepairs = V_Repairs.Where(r => r.Serial_Number.Contains(searchWord)).ToList();
                 searchCount = searchRepairs.Count;
                 if (searchRepairs.Count > 0)
                 {
@@ -109,6 +109,7 @@ namespace Pronets.VievModel.Repairs_f
         }
 
         #endregion
+
         #region Search next
         protected ICommand searchNextCommand;
         public ICommand SearchNextCommand
@@ -131,7 +132,8 @@ namespace Pronets.VievModel.Repairs_f
         {
             if (searchRepairs.Count > 0)
             {
-                if (!string.IsNullOrWhiteSpace(SearchText) && searchRepairs[0].Serial_Number.Contains(SearchText))
+                string searchWord = IsChecked != true ? EditChars.ToEnglish(SearchText) : SearchText;
+                if (!string.IsNullOrWhiteSpace(searchWord) && searchRepairs[0].Serial_Number.Contains(searchWord))
                 {
                     if (searchPosition < searchRepairs.Count)
                     {

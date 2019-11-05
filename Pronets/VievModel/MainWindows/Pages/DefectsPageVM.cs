@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Pronets.VievModel.MainWindows.Pages
@@ -26,7 +27,7 @@ namespace Pronets.VievModel.MainWindows.Pages
                 RaisedPropertyChanged("V_Repairs");
             }
         }
-        private ObservableCollection<Clients> clients;
+        private ObservableCollection<Clients> clients = new ObservableCollection<Clients>();
         public ObservableCollection<Clients> Clients
         {
             get { return clients; }
@@ -35,6 +36,26 @@ namespace Pronets.VievModel.MainWindows.Pages
             {
                 clients = value;
                 RaisedPropertyChanged("Clients");
+            }
+        }
+        private ObservableCollection<DocumentType> documentTypes = new ObservableCollection<DocumentType>();
+        public ObservableCollection<DocumentType> DocumentTypes
+        {
+            get { return documentTypes; }
+            set
+            {
+                documentTypes = value;
+                RaisedPropertyChanged("DocumentTypes");
+            }
+        }
+        private DocumentType selectedTypeItem;
+        public DocumentType SelectedTypeItem
+        {
+            get { return selectedTypeItem; }
+            set
+            {
+                selectedTypeItem = value;
+                RaisedPropertyChanged("SelectedTypeItem");
             }
         }
         private Clients selectedClientItem;
@@ -102,8 +123,14 @@ namespace Pronets.VievModel.MainWindows.Pages
         public DefectsPageVM()
         {
             Clients = ClientsRequests.FillList();
+            SetDocumentTypes();
         }
-
+        private void SetDocumentTypes()
+        {
+            DocumentTypes.Add(new DocumentType { Type = "Дефектовка" });
+            DocumentTypes.Add(new DocumentType { Type = "Отправка клиенту" });
+            SelectedTypeItem = DocumentTypes[0];
+        }
 
         #region AddToTable
         private ICommand addToTableCommand;
@@ -126,7 +153,7 @@ namespace Pronets.VievModel.MainWindows.Pages
         private void AddToTable(object Parameter)
         {
             V_Repairs.Clear();
-            if(!IsDocument)
+            if (!IsDocument)
             {
                 foreach (var serial in serialNumbers)
                 {
@@ -147,6 +174,48 @@ namespace Pronets.VievModel.MainWindows.Pages
                     }
                 }
             }
+        }
+        #endregion
+
+        #region SendingCommand
+        private ICommand sendingCommand;
+        public ICommand SendingCommand
+        {
+            get
+            {
+                if (sendingCommand == null)
+                {
+                    sendingCommand = new RelayCommand(new Action<object>(SendToClient));
+                }
+                return sendingCommand;
+            }
+            set
+            {
+                sendingCommand = value;
+                RaisedPropertyChanged("SendingCommand");
+            }
+        }
+        private void SendToClient(object parametr)
+        {
+            if (SelectedTypeItem.Type == "Отправка клиенту" && V_Repairs.Count > 0)
+            {
+                if (selectedClientItem != null)
+                {
+                    var result = MessageBox.Show("Вы действительно хотите совершить операцию?", "", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        foreach (var repair in V_Repairs)
+                        {
+                            RepairsRequest.EditItemStatus(repair.RepairId, DateTime.Now, selectedClientItem.ClientName);
+                        }
+                        MessageBox.Show("Успешная операция!");
+                    }
+                }
+                else
+                    MessageBox.Show("Необходимо выбрать клиента!", "Ошибка");
+            }
+            object e = null;
+            AddToTable(e);//обновление списка
         }
         #endregion
 
@@ -193,11 +262,15 @@ namespace Pronets.VievModel.MainWindows.Pages
                 RaisedPropertyChanged("RemoveSerialCommand");
             }
         }
+        /// <summary>
+        /// Удаление группы элементов по серийному номеру или номеру накладной
+        /// </summary>
+        /// <param name="Parameter"></param>
         private void RemoveSerial(object Parameter)
         {
             if (selectedSerialItem != null)
             {
-                if(!IsDocument)
+                if (!IsDocument)
                 {
                     var removedItems = V_Repairs.Where(r => r.Serial_Number == SelectedSerialItem.Serial).ToList();
                     foreach (var repair in removedItems)
@@ -216,7 +289,7 @@ namespace Pronets.VievModel.MainWindows.Pages
                     }
                     serialNumbers.RemoveAt(SelectedSerialIndex);
                 }
-                
+
             }
         }
         private ICommand removeRepairCommand;
@@ -236,6 +309,10 @@ namespace Pronets.VievModel.MainWindows.Pages
                 RaisedPropertyChanged("RemoveRepairCommand");
             }
         }
+        /// <summary>
+        /// Удаление выделенного элемента по SelectedRepairIndex
+        /// </summary>
+        /// <param name="Parameter"></param>
         private void RemoveRepair(object Parameter)
         {
             if (SelectedRepairIndex >= 0)
@@ -244,6 +321,37 @@ namespace Pronets.VievModel.MainWindows.Pages
                     V_Repairs.RemoveAt(SelectedRepairIndex);
                 }
                 catch (Exception) { }
+        }
+
+        private ICommand removeSelectedRepairCommand;
+        public ICommand RemoveSelectedRepairCommand
+        {
+            get
+            {
+                if (removeSelectedRepairCommand == null)
+                {
+                    removeSelectedRepairCommand = new RelayCommand(new Action<object>(RemoveSelectedRepair));
+                }
+                return removeSelectedRepairCommand;
+            }
+            set
+            {
+                removeSelectedRepairCommand = value;
+                RaisedPropertyChanged("RemoveSelectedRepairCommand");
+            }
+        }
+
+        /// <summary>
+        /// Удаление выбранных ремонтов по полю IsChecked
+        /// </summary>
+        /// <param name="Parameter"></param>
+        private void RemoveSelectedRepair(object Parameter)
+        {
+            var removedRepairs = V_Repairs.Where(r => r.IsChecked == true).ToList();
+            foreach (var repair in removedRepairs)
+            {
+                V_Repairs.Remove(repair);
+            }
         }
         #endregion
 

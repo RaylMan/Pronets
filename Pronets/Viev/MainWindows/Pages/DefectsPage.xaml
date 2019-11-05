@@ -11,7 +11,7 @@
       Title="DefectsPage">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"></ColumnDefinition>
+            <ColumnDefinition Width="220"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <!--Column 0-->
@@ -24,7 +24,7 @@
                 </ContextMenu>
             </DataGrid.ContextMenu>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Серийный номер" Binding="{Binding Serial}" Width="*"/>
+                <DataGridTextColumn Header="Серийный номер / № документа" Binding="{Binding Serial}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
         <CheckBox x:Name="cbxIsDocument" Content="Выборка по № документа" IsChecked="{Binding IsDocument}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="5,0,0,35"/>
@@ -32,14 +32,15 @@
                 Margin="5,0,0,5" Height="25"/>
         <Button x:Name="btnClear" Content="  Очистить  " Grid.Column="0" Command="{Binding ClearCommand}" VerticalAlignment="Bottom" HorizontalAlignment="Right"
                 Margin="0,0,5,5" Height="25"/>
-        
+
         <!--Column 1-->
         <DataGrid x:Name="Docunents1" ItemsSource="{Binding V_Repairs}" SelectedValue="{Binding SelectedItem}" SelectedIndex="{Binding SelectedRepairIndex}"
-                   Grid.Column="1" Margin="5,38,5,10" AutoGenerateColumns="False" SelectionMode="Single" HorizontalGridLinesBrush="#FF999999" 
+                   Grid.Column="1" Margin="5,38,5,5" AutoGenerateColumns="False" SelectionMode="Single" HorizontalGridLinesBrush="#FF999999" 
                   VerticalGridLinesBrush="#FF999999"  CanUserAddRows="False" CanUserDeleteRows="False" >
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Удалить" Command="{Binding RemoveRepairCommand}" CommandParameter="{Binding SelectedRepairIndex}" />
+                    <MenuItem Header="Удалить выбранные" Command="{Binding RemoveSelectedRepairCommand}" />
                 </ContextMenu>
             </DataGrid.ContextMenu>
             <DataGrid.Resources>
@@ -72,6 +73,13 @@
                 </Style>
             </DataGrid.RowStyle>
             <DataGrid.Columns>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox x:Name="chkbx" IsChecked="{Binding Path=IsChecked, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn Header="№" Binding="{Binding RepairId}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="№ Док." Binding="{Binding DocumentId}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Наименование" Binding="{Binding Nomenclature}" IsReadOnly="True"/>
@@ -83,12 +91,15 @@
                 <DataGridTextColumn Header="Статус ремонта" Binding="{Binding Status}" Width="*" IsReadOnly="True"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="btnCreate" Content="  Сформировать  " Grid.Column="1"  Click="BtnCreate_Click"
+        <Button x:Name="btnCreate" Content="  Сформировать  " Grid.Column="1"  Click="BtnCreate_Click" Command="{Binding SendingCommand}"
                 VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,5,5,0" Height="25"/>
         <Label Content="Клиент" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Margin="0,4,0,0"/>
         <ComboBox x:Name="cbxClient" ItemsSource="{Binding Clients, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedItem="{Binding SelectedClientItem}"
                   HorizontalAlignment="Left"  Grid.Column="1" VerticalAlignment="Top" Width="155" Height="25" Margin="48,5,0,0"
                    IsTextSearchEnabled="True" TextSearch.TextPath="ClientName" IsEditable="True" DisplayMemberPath="ClientName"/>
+        <ComboBox x:Name="cbxDocumentType" ItemsSource="{Binding DocumentTypes, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedItem="{Binding SelectedTypeItem}"
+                  HorizontalAlignment="Right"  Grid.Column="1" VerticalAlignment="Top" Width="155" Height="25" Margin="0,5,110,0"
+                   TextSearch.TextPath="Type" DisplayMemberPath="Type"/>
         <Button  Content="  Обновить  " Command="{Binding RefreshCommand}" HorizontalAlignment="Left" Background="White" Grid.Column="1" VerticalAlignment="Top" Margin="209,5,0,0" Height="25"  />
     </Grid>
 </Page>

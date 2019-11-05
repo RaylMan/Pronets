@@ -44,5 +44,8 @@
     <Setting Name="ServerPassword" Type="System.String" Scope="User">
       <Value Profile="(Default)">Pronetspassword123</Value>
     </Setting>
+    <Setting Name="Password" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

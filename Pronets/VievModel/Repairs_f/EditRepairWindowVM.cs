@@ -557,6 +557,7 @@ namespace Pronets.VievModel.Repairs_f
             }
         }
         #endregion
+
         #region SaveCommand
         private ICommand saveCommand;
         public ICommand SaveCommand
@@ -617,6 +618,15 @@ namespace Pronets.VievModel.Repairs_f
                             Note = this.Note
                         };
                         RepairsRequest.EditItem(editingRepair);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Необходимо установить:\n" +
+                        "- Номеклатура\n" +
+                        "- Гарантия\n" +
+                        "- Приемщик\n" +
+                        "- Клиент\n" +
+                        "- Статус ремонта\n", "Ошибка");
                     }
                 }
                 catch (Exception e)

@@ -24,7 +24,7 @@ namespace Pronets.Viev.Repairs_f
     /// </summary>
     public partial class NewReceiptDocument : Window
     {
-
+        public NewReceiptDocumentVM vm => (NewReceiptDocumentVM)DataContext;
         public NewReceiptDocument()
         {
             InitializeComponent();
@@ -35,7 +35,6 @@ namespace Pronets.Viev.Repairs_f
             InitializeComponent();
             DataContext = new NewReceiptDocumentVM(documentId);
         }
-
         private void ComboBoxNomenclature_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var row = GetDataGridRows(repairsGrid);
@@ -56,10 +55,9 @@ namespace Pronets.Viev.Repairs_f
                 {
 
                 }
-
             }
-
         }
+        
 
         public IEnumerable<DataGridRow> GetDataGridRows(DataGrid grid)
         {

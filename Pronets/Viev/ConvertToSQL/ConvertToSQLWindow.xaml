@@ -105,8 +105,8 @@
             <GridSplitter Grid.Column="1" ShowsPreview="False" Margin="0,26,0,0" Width="5" HorizontalAlignment="Center" VerticalAlignment="Stretch" />
 
             <!--Row 1 Column 1-->
-            <!--<CheckBox Content="Все" IsChecked="{Binding AllChecked,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" FontSize="10" Grid.Column="2"
-                      VerticalAlignment="Top" HorizontalAlignment="Left"  Margin="5,8,0,0" />-->
+            <CheckBox Content="Все" IsChecked="{Binding AllChecked,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" FontSize="10" Grid.Column="2"
+                      VerticalAlignment="Top" HorizontalAlignment="Left"  Margin="5,8,0,0" />
             
             <Label Content="Таблица в SQL для переноса в основной ремонт" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Column="2" />
             <DataGrid x:Name="baseFromExcel" ItemsSource="{Binding BaseFromExcel, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  CanUserAddRows="False"
@@ -114,9 +114,9 @@
                       HorizontalGridLinesBrush="#FF999999"  VerticalGridLinesBrush="#FF999999">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn>
-                        <DataGridTemplateColumn.Header>
+                        <!--<DataGridTemplateColumn.Header>
                             <CheckBox x:Name="allChecked" Checked="AllChecked_Checked" Unchecked="AllChecked_Unchecked"  VerticalAlignment="Center" HorizontalAlignment="Center" />
-                        </DataGridTemplateColumn.Header>
+                        </DataGridTemplateColumn.Header>-->
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <CheckBox x:Name="chkbx" IsChecked="{Binding Path=IsSelected, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
@@ -137,7 +137,8 @@
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
-        <TextBlock x:Name="txbOperation" Text="Выполнение операции" Grid.Row="1" Grid.ColumnSpan="2" Background="Gray"  VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding TextVisibility, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+        <TextBlock x:Name="txbOperation" Text="    Выполнение операции    " FontSize="25"  Grid.Row="1" Grid.ColumnSpan="2" 
+                   Background="Gray"  VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding TextVisibility, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
 
 
     </Grid>
