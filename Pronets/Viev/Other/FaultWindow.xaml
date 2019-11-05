@@ -30,6 +30,7 @@
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Удалить" Command="{Binding RemoveOrderCommand}" CommandParameter="{Binding SelectedOrderIndex}"/>
+                    <MenuItem Header="Отправить" Command="{Binding SendCommand}"/>
                 </ContextMenu>
             </DataGrid.ContextMenu>
             <DataGrid.Columns>

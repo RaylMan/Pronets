@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Pronets.VievModel.Other
 {
@@ -37,5 +38,33 @@ namespace Pronets.VievModel.Other
         {
             Defects = DefectsRequests.FillList();
         }
+
+        #region Send command
+        private ICommand sendCommand;
+        public ICommand SendCommand
+        {
+            get
+            {
+                if (sendCommand == null)
+                {
+                    sendCommand = new RelayCommand(new Action<object>(Send));
+                }
+                return sendCommand;
+            }
+            set
+            {
+                sendCommand = value;
+                RaisedPropertyChanged("SendCommand");
+            }
+        }
+        /// <summary>
+        /// Обновляет данные на странице
+        /// </summary>
+        /// <param name="parametr"></param>
+        public void Send(object parametr)
+        {
+           
+        }
+        #endregion
     }
 }

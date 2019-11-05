@@ -23,7 +23,6 @@ namespace Pronets.Model
                 RaisedPropertyChanged("Repairs");
             }
         }
-        //protected v_Repairs v_Repair;
         protected ObservableCollection<v_Repairs> v_Repairs = new ObservableCollection<v_Repairs>();
         public ObservableCollection<v_Repairs> V_Repairs
         {
