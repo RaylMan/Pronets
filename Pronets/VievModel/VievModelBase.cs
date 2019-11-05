@@ -6,6 +6,7 @@ using System.Data;
 using System.Reflection;
 using Pronets.Navigation.WindowsNavigation;
 using System.Xml.Serialization;
+using System.Windows;
 
 namespace Pronets.VievModel
 {
@@ -105,6 +106,16 @@ namespace Pronets.VievModel
             {
                 selectedIndex = value;
                 RaisedPropertyChanged("SelectedIndex");
+            }
+        }
+        protected Visibility textVisibility = Visibility.Hidden;
+        public Visibility TextVisibility
+        {
+            get { return textVisibility; }
+            set
+            {
+                textVisibility = value;
+                RaisedPropertyChanged("TextVisibility");
             }
         }
     }

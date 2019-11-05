@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -62,6 +63,8 @@ namespace Pronets.Viev.ConvertToSQL
 
         private void AllChecked_Checked(object sender, RoutedEventArgs e)
         {
+            txbOperation.Visibility = Visibility.Visible;
+            Thread.Sleep(1000);
             var row = GetDataGridRows(baseFromExcel);
             foreach (DataGridRow r in row)
             {
@@ -69,11 +72,13 @@ namespace Pronets.Viev.ConvertToSQL
                 CheckBox checkBox = ItemTemplateFind.FindChild<CheckBox>(elmchbx, "chkbx");
                 checkBox.IsChecked = true;
             }
-
+            txbOperation.Visibility = Visibility.Hidden;
         }
 
         private void AllChecked_Unchecked(object sender, RoutedEventArgs e)
         {
+            txbOperation.Visibility = Visibility.Visible;
+            Thread.Sleep(1000);
             var row = GetDataGridRows(baseFromExcel);
             foreach (DataGridRow r in row)
             {
@@ -81,6 +86,7 @@ namespace Pronets.Viev.ConvertToSQL
                 CheckBox checkBox = ItemTemplateFind.FindChild<CheckBox>(elmchbx, "chkbx");
                 checkBox.IsChecked = false;
             }
+            txbOperation.Visibility = Visibility.Hidden;
         }
 
         private void Open_Click(object sender, RoutedEventArgs e)

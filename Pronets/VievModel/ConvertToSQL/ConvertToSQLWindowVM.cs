@@ -224,8 +224,10 @@ namespace Pronets.VievModel.ConvertToSQL
         }
         private async void GetTableFromSheetAsync()
         {
+            TextVisibility = Visibility.Visible;
             workList.Clear();
             await Task.Run(() => GetTableFromSheet());
+            TextVisibility = Visibility.Hidden;
         }
         private void GetTableFromSheet()
         {
@@ -319,6 +321,7 @@ namespace Pronets.VievModel.ConvertToSQL
         }
         public void Export(/*object Parameter*/)
         {
+            TextVisibility = Visibility.Visible;
             foreach (var item in workList)
             {
                 _dispatcher.Invoke(new Action(() =>
@@ -354,6 +357,7 @@ namespace Pronets.VievModel.ConvertToSQL
 
             }
             MessageBox.Show("Загрузка закончена!");
+            TextVisibility = Visibility.Hidden;
         }
         #endregion
 
@@ -409,12 +413,15 @@ namespace Pronets.VievModel.ConvertToSQL
         }
         public void SaveAtRepairs(/*object Parameter*/)
         {
+
             if (selectedClient != null && selectedStatus != null)
             {
+                TextVisibility = Visibility.Visible;
                 DateTime defaultDate = new DateTime(2017, 1, 1);
                 var result = MessageBox.Show("Вы действительно хотете записать в базу?\nПроверьте правильность данных!", "Создание экземпляра", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
                 {
+
                     int count = 0;
                     foreach (var item in BaseFromExcel)
                     {
@@ -466,10 +473,10 @@ namespace Pronets.VievModel.ConvertToSQL
             }
             else
                 MessageBox.Show("Выберите клиента, номенклатуру, статус!", "Ошибка");
+            TextVisibility = Visibility.Hidden;
         }
         #endregion
     }
-
 }
 
 

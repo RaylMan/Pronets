@@ -129,7 +129,7 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-            <ComboBox  ItemsSource="{Binding Statuses, UpdateSourceTrigger=PropertyChanged}" SelectedValue="{Binding SelectedStatus}"  Grid.Column="1" Grid.Row="5" >
+            <ComboBox  ItemsSource="{Binding Statuses, UpdateSourceTrigger=PropertyChanged}" SelectedValue="{Binding SelectedStatus}"  Grid.Column="1" Grid.Row="5"  >
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Status}"/>
