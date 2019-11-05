@@ -137,5 +137,8 @@
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
+        <TextBlock x:Name="txbOperation" Text="Выполнение операции" Grid.Row="1" Grid.ColumnSpan="2" Background="Gray"  VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding TextVisibility, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+
+
     </Grid>
 </Window>
