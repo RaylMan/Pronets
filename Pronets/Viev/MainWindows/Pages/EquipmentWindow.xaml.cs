@@ -1,4 +1,6 @@
-﻿using Pronets.VievModel.MainWindows.Pages;
+﻿using Pronets.Data;
+using Pronets.Viev.Repairs_f;
+using Pronets.VievModel.MainWindows.Pages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,5 +44,14 @@ namespace Pronets.Viev.MainWindows.Pages
             isFocused = true;
         }
         #endregion
+
+        private void OpenEditRepairWindow(object sender, RoutedEventArgs e)
+        {
+            if (repairs.SelectedItem != null)
+            {
+                EditRepairWindow window = new EditRepairWindow((v_Repairs)repairs.SelectedItem);
+                window.Show();
+            }
+        }
     }
 }

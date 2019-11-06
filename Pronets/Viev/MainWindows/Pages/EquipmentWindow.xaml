@@ -51,9 +51,13 @@
         </Grid>
 
         <!--Column 2-->
-        <DataGrid ItemsSource="{Binding RepairsByNomenclature, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+        <DataGrid x:Name="repairs" ItemsSource="{Binding RepairsByNomenclature, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                   AutoGenerateColumns="False" IsReadOnly="True" Grid.Column="1" CanUserAddRows="False" CanUserDeleteRows="False"
                    SelectionMode="Single"  HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999" Margin="5,5,5,20">
+            <DataGrid.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="White" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#0078D7"/>
+            </DataGrid.Resources>
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
                     <Style.Triggers>
@@ -82,6 +86,11 @@
                     </Style.Triggers>
                 </Style>
             </DataGrid.RowStyle>
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Редактировать" Click="OpenEditRepairWindow"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="№" Binding="{Binding Path=RepairId, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="название" Binding="{Binding Path=Nomenclature, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>

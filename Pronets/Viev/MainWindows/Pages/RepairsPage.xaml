@@ -114,22 +114,22 @@
             <Label Content="Дата ремонта:"  Grid.Column="0" Grid.Row="3"/>
             <Label Content="Категория ремонта:"  Grid.Column="0" Grid.Row="4"/>
             <Label  Content="Статус ремонта:"  Grid.Column="0" Grid.Row="5"/>
-            <Button x:Name="btnOpenDefects" Grid.Column="1" Grid.Row="0" Content=" + " HorizontalAlignment="Right" Click="BtnOpenDefects_Click"/>
+            <!--<Button x:Name="btnOpenDefects" Grid.Column="1" Grid.Row="0" Content=" + " HorizontalAlignment="Right" Click="BtnOpenDefects_Click"/>-->
             <TextBox x:Name="tbxDefect" Grid.Column="1" Grid.Row="0"  Text="{Binding Identifie_Fault, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                      TextWrapping="Wrap" AcceptsReturn="True" MaxLength="200" Margin="0,0,19,0"/>
+                      TextWrapping="Wrap" AcceptsReturn="True" MaxLength="200"/>
             <TextBox x:Name="tbxWork" Grid.Column="1" Grid.Row="1" Text="{Binding Work_Done, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
                      TextWrapping="Wrap" AcceptsReturn="True" MaxLength="200"/>
             <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Note, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" AcceptsReturn="True" MaxLength="200"/>
             <DatePicker Grid.Column="1" Grid.Row="3" SelectedDate="{Binding Path=Repair_Date, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
                   ValidatesOnExceptions=true, NotifyOnValidationError=true}"/>
-            <ComboBox  ItemsSource="{Binding Repair_Categories}" SelectedValue="{Binding SelectedCategory}"  Grid.Column="1" Grid.Row="4" >
+            <ComboBox  ItemsSource="{Binding Repair_Categories}" SelectedValue="{Binding SelectedCategory, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Grid.Column="1" Grid.Row="4" >
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Category}"/>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-            <ComboBox  ItemsSource="{Binding Statuses, UpdateSourceTrigger=PropertyChanged}" SelectedValue="{Binding SelectedStatus}"  Grid.Column="1" Grid.Row="5"  >
+            <ComboBox  ItemsSource="{Binding Statuses, UpdateSourceTrigger=PropertyChanged}" SelectedValue="{Binding SelectedStatus, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Grid.Column="1" Grid.Row="5"  >
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Status}"/>

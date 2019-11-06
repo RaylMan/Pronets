@@ -29,18 +29,18 @@ namespace Pronets.Viev.MainWindows
             if (loginUser != null)
                 this.user = loginUser;
             InitializeComponent();
+            DataContext = new WorkWindowAdminVM(new ViewModelsResolver(), user);
             Loaded += MainWindow_Loaded;
         }
-        public WorkWindowAdmin()
-        {
-            InitializeComponent();
-            Loaded += MainWindow_Loaded;
-        }
+        //public WorkWindowAdmin()
+        //{
+        //    InitializeComponent();
+        //    Loaded += MainWindow_Loaded;
+        //}
         void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            
             Navigation.Navigation.Service = MainFrame.NavigationService;
-            DataContext = new WorkWindowAdminVM(new ViewModelsResolver(), user);
+           // DataContext = new WorkWindowAdminVM(new ViewModelsResolver(), user);
         }
         private void Exit_Click(object sender, RoutedEventArgs e)
         {

@@ -123,6 +123,7 @@ namespace Pronets.VievModel.MainWindows.Pages
             set
             {
                 selectedStatus = value;
+                SetStatus();
                 RaisedPropertyChanged("SelectedStatus");
             }
         }
@@ -166,6 +167,31 @@ namespace Pronets.VievModel.MainWindows.Pages
             _dispatcher = Dispatcher.CurrentDispatcher;
             GetContentAsync();
             GetEngineer();
+        }
+
+        private void SetStatus()
+        {
+            if (SelectedStatus != null)
+            {
+                if(SelectedStatus.Status == "Восстановлению не подлежит" ||
+                    SelectedStatus.Status == "Донор" ||
+                    SelectedStatus.Status == "Не смогли починить" ||
+                    SelectedStatus.Status == "В ремонте")
+                {
+                    SetCategory();
+                }
+            }
+        }
+        /// <summary>
+        /// Установка значения Selected Category на Диагностика
+        /// </summary>
+        private void SetCategory()
+        {
+            foreach (var category in Repair_Categories)
+            {
+                if (category.Category == "Диагностика")
+                    SelectedCategory = category;
+            }
         }
         private async void GetContentAsync()
         {
@@ -317,7 +343,7 @@ namespace Pronets.VievModel.MainWindows.Pages
         public void GetEngineer()
         {
             var user = UsersRequest.GetUser(Properties.Settings.Default.DefaultUserId);
-            engineer = UsersRequest.GetEngineer(user.LastName);
+            this.engineer = UsersRequest.GetEngineer(user.LastName);
         }
         public void GetCategory()
         {

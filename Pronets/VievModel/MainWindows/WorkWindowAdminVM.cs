@@ -26,7 +26,7 @@ namespace Pronets.VievModel.MainWindows
             repairsPageVM = _resolver.GetViewModelInstance(RepairsPageVMAlias);
             equipmentWindowVM = _resolver.GetViewModelInstance(EquipmentWindowVMAlias);
             InitializeCommands();
-            GetDefaultUser();
+            //GetDefaultUser();
         }
 
         private Users currentUser;
@@ -200,14 +200,14 @@ namespace Pronets.VievModel.MainWindows
         /// соответствии с пользователем который произвел логин, для установки 
         /// по умолчанию значений в других окнах
         /// </summary>
-        private void GetDefaultUser()
-        {
-            if(currentUser != null)
-            {
-                Properties.Settings.Default.DefaultLastName = currentUser.LastName;
-                Properties.Settings.Default.DefaultUserId = currentUser.UserId;
-                Properties.Settings.Default.Save();
-            }
-        }
+        //private void GetDefaultUser()
+        //{
+        //    if(currentUser != null)
+        //    {
+        //        Properties.Settings.Default.DefaultLastName = currentUser.LastName;
+        //        Properties.Settings.Default.DefaultUserId = currentUser.UserId;
+        //        Properties.Settings.Default.Save();
+        //    }
+        //}
     }
 }
