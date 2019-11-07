@@ -1,6 +1,5 @@
 ﻿using Pronets.Data;
 using Pronets.Viev.Repairs_f;
-using Pronets.VievModel.MainWindows.Pages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,20 +18,17 @@ using System.Windows.Shapes;
 namespace Pronets.Viev.MainWindows.Pages
 {
     /// <summary>
-    /// Логика взаимодействия для ReceiptDocumentPage.xaml
+    /// Логика взаимодействия для ReceiptDocumentPagePronets.xaml
     /// </summary>
-    public partial class ReceiptDocumentPage : Page
+    public partial class ReceiptDocumentPagePronets : Page
     {
-        NewReceiptDocument win = null;
-        public ReceiptDocumentPage()
+        public ReceiptDocumentPagePronets()
         {
             InitializeComponent();
-            DataContext = new ReceiptDocumentPageVM();
         }
-
         private void BtnCreate_Click(object sender, RoutedEventArgs e)
         {
-            win = new NewReceiptDocument();
+            NewReceiptDocument win = new NewReceiptDocument();
             win.Show();
         }
         private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
@@ -46,17 +42,6 @@ namespace Pronets.Viev.MainWindows.Pages
         private void CmbStatuses_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             cbxAllStatus.IsChecked = false;
-        }
-
-        private void CmbClients_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            cbxAllClients.IsChecked = false;
-        }
-
-        private void CbxAllClients_Checked(object sender, RoutedEventArgs e)
-        {
-            cmbClients.SelectedItem = null;
-            cbxAllClients.IsChecked = true;
         }
 
         private void CbxAllStatus_Checked(object sender, RoutedEventArgs e)

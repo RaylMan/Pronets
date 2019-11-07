@@ -279,7 +279,6 @@ namespace Pronets.VievModel.Repairs_f
         public NewReceiptDocumentVM()
         {
             GetContent();
-            test();
         }
         public NewReceiptDocumentVM(int documentId)
         {

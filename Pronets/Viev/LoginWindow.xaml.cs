@@ -43,41 +43,58 @@ namespace Pronets.Viev
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             SaveLogin();
-
-            user = UsersRequest.Login(tbxLogin.Text, tbxPassword.Password, out bool ex);
-            if (ex)
+            try
             {
-                if (user != null)
+                user = UsersRequest.Login(tbxLogin.Text, tbxPassword.Password, out bool ex);
+                if (ex)
                 {
-                    if (user.Position == "Администратор" || user.Position == "Директор")
+                    if (user != null)
                     {
-                        WorkWindowAdmin workWindowAdmin = new WorkWindowAdmin(user);
-                        workWindowAdmin.Show();
-                        this.Close();
-                    }
-                    else if (user.Position == "Инженер")
-                    {
-                        WorkWindowEngineer workWindowEngineer = new WorkWindowEngineer(user);
-                        workWindowEngineer.Show();
-                        this.Close();
-                    }
-                    else if (user.Position == "Приемщик")
-                    {
-                        WorkWindowInspector workWindowInspector = new WorkWindowInspector(user);
-                        workWindowInspector.Show();
-                        this.Close();
+                        GetDefaultUser();
+                        if (user.Position == "Администратор" || user.Position == "Директор")
+                        {
+                            WorkWindowAdmin workWindowAdmin = new WorkWindowAdmin(user);
+                            workWindowAdmin.Show();
+                            this.Close();
+                        }
+                        else if (user.Position == "Инженер")
+                        {
+                            WorkWindowEngineer workWindowEngineer = new WorkWindowEngineer(user);
+                            workWindowEngineer.Show();
+                            this.Close();
+                        }
+                        else if (user.Position == "Приемщик")
+                        {
+                            WorkWindowInspector workWindowInspector = new WorkWindowInspector(user);
+                            workWindowInspector.Show();
+                            this.Close();
+                        }
+                        else
+                            MessageBox.Show("Неверные права доступа у пользователя!\nОбратитесь к администратору!", "Ошибка");
                     }
                     else
-                        MessageBox.Show("Неверные права доступа у пользователя!\nОбратитесь к администратору!", "Ошибка");
-                }
-                else
-                {
-                    if (!Properties.Settings.Default.SaveLogin)
-                        tbxLogin.Clear();
-                    tbxPassword.Clear();
-                    MessageBox.Show("Введен не правильный логин или пароль");
+                    {
+                        if (!Properties.Settings.Default.SaveLogin)
+                            tbxLogin.Clear();
+                        tbxPassword.Clear();
+                        MessageBox.Show("Введен не правильный логин или пароль");
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                string er = $"{Properties.Settings.Default.DefaultUserId}\n" +
+                    $"{user.UserId}\n" +
+                    $"{ex.HelpLink}\n" +
+                    $"{ex.HResult}\n" +
+                    $"{ex.InnerException}\n" +
+                    $"{ex.Message}\n" +
+                    $"{ex.Source}\n" +
+                    $"{ex.StackTrace}\n"+
+                    $"{ex.TargetSite}\n" ;
+                MessageBox.Show(er);
+            }
+           
         }
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
@@ -111,6 +128,15 @@ namespace Pronets.Viev
                 Properties.Settings.Default.Login = "";
                 Properties.Settings.Default.Password = "";
                 Properties.Settings.Default.SaveLogin = false;
+                Properties.Settings.Default.Save();
+            }
+        }
+        private void GetDefaultUser()
+        {
+            if (user != null)
+            {
+                Properties.Settings.Default.DefaultLastName = user.LastName;
+                Properties.Settings.Default.DefaultUserId = user.UserId;
                 Properties.Settings.Default.Save();
             }
         }
