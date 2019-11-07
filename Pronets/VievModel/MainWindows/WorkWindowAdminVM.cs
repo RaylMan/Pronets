@@ -23,6 +23,7 @@ namespace Pronets.VievModel.MainWindows
             _resolver = resolver;
             defectsPageVM = _resolver.GetViewModelInstance(DefectsPageVMAlias);
             receiptDocumentPageVM = _resolver.GetViewModelInstance(ReceiptDocumentPageVMAlias);
+            receiptDocumentPagePronetsVM = _resolver.GetViewModelInstance(ReceiptDocumentPagePronetsVMAlias);
             repairsPageVM = _resolver.GetViewModelInstance(RepairsPageVMAlias);
             equipmentWindowVM = _resolver.GetViewModelInstance(EquipmentWindowVMAlias);
             InitializeCommands();
@@ -61,6 +62,7 @@ namespace Pronets.VievModel.MainWindows
 
         public static readonly string DefectsPageVMAlias = "DefectsPageVM";
         public static readonly string ReceiptDocumentPageVMAlias = "ReceiptDocumentPageVM";
+        public static readonly string ReceiptDocumentPagePronetsVMAlias = "ReceiptDocumentPagePronetsVM";
         public static readonly string RepairsPageVMAlias = "RepairsPageVM";
         public static readonly string EquipmentWindowVMAlias = "EquipmentWindow";
         public static readonly string NotFoundPageViewModelAlias = "404VM";
@@ -73,6 +75,8 @@ namespace Pronets.VievModel.MainWindows
 
         private ICommand goToReceiptDocumentCommand;
 
+        private ICommand goToReceiptDocumentPronetsCommand;
+
         private ICommand goToRepairsPageCommand;
 
         private ICommand goToDefectsCommand;
@@ -81,9 +85,10 @@ namespace Pronets.VievModel.MainWindows
 
         private readonly INotifyPropertyChanged defectsPageVM;
         private readonly INotifyPropertyChanged receiptDocumentPageVM;
+        private readonly INotifyPropertyChanged receiptDocumentPagePronetsVM;
         private readonly INotifyPropertyChanged repairsPageVM;
         private readonly INotifyPropertyChanged equipmentWindowVM;
-
+        
         #endregion
 
 
@@ -96,6 +101,15 @@ namespace Pronets.VievModel.MainWindows
             {
                 goToReceiptDocumentCommand = value;
                 RaisedPropertyChanged("GoToReceiptDocumentCommand");
+            }
+        }
+        public ICommand GoToReceiptDocumentPronetsCommand
+        {
+            get { return goToReceiptDocumentPronetsCommand; }
+            set
+            {
+                goToReceiptDocumentPronetsCommand = value;
+                RaisedPropertyChanged("GoToReceiptDocumentPronetsCommand");
             }
         }
 
@@ -143,6 +157,10 @@ namespace Pronets.VievModel.MainWindows
         {
             get { return receiptDocumentPageVM; }
         }
+        public INotifyPropertyChanged ReceiptDocumentPagePronetsVM
+        {
+            get { return receiptDocumentPagePronetsVM; }
+        }
 
         public INotifyPropertyChanged RepairsPageVM
         {
@@ -160,6 +178,8 @@ namespace Pronets.VievModel.MainWindows
             GoToDefectsCommand = new RelayCommand<INotifyPropertyChanged>(GoToDefectsPageCommandExecute);
 
             GoToReceiptDocumentCommand = new RelayCommand<INotifyPropertyChanged>(GoToReceiptDocumentPageCommandExecute);
+
+            GoToReceiptDocumentPronetsCommand = new RelayCommand<INotifyPropertyChanged>(GoToReceiptDocumentPagePronetsCommandExecute);
 
             GoToRepairsPageCommand = new RelayCommand<INotifyPropertyChanged>(GoToRepairsPageCommandExecute);
 
@@ -179,6 +199,10 @@ namespace Pronets.VievModel.MainWindows
         private void GoToReceiptDocumentPageCommandExecute(INotifyPropertyChanged viewModel)
         {
             Navigation.Navigation.Navigate(Navigation.Navigation.ReceiptDocumentPageAlias, ReceiptDocumentPageVM);
+        }
+        private void GoToReceiptDocumentPagePronetsCommandExecute(INotifyPropertyChanged viewModel)
+        {
+            Navigation.Navigation.Navigate(Navigation.Navigation.ReceiptDocumentPagePronetsAlias, ReceiptDocumentPagePronetsVM);
         }
 
         private void GoToRepairsPageCommandExecute(INotifyPropertyChanged viewModel)

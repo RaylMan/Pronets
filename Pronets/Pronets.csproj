@@ -204,6 +204,7 @@
     <Compile Include="VievModel\MainWindows\Pages\DefectsPageVM.cs" />
     <Compile Include="VievModel\MainWindows\Pages\EquipmentWindowVM.cs" />
     <Compile Include="VievModel\MainWindows\Pages\Page404VM.cs" />
+    <Compile Include="VievModel\MainWindows\Pages\ReceiptDocumentPagePronetsVM.cs" />
     <Compile Include="VievModel\MainWindows\Pages\ReceiptDocumentPageVM.cs" />
     <Compile Include="VievModel\MainWindows\Pages\RepairsPageVM.cs" />
     <Compile Include="VievModel\MainWindows\Pages\ViewModelsResolver.cs" />
@@ -258,6 +259,9 @@
     </Compile>
     <Compile Include="Viev\MainWindows\Pages\ReceiptDocumentPage.xaml.cs">
       <DependentUpon>ReceiptDocumentPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Viev\MainWindows\Pages\ReceiptDocumentPagePronets.xaml.cs">
+      <DependentUpon>ReceiptDocumentPagePronets.xaml</DependentUpon>
     </Compile>
     <Compile Include="Viev\MainWindows\Pages\RepairsPage.xaml.cs">
       <DependentUpon>RepairsPage.xaml</DependentUpon>
@@ -408,6 +412,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Viev\MainWindows\Pages\ReceiptDocumentPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Viev\MainWindows\Pages\ReceiptDocumentPagePronets.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

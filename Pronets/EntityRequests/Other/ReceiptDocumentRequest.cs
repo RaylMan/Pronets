@@ -114,7 +114,66 @@ namespace Pronets.EntityRequests.Other
             return v_ReceiptDocuments;
         }
         /// <summary>
-        /// <para>Возращает коллекцию v_ReceiptDocument(Представление SQL) имени клиента и статусу</para>
+        /// <para>Возращает коллекцию v_ReceiptDocument(Представление SQL) по статусу клиента пронетс</para>
+        /// </summary>
+        public static ObservableCollection<v_Receipt_Document> v_FillListPronets(string status = null) // Представление(вместо Id - имена)
+        {
+            ObservableCollection<v_Receipt_Document> v_ReceiptDocuments = new ObservableCollection<v_Receipt_Document>();
+            using (var db = ConnectionTools.GetConnection())
+            {
+                try
+                {
+                    if (status != null)
+                    {
+                        foreach (var item in db.v_Receipt_Document)
+                        {
+                            if (item.Client == "Пронетс" && item.Status == status)
+                                v_ReceiptDocuments.Add(new v_Receipt_Document
+                                {
+                                    Document_Id = item.Document_Id,
+                                    Client = item.Client,
+                                    Inspector = item.Inspector,
+                                    Date = item.Date,
+                                    DepartureDate = item.DepartureDate,
+                                    Status = item.Status,
+                                    Note = item.Note,
+                                    Count = db.Repairs.Count(r => r.DocumentId == item.Document_Id)
+                                });
+                        }
+                        v_ReceiptDocuments = new ObservableCollection<v_Receipt_Document>(v_ReceiptDocuments.OrderByDescending(i => i.Document_Id));
+                    }
+                    else
+                    {
+                        foreach (var item in db.v_Receipt_Document)
+                        {
+                            if(item.Client == "Пронетс")
+                            {
+                                v_ReceiptDocuments.Add(new v_Receipt_Document
+                                {
+                                    Document_Id = item.Document_Id,
+                                    Client = item.Client,
+                                    Inspector = item.Inspector,
+                                    Date = item.Date,
+                                    DepartureDate = item.DepartureDate,
+                                    Status = item.Status,
+                                    Note = item.Note,
+                                    Count = db.Repairs.Count(r => r.DocumentId == item.Document_Id)
+                                });
+                            }
+                        }
+                        v_ReceiptDocuments = new ObservableCollection<v_Receipt_Document>(v_ReceiptDocuments.OrderByDescending(i => i.Document_Id));
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Ошибка");
+                }
+            }
+            return v_ReceiptDocuments;
+        }
+
+        /// <summary>
+        /// <para>Возращает коллекцию v_ReceiptDocument(Представление SQL) имени клиента и статусу(кроме пронетс)</para>
         /// </summary>
         public static ObservableCollection<v_Receipt_Document> v_FillList(string status = null, string clientName = null) // Представление(вместо Id - имена)
         {
@@ -125,12 +184,9 @@ namespace Pronets.EntityRequests.Other
                 {
                     if (status != null && clientName != null)
                     {
-                        //var result = from document in db.v_Receipt_Document
-                        //             where document.Client == clientName && document.Status == status
-                        //             select document;
                         foreach (var item in db.v_Receipt_Document)
                         {
-                            if (item.Client == clientName && item.Status == status)
+                            if (item.Client == clientName && item.Client != "Пронетс" && item.Status == status)
                                 v_ReceiptDocuments.Add(new v_Receipt_Document
                                 {
                                     Document_Id = item.Document_Id,
@@ -152,7 +208,7 @@ namespace Pronets.EntityRequests.Other
                         //             select document;
                         foreach (var item in db.v_Receipt_Document)
                         {
-                            if (item.Client == clientName)
+                            if (item.Client == clientName && item.Client != "Пронетс")
                                 v_ReceiptDocuments.Add(new v_Receipt_Document
                                 {
                                     Document_Id = item.Document_Id,
@@ -174,7 +230,7 @@ namespace Pronets.EntityRequests.Other
                         //             select document;
                         foreach (var item in db.v_Receipt_Document)
                         {
-                            if (item.Status == status)
+                            if (item.Status == status && item.Client != "Пронетс")
                                 v_ReceiptDocuments.Add(new v_Receipt_Document
                                 {
                                     Document_Id = item.Document_Id,
@@ -194,17 +250,20 @@ namespace Pronets.EntityRequests.Other
                         //var result = db.v_Receipt_Document.ToList();
                         foreach (var item in db.v_Receipt_Document)
                         {
-                            v_ReceiptDocuments.Add(new v_Receipt_Document
+                            if(item.Client != "Пронетс")
                             {
-                                Document_Id = item.Document_Id,
-                                Client = item.Client,
-                                Inspector = item.Inspector,
-                                Date = item.Date,
-                                DepartureDate = item.DepartureDate,
-                                Status = item.Status,
-                                Note = item.Note,
-                                Count = db.Repairs.Count(r => r.DocumentId == item.Document_Id)
-                            });
+                                v_ReceiptDocuments.Add(new v_Receipt_Document
+                                {
+                                    Document_Id = item.Document_Id,
+                                    Client = item.Client,
+                                    Inspector = item.Inspector,
+                                    Date = item.Date,
+                                    DepartureDate = item.DepartureDate,
+                                    Status = item.Status,
+                                    Note = item.Note,
+                                    Count = db.Repairs.Count(r => r.DocumentId == item.Document_Id)
+                                });
+                            }
                         }
                         v_ReceiptDocuments = new ObservableCollection<v_Receipt_Document>(v_ReceiptDocuments.OrderByDescending(i => i.Document_Id));
                     }

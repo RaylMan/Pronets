@@ -17,6 +17,7 @@ namespace Pronets.VievModel.MainWindows.Pages
         {
             _vmResolvers.Add(WorkWindowAdminVM.DefectsPageVMAlias, () => new DefectsPageVM());
             _vmResolvers.Add(WorkWindowAdminVM.ReceiptDocumentPageVMAlias, () => new ReceiptDocumentPageVM());
+            _vmResolvers.Add(WorkWindowAdminVM.ReceiptDocumentPagePronetsVMAlias, () => new ReceiptDocumentPagePronetsVM());
             _vmResolvers.Add(WorkWindowAdminVM.RepairsPageVMAlias, () => new RepairsPageVM());
             _vmResolvers.Add(WorkWindowAdminVM.EquipmentWindowVMAlias, () => new EquipmentWindowVM());
             _vmResolvers.Add(WorkWindowAdminVM.NotFoundPageViewModelAlias, () => new Page404VM());

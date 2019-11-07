@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -17,10 +16,11 @@ using System.Windows.Threading;
 
 namespace Pronets.VievModel.MainWindows.Pages
 {
-    public class ReceiptDocumentPageVM : VievModelBase
+    public class ReceiptDocumentPagePronetsVM : VievModelBase
     {
         #region Properties
         object e = null;
+        string baseClient = "Пронетс";
         Dispatcher _dispatcher;
         public OpenWindowCommand OpenWindowCommand { get; set; }
 
@@ -195,13 +195,13 @@ namespace Pronets.VievModel.MainWindows.Pages
 
         #endregion
 
-        public ReceiptDocumentPageVM()
+        public ReceiptDocumentPagePronetsVM()
         {
             _dispatcher = Dispatcher.CurrentDispatcher;
             // GetDocumentsAsync(); //Загрузка данных в датагрид происходит в selectedClient, selectedstatus, allclients, allstatuese
             GetContent();
         }
-       
+
         private void GetContent()
         {
             Statuses.Clear();
@@ -252,10 +252,8 @@ namespace Pronets.VievModel.MainWindows.Pages
         private void Sort(object Parameter)
         {
             string status = SelectedStatusItem != null ? SelectedStatusItem.Status : null;
-            string client = SelectedClientItem != null ? selectedClientItem.ClientName : null;
             ReceiptDocuments.Clear();
-            ReceiptDocuments = ReceiptDocumentRequest.v_FillList(status, client);
-
+            ReceiptDocuments = ReceiptDocumentRequest.v_FillListPronets(status);
         }
         #endregion
 
@@ -297,7 +295,7 @@ namespace Pronets.VievModel.MainWindows.Pages
         }
         #endregion
 
-        #region RefreshCommand
+        #region SortCommand
         private ICommand refreshCommand;
         public ICommand RefreshCommand
         {
