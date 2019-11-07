@@ -19,6 +19,10 @@ namespace Pronets.VievModel.Other
         private v_Receipt_Document document;
         private Clients clientPronets;
         private Clients client;
+        public Clients ClientInstance
+        {
+            get { return client; }
+        }
         private List<int> repairsId = new List<int>();
 
         private ObservableCollection<v_Repairs> repairsTable = new ObservableCollection<v_Repairs>();
@@ -276,6 +280,30 @@ namespace Pronets.VievModel.Other
                     RepairsRequest.SetRepairRecipient(repair.RepairId, client.ClientName);
                 }
             }
+        }
+        #endregion
+        #region ExportToExcelCommand
+        private ICommand exportToExcelCommand;
+        public ICommand ExportToExcelCommand
+        {
+            get
+            {
+                if (exportToExcelCommand == null)
+                {
+                    exportToExcelCommand = new RelayCommand(new Action<object>(ExportToExcel));
+                }
+                return exportToExcelCommand;
+            }
+            set
+            {
+                exportToExcelCommand = value;
+                RaisedPropertyChanged("ExportToExcelCommand");
+            }
+        }
+        public void ExportToExcel(object Parameter)
+        {
+            XLSWriter writer = new XLSWriter(clientPronets, client, ResponsiblePerson, ChiefEngineer);
+            writer.GenerateFile(FilePath, RepairsTable);
         }
         #endregion
     }

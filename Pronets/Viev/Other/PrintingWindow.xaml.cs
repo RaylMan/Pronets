@@ -189,9 +189,9 @@ namespace Pronets.Viev.Other
         {
             SaveFileDialog showDialog = new SaveFileDialog();
             showDialog.Filter = ".xlsx Files (*.xlsx)|*.xlsx";
+            showDialog.FileName = $"Дефектная ведомость от: {DateTime.Now.ToShortDateString()} для {vm.ClientInstance.ClientName}";
             if (showDialog.ShowDialog() == true)
                 vm.FilePath = showDialog.FileName;
-
         }
     }
 }

@@ -12,7 +12,7 @@
                 <TextBlock Text="  Печать  "  />
             </Viewbox>
         </Button>
-        <Button x:Name="btnSaveXls" Click="BtnSaveXls_Click" Command="{Binding ExporToExceltCommand}"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="89,10,0,0" Height="25" Width="132">
+        <Button x:Name="btnSaveXls" Click="BtnSaveXls_Click" Command="{Binding ExportToExcelCommand}"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="89,10,0,0" Height="25" Width="132">
             <Viewbox>
                 <TextBlock Text="  Сохранить в Excel  "  />
             </Viewbox>
