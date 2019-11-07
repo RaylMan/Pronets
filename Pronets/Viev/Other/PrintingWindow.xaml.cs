@@ -1,4 +1,5 @@
-﻿using Pronets.Data;
+﻿using Microsoft.Win32;
+using Pronets.Data;
 using Pronets.Model;
 using Pronets.VievModel.Other;
 using Pronets.VievModel.Repairs_f;
@@ -111,7 +112,7 @@ namespace Pronets.Viev.Other
             var header = new TableRow();
             rowGroup.Rows.Add(header);
             Table1.CellSpacing = 1;
-            
+
 
             foreach (DataColumn column in dataTable.Columns)
             {
@@ -145,7 +146,7 @@ namespace Pronets.Viev.Other
                             break;
                     }
                     var tableColumn = new TableColumn();
-                    
+
                     //configure width and such
                     Table1.Columns.Add(tableColumn);
                     var cell = new TableCell(new Paragraph(new Run(columnName)));
@@ -160,7 +161,7 @@ namespace Pronets.Viev.Other
             {
 
                 var tableRow = new TableRow();
-               
+
                 //tableRow.Background = (Brush)brushConverter.ConvertFrom("#FFFFFF");
                 rowGroup.Rows.Add(tableRow);
 
@@ -184,6 +185,13 @@ namespace Pronets.Viev.Other
             }
         }
 
+        private void BtnSaveXls_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog showDialog = new SaveFileDialog();
+            showDialog.Filter = ".xlsx Files (*.xlsx)|*.xlsx";
+            if (showDialog.ShowDialog() == true)
+                vm.FilePath = showDialog.FileName;
 
+        }
     }
 }

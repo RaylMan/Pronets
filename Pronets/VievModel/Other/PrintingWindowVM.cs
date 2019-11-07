@@ -20,9 +20,9 @@ namespace Pronets.VievModel.Other
         private Clients clientPronets;
         private Clients client;
         private List<int> repairsId = new List<int>();
-        private ObservableCollection<v_Repairs> repairsTable = new ObservableCollection<v_Repairs>();
 
-        public ObservableCollection<v_Repairs> RepairsTable
+        private ObservableCollection<v_Repairs> repairsTable = new ObservableCollection<v_Repairs>();
+        public ObservableCollection<v_Repairs> RepairsTable 
         {
             get { return repairsTable; }
 
@@ -174,6 +174,16 @@ namespace Pronets.VievModel.Other
             {
                 titleFontSize = value;
                 RaisedPropertyChanged("TitleFontSize");
+            }
+        }
+        private string filePath;
+        public string FilePath
+        {
+            get { return filePath; }
+            set
+            {
+                filePath = value;
+                RaisedPropertyChanged("FilePath");
             }
         }
         #endregion
