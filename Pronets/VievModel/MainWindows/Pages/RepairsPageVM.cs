@@ -173,7 +173,7 @@ namespace Pronets.VievModel.MainWindows.Pages
         {
             if (SelectedStatus != null)
             {
-                if(SelectedStatus.Status == "Восстановлению не подлежит" ||
+                if (SelectedStatus.Status == "Восстановлению не подлежит" ||
                     SelectedStatus.Status == "Донор" ||
                     SelectedStatus.Status == "Не смогли починить" ||
                     SelectedStatus.Status == "В ремонте")
@@ -226,28 +226,46 @@ namespace Pronets.VievModel.MainWindows.Pages
         }
         public async void SearchItemAsync(object Parameter)
         {
+            TextVisibility = Visibility.Visible;
             V_Repairs.Clear();
             await Task.Run(() => SearchItem());
+            if (V_Repairs.Count == 0)
+            {
+                V_Repairs.Add(new v_Repairs { RepairId = -10, Serial_Number = "Устройство не найдено" });
+            }
+            TextVisibility = Visibility.Hidden;
         }
         public async void SearchItemAsync()
         {
-            V_Repairs.Clear();
-            await Task.Run(() => SearchItem());
+            try
+            {
+                V_Repairs.Clear();
+                await Task.Run(() => SearchItem());
+            }
+            catch (Exception) { }
         }
         public void SearchItem()
         {
             if (SearchText != null && SearchText != "")
             {
                 string engWord = IsChecked != true ? EditChars.ToEnglish(SearchText) : SearchText;
-                foreach (var repair in RepairsRequest.SearchItem(engWord))
+                try
                 {
-                    _dispatcher.Invoke(new Action(() =>
+                    foreach (var repair in RepairsRequest.SearchItem(engWord))
                     {
-                        V_Repairs.Add(repair);
-                    }));
+
+                        _dispatcher.Invoke(new Action(() =>
+                        {
+                            V_Repairs.Add(repair);
+                        }));
+                        if (V_Repairs.Count > 0)
+                            SelectedIndex = 0;
+                    }
                 }
-                if (V_Repairs.Count > 0)
-                    SelectedIndex = 0;
+                catch (Exception)
+                {
+                }
+               
                 //SearchText = string.Empty;
             }
         }
@@ -278,29 +296,32 @@ namespace Pronets.VievModel.MainWindows.Pages
         {
             if (SelectedRepair != null)
             {
-                repair = RepairsRequest.GetRepair(SelectedRepair.RepairId);
-                repair.Engineer = engineer != null ? engineer.Id : 0;
-                repair.Identifie_Fault = Identifie_Fault;
-                repair.Work_Done = Work_Done;
-                repair.Note = Note;
-                repair.Repair_Date = Repair_Date;
-                repair.Repair_Category = SelectedCategory != null ? SelectedCategory.Category : null;
-                repair.Status = SelectedStatus != null ? SelectedStatus.Status : "Готово";
-
-                var result = MessageBox.Show("Вы действительно хотите редактировать?", "Редактирование", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                if (result == MessageBoxResult.Yes)
+                if(selectedRepair.RepairId != -10)
                 {
-                    if (SelectedStatus.Status != "Принято" && SelectedCategory != null)
+                    repair = RepairsRequest.GetRepair(SelectedRepair.RepairId);
+                    repair.Engineer = engineer != null ? engineer.Id : 0;
+                    repair.Identifie_Fault = Identifie_Fault;
+                    repair.Work_Done = Work_Done;
+                    repair.Note = Note;
+                    repair.Repair_Date = Repair_Date;
+                    repair.Repair_Category = SelectedCategory != null ? SelectedCategory.Category : null;
+                    repair.Status = SelectedStatus != null ? SelectedStatus.Status : "Готово";
+
+                    var result = MessageBox.Show("Вы действительно хотите редактировать?", "Редактирование", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if (result == MessageBoxResult.Yes)
                     {
-                        if (repair != null)
+                        if (SelectedStatus.Status != "Принято" && SelectedCategory != null)
                         {
-                            RepairsRequest.EditItem(repair);
-                            ReceiptDocumentRequest.SetStatus((int)repair.DocumentId, "В ремонте");
-                            SearchItemAsync();
+                            if (repair != null)
+                            {
+                                RepairsRequest.EditItem(repair);
+                                ReceiptDocumentRequest.SetStatus((int)repair.DocumentId, "В ремонте");
+                                SearchItemAsync();
+                            }
                         }
+                        else
+                            MessageBox.Show("Установите статус и категорию ремонта!", "Ошибка");
                     }
-                    else
-                        MessageBox.Show("Установите статус и категорию ремонта!", "Ошибка");
                 }
             }
             else
@@ -328,7 +349,7 @@ namespace Pronets.VievModel.MainWindows.Pages
                $"Инженер: {selectedRepair.Engineer}\n" +
                $"Дата ремонта: {selectedRepair.Repair_Date}\n" +
                $"Категория ремонта: {selectedRepair.Repair_Category}\n" +
-               $"Статус ремонта: {selectedRepair.Status}" ;
+               $"Статус ремонта: {selectedRepair.Status}";
 
         }
         //Устанавливает значение по умолчанию Combobox "статус документа" в соответствии с БД

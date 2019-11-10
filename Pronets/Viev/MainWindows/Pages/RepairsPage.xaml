@@ -33,6 +33,7 @@
                 HorizontalAlignment="Left"  Margin="180,5,0,5" RenderTransformOrigin="-1.503,0.609" Click="BtnSearch_Click" />
         <CheckBox x:Name="checkBox" Content="Искать с русскими символами" IsChecked="{Binding IsChecked}" HorizontalAlignment="Left" Margin="243,10,0,0"
                   VerticalAlignment="Top" Grid.ColumnSpan="2" Width="194"/>
+        <TextBlock Text="Выполнение операции" Visibility="{Binding TextVisibility}" Grid.Row="0" Grid.Column="1" Background="Lime" VerticalAlignment="Center" HorizontalAlignment="Center"/>
         <Menu Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right">
             <MenuItem Header="Данные">
                 <MenuItem Header="Обновить данные страницы" Command="{Binding RefreshCommand}"></MenuItem>
