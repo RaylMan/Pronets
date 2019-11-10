@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pronets.Viev.Other"
         mc:Ignorable="d"
-        Title="" Height="450" Width="800">
+        Title="" Height="595" Width="610" MinHeight="595" MinWidth="610" Background="Gainsboro" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="100"></RowDefinition>
@@ -13,31 +13,48 @@
         </Grid.RowDefinitions>
         <!--Row 0-->
         <Label Content="Выявленная неисправность" Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,0,0,0"/>
-        <TextBox Text="{Binding text}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,22,0,0" Width="162" MaxLength="200" Height="73"/>
+        <TextBox Text="{Binding Defect}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,22,0,0" Width="248" MaxLength="200" Height="73"
+                 TextWrapping="Wrap"/>
 
-        <Label Content="Проделанная работа" Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="177,0,0,0"/>
-        <TextBox Text="{Binding text}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="177,22,0,0" Width="162" MaxLength="200" Height="73"/>
-        <Button Content="  Сохранить  " Command="{Binding SaveCommand}" HorizontalAlignment="Left" Margin="344,22,0,0" VerticalAlignment="Top" Width="74"/>
+        <Label Content="Проделанная работа" Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="260,0,0,0"/>
+        <TextBox Text="{Binding Work}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="260,22,0,0" Width="248" MaxLength="200" Height="73"
+                 TextWrapping="Wrap"/>
+        <Button Content="  Добавить  " Command="{Binding AddCommand}" HorizontalAlignment="Left" Margin="513,22,0,0" VerticalAlignment="Top" Width="74"/>
+        <Button Content="  Изменить  " Command="{Binding EditCommand}" HorizontalAlignment="Left" Margin="513,48,0,0" VerticalAlignment="Top" Width="74"/>
+        <Button Content="  Удалить  " Command="{Binding DeleteCommand}" HorizontalAlignment="Left" Margin="513,75,0,0" VerticalAlignment="Top" Width="74"/>
 
         <!--Row 1-->
-        <DataGrid Grid.Row="1" ItemsSource="{Binding Defects}" SelectedValue="{Binding SelectedDefect}" AutoGenerateColumns="False"
-                  SelectionMode="Single" HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999"
+        <DataGrid x:Name="workDatagrid" Grid.Row="1" ItemsSource="{Binding Defects}" SelectedValue="{Binding SelectedDefect}" SelectedIndex="{Binding SelectedDefectIndex}"
+                  AutoGenerateColumns="False" SelectionMode="Single" HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999" Margin="5"
                        CanUserAddRows="False" CanUserDeleteRows="False">
             <DataGrid.Resources>
                 <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="White" />
                 <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#0078D7"/>
             </DataGrid.Resources>
+            <DataGrid.InputBindings>
+                <MouseBinding Gesture="LeftDoubleClick" Command="{Binding SendCommand}" CommandParameter="{Binding ElementName=workDatagrid, Path=SelectedItem}" />
+            </DataGrid.InputBindings>
             <DataGrid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Удалить" Command="{Binding RemoveOrderCommand}" CommandParameter="{Binding SelectedOrderIndex}"/>
-                    <MenuItem Header="Отправить" Command="{Binding SendCommand}"/>
+                    <MenuItem Header="Удалить" Command="{Binding DeleteCommand}" CommandParameter="{Binding SelectedDefectIndex}"/>
                 </ContextMenu>
             </DataGrid.ContextMenu>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Выявленная неисправность" Binding="{Binding Path=Defect, UpdateSourceTrigger=PropertyChanged}" Width="*" IsReadOnly="True" />
-                <DataGridTextColumn Header="Проделанная работа" Binding="{Binding Path=Work, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Выявленная неисправность" Width="*" Binding="{Binding Path=Defect, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IsReadOnly="True" >
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Проделанная работа" Width="160" Binding="{Binding Path=Work, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IsReadOnly="True" >
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
-        
     </Grid>
 </Window>

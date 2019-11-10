@@ -36,9 +36,8 @@ namespace Pronets.EntityRequests.Repairs_f
         /// <summary>
         /// <para>Добавляет в базу экземпляр Defects</para>
         /// </summary>
-        public static void AddToBase(Defects defect, out bool isExeption)
+        public static void AddToBase(Defects defect)
         {
-            isExeption = true;
             using (var db = ConnectionTools.GetConnection())
             {
                 try
@@ -50,11 +49,6 @@ namespace Pronets.EntityRequests.Repairs_f
                         Work = defect.Work
                     });
                     db.SaveChanges();
-                }
-                catch (System.Data.Entity.Infrastructure.DbUpdateException)
-                {
-                    MessageBox.Show("Элемент уже существует в базе!", "Ошибка");
-                    isExeption = false;
                 }
                 catch (Exception e)
                 {
@@ -73,22 +67,40 @@ namespace Pronets.EntityRequests.Repairs_f
             {
                 if (defect != null)
                 {
-                    try
+
+                    db.Defects.Attach(defect);
+                    db.Defects.Remove(defect);
+                    db.SaveChanges();
+
+
+                    //catch (Exception e)
+                    //{
+                    //    MessageBox.Show(e.Message, "Ошибка");
+                    //    isExeption = false;
+                    //}
+                }
+            }
+        }
+        /// <summary>
+        /// <para>Добавляет в базу экземпляр Defects</para>
+        /// </summary>
+        public static void EditItem(Defects defect)
+        {
+            using (var db = ConnectionTools.GetConnection())
+            {
+                try
+                {
+                    if (defect != null)
                     {
-                        db.Defects.Attach(defect);
-                        db.Defects.Remove(defect);
+                        var defectFrombase = db.Defects.Where(d => d.Id == defect.Id).FirstOrDefault();
+                        defectFrombase.Defect = defect.Defect;
+                        defectFrombase.Work = defect.Work;
                         db.SaveChanges();
                     }
-                    catch (System.Data.Entity.Infrastructure.DbUpdateException)
-                    {
-                        MessageBox.Show("Невозможно удалить , так как есть связи с данными!", "Ошибка");
-                        isExeption = false;
-                    }
-                    catch (Exception e)
-                    {
-                        MessageBox.Show(e.Message, "Ошибка");
-                        isExeption = false;
-                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
         }

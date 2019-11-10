@@ -41,8 +41,8 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Defect" Type="nvarchar" MaxLength="100" />
-          <Property Name="Work" Type="nvarchar" MaxLength="100" />
+          <Property Name="Defect" Type="nvarchar" MaxLength="200" />
+          <Property Name="Work" Type="nvarchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="Engineers">
           <Key>
@@ -535,8 +535,8 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Defect" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Work" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Defect" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Work" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Engineers">
           <Key>

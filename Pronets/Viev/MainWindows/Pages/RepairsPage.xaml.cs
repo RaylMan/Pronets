@@ -56,8 +56,15 @@ namespace Pronets.Viev.MainWindows.Pages
        
         private void BtnOpenDefects_Click(object sender, RoutedEventArgs e)
         {
-            FaultWindow win = new FaultWindow();
+            FaultWindow win = new FaultWindow(this);
             win.Show();
+        }
+        public delegate void GetWorkDelegate(string falult, string work);
+        event GetWorkDelegate GetWorkNotify;
+        public void GetWork(string falut, string work)
+        {
+            tbxDefect.Text = falut;
+            tbxWork.Text = work;
         }
     }
 }
