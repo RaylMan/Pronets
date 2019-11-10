@@ -115,9 +115,11 @@
             <Label Content="Дата ремонта:"  Grid.Column="0" Grid.Row="3"/>
             <Label Content="Категория ремонта:"  Grid.Column="0" Grid.Row="4"/>
             <Label  Content="Статус ремонта:"  Grid.Column="0" Grid.Row="5"/>
-            <Button x:Name="btnOpenDefects" Grid.Column="1" Grid.Row="0" Content=" + " HorizontalAlignment="Right" Click="BtnOpenDefects_Click"/>
+            <Button x:Name="btnOpenDefects" Content="..." FontSize="20"  Grid.Column="1" Grid.Row="0"  HorizontalAlignment="Right" Click="BtnOpenDefects_Click" Width="24" />
+
+
             <TextBox x:Name="tbxDefect" Grid.Column="1" Grid.Row="0"  Text="{Binding Identifie_Fault, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                      TextWrapping="Wrap" AcceptsReturn="True" MaxLength="200" Margin="0,0,19,0"/>
+                      TextWrapping="Wrap" AcceptsReturn="True" MaxLength="200" Margin="0,0,24,0"/>
             <TextBox x:Name="tbxWork" Grid.Column="1" Grid.Row="1" Text="{Binding Work_Done, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
                      TextWrapping="Wrap" AcceptsReturn="True" MaxLength="200"/>
             <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Note, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" AcceptsReturn="True" MaxLength="200"/>
