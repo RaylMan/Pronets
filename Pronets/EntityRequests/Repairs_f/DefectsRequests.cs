@@ -23,7 +23,7 @@ namespace Pronets.EntityRequests.Repairs_f
             {
                 try
                 {
-                    defects = new ObservableCollection<Defects>(db.Defects.ToList());
+                    defects = new ObservableCollection<Defects>(db.Defects.ToList().OrderBy(d => d.Defect)); ;
                 }
                 catch (Exception e)
                 {

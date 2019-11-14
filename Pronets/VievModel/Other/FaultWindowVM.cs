@@ -174,6 +174,8 @@ namespace Pronets.VievModel.Other
                 DefectsRequests.AddToBase(defect);
                 Defects.Add(defect);
                 selectedDefect = null;
+                Defect = string.Empty;
+                Work = string.Empty;
             }
             else
                 MessageBox.Show("Введите неисправность и проделанную работу", "Ошибка");

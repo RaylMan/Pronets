@@ -47,7 +47,7 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Проделанная работа" Width="160" Binding="{Binding Path=Work, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IsReadOnly="True" >
+                <DataGridTextColumn Header="Проделанная работа" Width="*" Binding="{Binding Path=Work, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IsReadOnly="True" >
                     <DataGridTextColumn.ElementStyle>
                         <Style>
                             <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
