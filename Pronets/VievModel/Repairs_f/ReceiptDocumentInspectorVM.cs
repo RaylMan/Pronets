@@ -329,7 +329,12 @@ namespace Pronets.VievModel.Repairs_f
 
             }
         }
-        public bool RepairsChecked(ObservableCollection<v_Repairs> repairs) // проверка на все IsChecked для установки статуса ремонта
+        /// <summary>
+        /// проверка на все IsChecked для установки статуса ремонта(Если все без IsChecked => return true)
+        /// </summary>
+        /// <param name="repairs"></param>
+        /// <returns></returns>
+        public bool RepairsChecked(ObservableCollection<v_Repairs> repairs)
         {
             int count = 0;
             if (repairs != null)

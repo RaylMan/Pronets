@@ -2,6 +2,7 @@
 using Pronets.EntityRequests.Repairs_f;
 using Pronets.Viev.MainWindows.Pages;
 using Pronets.Viev.Other;
+using Pronets.Viev.Repairs_f;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -67,10 +68,16 @@ namespace Pronets.VievModel.Other
             }
         }
 
-        RepairsPage basePage;
+        RepairsPage baseRepairPage;
+        RepairsTableEngineer baseRepairTablePage;
         public FaultWindowVM(RepairsPage page)
         {
-            basePage = page;
+            baseRepairPage = page;
+            GetDeffects();
+        }
+        public FaultWindowVM(RepairsTableEngineer page)
+        {
+            baseRepairTablePage = page;
             GetDeffects();
         }
 
@@ -118,9 +125,18 @@ namespace Pronets.VievModel.Other
         {
             if (selectedDefect != null)
             {
-                basePage.tbxDefect.Text = selectedDefect.Defect;
-                basePage.tbxWork.Text = selectedDefect.Work;
-                var window = GetFauldWindow();
+                if (baseRepairPage != null)
+                {
+                    baseRepairPage.tbxDefect.Text = selectedDefect.Defect;
+                    baseRepairPage.tbxWork.Text = selectedDefect.Work;
+                }
+                else if (baseRepairTablePage != null)
+                {
+                    baseRepairTablePage.tbxDefect.Text = selectedDefect.Defect;
+                    baseRepairTablePage.tbxWork.Text = selectedDefect.Work;
+                }
+               
+                var window = GetFaultWindow();
                 if (window != null)
                     window.Close();
             }
@@ -130,7 +146,7 @@ namespace Pronets.VievModel.Other
         /// Возращает экземпляр открытого окна FaultWindow
         /// </summary>
         /// <returns></returns>
-        private FaultWindow GetFauldWindow()
+        private FaultWindow GetFaultWindow()
         {
             FaultWindow faultWindow = null;
             foreach (var win in Application.Current.Windows)
@@ -176,6 +192,7 @@ namespace Pronets.VievModel.Other
                 selectedDefect = null;
                 Defect = string.Empty;
                 Work = string.Empty;
+                GetDeffects();
             }
             else
                 MessageBox.Show("Введите неисправность и проделанную работу", "Ошибка");
@@ -254,6 +271,8 @@ namespace Pronets.VievModel.Other
                 if(ex)
                 {
                     Defects.RemoveAt(SelectedDefectIndex);
+                    Defect = string.Empty;
+                    Work = string.Empty;
                     selectedDefect = null;
                 }
             }

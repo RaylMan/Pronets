@@ -26,6 +26,7 @@ namespace Pronets.Viev.Other
         public OvertimeWindow()
         {
             InitializeComponent();
+            DataContext = new OvertimeWindowVM();
         }
         private void AllChecked_Checked(object sender, RoutedEventArgs e)
         {

@@ -1,4 +1,5 @@
 ﻿using Pronets.Viev.MainWindows.Pages;
+using Pronets.Viev.Repairs_f;
 using Pronets.VievModel.Other;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,11 @@ namespace Pronets.Viev.Other
     public partial class FaultWindow : Window
     {
         public FaultWindow(RepairsPage page)
+        {
+            InitializeComponent();
+            DataContext = new FaultWindowVM(page);
+        }
+        public FaultWindow(RepairsTableEngineer page)
         {
             InitializeComponent();
             DataContext = new FaultWindowVM(page);

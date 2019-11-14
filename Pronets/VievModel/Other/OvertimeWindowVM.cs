@@ -187,7 +187,7 @@ namespace Pronets.VievModel.Other
                 foreach (var item in OvertimeList)
                 {
                     if (item.IsSelected == true)
-                        OvertimeRequest.GetStatus(item.Id, SelectedStatus.Status);
+                        OvertimeRequest.SetStatus(item.Id, SelectedStatus.Status);
                 }
             }
             else

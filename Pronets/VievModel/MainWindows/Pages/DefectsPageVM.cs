@@ -119,6 +119,27 @@ namespace Pronets.VievModel.MainWindows.Pages
                 RaisedPropertyChanged("IsDocument");
             }
         }
+
+        private string serialsCount;
+        public string SerialsCount
+        {
+            get { return "Количество: " + serialsCount; }
+            set
+            {
+                serialsCount = value;
+                RaisedPropertyChanged("SerialsCount");
+            }
+        }
+        private string repairsCount;
+        public string RepairsCount
+        {
+            get { return "Количество: " + repairsCount; }
+            set
+            {
+                repairsCount = value;
+                RaisedPropertyChanged("RepairsCount");
+            }
+        }
         #endregion
         public DefectsPageVM()
         {
@@ -130,6 +151,13 @@ namespace Pronets.VievModel.MainWindows.Pages
             DocumentTypes.Add(new DocumentType { Type = "Дефектовка" });
             DocumentTypes.Add(new DocumentType { Type = "Отправка клиенту" });
             SelectedTypeItem = DocumentTypes[0];
+            GetCounts();
+        }
+
+        private void GetCounts()
+        {
+            SerialsCount = serialNumbers.Count.ToString();
+            RepairsCount = V_Repairs.Count.ToString();
         }
 
         #region AddToTable
@@ -152,15 +180,28 @@ namespace Pronets.VievModel.MainWindows.Pages
         }
         private void AddToTable(object Parameter)
         {
+            string error = null;
             V_Repairs.Clear();
             if (!IsDocument)
             {
                 foreach (var serial in serialNumbers)
                 {
-                    foreach (var repair in RepairsRequest.v_FillList(serial.Serial))
+                    var repairs = RepairsRequest.v_FillList(serial.Serial);
+                    if (repairs.Count > 0)
                     {
-                        V_Repairs.Add(repair);
+                        foreach (var repair in repairs)
+                        {
+                            V_Repairs.Add(repair);
+                        }
                     }
+                    else
+                        error += $" {serial.Serial},";
+
+                }
+                if (error != null)
+                {
+                   
+                    MessageBox.Show($"В базе данных отсутствуют:{error.Remove(error.Length -1)}", "");
                 }
             }
             else
@@ -174,6 +215,7 @@ namespace Pronets.VievModel.MainWindows.Pages
                     }
                 }
             }
+            GetCounts();
         }
         #endregion
 
@@ -216,6 +258,7 @@ namespace Pronets.VievModel.MainWindows.Pages
             }
             object e = null;
             AddToTable(e);//обновление списка
+            GetCounts();
         }
         #endregion
 
@@ -241,6 +284,7 @@ namespace Pronets.VievModel.MainWindows.Pages
         {
             SerialNumbers.Clear();
             V_Repairs.Clear();
+            GetCounts();
         }
         #endregion
 
@@ -291,6 +335,7 @@ namespace Pronets.VievModel.MainWindows.Pages
                 }
 
             }
+            GetCounts();
         }
         private ICommand removeRepairCommand;
         public ICommand RemoveRepairCommand
@@ -321,6 +366,7 @@ namespace Pronets.VievModel.MainWindows.Pages
                     V_Repairs.RemoveAt(SelectedRepairIndex);
                 }
                 catch (Exception) { }
+            GetCounts();
         }
 
         private ICommand removeSelectedRepairCommand;
@@ -352,6 +398,7 @@ namespace Pronets.VievModel.MainWindows.Pages
             {
                 V_Repairs.Remove(repair);
             }
+            GetCounts();
         }
         #endregion
 
@@ -381,6 +428,7 @@ namespace Pronets.VievModel.MainWindows.Pages
         {
             clients.Clear();
             Clients = ClientsRequests.FillList();
+            GetCounts();
         }
         #endregion
     }

@@ -63,7 +63,7 @@
                 </Style>
             </DataGrid.RowStyle>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="№" Binding="{Binding Path=Id, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" />
+                <!--<DataGridTextColumn Header="№" Binding="{Binding Path=Id, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" />-->
                 <DataGridTextColumn Header="Фамилия" Binding="{Binding Path=LastName, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" />
                 <!--<DataGridTextColumn Header="Дата" Binding="{Binding Path=Date, UpdateSourceTrigger=PropertyChanged, StringFormat='dddd.dd.MM.yyyy'}" IsReadOnly="True" />-->
                 <DataGridTemplateColumn  Header="Дата" IsReadOnly="True">

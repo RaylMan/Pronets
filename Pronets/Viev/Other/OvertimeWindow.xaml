@@ -7,9 +7,7 @@
          xmlns:vm="clr-namespace:Pronets.VievModel.Other"
         mc:Ignorable="d"
         Title="Переработка" Height="450" Width="650" MinHeight="450" MinWidth="650"  WindowStartupLocation="CenterScreen" Background="Gainsboro">
-    <Window.DataContext>
-        <vm:OvertimeWindowVM/>
-    </Window.DataContext>
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="217"></ColumnDefinition>
@@ -81,7 +79,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="№" Binding="{Binding Path=Id, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" />
+                <!--<DataGridTextColumn Header="№" Binding="{Binding Path=Id, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" />-->
                 <DataGridTextColumn Header="Фамилия" Binding="{Binding Path=LastName, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" />
                 <DataGridTemplateColumn  Header="Дата" IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>

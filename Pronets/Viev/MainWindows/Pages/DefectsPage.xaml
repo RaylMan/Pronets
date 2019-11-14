@@ -15,9 +15,10 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <!--Column 0-->
-        <DataGrid x:Name="serialsGrid" Grid.Column="0" ItemsSource="{Binding SerialNumbers}" Margin="5,5,5,55" CanUserAddRows="True" HorizontalGridLinesBrush="#FF999999"
-                  VerticalGridLinesBrush="#FF999999" AutoGenerateColumns="False" SelectedItem="{Binding SelectedSerialItem}" SelectedIndex="{Binding SelectedSerialIndex}"
-                  CanUserDeleteRows="False">
+        <DataGrid x:Name="serialsGrid" Grid.Column="0" ItemsSource="{Binding SerialNumbers}" Margin="5,5,5,74" CanUserAddRows="True" 
+                  HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999" AutoGenerateColumns="False" 
+                  SelectedItem="{Binding SelectedSerialItem}"  SelectedIndex="{Binding SelectedSerialIndex}" CanUserDeleteRows="False"
+                 >
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Удалить" Command="{Binding RemoveSerialCommand}" CommandParameter="{Binding SelectedSerialIndex}" />
@@ -27,6 +28,7 @@
                 <DataGridTextColumn Header="Серийный номер / № документа" Binding="{Binding Serial}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
+        <TextBlock Text="{Binding SerialsCount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Bottom" HorizontalAlignment="Left"  Margin="5,0,0,53"/>
         <CheckBox x:Name="cbxIsDocument" Content="Выборка по № документа" IsChecked="{Binding IsDocument}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="5,0,0,35"/>
         <Button x:Name="btnAddToTable" Content="  Добавить  " Grid.Column="0" Command="{Binding AddToTableCommand}" VerticalAlignment="Bottom" HorizontalAlignment="Left"
                 Margin="5,0,0,5" Height="25"/>
@@ -35,7 +37,7 @@
 
         <!--Column 1-->
         <DataGrid x:Name="Docunents1" ItemsSource="{Binding V_Repairs}" SelectedValue="{Binding SelectedItem}" SelectedIndex="{Binding SelectedRepairIndex}"
-                   Grid.Column="1" Margin="5,38,5,5" AutoGenerateColumns="False" SelectionMode="Single" HorizontalGridLinesBrush="#FF999999" 
+                   Grid.Column="1" Margin="5,38,5,26" AutoGenerateColumns="False" SelectionMode="Single" HorizontalGridLinesBrush="#FF999999" 
                   VerticalGridLinesBrush="#FF999999"  CanUserAddRows="False" CanUserDeleteRows="False" >
             <DataGrid.ContextMenu>
                 <ContextMenu>
@@ -91,6 +93,8 @@
                 <DataGridTextColumn Header="Статус ремонта" Binding="{Binding Status}" Width="*" IsReadOnly="True"/>
             </DataGrid.Columns>
         </DataGrid>
+        <TextBlock Text="{Binding RepairsCount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Column="1"
+                   VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="5"/>
         <Button x:Name="btnCreate" Content="  Сформировать  " Grid.Column="1"  Click="BtnCreate_Click" Command="{Binding SendingCommand}"
                 VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,5,5,0" Height="25"/>
         <Label Content="Клиент" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Margin="0,4,0,0"/>

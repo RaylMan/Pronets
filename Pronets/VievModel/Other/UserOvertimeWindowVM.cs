@@ -150,14 +150,20 @@ namespace Pronets.VievModel.Other
             if (user != null)
                 this.user = user;
             head = $"Переработка {user.LastName}";
-            OvertimeList = OvertimeRequest.FillList(user.LastName, "Не оплачено");
             date = DateTime.Now;
             pricePerDay = Properties.Settings.Default.PricePerDay.ToString();// значение по умолчанию из настроек
             pricePerHour = Properties.Settings.Default.PricePerHour.ToString(); // значение по умолчанию из настроек
             onlyAmounted = true; 
             GetAmount();//вывод информации о зарплате
             GetInfo();
+            GetOvertime();
         }
+        private void GetOvertime()
+        {
+            OvertimeList.Clear();
+            OvertimeList = OvertimeRequest.FillList(user.LastName, "Не оплачено");
+        }
+
         #region Add to base
         private ICommand addToBaseCommand;
         public ICommand AddToBaseCommand
@@ -191,7 +197,7 @@ namespace Pronets.VievModel.Other
 
                 };
                 OvertimeRequest.AddToBase(overtime);
-                OvertimeList.Add(overtime);
+                GetOvertime();
                 GetAmount();
                 
             }
@@ -224,7 +230,7 @@ namespace Pronets.VievModel.Other
             if (SelectedOvertime != null)
             {
                 OvertimeRequest.RemoveFromBase(SelectedOvertime);
-                OvertimeList.Remove(SelectedOvertime);
+                GetOvertime();
             }
                
         }

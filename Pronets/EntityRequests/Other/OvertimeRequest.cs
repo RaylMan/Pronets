@@ -23,7 +23,7 @@ namespace Pronets.EntityRequests.Other
             {
                 try
                 {
-                    overtimeList = new ObservableCollection<OverTime>(db.OverTime.ToList());
+                    overtimeList = new ObservableCollection<OverTime>(db.OverTime.OrderBy(o => o.Date).ToList());
                 }
                 catch (Exception e)
                 {
@@ -44,7 +44,7 @@ namespace Pronets.EntityRequests.Other
                 try
                 {
                     if (lastName != null)
-                        overtimeList = new ObservableCollection<OverTime>(db.OverTime.Where(o => o.LastName == lastName).ToList());
+                        overtimeList = new ObservableCollection<OverTime>(db.OverTime.Where(o => o.LastName == lastName).OrderBy(o => o.Date).ToList());
                 }
                 catch (Exception e)
                 {
@@ -64,7 +64,7 @@ namespace Pronets.EntityRequests.Other
                 try
                 {
                     if (lastName != null)
-                        overtimeList = new ObservableCollection<OverTime>(db.OverTime.Where(o => o.LastName == lastName && o.Status == "Не оплачено").ToList());
+                        overtimeList = new ObservableCollection<OverTime>(db.OverTime.Where(o => o.LastName == lastName && o.Status == "Не оплачено").OrderBy(o => o.Date).ToList());
                 }
                 catch (Exception e)
                 {
@@ -76,7 +76,7 @@ namespace Pronets.EntityRequests.Other
         /// <summary>
         /// <para>Установить статус по id</para>
         /// </summary>
-        public static void GetStatus(int id, string status)
+        public static void SetStatus(int id, string status)
         {
             using (var db = ConnectionTools.GetConnection())
             {

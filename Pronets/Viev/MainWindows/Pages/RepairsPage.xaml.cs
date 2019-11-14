@@ -48,23 +48,22 @@ namespace Pronets.Viev.MainWindows.Pages
         }
         #endregion
 
-        
+
         private void BtnSearch_Click(object sender, RoutedEventArgs e)
         {
             tbxDefect.Focus();
         }
-       
+
         private void BtnOpenDefects_Click(object sender, RoutedEventArgs e)
         {
             FaultWindow win = new FaultWindow(this);
             win.Show();
         }
-        public delegate void GetWorkDelegate(string falult, string work);
-        event GetWorkDelegate GetWorkNotify;
-        public void GetWork(string falut, string work)
+
+        private void BtOpenRepairsTable_Click(object sender, RoutedEventArgs e)
         {
-            tbxDefect.Text = falut;
-            tbxWork.Text = work;
+            RepairsTableEngineer win = new RepairsTableEngineer();
+            win.Show();
         }
     }
 }
