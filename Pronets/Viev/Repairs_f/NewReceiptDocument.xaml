@@ -24,11 +24,14 @@
 
         <!--ROW 1-->
         <Button x:Name="Write" Grid.Row="1" Command="{Binding AddCommand}"  Content=" Записать " Margin="2" HorizontalAlignment="Left" Width="65"/>
-        <Label x:Name="label1" Content="Клиент" Grid.Row="1" HorizontalAlignment="Left" Margin="75,0,0,0" RenderTransformOrigin="0.556,0.467"/>
+        <Label  Content="Клиент" Grid.Row="1" HorizontalAlignment="Left" Margin="75,0,0,0" RenderTransformOrigin="0.556,0.467"/>
         <ComboBox x:Name="cbxClient" ItemsSource="{Binding Clients}" SelectedValue="{Binding SelectClientItem}" HorizontalAlignment="Left"
                   Margin="128,3,0,0" Grid.Row="1" VerticalAlignment="Top" Width="211"
                    IsTextSearchEnabled="True" TextSearch.TextPath="ClientName" IsEditable="True" DisplayMemberPath="ClientName"/>
-
+        <Label  Content="Статус ремонта" Grid.Row="1" HorizontalAlignment="Left" Margin="347,0,0,0" RenderTransformOrigin="0.556,0.467"/>
+        <ComboBox x:Name="cbxStatuses" ItemsSource="{Binding Statuses}" SelectedValue="{Binding SelectedStatus}" HorizontalAlignment="Left"
+                  Margin="439,3,0,0" Grid.Row="1" VerticalAlignment="Top" Width="211"
+                   IsTextSearchEnabled="True" TextSearch.TextPath="Status" IsEditable="True" DisplayMemberPath="Status"/>
 
         <!--ROW 2-->
         <TextBlock Grid.Row="2" HorizontalAlignment="Left" Margin="5,5,0,5" Width="76" Text="Заполнение выделенных строк" TextWrapping="Wrap" />
@@ -72,7 +75,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                
+
                 <DataGridTemplateColumn  x:Name="cbxNomenclatureOfRepair" Header="Номенклатура">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

@@ -1,4 +1,5 @@
 ﻿using Pronets.Data;
+using Pronets.EntityRequests;
 using Pronets.EntityRequests.Clients_f;
 using Pronets.EntityRequests.Nomenclature_f;
 using Pronets.EntityRequests.Other;
@@ -79,7 +80,17 @@ namespace Pronets.VievModel.Repairs_f
                 RaisedPropertyChanged("Clients");
             }
         }
+        private ObservableCollection<Statuses> statuses = new ObservableCollection<Statuses>();
+        public ObservableCollection<Statuses> Statuses
+        {
+            get { return statuses; }
 
+            set
+            {
+                statuses = value;
+                RaisedPropertyChanged("Statuses");
+            }
+        }
 
         private string name;
         public string Name
@@ -242,6 +253,16 @@ namespace Pronets.VievModel.Repairs_f
                 RaisedPropertyChanged("Nomenclature1");
             }
         }
+        private Statuses selectedStatus;
+        public Statuses SelectedStatus
+        {
+            get { return selectedStatus; }
+            set
+            {
+                selectedStatus = value;
+                RaisedPropertyChanged("SelectedStatus");
+            }
+        }
         private Warrantys selectedWarrantyItem;
         public Warrantys SelectedWarrantyItem
         {
@@ -289,13 +310,7 @@ namespace Pronets.VievModel.Repairs_f
             
         }
         #region methods
-        private void test()
-        {
-            for (int i = 0; i < 500; i++)
-            {
-                Repairs.Add(new Repairs { Serial_Number = "GP1A2566" + i.ToString()  });
-            }
-        }
+       
         private void GetContent()
         {
             users = UsersRequest.FillList();
@@ -308,8 +323,20 @@ namespace Pronets.VievModel.Repairs_f
             warrantys.Add(new Warrantys { Warranty = "Гарантия Элтекс" });
             warrantys.Add(new Warrantys { Warranty = "Наша Гарантия" });
             GetDefaultUser();
+            SetStatus();
             // GetRepairsFromDocument();
             OpenWindowCommand = new OpenWindowCommand();
+        }
+        private void SetStatus()
+        {
+            Statuses.Clear();
+            Statuses = StatusesRequests.FillList();
+
+            foreach (var status in Statuses)
+            {
+                if (status.Status == "Принято")
+                    SelectedStatus = status;
+            }
         }
         private void GetDefaultUser()
         {
@@ -362,7 +389,7 @@ namespace Pronets.VievModel.Repairs_f
         /// </summary>
         public void AddRepair()
         {
-            if (selectClientItem != null && defaultUser != null)
+            if (selectClientItem != null && defaultUser != null && SelectedStatus != null)
             {
                 if (IsAllHaveNomenclature(out string error))
                 {
@@ -375,8 +402,8 @@ namespace Pronets.VievModel.Repairs_f
                             ClientId = selectClientItem.ClientId,
                             InspectorId = defaultUser.UserId,
                             Date = DateTime.Now,
-                            Status = "Принято"
-                        };
+                            Status = SelectedStatus.Status
+                    };
                         ReceiptDocumentRequest.AddToBase(newReceiptDocument);
                         DocumentId = ReceiptDocumentRequest.GetDocumentID();
                         string nm, wt;
@@ -388,7 +415,7 @@ namespace Pronets.VievModel.Repairs_f
                             repairs[i].DocumentId = DocumentId;
                             repairs[i].Nomenclature = nm;
                             repairs[i].Client = selectClientItem.ClientId;
-                            repairs[i].Status = "Принято";
+                            repairs[i].Status = SelectedStatus.Status;
                             repairs[i].Date_Of_Receipt = date_Of_Receipt;
                             repairs[i].Engineer = defaultEngineer.Id;
                             repairs[i].Inspector = defaultUser.UserId;
@@ -407,7 +434,7 @@ namespace Pronets.VievModel.Repairs_f
                 }
             }
             else
-                MessageBox.Show("Необходимо выбрать клиента!", "Ошибка");
+                MessageBox.Show("Необходимо выбрать клиента и статус!", "Ошибка");
         }
         /// <summary>
         /// Добавляет в базу данных ремонты к существующему документу

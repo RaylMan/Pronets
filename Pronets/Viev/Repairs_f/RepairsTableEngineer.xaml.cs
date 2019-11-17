@@ -32,7 +32,7 @@ namespace Pronets.Viev.Repairs_f
         private void BtnDefect_Click(object sender, RoutedEventArgs e)
         {
             FaultWindow win = new FaultWindow(this);
-            win.Show();
+            win.ShowDialog();
         }
 
         private void AllChecked_Checked(object sender, RoutedEventArgs e)

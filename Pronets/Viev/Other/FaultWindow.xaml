@@ -24,8 +24,10 @@
         <Button Content="  Удалить  " Command="{Binding DeleteCommand}" HorizontalAlignment="Left" Margin="513,75,0,0" VerticalAlignment="Top" Width="74"/>
 
         <!--Row 1-->
+        <CheckBox IsChecked="{Binding IsAddToPrevious, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Row="1"
+                       Content="Добавить к предыдущей" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Top"/>
         <DataGrid x:Name="workDatagrid" Grid.Row="1" ItemsSource="{Binding Defects}" SelectedValue="{Binding SelectedDefect}" SelectedIndex="{Binding SelectedDefectIndex}"
-                  AutoGenerateColumns="False" SelectionMode="Single" HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999" Margin="5"
+                  AutoGenerateColumns="False" SelectionMode="Single" HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999" Margin="5,25,5,5"
                        CanUserAddRows="False" CanUserDeleteRows="False">
             <DataGrid.Resources>
                 <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="White" />

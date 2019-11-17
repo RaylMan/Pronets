@@ -156,6 +156,16 @@ namespace Pronets.VievModel.Repairs_f
                 RaisedPropertyChanged("IdentifieFault");
             }
         }
+        private bool isDocument;
+        public bool IsDocument
+        {
+            get { return isDocument; }
+            set
+            {
+                isDocument = value;
+                RaisedPropertyChanged("IsDocument");
+            }
+        }
         #endregion
         public RepairsTableEngineerVM()
         {
@@ -168,7 +178,7 @@ namespace Pronets.VievModel.Repairs_f
             SerialsCount = serialNumbers.Count.ToString();
             RepairsCount = V_Repairs.Count.ToString();
         }
-        
+
         private void SetCategoryFromStatus()
         {
             if (SelectedStatus != null)
@@ -240,26 +250,40 @@ namespace Pronets.VievModel.Repairs_f
         {
             string error = null;
             V_Repairs.Clear();
-
-            foreach (var serial in serialNumbers)
+            if (!IsDocument)
             {
-                var repairs = RepairsRequest.v_FillList(serial.Serial);
-                if (repairs.Count > 0)
+                foreach (var serial in serialNumbers)
                 {
-                    foreach (var repair in repairs)
+                    var repairs = RepairsRequest.v_FillList(serial.Serial);
+                    if (repairs.Count > 0)
+                    {
+                        foreach (var repair in repairs)
+                        {
+                            V_Repairs.Add(repair);
+                        }
+                    }
+                    else
+                        error += $" {serial.Serial},";
+
+                }
+                if (error != null)
+                {
+
+                    MessageBox.Show($"В базе данных отсутствуют:{error.Remove(error.Length - 1)}", "");
+                }
+            }
+            else
+            {
+                foreach (var serial in serialNumbers)
+                {
+                    int.TryParse(serial.Serial, out int documentId);
+                    foreach (var repair in RepairsRequest.v_FillList(documentId))
                     {
                         V_Repairs.Add(repair);
                     }
                 }
-                else
-                    error += $" {serial.Serial},";
-
             }
-            if (error != null)
-            {
 
-                MessageBox.Show($"В базе данных отсутствуют:{error.Remove(error.Length - 1)}", "");
-            }
             GetCounts();
         }
         #endregion
@@ -316,12 +340,25 @@ namespace Pronets.VievModel.Repairs_f
         {
             if (selectedSerialItem != null)
             {
-                var removedItems = V_Repairs.Where(r => r.Serial_Number == SelectedSerialItem.Serial).ToList();
-                foreach (var repair in removedItems)
+                if (!IsDocument)
                 {
-                    v_Repairs.Remove(repair);
+                    var removedItems = V_Repairs.Where(r => r.Serial_Number == SelectedSerialItem.Serial).ToList();
+                    foreach (var repair in removedItems)
+                    {
+                        v_Repairs.Remove(repair);
+                    }
+                    serialNumbers.RemoveAt(SelectedSerialIndex);
                 }
-                serialNumbers.RemoveAt(SelectedSerialIndex);
+                else
+                {
+                    int.TryParse(SelectedSerialItem.Serial, out int documentId);
+                    var removedItems = V_Repairs.Where(r => r.DocumentId == documentId).ToList();
+                    foreach (var repair in removedItems)
+                    {
+                        v_Repairs.Remove(repair);
+                    }
+                    serialNumbers.RemoveAt(SelectedSerialIndex);
+                }
             }
             GetCounts();
         }

@@ -57,7 +57,7 @@ namespace Pronets.Viev.MainWindows.Pages
         private void BtnOpenDefects_Click(object sender, RoutedEventArgs e)
         {
             FaultWindow win = new FaultWindow(this);
-            win.Show();
+            win.ShowDialog();
         }
 
         private void BtOpenRepairsTable_Click(object sender, RoutedEventArgs e)

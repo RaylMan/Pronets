@@ -67,6 +67,16 @@ namespace Pronets.VievModel.Other
                 RaisedPropertyChanged("Work");
             }
         }
+        private bool isAddToPrevious;
+        public bool IsAddToPrevious
+        {
+            get { return isAddToPrevious; }
+            set
+            {
+                isAddToPrevious = value;
+                RaisedPropertyChanged("IsAddToPrevious");
+            }
+        }
 
         RepairsPage baseRepairPage;
         RepairsTableEngineer baseRepairTablePage;
@@ -127,13 +137,30 @@ namespace Pronets.VievModel.Other
             {
                 if (baseRepairPage != null)
                 {
-                    baseRepairPage.tbxDefect.Text = selectedDefect.Defect;
-                    baseRepairPage.tbxWork.Text = selectedDefect.Work;
+                    if(!isAddToPrevious)
+                    {
+                        baseRepairPage.tbxDefect.Text = selectedDefect.Defect;
+                        baseRepairPage.tbxWork.Text = selectedDefect.Work;
+                    }
+                    else
+                    {
+                        baseRepairPage.tbxDefect.Text += $", {selectedDefect.Defect}" ;
+                        baseRepairPage.tbxWork.Text += $", {selectedDefect.Work}";
+                    }
+                   
                 }
                 else if (baseRepairTablePage != null)
                 {
-                    baseRepairTablePage.tbxDefect.Text = selectedDefect.Defect;
-                    baseRepairTablePage.tbxWork.Text = selectedDefect.Work;
+                    if (!isAddToPrevious)
+                    {
+                        baseRepairTablePage.tbxDefect.Text = selectedDefect.Defect;
+                        baseRepairTablePage.tbxWork.Text = selectedDefect.Work;
+                    }
+                    else
+                    {
+                        baseRepairTablePage.tbxDefect.Text += $", {selectedDefect.Defect}";
+                        baseRepairTablePage.tbxWork.Text += $", {selectedDefect.Work}";
+                    }
                 }
                
                 var window = GetFaultWindow();

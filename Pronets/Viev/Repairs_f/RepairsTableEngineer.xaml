@@ -12,7 +12,7 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <!--Column 0-->
-        <DataGrid x:Name="serialsGrid" Grid.Column="0" ItemsSource="{Binding SerialNumbers}" Margin="5,5,5,56" CanUserAddRows="True" 
+        <DataGrid x:Name="serialsGrid" Grid.Column="0" ItemsSource="{Binding SerialNumbers}" Margin="5,5,5,76" CanUserAddRows="True" 
                   HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999" AutoGenerateColumns="False" 
                   SelectedItem="{Binding SelectedSerialItem}"  SelectedIndex="{Binding SelectedSerialIndex}" CanUserDeleteRows="False"
                  >
@@ -25,7 +25,9 @@
                 <DataGridTextColumn Header="Серийный номер" Binding="{Binding Serial}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
-        <TextBlock Text="{Binding SerialsCount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Bottom" HorizontalAlignment="Left"  Margin="5,0,0,35"/>
+        <TextBlock Text="{Binding SerialsCount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Bottom" HorizontalAlignment="Left"  Margin="5,0,0,55"/>
+        <CheckBox x:Name="cbxIsDocument" Content="Выборка по № документа" IsChecked="{Binding IsDocument}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="5,0,0,35"/>
+
         <Button x:Name="btnAddToTable" Content="  Добавить  " Grid.Column="0" Command="{Binding AddToTableCommand}" VerticalAlignment="Bottom" HorizontalAlignment="Left"
                 Margin="5,0,0,5" Height="25"/>
         <Button x:Name="btnClear" Content="  Очистить  " Grid.Column="0" Command="{Binding ClearCommand}" VerticalAlignment="Bottom" HorizontalAlignment="Right"
