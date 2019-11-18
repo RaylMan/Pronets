@@ -112,6 +112,7 @@ namespace Pronets.VievModel.Other
                 Work = selectedDefect.Work;
             }
         }
+
         #region Send command
         private ICommand sendCommand;
         public ICommand SendCommand
@@ -153,7 +154,7 @@ namespace Pronets.VievModel.Other
             }
         }
         /// <summary>
-        /// Возращает экземпляр открытого окна FaultWindow
+        /// Закрывает окно FaultWindow
         /// </summary>
         /// <returns></returns>
         private void CloseFaultWindow()
@@ -215,6 +216,7 @@ namespace Pronets.VievModel.Other
                     }
                 }
             }
+            // удаляет последние запятые, если несколько неисправностей
             if (defectsCount > 0)
             {
                 defectTemp.Remove(defectTemp.Length - 1);
