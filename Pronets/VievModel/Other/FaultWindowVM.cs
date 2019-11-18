@@ -16,6 +16,7 @@ namespace Pronets.VievModel.Other
 {
     class FaultWindowVM : VievModelBase
     {
+        #region Properties
         private ObservableCollection<Defects> defects = new ObservableCollection<Defects>();
         public ObservableCollection<Defects> Defects
         {
@@ -67,19 +68,21 @@ namespace Pronets.VievModel.Other
                 RaisedPropertyChanged("Work");
             }
         }
-        private bool isAddToPrevious;
-        public bool IsAddToPrevious
+        private bool isSelected;
+        public bool IsSelected
         {
-            get { return isAddToPrevious; }
+            get { return isSelected; }
             set
             {
-                isAddToPrevious = value;
-                RaisedPropertyChanged("IsAddToPrevious");
+                isSelected = value;
+                RaisedPropertyChanged("IsSelected");
             }
         }
 
         RepairsPage baseRepairPage;
         RepairsTableEngineer baseRepairTablePage;
+        #endregion
+
         public FaultWindowVM(RepairsPage page)
         {
             baseRepairPage = page;
@@ -96,7 +99,7 @@ namespace Pronets.VievModel.Other
             defects.Clear();
             Defects = DefectsRequests.FillList();
             selectedDefectIndex = -1;
-            
+
         }
         /// <summary>
         /// Автозаполнение текстбоксов для изменения элементов из выбранного элемента
@@ -137,43 +140,23 @@ namespace Pronets.VievModel.Other
             {
                 if (baseRepairPage != null)
                 {
-                    if(!isAddToPrevious)
-                    {
-                        baseRepairPage.tbxDefect.Text = selectedDefect.Defect;
-                        baseRepairPage.tbxWork.Text = selectedDefect.Work;
-                    }
-                    else
-                    {
-                        baseRepairPage.tbxDefect.Text += $", {selectedDefect.Defect}" ;
-                        baseRepairPage.tbxWork.Text += $", {selectedDefect.Work}";
-                    }
-                   
+                    baseRepairPage.tbxDefect.Text = selectedDefect.Defect;
+                    baseRepairPage.tbxWork.Text = selectedDefect.Work;
                 }
                 else if (baseRepairTablePage != null)
                 {
-                    if (!isAddToPrevious)
-                    {
-                        baseRepairTablePage.tbxDefect.Text = selectedDefect.Defect;
-                        baseRepairTablePage.tbxWork.Text = selectedDefect.Work;
-                    }
-                    else
-                    {
-                        baseRepairTablePage.tbxDefect.Text += $", {selectedDefect.Defect}";
-                        baseRepairTablePage.tbxWork.Text += $", {selectedDefect.Work}";
-                    }
+                    baseRepairTablePage.tbxDefect.Text = selectedDefect.Defect;
+                    baseRepairTablePage.tbxWork.Text = selectedDefect.Work;
                 }
-               
-                var window = GetFaultWindow();
-                if (window != null)
-                    window.Close();
+
+                CloseFaultWindow();
             }
         }
-
         /// <summary>
         /// Возращает экземпляр открытого окна FaultWindow
         /// </summary>
         /// <returns></returns>
-        private FaultWindow GetFaultWindow()
+        private void CloseFaultWindow()
         {
             FaultWindow faultWindow = null;
             foreach (var win in Application.Current.Windows)
@@ -181,9 +164,75 @@ namespace Pronets.VievModel.Other
                 if (win is FaultWindow)
                 {
                     faultWindow = (FaultWindow)win;
-                }  
+                }
             }
-            return faultWindow;
+            if (faultWindow != null)
+                faultWindow.Close();
+        }
+        #endregion
+
+        #region Send Multiple
+        private ICommand sendMultipleCommand;
+        public ICommand SendMultipleCommand
+        {
+            get
+            {
+                if (sendMultipleCommand == null)
+                {
+                    sendMultipleCommand = new RelayCommand(new Action<object>(SendMultiple));
+                }
+                return sendMultipleCommand;
+            }
+            set
+            {
+                sendMultipleCommand = value;
+                RaisedPropertyChanged("SendMultipleCommand");
+            }
+        }
+        /// <summary>
+        /// Обновляет данные на странице ремонта
+        /// </summary>
+        /// <param name="parametr"></param>
+        public void SendMultiple(object parametr)
+        {
+            string defectTemp = null;
+            string workTemp = null;
+            int defectsCount = 0;
+            foreach (var item in Defects)
+            {
+                if (item.IsSelected)
+                {
+                    if (defectTemp != null && workTemp != null)
+                    {
+                        defectTemp += $", {item.Defect}";
+                        workTemp += $", {item.Work}";
+                        defectsCount++;
+                    }
+                    else
+                    {
+                        defectTemp += item.Defect;
+                        workTemp += item.Work;
+                    }
+                }
+            }
+            if (defectsCount > 0)
+            {
+                defectTemp.Remove(defectTemp.Length - 1);
+                workTemp.Remove(workTemp.Length - 1);
+            }
+
+            if (baseRepairPage != null)
+            {
+                baseRepairPage.tbxDefect.Text = defectTemp;
+                baseRepairPage.tbxWork.Text = workTemp;
+            }
+            else if (baseRepairTablePage != null)
+            {
+                baseRepairTablePage.tbxDefect.Text = defectTemp;
+                baseRepairTablePage.tbxWork.Text = workTemp;
+            }
+
+            CloseFaultWindow();
         }
         #endregion
 
@@ -211,7 +260,7 @@ namespace Pronets.VievModel.Other
         /// <param name="parametr"></param>
         public void AddToBase(object parametr)
         {
-            if(!string.IsNullOrWhiteSpace(Defect) && !string.IsNullOrWhiteSpace(Work))
+            if (!string.IsNullOrWhiteSpace(Defect) && !string.IsNullOrWhiteSpace(Work))
             {
                 Defects defect = new Defects { Defect = Defect, Work = Work };
                 DefectsRequests.AddToBase(defect);
@@ -295,7 +344,7 @@ namespace Pronets.VievModel.Other
             if (selectedDefect != null)
             {
                 DefectsRequests.RemoveFromBase(selectedDefect, out bool ex);
-                if(ex)
+                if (ex)
                 {
                     Defects.RemoveAt(SelectedDefectIndex);
                     Defect = string.Empty;

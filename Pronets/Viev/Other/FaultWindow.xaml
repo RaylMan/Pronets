@@ -24,10 +24,9 @@
         <Button Content="  Удалить  " Command="{Binding DeleteCommand}" HorizontalAlignment="Left" Margin="513,75,0,0" VerticalAlignment="Top" Width="74"/>
 
         <!--Row 1-->
-        <CheckBox IsChecked="{Binding IsAddToPrevious, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Row="1"
-                       Content="Добавить к предыдущей" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Top"/>
+       
         <DataGrid x:Name="workDatagrid" Grid.Row="1" ItemsSource="{Binding Defects}" SelectedValue="{Binding SelectedDefect}" SelectedIndex="{Binding SelectedDefectIndex}"
-                  AutoGenerateColumns="False" SelectionMode="Single" HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999" Margin="5,25,5,5"
+                  AutoGenerateColumns="False" SelectionMode="Single" HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999" Margin="5,0,5,30"
                        CanUserAddRows="False" CanUserDeleteRows="False">
             <DataGrid.Resources>
                 <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="White" />
@@ -42,6 +41,13 @@
                 </ContextMenu>
             </DataGrid.ContextMenu>
             <DataGrid.Columns>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox x:Name="chkbx" IsChecked="{Binding Path=IsSelected, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn Header="Выявленная неисправность" Width="*" Binding="{Binding Path=Defect, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IsReadOnly="True" >
                     <DataGridTextColumn.ElementStyle>
                         <Style>
@@ -58,5 +64,6 @@
                 </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
+        <Button x:Name="btnFill" Content="  Заполнить  " Command="{Binding SendMultipleCommand}" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="5"/>
     </Grid>
 </Window>

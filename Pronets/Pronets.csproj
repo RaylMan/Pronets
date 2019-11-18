@@ -92,6 +92,7 @@
     <Compile Include="Data\Defects.cs">
       <DependentUpon>PronetsDBEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\DefectsMe.cs" />
     <Compile Include="Data\Engineers.cs">
       <DependentUpon>PronetsDBEntities.tt</DependentUpon>
     </Compile>
