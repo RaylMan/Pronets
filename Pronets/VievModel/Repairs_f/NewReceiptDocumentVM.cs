@@ -520,7 +520,7 @@ namespace Pronets.VievModel.Repairs_f
 
         public void DeleteRepair(object Parameter)
         {
-            if (selectedIndex > 0)
+            if (selectedIndex >= 0 && selectedIndex < Repairs.Count)
             {
                 Repairs.RemoveAt(SelectedIndex);
             }

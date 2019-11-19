@@ -582,8 +582,8 @@ namespace Pronets.VievModel.Clients_f
                 WarrantysList.Add(new Warrantys { Warranty = "Наша Гарантия" });
             }
             else
-                MessageBox.Show("Обновите данные страницы", "Ошибка");
-           
+                MessageBox.Show("Откройте заново страницу", "Ошибка");
+
         }
         #region Sorting
         private ICommand sortCommand;
@@ -607,151 +607,133 @@ namespace Pronets.VievModel.Clients_f
         {
             int count = 0; //переменная для проверки количества не отмеченых статусов ремонта
             v_repairs.Clear();
-            foreach (var status in statuses)
+            if (statuses != null)
             {
-                if (status.IsSelected)
+                foreach (var status in statuses)
                 {
+                    if (status.IsSelected)
+                    {
+                        if (!AllWarranrys && !AllNomenclature && !AllDocuments && selectedDocument != null && selectedNomenclature != null && selectedWarranty != null)
+                        {
+                            var repairs = RepairsRequest.SortList(clientInstance.ClientId, selectedDocument.DocumentId, selectedNomenclature.Name, selectedWarranty.Warranty, status.Status);
+                            FillRepairs(repairs);
+
+                        }
+
+                        else if (!AllWarranrys && !AllNomenclature && AllDocuments && selectedNomenclature != null && selectedWarranty != null)
+                        {
+                            var repairs = RepairsRequest.SortListWarNom(clientInstance.ClientId, selectedWarranty.Warranty, selectedNomenclature.Name, status.Status);
+                            FillRepairs(repairs);
+                        }
+
+                        else if (!AllWarranrys && AllNomenclature && AllDocuments && selectedWarranty != null)
+                        {
+                            var repairs = RepairsRequest.SortList(selectedWarranty.Warranty, clientInstance.ClientId, status.Status);
+                            FillRepairs(repairs);
+                        }
+                        else if (AllWarranrys && !AllNomenclature && !AllDocuments && selectedDocument != null && selectedNomenclature != null)
+                        {
+                            var repairs = RepairsRequest.SortListDocNom(clientInstance.ClientId, selectedDocument.DocumentId, selectedNomenclature.Name, status.Status);
+                            FillRepairs(repairs);
+                        }
+                        else if (AllWarranrys && AllNomenclature && !AllDocuments && selectedDocument != null)
+                        {
+                            var repairs = RepairsRequest.SortList(clientInstance.ClientId, selectedDocument.DocumentId, status.Status);
+                            FillRepairs(repairs);
+                        }
+                        else if (AllWarranrys && !AllNomenclature && AllDocuments && selectedNomenclature != null)
+                        {
+                            var repairs = RepairsRequest.SortList(clientInstance.ClientId, selectedNomenclature.Name, status.Status);
+                            FillRepairs(repairs);
+                        }
+                        else if (!AllWarranrys && AllNomenclature && !AllDocuments && selectedDocument != null && selectedWarranty != null)
+                        {
+                            var repairs = RepairsRequest.SortList(clientInstance.ClientId, selectedWarranty.Warranty, selectedDocument.DocumentId, status.Status);
+                            FillRepairs(repairs);
+                        }
+
+                        else
+                        {
+                            var repairs = RepairsRequest.SortList(clientInstance.ClientId, status.Status);
+                            FillRepairs(repairs);
+                        }
+
+                    }
+                    else
+                        count++;
+
+                }
+                if (count == Statuses.Count) // если не выбран статус ремонта в listbox
+                {
+                    string status = null;
                     if (!AllWarranrys && !AllNomenclature && !AllDocuments && selectedDocument != null && selectedNomenclature != null && selectedWarranty != null)
                     {
-                        foreach (var item in RepairsRequest.SortList(clientInstance.ClientId, selectedDocument.DocumentId, selectedNomenclature.Name, selectedWarranty.Warranty, status.Status))
-                        {
-                            v_repairs.Add(item);
-                        }
+                        var repairs = RepairsRequest.SortList(clientInstance.ClientId, selectedDocument.DocumentId, selectedNomenclature.Name, selectedWarranty.Warranty, status);
+                        FillRepairs(repairs);
                     }
 
                     else if (!AllWarranrys && !AllNomenclature && AllDocuments && selectedNomenclature != null && selectedWarranty != null)
                     {
-                        foreach (var item in RepairsRequest.SortListWarNom(clientInstance.ClientId, selectedWarranty.Warranty, selectedNomenclature.Name, status.Status))
-                        {
-                            v_repairs.Add(item);
-                        }
+                        var repairs = RepairsRequest.SortListWarNom(clientInstance.ClientId, selectedWarranty.Warranty, selectedNomenclature.Name, status);
+                        FillRepairs(repairs);
                     }
 
                     else if (!AllWarranrys && AllNomenclature && AllDocuments && selectedWarranty != null)
                     {
-                        foreach (var item in RepairsRequest.SortList(selectedWarranty.Warranty, clientInstance.ClientId, status.Status))
-                        {
-                            v_repairs.Add(item);
-                        }
+                        var repairs = RepairsRequest.SortList(selectedWarranty.Warranty, clientInstance.ClientId, status);
+                        FillRepairs(repairs);
                     }
                     else if (AllWarranrys && !AllNomenclature && !AllDocuments && selectedDocument != null && selectedNomenclature != null)
                     {
-                        foreach (var item in RepairsRequest.SortListDocNom(clientInstance.ClientId, selectedDocument.DocumentId, selectedNomenclature.Name, status.Status))
-                        {
-                            v_repairs.Add(item);
-                        }
+                        var repairs = RepairsRequest.SortListDocNom(clientInstance.ClientId, selectedDocument.DocumentId, selectedNomenclature.Name, status);
+                        FillRepairs(repairs);
                     }
                     else if (AllWarranrys && AllNomenclature && !AllDocuments && selectedDocument != null)
                     {
-                        foreach (var item in RepairsRequest.SortList(clientInstance.ClientId, selectedDocument.DocumentId, status.Status))
-                        {
-                            v_repairs.Add(item);
-                        }
+                        var repairs = RepairsRequest.SortList(clientInstance.ClientId, selectedDocument.DocumentId, status);
+                        FillRepairs(repairs);
                     }
                     else if (AllWarranrys && !AllNomenclature && AllDocuments && selectedNomenclature != null)
                     {
-                        foreach (var item in RepairsRequest.SortList(clientInstance.ClientId, selectedNomenclature.Name, status.Status))
-                        {
-                            v_repairs.Add(item);
-                        }
+                        var repairs = RepairsRequest.SortList(clientInstance.ClientId, selectedNomenclature.Name, status);
+                        FillRepairs(repairs);
                     }
                     else if (!AllWarranrys && AllNomenclature && !AllDocuments && selectedDocument != null && selectedWarranty != null)
                     {
-                        foreach (var item in RepairsRequest.SortList(clientInstance.ClientId, selectedWarranty.Warranty, selectedDocument.DocumentId, status.Status))
-                        {
-                            v_repairs.Add(item);
-                        }
+                        var repairs = RepairsRequest.SortList(clientInstance.ClientId, selectedWarranty.Warranty, selectedDocument.DocumentId, status);
+                        FillRepairs(repairs);
                     }
-
                     else
                     {
-                        foreach (var item in RepairsRequest.SortList(clientInstance.ClientId, status.Status))
-                        {
-                            v_repairs.Add(item);
-                        }
-                    }
 
-                }
-                else
-                    count++;
-
-            }
-            if (count == Statuses.Count) // если не выбран статус ремонта в listbox
-            {
-                string status = null;
-                if (!AllWarranrys && !AllNomenclature && !AllDocuments && selectedDocument != null && selectedNomenclature != null && selectedWarranty != null)
-                {
-                    foreach (var item in RepairsRequest.SortList(clientInstance.ClientId, selectedDocument.DocumentId, selectedNomenclature.Name, selectedWarranty.Warranty, status))
-                    {
-                        v_repairs.Add(item);
-                    }
-                }
-
-                else if (!AllWarranrys && !AllNomenclature && AllDocuments && selectedNomenclature != null && selectedWarranty != null)
-                {
-                    foreach (var item in RepairsRequest.SortListWarNom(clientInstance.ClientId, selectedWarranty.Warranty, selectedNomenclature.Name, status))
-                    {
-                        v_repairs.Add(item);
-                    }
-                }
-
-                else if (!AllWarranrys && AllNomenclature && AllDocuments && selectedWarranty != null)
-                {
-                    foreach (var item in RepairsRequest.SortList(selectedWarranty.Warranty, clientInstance.ClientId, status))
-                    {
-                        v_repairs.Add(item);
-                    }
-                }
-                else if (AllWarranrys && !AllNomenclature && !AllDocuments && selectedDocument != null && selectedNomenclature != null)
-                {
-                    foreach (var item in RepairsRequest.SortListDocNom(clientInstance.ClientId, selectedDocument.DocumentId, selectedNomenclature.Name, status))
-                    {
-                        v_repairs.Add(item);
-                    }
-                }
-                else if (AllWarranrys && AllNomenclature && !AllDocuments && selectedDocument != null)
-                {
-                    foreach (var item in RepairsRequest.SortList(clientInstance.ClientId, selectedDocument.DocumentId, status))
-                    {
-                        v_repairs.Add(item);
-                    }
-                }
-                else if (AllWarranrys && !AllNomenclature && AllDocuments && selectedNomenclature != null)
-                {
-                    foreach (var item in RepairsRequest.SortList(clientInstance.ClientId, selectedNomenclature.Name, status))
-                    {
-                        v_repairs.Add(item);
-                    }
-                }
-                else if (!AllWarranrys && AllNomenclature && !AllDocuments && selectedDocument != null && selectedWarranty != null)
-                {
-                    foreach (var item in RepairsRequest.SortList(clientInstance.ClientId, selectedWarranty.Warranty, selectedDocument.DocumentId, status))
-                    {
-                        v_repairs.Add(item);
-                    }
-                }
-                else
-                {
-                    foreach (var item in RepairsRequest.FillListClient(clientInstance.ClientId))
-                    {
-                        v_repairs.Add(item);
                     }
                 }
             }
             RepairsCount = v_repairs.Count.ToString();
-
+        }
+        private void FillRepairs(ObservableCollection<v_Repairs> repairs)
+        {
+            if(repairs != null)
+            {
+                foreach (var item in repairs)
+                {
+                    v_repairs.Add(item);
+                }
+            }
         }
         #endregion
 
         #region Other
         private void AddDocumentName()
         {
-            foreach (var item in receiptDocuments)
+            if(receiptDocuments != null)
             {
-                DateTime updatedTime = item.Date ?? DateTime.MinValue;
-                item.DocumentName = $"№:{item.DocumentId}  От: {updatedTime.ToString("dd/MM/yyyy")}";
+                foreach (var item in receiptDocuments)
+                {
+                    DateTime updatedTime = item.Date ?? DateTime.MinValue;
+                    item.DocumentName = $"№:{item.DocumentId}  От: {updatedTime.ToString("dd/MM/yyyy")}";
+                }
             }
-
         }
         #endregion
 
@@ -831,15 +813,20 @@ namespace Pronets.VievModel.Clients_f
             {
                 v_repairs.Clear();
                 string engWord = IsCheckedSearch != true ? EditChars.ToEnglish(SearchText) : SearchText;
-                foreach (var repair in RepairsRequest.SearchItem(engWord, clientInstance.ClientId))
+                var repairs = RepairsRequest.SearchItem(engWord, clientInstance.ClientId);
+                if(repairs != null)
                 {
-                    v_repairs.Add(repair);
+                    foreach (var repair in repairs)
+                    {
+                        v_repairs.Add(repair);
+                    }
                 }
+                
             }
         }
         #endregion
 
-        #region SortCommand
+        #region RefreshCommand
         private ICommand refreshCommand;
         public ICommand RefreshCommand
         {
