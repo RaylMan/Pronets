@@ -204,22 +204,30 @@ namespace Pronets.VievModel.ConvertToSQL
             string newStatus = "Принято";
             if (!string.IsNullOrWhiteSpace(status) && status != "0")
             {
-                foreach (var item in statuses)
+                if(statuses != null)
                 {
-                    if (status == item.Status)
+                    foreach (var item in statuses)
                     {
-                        newStatus = item.Status;
+                        if (status == item.Status)
+                        {
+                            newStatus = item.Status;
+                        }
                     }
                 }
+                
             }
             return newStatus;
         }
         void GetBaseFromExcel()
         {
             baseFromExcel.Clear();
-            foreach (var item in BaseFromExcelRequest.FillList())
+            var repairs = BaseFromExcelRequest.FillList();
+            if(repairs != null)
             {
-                BaseFromExcel.Add(item);
+                foreach (var item in repairs)
+                {
+                    BaseFromExcel.Add(item);
+                }
             }
         }
         private async void GetTableFromSheetAsync()
@@ -259,7 +267,6 @@ namespace Pronets.VievModel.ConvertToSQL
                 }
             }
             TextVisibility = Visibility.Hidden;
-           // MessageBox.Show("Загрузка закончена!");
         }
         #region OpenCommand
         private ICommand openCommand;
@@ -417,12 +424,12 @@ namespace Pronets.VievModel.ConvertToSQL
 
             if (selectedClient != null && selectedStatus != null)
             {
-                TextVisibility = Visibility.Visible;
+                
                 DateTime defaultDate = new DateTime(2017, 1, 1);
                 var result = MessageBox.Show("Вы действительно хотете записать в базу?\nПроверьте правильность данных!", "Создание экземпляра", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
                 {
-
+                    TextVisibility = Visibility.Visible;
                     int count = 0;
                     foreach (var item in BaseFromExcel)
                     {

@@ -417,7 +417,7 @@ namespace Pronets.VievModel.Other
             {
 
                 searchPosition = 0;
-                searchParts = Parts.Where(p => p.Part_Name.Contains(SearchText)).ToList();
+                searchParts = Parts.Where(p => p.Part_Name.ToLower().Contains(SearchText.ToLower())).ToList();
                 searchCount = searchParts.Count;
                 if (searchParts.Count > 0)
                 {
@@ -450,7 +450,7 @@ namespace Pronets.VievModel.Other
         {
             if (searchParts.Count > 0)
             {
-                if (!string.IsNullOrWhiteSpace(SearchText) && searchParts[0].Part_Name.Contains(SearchText))
+                if (!string.IsNullOrWhiteSpace(SearchText) && searchParts[0].Part_Name.ToLower().Contains(SearchText.ToLower()))
                 {
                     if (searchPosition < searchParts.Count)
                     {

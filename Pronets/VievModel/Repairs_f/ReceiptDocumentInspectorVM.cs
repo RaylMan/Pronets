@@ -25,6 +25,7 @@ namespace Pronets.VievModel.Repairs_f
         #region Properties
 
         Dispatcher _dispatcher;
+        private List<v_Repairs> searchRepairs = new List<v_Repairs>(); // список для поиска
         private ObservableCollection<Statuses> statuses = new ObservableCollection<Statuses>();
         public ObservableCollection<Statuses> Statuses
         {
@@ -161,6 +162,26 @@ namespace Pronets.VievModel.Repairs_f
                 RaisedPropertyChanged("SelectedItem");
             }
         }
+        private string loadingStatus;
+        public string LoadingStatus
+        {
+            get { return loadingStatus; }
+            set
+            {
+                loadingStatus = value;
+                RaisedPropertyChanged("LoadingStatus");
+            }
+        }
+        private string searchText;
+        public string SearchText
+        {
+            get { return searchText; }
+            set
+            {
+                searchText = value;
+                RaisedPropertyChanged("SearchText");
+            }
+        }
         #endregion
         public ReceiptDocumentInspectorVM(v_Receipt_Document document)
         {
@@ -178,15 +199,13 @@ namespace Pronets.VievModel.Repairs_f
                 GetStatus();
                 GetClient();
                 GetRepairsAsync();
-                //v_Repairs = RepairsRequest.FillList(document.Document_Id);
-                //GetCopyRepairs();
-
                 DepartureDate = DateTime.Now;
                 _dispatcher = Dispatcher.CurrentDispatcher;
             }
             else
                 MessageBox.Show("Не передан экземпляр класса в конструктор!", "Системаня ошибка!");
         }
+
         #region Select
 
         /// <summary>
@@ -194,12 +213,15 @@ namespace Pronets.VievModel.Repairs_f
         /// </summary>
         public void GetStatus()
         {
-            statuses.Clear();
+            Statuses.Clear();
             Statuses = StatusesRequests.FillList();
-            foreach (var status in statuses)
+            if(Statuses != null)
             {
-                if (status.Status == Document.Status)
-                    SelectedStatusItem = status;
+                foreach (var status in statuses)
+                {
+                    if (status.Status == Document.Status)
+                        SelectedStatusItem = status;
+                }
             }
         }
         /// <summary>
@@ -211,12 +233,15 @@ namespace Pronets.VievModel.Repairs_f
             Recipients.Clear();
             Clients = ClientsRequests.FillList();
             Recipients = ClientsRequests.FillList();
-            foreach (var client in clients)
+            if(Clients != null && Recipients != null)
             {
-                if (client.ClientName == Document.Client)
+                foreach (var client in clients)
                 {
-                    SelectedClientItem = client;
-                    SelectedRecipientItem = client;
+                    if (client.ClientName == Document.Client)
+                    {
+                        SelectedClientItem = client;
+                        SelectedRecipientItem = client;
+                    }
                 }
             }
         }
@@ -226,9 +251,11 @@ namespace Pronets.VievModel.Repairs_f
         /// </summary>
         private async void GetRepairsAsync()
         {
+            LoadingStatus = "Выполняется загрузка данных в таблицу!";
             V_Repairs.Clear();
             await Task.Run(() => GetRepairs());
             GetCopyRepairsAsync();
+            LoadingStatus = "Загрузка завершена";
         }
         /// <summary>
         /// Выгружает список ремонтов
@@ -237,12 +264,16 @@ namespace Pronets.VievModel.Repairs_f
         {
             try
             {
-                foreach (var repair in RepairsRequest.FillList(Document.Document_Id))
+                var repairs = RepairsRequest.FillList(Document.Document_Id);
+                if(repairs != null)
                 {
-                    _dispatcher.Invoke(new Action(() =>
+                    foreach (var repair in repairs)
                     {
-                        V_Repairs.Add(repair);
-                    }));
+                        _dispatcher.Invoke(new Action(() =>
+                        {
+                            V_Repairs.Add(repair);
+                        }));
+                    }
                 }
             }
             catch (Exception)
@@ -313,11 +344,7 @@ namespace Pronets.VievModel.Repairs_f
                     RepairsRequest.EditItemClient(Document.Document_Id, SelectedClientItem.ClientId);
                     ReceiptDocumentRequest.EditItem(editingDocument);
 
-                    V_Repairs.Clear(); // обновить таблицу реомнтов
-                    foreach (var repair in RepairsRequest.FillList(Document.Document_Id))
-                    {
-                        V_Repairs.Add(repair);
-                    }
+                    GetRepairsAsync();
 
                     MessageBox.Show("Произведена успешная запись в базу данных!", "Результат");
                 }
@@ -387,39 +414,126 @@ namespace Pronets.VievModel.Repairs_f
         #endregion
 
         #region Search
-        private string _searchString;
 
-        public string SearchString
+        #region Test search
+        //private string _searchString;
+
+        //public string SearchString
+        //{
+        //    get { return _searchString; }
+        //    set
+        //    {
+        //        if (SetProperty(ref _searchString, value))
+        //        {
+
+        //            PropertyInfo prop = typeof(v_Repairs).GetProperty("Serial_Number");
+        //            if (prop != null)
+        //            {
+        //                if (
+        //                    v_Repairs.Any(
+        //                        p =>
+        //                            prop.GetValue(p)
+        //                                .ToString()
+        //                                .ToLower()
+        //                                .Contains(_searchString.ToLower())))
+        //                {
+        //                    SelectedItem =
+        //                        v_Repairs.First(
+        //                            p =>
+        //                                prop.GetValue(p)
+        //                                    .ToString()
+        //                                    .ToLower()
+        //                                    .Contains(_searchString.ToLower()));
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
+        #endregion
+
+        #region Search
+        int searchCount = 0; // общеек количество совпадения поиска
+        int searchPosition = 0; // номер элемента поиска для выделения строки(FindNext)
+        protected ICommand searchCommand;
+        public ICommand SearchCommand
         {
-            get { return _searchString; }
+            get
+            {
+                if (searchCommand == null)
+                {
+                    searchCommand = new RelayCommand(new Action<object>(Search));
+                }
+                return searchCommand;
+            }
             set
             {
-                if (SetProperty(ref _searchString, value))
+                searchCommand = value;
+                RaisedPropertyChanged("SearchCommand");
+            }
+        }
+        public void Search(object Parameter)
+        {
+            if (!String.IsNullOrWhiteSpace(SearchText))
+            {
+                string searchWord = IsChecked != true ? EditChars.ToEnglish(SearchText) : SearchText;
+                searchPosition = 0;
+                searchRepairs = V_Repairs.Where(r => r.Serial_Number.ToLower().Contains(searchWord.ToLower())).ToList();
+                searchCount = searchRepairs.Count;
+                if (searchRepairs.Count > 0)
                 {
-
-                    PropertyInfo prop = typeof(v_Repairs).GetProperty("Serial_Number");
-                    if (prop != null)
-                    {
-                        if (
-                            v_Repairs.Any(
-                                p =>
-                                    prop.GetValue(p)
-                                        .ToString()
-                                        .ToLower()
-                                        .Contains(_searchString.ToLower())))
-                        {
-                            SelectedItem =
-                                v_Repairs.First(
-                                    p =>
-                                        prop.GetValue(p)
-                                            .ToString()
-                                            .ToLower()
-                                            .Contains(_searchString.ToLower()));
-                        }
-                    }
+                    SelectedItem = (v_Repairs)searchRepairs[0];
+                    searchPosition++;
                 }
             }
         }
+
+        #endregion
+
+        #region Search next
+        protected ICommand searchNextCommand;
+        public ICommand SearchNextCommand
+        {
+            get
+            {
+                if (searchNextCommand == null)
+                {
+                    searchNextCommand = new RelayCommand(new Action<object>(SearchNext));
+                }
+                return searchNextCommand;
+            }
+            set
+            {
+                searchNextCommand = value;
+                RaisedPropertyChanged("SearchNextCommand");
+            }
+        }
+        public void SearchNext(object Parameter)
+        {
+            if (searchRepairs.Count > 0)
+            {
+                string searchWord = IsChecked != true ? EditChars.ToEnglish(SearchText) : SearchText;
+                if (!string.IsNullOrWhiteSpace(searchWord) && searchRepairs[0].Serial_Number.ToLower().Contains(searchWord.ToLower()))
+                {
+                    if (searchPosition < searchRepairs.Count)
+                    {
+                        SelectedItem = (v_Repairs)searchRepairs[searchPosition];
+                        searchPosition++;
+                    }
+                    else if (searchPosition == searchRepairs.Count)
+                    {
+                        SelectedItem = (v_Repairs)searchRepairs[0];
+                        searchPosition = 1;
+                    }
+                }
+                else
+                {
+                    searchPosition = 0;
+                    searchCount = 0;
+                    searchRepairs.Clear();
+                }
+            }
+        }
+        #endregion
         #endregion
 
         #region Copy Repairs
@@ -439,13 +553,17 @@ namespace Pronets.VievModel.Repairs_f
             {
                 foreach (var repair in v_Repairs)
                 {
-                    foreach (var copy in RepairsRequest.GetCopy(repair.RepairId, repair.Serial_Number))
+                    var copyRepairs = RepairsRequest.GetCopy(repair.RepairId, repair.Serial_Number);
+                    if(copyRepairs != null)
                     {
-                        _dispatcher.Invoke(new Action(() =>
-
+                        foreach (var copyRepair in copyRepairs)
                         {
-                            V_RepairsCopy.Add(copy);
-                        }));
+                            _dispatcher.Invoke(new Action(() =>
+
+                            {
+                                V_RepairsCopy.Add(copyRepair);
+                            }));
+                        }
                     }
                 }
             }
@@ -484,7 +602,6 @@ namespace Pronets.VievModel.Repairs_f
             GetRepairsAsync();
         }
         #endregion
-
 
     }
 }

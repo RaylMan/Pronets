@@ -66,10 +66,14 @@
             UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}"/>
 
         <Label Content="Поиск по серийному номеру"  HorizontalAlignment="Right" Height="28" Margin="0,5,26,0" VerticalAlignment="Top" Grid.Row="1"/>
-        <TextBox x:Name="tbxSearch" HorizontalAlignment="Right" Height="23" Margin="0,28,10,0" TextWrapping="Wrap"
-                     Text="{Binding SearchString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+        <TextBox x:Name="tbxSearch" HorizontalAlignment="Right" Height="23" Margin="0,42,10,0" TextWrapping="Wrap"
+                     Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      ToolTip="Search" VerticalAlignment="Top" Width="184" Grid.Row="1"/>
-        <Button x:Name="addRepairs" Content="  Добавить  " Click="AddRepairs_Click" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="5"/>
+        <Button Content="  Поиск  " Command="{Binding SearchCommand}" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,70,143,0"/>
+        <Button Content="  Далее  " Command="{Binding SearchNextCommand}" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,70,10,0"/>
+
+
+        <Button x:Name="addRepairs" Content="  Добавить оборудование  " Click="AddRepairs_Click" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,203,57"/>
         <!--Row 2-->
 
         <DataGrid x:Name="Docunents1" ItemsSource="{Binding V_Repairs}" SelectedIndex="{Binding SelectedIndex}" SelectedValue="{Binding SelectedItem}" 
@@ -174,7 +178,7 @@
         <!--Row 3-->
         <TextBlock Text="    Повторные ремонты    " Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Top" Height="20"  Grid.RowSpan="2"/>
 
-        <DataGrid x:Name="Docunents2" ItemsSource="{Binding V_RepairsCopy}" FrozenColumnCount="3"  Grid.Row="3" Margin="5,18,5,10"
+        <DataGrid x:Name="Docunents2" ItemsSource="{Binding V_RepairsCopy}" FrozenColumnCount="3"  Grid.Row="3" Margin="5,18,5,29"
                   AutoGenerateColumns="False" SelectionMode="Single" HorizontalGridLinesBrush="#FF999999"
                   VerticalGridLinesBrush="#FF999999" CanUserAddRows="False" CanUserDeleteRows="False" >
             <DataGrid.RowStyle>
@@ -252,5 +256,8 @@
                 </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
+        <StatusBar Grid.Row="3" VerticalAlignment="Bottom">
+            <TextBlock Text="{Binding LoadingStatus}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,1" />
+        </StatusBar>
     </Grid>
 </Window>

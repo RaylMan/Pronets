@@ -11,6 +11,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 
@@ -42,6 +43,17 @@ namespace Pronets.VievModel.Repairs_f
                 RaisedPropertyChanged("SearchText");
             }
         }
+        private string loadingStatus;
+        public string LoadingStatus
+        {
+            get { return loadingStatus; }
+            set
+            {
+                loadingStatus = value;
+                RaisedPropertyChanged("LoadingStatus");
+            }
+        }
+        
         #endregion
 
         public AllRepairsWindowVM()
@@ -52,9 +64,14 @@ namespace Pronets.VievModel.Repairs_f
         }
         private async void GetRepairsAsync()
         {
+            LoadingStatus = "Выполняется загрузка данных в таблицу!";
             if (V_Repairs != null)
                 V_Repairs.Clear();
             await Task.Run(() => GetRepairs());
+            
+            LoadingStatus = "Загрузка завершена";
+            
+
         }
         private void GetRepairs()
         {
@@ -70,6 +87,7 @@ namespace Pronets.VievModel.Repairs_f
             }
             catch (Exception)
             {
+               
             }
         }
         #region Search
@@ -98,7 +116,7 @@ namespace Pronets.VievModel.Repairs_f
             {
                 string searchWord = IsChecked != true ? EditChars.ToEnglish(SearchText) : SearchText;
                 searchPosition = 0;
-                searchRepairs = V_Repairs.Where(r => r.Serial_Number.Contains(searchWord)).ToList();
+                searchRepairs = V_Repairs.Where(r => r.Serial_Number.ToLower().Contains(searchWord.ToLower())).ToList();
                 searchCount = searchRepairs.Count;
                 if (searchRepairs.Count > 0)
                 {
@@ -133,7 +151,7 @@ namespace Pronets.VievModel.Repairs_f
             if (searchRepairs.Count > 0)
             {
                 string searchWord = IsChecked != true ? EditChars.ToEnglish(SearchText) : SearchText;
-                if (!string.IsNullOrWhiteSpace(searchWord) && searchRepairs[0].Serial_Number.Contains(searchWord))
+                if (!string.IsNullOrWhiteSpace(searchWord) && searchRepairs[0].Serial_Number.ToLower().Contains(searchWord.ToLower()))
                 {
                     if (searchPosition < searchRepairs.Count)
                     {
