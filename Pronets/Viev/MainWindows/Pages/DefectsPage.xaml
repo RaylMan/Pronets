@@ -19,6 +19,7 @@
                   HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999" AutoGenerateColumns="False" 
                   SelectedItem="{Binding SelectedSerialItem}"  SelectedIndex="{Binding SelectedSerialIndex}" CanUserDeleteRows="False"
                  >
+            <!--Binding AddToTableComman-->
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Удалить" Command="{Binding RemoveSerialCommand}" CommandParameter="{Binding SelectedSerialIndex}" />

@@ -51,5 +51,11 @@ namespace Pronets.Viev.MainWindows.Pages
                 }
             }
         }
+
+        //private void SerialsGrid_AddingNewItem(object sender, AddingNewItemEventArgs e)
+        //{
+        //    object parametr = null;
+        //    vm.AddToTable(parametr);
+        //}
     }
 }

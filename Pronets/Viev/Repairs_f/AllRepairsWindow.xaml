@@ -8,9 +8,7 @@
         xmlns:model="clr-namespace:Pronets.Model"
         mc:Ignorable="d"
         Title="Список ремонтов" Height="450" Width="800">
-    <Window.DataContext>
-        <vm:AllRepairsWindowVM/>
-    </Window.DataContext>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="35"></RowDefinition>
@@ -36,6 +34,7 @@
             </DataGrid.Resources>
             <DataGrid.ContextMenu>
                 <ContextMenu>
+                    <MenuItem Header="Редактировать" Click="OpenEditRepairWindow"/>
                     <MenuItem Header="Открыть документ" Click="BtnOpenDocument_Click" CommandParameter="{Binding SelectedIndex}"/>
                 </ContextMenu>
             </DataGrid.ContextMenu>

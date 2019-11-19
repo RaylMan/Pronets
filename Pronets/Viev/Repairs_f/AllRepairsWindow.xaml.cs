@@ -1,6 +1,7 @@
 ﻿using Pronets.Data;
 using Pronets.EntityRequests.Other;
 using Pronets.EntityRequests.Users_f;
+using Pronets.VievModel.Repairs_f;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +28,7 @@ namespace Pronets.Viev.Repairs_f
         public AllRepairsWindow()
         {
             InitializeComponent();
+            DataContext = new AllRepairsWindowVM();
         }
         private bool isFocused;
         private void TbxSearch_GotFocus(object sender, RoutedEventArgs e)
@@ -48,12 +50,19 @@ namespace Pronets.Viev.Repairs_f
             if (Docunents1.SelectedItem != null)
                 Docunents1.ScrollIntoView(Docunents1.SelectedItem);
         }
-
-        private void BtnOpenDocument_Click(object sender, RoutedEventArgs e)
+        private bool IsInspectorOrAdmin()
         {
             int.TryParse(Properties.Settings.Default.DefaultUserId.ToString(), out int userId);
             var user = UsersRequest.GetUser(userId);
-            if (user != null && user.Position != "Инженер")
+            if(user != null && user.Position != "Инженер")
+            {
+                return true;
+            }
+            return false;
+        }
+        private void BtnOpenDocument_Click(object sender, RoutedEventArgs e)
+        {
+            if (IsInspectorOrAdmin())
             {
                 v_Repairs repair = (v_Repairs)Docunents1.SelectedItem;
                 if (repair != null)
@@ -65,6 +74,20 @@ namespace Pronets.Viev.Repairs_f
             }
             else
                 MessageBox.Show("Нет доступа!","Открыть документ");
+        }
+
+        private void OpenEditRepairWindow(object sender, RoutedEventArgs e)
+        {
+            if (IsInspectorOrAdmin())
+            {
+                if (Docunents1.SelectedItem != null)
+                {
+                    EditRepairWindow window = new EditRepairWindow((v_Repairs)Docunents1.SelectedItem);
+                    window.Show();
+                }
+            }
+            else
+                MessageBox.Show("Нет доступа!", "Редактирование");
         }
     }
 }

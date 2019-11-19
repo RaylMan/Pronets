@@ -178,7 +178,7 @@ namespace Pronets.VievModel.MainWindows.Pages
                 RaisedPropertyChanged("AddToTableCommand");
             }
         }
-        private void AddToTable(object Parameter)
+        public void AddToTable(object Parameter)
         {
             string error = null;
             V_Repairs.Clear();
@@ -187,16 +187,18 @@ namespace Pronets.VievModel.MainWindows.Pages
                 foreach (var serial in serialNumbers)
                 {
                     var repairs = RepairsRequest.v_FillList(serial.Serial);
-                    if (repairs.Count > 0)
+                    if(repairs != null)
                     {
-                        foreach (var repair in repairs)
+                        if (repairs.Count > 0)
                         {
-                            V_Repairs.Add(repair);
+                            foreach (var repair in repairs)
+                            {
+                                V_Repairs.Add(repair);
+                            }
                         }
+                        else
+                            error += $" {serial.Serial},";
                     }
-                    else
-                        error += $" {serial.Serial},";
-
                 }
                 if (error != null)
                 {
@@ -209,9 +211,13 @@ namespace Pronets.VievModel.MainWindows.Pages
                 foreach (var serial in serialNumbers)
                 {
                     int.TryParse(serial.Serial, out int documentId);
-                    foreach (var repair in RepairsRequest.v_FillList(documentId))
+                    var repairs = RepairsRequest.v_FillList(documentId);
+                    if(repairs != null)
                     {
-                        V_Repairs.Add(repair);
+                        foreach (var repair in repairs)
+                        {
+                            V_Repairs.Add(repair);
+                        }
                     }
                 }
             }

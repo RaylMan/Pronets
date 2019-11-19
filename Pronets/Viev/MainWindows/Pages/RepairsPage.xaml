@@ -139,7 +139,7 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-            <Button x:Name="btOpenRepairsTable" Content="  Таблица ремонта  " Click="BtOpenRepairsTable_Click" 
+            <Button x:Name="btOpenRepairsTable" Content="  Таблица ремонтов  " Click="BtOpenRepairsTable_Click" 
                     HorizontalAlignment="Left" Grid.Column="0" Grid.Row="6" Margin="5" />
 
             <Button Grid.Column="1" Grid.Row="6" Command="{Binding EditCommand}" HorizontalAlignment="Right" Margin="5" Content="Записать" Width="85"/>
