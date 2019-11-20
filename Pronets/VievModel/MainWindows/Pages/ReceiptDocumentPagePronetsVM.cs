@@ -211,23 +211,28 @@ namespace Pronets.VievModel.MainWindows.Pages
             AllClients = true;
             AllStatuses = true;
         }
-        private async void GetDocumentsAsync()
+        private async void GetDocumentsAsync(string status)
         {
             ReceiptDocuments.Clear();
-            await Task.Run(() => GetDocuments());
+            await Task.Run(() => GetDocuments(status));
         }
-        private void GetDocuments()
+        private void GetDocuments(string status)
         {
-            foreach (var item in ReceiptDocumentRequest.v_FillList())
+            try
             {
-                _dispatcher.Invoke(new Action(() =>
+                foreach (var item in ReceiptDocumentRequest.v_FillListPronets(status))
                 {
-                    ReceiptDocuments.Add(item);
-                }));
+                    _dispatcher.Invoke(new Action(() =>
+                    {
+                        ReceiptDocuments.Add(item);
+                    }));
+                }
             }
+            catch (Exception) { }
             ReceiptDocuments = new ObservableCollection<v_Receipt_Document>(ReceiptDocuments.OrderByDescending(i => i.Document_Id));
         }
-        #region RefreshCommand
+
+        #region Sort Command
         private ICommand sortCommand;
         public ICommand SortCommand
         {
@@ -253,7 +258,8 @@ namespace Pronets.VievModel.MainWindows.Pages
         {
             string status = SelectedStatusItem != null ? SelectedStatusItem.Status : null;
             ReceiptDocuments.Clear();
-            ReceiptDocuments = ReceiptDocumentRequest.v_FillListPronets(status);
+            GetDocumentsAsync(status);
+           // ReceiptDocuments = ReceiptDocumentRequest.v_FillListPronets(status);
         }
         #endregion
 
@@ -295,7 +301,7 @@ namespace Pronets.VievModel.MainWindows.Pages
         }
         #endregion
 
-        #region SortCommand
+        #region Refresh Command
         private ICommand refreshCommand;
         public ICommand RefreshCommand
         {

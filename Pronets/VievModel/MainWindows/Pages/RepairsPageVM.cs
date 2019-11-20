@@ -251,22 +251,24 @@ namespace Pronets.VievModel.MainWindows.Pages
                 string engWord = IsChecked != true ? EditChars.ToEnglish(SearchText) : SearchText;
                 try
                 {
-                    foreach (var repair in RepairsRequest.SearchItem(engWord))
+                    var repairs = RepairsRequest.SearchItem(engWord);
+                    if(repairs != null)
                     {
-
-                        _dispatcher.Invoke(new Action(() =>
+                        foreach (var repair in repairs)
                         {
-                            V_Repairs.Add(repair);
-                        }));
-                        if (V_Repairs.Count > 0)
-                            SelectedIndex = 0;
+
+                            _dispatcher.Invoke(new Action(() =>
+                            {
+                                V_Repairs.Add(repair);
+                            }));
+                            if (V_Repairs.Count > 0)
+                                SelectedIndex = 0;
+                        }
                     }
                 }
                 catch (Exception)
                 {
                 }
-               
-                //SearchText = string.Empty;
             }
         }
 

@@ -341,10 +341,15 @@ namespace Pronets.VievModel.Users_f
 
         private void StartInfo()
         {
-            foreach (var item in RepairsRequest.SortUserList(engineer.Id, firstDate, secondDate))
+            var repairs = RepairsRequest.SortUserList(engineer.Id, firstDate, secondDate);
+            if(repairs != null)
             {
-                V_Repairs.Add(item);
+                foreach (var item in repairs)
+                {
+                    V_Repairs.Add(item);
+                }
             }
+            
             if (V_Repairs != null)
             {
                 var result = from equip in V_Repairs
@@ -394,10 +399,15 @@ namespace Pronets.VievModel.Users_f
 
                 if (!AllCategory && selectedCategory != null)
                 {
-                    foreach (var item in RepairsRequest.SortUserList(engineer.Id, firstDate, secondDate, selectedCategory.Category))
+                    var repairs = RepairsRequest.SortUserList(engineer.Id, firstDate, secondDate, selectedCategory.Category);
+                    if(repairs != null)
                     {
-                        V_Repairs.Add(item);
+                        foreach (var item in repairs)
+                        {
+                            V_Repairs.Add(item);
+                        }
                     }
+                   
                     if (V_Repairs != null)
                     {
                         var result = from equip in V_Repairs
@@ -444,7 +454,7 @@ namespace Pronets.VievModel.Users_f
         {
             Users modifiedUser = null;
             Engineers modifiedEngineer = null;
-            if (selectedPosition != null)
+            if (selectedPosition != null && engineer != null)
             {
                 modifiedUser = new Users
                 {

@@ -181,14 +181,23 @@ namespace Pronets.VievModel.ConvertToSQL
 
         public ConvertToSQLWindowVM()
         {
+            GetContent();
+            _dispatcher = Dispatcher.CurrentDispatcher;
+        }
+
+        #region Methods  
+
+        private void GetContent()
+        {
+            Clients.Clear();
+            Nomenclature.Clear();
+            Statuses.Clear();
             GetBaseFromExcel();
             Clients = ClientsRequests.FillList();
             Nomenclature = NomenclatureRequest.FillList();
             Statuses = StatusesRequests.FillList();
-            _dispatcher = Dispatcher.CurrentDispatcher;
-            progressValue = 0;
-        }
 
+        }
         public void GetAllChecked()
         {
             if (BaseFromExcel.Count > 0)
@@ -204,7 +213,7 @@ namespace Pronets.VievModel.ConvertToSQL
             string newStatus = "Принято";
             if (!string.IsNullOrWhiteSpace(status) && status != "0")
             {
-                if(statuses != null)
+                if (statuses != null)
                 {
                     foreach (var item in statuses)
                     {
@@ -214,7 +223,7 @@ namespace Pronets.VievModel.ConvertToSQL
                         }
                     }
                 }
-                
+
             }
             return newStatus;
         }
@@ -222,11 +231,15 @@ namespace Pronets.VievModel.ConvertToSQL
         {
             baseFromExcel.Clear();
             var repairs = BaseFromExcelRequest.FillList();
-            if(repairs != null)
+            if (repairs != null)
             {
                 foreach (var item in repairs)
                 {
-                    BaseFromExcel.Add(item);
+                    _dispatcher.Invoke(new Action(() =>
+
+                    {
+                        BaseFromExcel.Add(item);
+                    }));
                 }
             }
         }
@@ -268,6 +281,8 @@ namespace Pronets.VievModel.ConvertToSQL
             }
             TextVisibility = Visibility.Hidden;
         }
+        #endregion
+
         #region OpenCommand
         private ICommand openCommand;
         public ICommand OpenCommand
@@ -360,11 +375,8 @@ namespace Pronets.VievModel.ConvertToSQL
                     BaseFromExcelRequest.AddToBase(item);//запись на строну sql
                 }
             }
-            catch (Exception)
-            {
-
-            }
-           // MessageBox.Show("Загрузка закончена!");
+            catch (Exception) {}
+           
             TextVisibility = Visibility.Hidden;
         }
         #endregion
@@ -389,11 +401,11 @@ namespace Pronets.VievModel.ConvertToSQL
         }
         public void Clear(object Parameter)
         {
-            BaseFromExcelRequest.ClearBase();
-            baseFromExcel.Clear();
+            BaseFromExcelRequest.ClearBase(out bool ex);
+            if (!ex)
+                baseFromExcel.Clear();
         }
         #endregion
-
 
         #region SaveAtRepairsCommand
         private ICommand saveAtRepairsCommand;
@@ -450,7 +462,7 @@ namespace Pronets.VievModel.ConvertToSQL
                         int documentId = ReceiptDocumentRequest.GetDocumentID();
                         foreach (var item in BaseFromExcel)
                         {
-                            var engineer = UsersRequest.GetEngineer(item.Engineer) ?? defaultEngineer;
+                            var engineer = UsersRequest.GetEngineer(item.Engineer.Split(' ').First()) ?? defaultEngineer;
                             _dispatcher.Invoke(new Action(() =>
                             {
                                 if (item.IsSelected)
@@ -482,6 +494,34 @@ namespace Pronets.VievModel.ConvertToSQL
             else
                 MessageBox.Show("Выберите клиента, номенклатуру, статус!", "Ошибка");
             TextVisibility = Visibility.Hidden;
+        }
+        #endregion
+
+        #region Refresh command
+        private ICommand refreshCommand;
+        public ICommand RefreshCommand
+        {
+            get
+            {
+                if (refreshCommand == null)
+                {
+                    refreshCommand = new RelayCommand(new Action<object>(Refresh));
+                }
+                return refreshCommand;
+            }
+            set
+            {
+                refreshCommand = value;
+                RaisedPropertyChanged("RefreshCommand");
+            }
+        }
+        /// <summary>
+        /// Обновляет данные на странице
+        /// </summary>
+        /// <param name="parametr"></param>
+        public void Refresh(object parametr)
+        {
+            GetContent();
         }
         #endregion
     }

@@ -82,8 +82,9 @@ namespace Pronets.EntityRequests.Other
         /// <summary>
         /// <para>Очищает таблицу BaseFromExcel</para>
         /// </summary>
-        public static void ClearBase()
+        public static void ClearBase(out bool ex)
         {
+            ex = false;
             using (var db = ConnectionTools.GetConnection())
             {
 
@@ -94,6 +95,7 @@ namespace Pronets.EntityRequests.Other
                 catch (Exception e)
                 {
                     MessageBox.Show(e.Message);
+                    ex = true;
                 }
             }
         }

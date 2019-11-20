@@ -46,7 +46,7 @@ namespace Pronets.VievModel.MainWindows
             get
             {
                 if (currentUser != null)
-                    return currentUser.Login + " " + currentUser.LastName + " " + currentUser.FirstName;
+                    return currentUser.LastName + " " + currentUser.FirstName;
                 return userName = "Error";
             }
             set

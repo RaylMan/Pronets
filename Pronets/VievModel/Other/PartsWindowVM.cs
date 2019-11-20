@@ -428,6 +428,7 @@ namespace Pronets.VievModel.Other
         }
 
         #endregion
+
         #region Search next
         protected ICommand searchNextCommand;
         public ICommand SearchNextCommand

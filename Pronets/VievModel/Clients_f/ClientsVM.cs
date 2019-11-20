@@ -228,10 +228,7 @@ namespace Pronets.VievModel.Clients_f
             if (SearchText != null && SearchText != "")
             {
                 clients.Clear();
-                foreach (var client in ClientsRequests.SearchItem(searchText))
-                {
-                    clients.Add(client);
-                }
+                Clients = ClientsRequests.SearchItem(searchText);
                 SearchText = string.Empty;
             }
         }

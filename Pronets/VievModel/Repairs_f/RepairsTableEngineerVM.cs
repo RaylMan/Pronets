@@ -255,20 +255,21 @@ namespace Pronets.VievModel.Repairs_f
                 foreach (var serial in serialNumbers)
                 {
                     var repairs = RepairsRequest.v_FillList(serial.Serial);
-                    if (repairs.Count > 0)
+                    if(repairs != null)
                     {
-                        foreach (var repair in repairs)
+                        if (repairs.Count > 0)
                         {
-                            V_Repairs.Add(repair);
+                            foreach (var repair in repairs)
+                            {
+                                V_Repairs.Add(repair);
+                            }
                         }
+                        else
+                            error += $" {serial.Serial},";
                     }
-                    else
-                        error += $" {serial.Serial},";
-
                 }
                 if (error != null)
                 {
-
                     MessageBox.Show($"В базе данных отсутствуют:{error.Remove(error.Length - 1)}", "");
                 }
             }
@@ -277,9 +278,13 @@ namespace Pronets.VievModel.Repairs_f
                 foreach (var serial in serialNumbers)
                 {
                     int.TryParse(serial.Serial, out int documentId);
-                    foreach (var repair in RepairsRequest.v_FillList(documentId))
+                    var repairs = RepairsRequest.v_FillList(documentId);
+                    if(repairs != null)
                     {
-                        V_Repairs.Add(repair);
+                        foreach (var repair in repairs)
+                        {
+                            V_Repairs.Add(repair);
+                        }
                     }
                 }
             }

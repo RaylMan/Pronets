@@ -215,7 +215,7 @@ namespace Pronets.VievModel.Repairs_f
         {
             Statuses.Clear();
             Statuses = StatusesRequests.FillList();
-            if(Statuses != null)
+            if (Statuses != null)
             {
                 foreach (var status in statuses)
                 {
@@ -233,7 +233,7 @@ namespace Pronets.VievModel.Repairs_f
             Recipients.Clear();
             Clients = ClientsRequests.FillList();
             Recipients = ClientsRequests.FillList();
-            if(Clients != null && Recipients != null)
+            if (Clients != null && Recipients != null)
             {
                 foreach (var client in clients)
                 {
@@ -264,16 +264,12 @@ namespace Pronets.VievModel.Repairs_f
         {
             try
             {
-                var repairs = RepairsRequest.FillList(Document.Document_Id);
-                if(repairs != null)
+                foreach (var repair in RepairsRequest.FillList(Document.Document_Id))
                 {
-                    foreach (var repair in repairs)
+                    _dispatcher.Invoke(new Action(() =>
                     {
-                        _dispatcher.Invoke(new Action(() =>
-                        {
-                            V_Repairs.Add(repair);
-                        }));
-                    }
+                        V_Repairs.Add(repair);
+                    }));
                 }
             }
             catch (Exception)
@@ -554,7 +550,7 @@ namespace Pronets.VievModel.Repairs_f
                 foreach (var repair in v_Repairs)
                 {
                     var copyRepairs = RepairsRequest.GetCopy(repair.RepairId, repair.Serial_Number);
-                    if(copyRepairs != null)
+                    if (copyRepairs != null)
                     {
                         foreach (var copyRepair in copyRepairs)
                         {

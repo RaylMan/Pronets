@@ -65,7 +65,7 @@ namespace Pronets.VievModel.Clients_f
                 }
             }
             else
-                MessageBox.Show("Необходимо ввести Название организации", "Сошибка");
+                MessageBox.Show("Необходимо ввести название организации", "Ошибка");
         }
         #endregion
     }

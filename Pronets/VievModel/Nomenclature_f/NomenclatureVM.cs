@@ -161,7 +161,7 @@ namespace Pronets.VievModel.Nomenclature_f
                 }
             }
             else
-                MessageBox.Show("1) Введите название номенклатуры;\n2) Выберете тип оборудования.", "Ошибка");
+                MessageBox.Show("1) Введите название номенклатуры.\n2) Выберете тип оборудования.", "Ошибка");
         }
         #endregion
 

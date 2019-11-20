@@ -211,23 +211,29 @@ namespace Pronets.VievModel.MainWindows.Pages
             AllClients = true;
             AllStatuses = true;
         }
-        private async void GetDocumentsAsync()
+        private async void GetDocumentsAsync(string status, string client)
         {
             ReceiptDocuments.Clear();
-            await Task.Run(() => GetDocuments());
+            await Task.Run(() => GetDocuments(status, client));
         }
-        private void GetDocuments()
+        private void GetDocuments(string status, string client)
         {
-            foreach (var item in ReceiptDocumentRequest.v_FillList())
+            try
             {
-                _dispatcher.Invoke(new Action(() =>
+                foreach (var item in ReceiptDocumentRequest.v_FillList(status, client))
                 {
-                    ReceiptDocuments.Add(item);
-                }));
+                    _dispatcher.Invoke(new Action(() =>
+                    {
+                        ReceiptDocuments.Add(item);
+                    }));
+                }
             }
+            catch (Exception) { }
+                
+            
             ReceiptDocuments = new ObservableCollection<v_Receipt_Document>(ReceiptDocuments.OrderByDescending(i => i.Document_Id));
         }
-        #region RefreshCommand
+        #region Sort Command
         private ICommand sortCommand;
         public ICommand SortCommand
         {
@@ -254,7 +260,8 @@ namespace Pronets.VievModel.MainWindows.Pages
             string status = SelectedStatusItem != null ? SelectedStatusItem.Status : null;
             string client = SelectedClientItem != null ? selectedClientItem.ClientName : null;
             ReceiptDocuments.Clear();
-            ReceiptDocuments = ReceiptDocumentRequest.v_FillList(status, client);
+            GetDocumentsAsync(status, client);
+            //ReceiptDocuments = ReceiptDocumentRequest.v_FillList(status, client);
 
         }
         #endregion

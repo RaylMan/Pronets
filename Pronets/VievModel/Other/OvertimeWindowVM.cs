@@ -77,7 +77,7 @@ namespace Pronets.VievModel.Other
                 RaisedPropertyChanged("SelectedUser");
             }
         }
-       
+
 
         private string amount;
         public string Amount
@@ -89,7 +89,7 @@ namespace Pronets.VievModel.Other
                 RaisedPropertyChanged("Amount");
             }
         }
-        private string pricePerHour ;
+        private string pricePerHour;
         public string PricePerHour
         {
             get { return pricePerHour; }
@@ -99,7 +99,7 @@ namespace Pronets.VievModel.Other
                 RaisedPropertyChanged("PricePerHour");
             }
         }
-        private string pricePerDay ;
+        private string pricePerDay;
         public string PricePerDay
         {
             get { return pricePerDay; }
@@ -145,18 +145,26 @@ namespace Pronets.VievModel.Other
                 if (onlyAmounted)
                 {
                     OvertimeList.Clear();
-
-                    foreach (var item in OvertimeRequest.FillList(SelectedUser.LastName, "Не оплачено"))
+                    var list = OvertimeRequest.FillList(SelectedUser.LastName, "Не оплачено");
+                    if (list != null)
                     {
-                        OvertimeList.Add(item);
+                        foreach (var item in list)
+                        {
+                            OvertimeList.Add(item);
+                        }
                     }
+
                 }
                 else
                 {
                     OvertimeList.Clear();
-                    foreach (var item in OvertimeRequest.FillList(SelectedUser.LastName))
+                    var list = OvertimeRequest.FillList(SelectedUser.LastName);
+                    if (list != null)
                     {
-                        OvertimeList.Add(item);
+                        foreach (var item in list)
+                        {
+                            OvertimeList.Add(item);
+                        }
                     }
                 }
             }

@@ -153,7 +153,9 @@ namespace Pronets.VievModel.MainWindows.Pages
             SelectedTypeItem = DocumentTypes[0];
             GetCounts();
         }
-
+        /// <summary>
+        /// Подсчет общего количества строк в таблицах серийных номеров и ремонтов
+        /// </summary>
         private void GetCounts()
         {
             SerialsCount = serialNumbers.Count.ToString();

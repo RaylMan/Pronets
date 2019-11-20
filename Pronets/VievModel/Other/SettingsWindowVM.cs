@@ -130,13 +130,6 @@ namespace Pronets.VievModel.Other
         {
             string message = "Успешная запись:";
             string errors = "\nОшибки: ";
-            //if (!string.IsNullOrWhiteSpace(login))
-            //{
-            //    UsersRequest.ChangeLogin(user.UserId, login);
-            //    message += "\n-Логин";
-            //}
-            //else
-            //    errors += "\n-Логин: Невозможно сохранить пустое поле";
 
             if (!string.IsNullOrWhiteSpace(chiefEngineer))
             {

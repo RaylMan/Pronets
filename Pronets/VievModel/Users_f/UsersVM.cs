@@ -250,11 +250,15 @@ namespace Pronets.VievModel.Users_f
             if (SearchText != null && SearchText != "")
             {
                 users.Clear();
-                foreach (var user in UsersRequest.SearchItem(searchText))
+                var searchUsers = UsersRequest.SearchItem(searchText);
+                if(searchUsers != null)
                 {
-                    users.Add(user);
+                    foreach (var user in searchUsers)
+                    {
+                        users.Add(user);
+                    }
+                    SearchText = string.Empty;
                 }
-                SearchText = string.Empty;
             }
         }
         #endregion

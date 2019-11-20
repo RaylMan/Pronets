@@ -23,10 +23,9 @@ namespace Pronets.VievModel.Other
         {
             get { return client; }
         }
-        private List<int> repairsId = new List<int>();
-
+     
         private ObservableCollection<v_Repairs> repairsTable = new ObservableCollection<v_Repairs>();
-        public ObservableCollection<v_Repairs> RepairsTable 
+        public ObservableCollection<v_Repairs> RepairsTable
         {
             get { return repairsTable; }
 
@@ -205,22 +204,29 @@ namespace Pronets.VievModel.Other
         }
         public PrintingWindowVM(List<int> repairsId, int clientId)
         {
-            this.repairsId = repairsId;
-            foreach (var Id in repairsId)
-            {
-                repairsTable.Add(RepairsRequest.v_GetRepair(Id));
-            }
-            if (clientId > 0)
-                client = ClientsRequests.GetClient(clientId);
+            GetRepairsFromList(repairsId, clientId);
             GetInfo();
             SetFontSizes();
             fontSize = 10;
             titleFontSize = fontSize + 5;
         }
-
+        private void GetRepairsFromList(List<int> repairsId, int clientId)
+        {
+            if(repairsId != null)
+            {
+                foreach (var Id in repairsId)
+                {
+                    var repair = RepairsRequest.v_GetRepair(Id);
+                    if (repair != null)
+                        repairsTable.Add(repair);
+                }
+                if (clientId > 0)
+                    client = ClientsRequests.GetClient(clientId);
+            }
+        }
         private void SetFontSizes()
         {
-            for(int i = 6; i < 25; i++)
+            for (int i = 6; i < 25; i++)
             {
                 fontSizes.Add(new FontSizes { FontSize = i });
             }
@@ -273,7 +279,7 @@ namespace Pronets.VievModel.Other
         }
         public void AddRecipient(object Parameter)
         {
-            if(repairsTable.Count > 0 && client != null)
+            if (repairsTable.Count > 0 && client != null)
             {
                 foreach (var repair in repairsTable)
                 {
