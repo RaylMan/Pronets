@@ -160,5 +160,11 @@ namespace Pronets.Viev.Repairs_f
                 }
             }
         }
+
+        private void Docunents1_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (Docunents1.SelectedItem != null)
+                Docunents1.ScrollIntoView(Docunents1.SelectedItem);
+        }
     }
 }

@@ -229,7 +229,7 @@ namespace Pronets.VievModel.MainWindows.Pages
                 }
             }
             catch (Exception) { }
-            ReceiptDocuments = new ObservableCollection<v_Receipt_Document>(ReceiptDocuments.OrderByDescending(i => i.Document_Id));
+           // ReceiptDocuments = new ObservableCollection<v_Receipt_Document>(ReceiptDocuments.OrderByDescending(i => i.Document_Id));
         }
 
         #region Sort Command
@@ -258,8 +258,8 @@ namespace Pronets.VievModel.MainWindows.Pages
         {
             string status = SelectedStatusItem != null ? SelectedStatusItem.Status : null;
             ReceiptDocuments.Clear();
-            GetDocumentsAsync(status);
-           // ReceiptDocuments = ReceiptDocumentRequest.v_FillListPronets(status);
+            //GetDocumentsAsync(status);
+            ReceiptDocuments = ReceiptDocumentRequest.v_FillListPronets(status);
         }
         #endregion
 
