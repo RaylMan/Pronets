@@ -5,6 +5,7 @@ using Pronets.VievModel.Other;
 using Pronets.VievModel.Repairs_f;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.IO;
 using System.Linq;
@@ -102,10 +103,47 @@ namespace Pronets.Viev.Other
             }
         }
 
+        /// <summary>
+        /// Сортирует список ремонтов, вначале все готовые, а затем кооторые не смогли сделать и возвращает коллекцию
+        /// </summary>
+        /// <param name="repairs"></param>
+        /// <returns></returns>
+        private ObservableCollection<v_Repairs> GetSortingRepairs(ObservableCollection<v_Repairs> repairs)
+        {
+            ObservableCollection<v_Repairs> repairsTable = new ObservableCollection<v_Repairs>();
+            if (repairs != null)
+            {
+                foreach (var repair in repairs)
+                {
+                    if (repair.Status != "Восстановлению не подлежит" &&
+                        repair.Status != "Донор" &&
+                        repair.Status != "Не смогли починить" &&
+                        repair.Status != "Утеряно")
+                    {
+                        repairsTable.Add(repair);
+                    }
+                }
 
+
+                foreach (var repair in repairs)
+                {
+                    if(repair.Status == "Восстановлению не подлежит" ||
+                        repair.Status == "Донор" ||
+                        repair.Status == "Не смогли починить" ||
+                        repair.Status == "Утеряно")
+                    {
+                        repairsTable.Add(repair);
+                    }
+                }
+
+               
+            }
+            return repairsTable;
+        }
         private void GetTable()
         {
-            System.Data.DataTable dataTable = vm.ToDataTable<v_Repairs>(vm.RepairsTable);
+
+            System.Data.DataTable dataTable = vm.ToDataTable<v_Repairs>(GetSortingRepairs(vm.RepairsTable));
             var brushConverter = new BrushConverter();
             var rowGroup = new TableRowGroup();
             Table1.RowGroups.Add(rowGroup);
@@ -113,6 +151,12 @@ namespace Pronets.Viev.Other
             rowGroup.Rows.Add(header);
             Table1.CellSpacing = 1;
 
+            //Table1.Columns.Add(new TableColumn());
+            //var firstCell = new TableCell(new Paragraph(new Run("№")));
+            //firstCell.Background = (Brush)brushConverter.ConvertFrom("#FFFFFF");
+            //firstCell.TextAlignment = TextAlignment.Center;
+            //firstCell.Padding = new Thickness(2);
+            //header.Cells.Add(firstCell);
 
             foreach (DataColumn column in dataTable.Columns)
             {

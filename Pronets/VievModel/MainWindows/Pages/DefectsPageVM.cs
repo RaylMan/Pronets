@@ -225,6 +225,41 @@ namespace Pronets.VievModel.MainWindows.Pages
             }
             GetCounts();
         }
+
+        /// <summary>
+        /// Сортирует список ремонтов, вначале все готовые, а затем кооторые не смогли сделать и возвращает коллекцию
+        /// </summary>
+        /// <param name="repairs"></param>
+        /// <returns></returns>
+        private ObservableCollection<v_Repairs> GetSortingRepairs(ObservableCollection<v_Repairs> repairs)
+        {
+            ObservableCollection<v_Repairs> repairsTable = new ObservableCollection<v_Repairs>();
+            if (repairs != null)
+            {
+                foreach (var repair in repairs)
+                {
+                    if (repair.Status != "Восстановлению не подлежит" ||
+                        repair.Status != "Донор" ||
+                        repair.Status != "Не смогли починить" ||
+                        repair.Status != "Утеряно")
+                    {
+                        repairsTable.Add(repair);
+                    }
+                }
+
+                foreach (var repair in repairs)
+                {
+                    if (repair.Status == "Восстановлению не подлежит" ||
+                        repair.Status == "Донор" ||
+                        repair.Status == "Не смогли починить" ||
+                        repair.Status == "Утеряно")
+                    {
+                        repairsTable.Add(repair);
+                    }
+                }
+            }
+            return repairsTable;
+        }
         #endregion
 
         #region SendingCommand

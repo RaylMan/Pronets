@@ -93,7 +93,7 @@
             </DataGrid.ContextMenu>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="№" Binding="{Binding Path=RepairId, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="название" Binding="{Binding Path=Nomenclature, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Наименование" Binding="{Binding Path=Nomenclature, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Серийный номер" Binding="{Binding Path=Serial_Number, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Дата приема" Binding="{Binding Path=Date_Of_Receipt, UpdateSourceTrigger=PropertyChanged, StringFormat='dd.MM.yyyy'}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Дата ремонта" Binding="{Binding Path=Repair_Date, UpdateSourceTrigger=PropertyChanged, StringFormat='dd.MM.yyyy'}" IsReadOnly="True"/>

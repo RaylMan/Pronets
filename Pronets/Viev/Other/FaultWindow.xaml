@@ -8,8 +8,9 @@
         Title="" Height="595" Width="610" MinHeight="595" MinWidth="610" Background="Gainsboro" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="100"></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="125"></RowDefinition>
+            <RowDefinition Height="9*"></RowDefinition>
+            <RowDefinition Height="13*"/>
         </Grid.RowDefinitions>
         <!--Row 0-->
         <Label Content="Выявленная неисправность" Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,0,0,0"/>
@@ -22,12 +23,14 @@
         <Button Content="  Добавить  " Command="{Binding AddCommand}" HorizontalAlignment="Left" Margin="513,22,0,0" VerticalAlignment="Top" Width="74"/>
         <Button Content="  Изменить  " Command="{Binding EditCommand}" HorizontalAlignment="Left" Margin="513,48,0,0" VerticalAlignment="Top" Width="74"/>
         <Button Content="  Удалить  " Command="{Binding DeleteCommand}" HorizontalAlignment="Left" Margin="513,75,0,0" VerticalAlignment="Top" Width="74"/>
-
+        <Label Content="Поиск" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0,0,0,4" RenderTransformOrigin="0.307,1.538"/>
+        <TextBox x:Name="tbxSearch" Text="{Binding SearchString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="44,0,0,5" Width="209"
+                 ToolTip="Search" TextWrapping="Wrap" KeyDown="TbxSearch_KeyDown"/>
         <!--Row 1-->
-       
+
         <DataGrid x:Name="workDatagrid" Grid.Row="1" ItemsSource="{Binding Defects}" SelectedValue="{Binding SelectedDefect}" SelectedIndex="{Binding SelectedDefectIndex}"
                   AutoGenerateColumns="False" SelectionMode="Single" HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999" Margin="5,0,5,30"
-                       CanUserAddRows="False" CanUserDeleteRows="False">
+                       CanUserAddRows="False" CanUserDeleteRows="False" Grid.RowSpan="2">
             <DataGrid.Resources>
                 <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="White" />
                 <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#0078D7"/>
@@ -64,6 +67,6 @@
                 </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="btnFill" Content="  Заполнить  " Command="{Binding SendMultipleCommand}" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="5"/>
+        <Button x:Name="btnFill" Content="  Заполнить  " Command="{Binding SendMultipleCommand}" Grid.Row="2" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,5,5"/>
     </Grid>
 </Window>

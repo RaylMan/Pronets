@@ -22,15 +22,30 @@ namespace Pronets.Viev.Other
     /// </summary>
     public partial class FaultWindow : Window
     {
+        public FaultWindowVM vm => (FaultWindowVM)DataContext;
         public FaultWindow(RepairsPage page)
         {
             InitializeComponent();
             DataContext = new FaultWindowVM(page);
+            tbxSearch.Focus();
         }
         public FaultWindow(RepairsTableEngineer page)
         {
             InitializeComponent();
             DataContext = new FaultWindowVM(page);
+        }
+
+
+        private void TbxSearch_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.Enter)
+            {
+                if (workDatagrid.SelectedItem != null)
+                {
+                    object para = null;
+                    vm.Send(para);
+                }
+            }
         }
     }
 }

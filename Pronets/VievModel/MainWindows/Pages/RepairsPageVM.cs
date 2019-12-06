@@ -24,6 +24,7 @@ namespace Pronets.VievModel.MainWindows.Pages
         Dispatcher _dispatcher;
         private v_Repairs v_Repair = new Data.v_Repairs();
         private Engineers engineer;
+        private string buffer;
         private ObservableCollection<Repair_Categories> repair_Categories = new ObservableCollection<Repair_Categories>();
         public ObservableCollection<Repair_Categories> Repair_Categories
         {
@@ -248,11 +249,12 @@ namespace Pronets.VievModel.MainWindows.Pages
         {
             if (SearchText != null && SearchText != "")
             {
+                buffer = SearchText;
                 string engWord = IsChecked != true ? EditChars.ToEnglish(SearchText) : SearchText;
                 try
                 {
                     var repairs = RepairsRequest.SearchItem(engWord);
-                    if(repairs != null)
+                    if (repairs != null)
                     {
                         foreach (var repair in repairs)
                         {
@@ -261,15 +263,16 @@ namespace Pronets.VievModel.MainWindows.Pages
                             {
                                 V_Repairs.Add(repair);
                             }));
-                            if (V_Repairs.Count > 0)
-                                SelectedIndex = 0;
                         }
+                        if (V_Repairs.Count > 0)
+                            SelectedIndex = 0;
                     }
                 }
                 catch (Exception)
                 {
                 }
             }
+            SearchText = string.Empty;
         }
 
 
@@ -298,7 +301,7 @@ namespace Pronets.VievModel.MainWindows.Pages
         {
             if (SelectedRepair != null)
             {
-                if(selectedRepair.RepairId != -10)
+                if (selectedRepair.RepairId != -10)
                 {
                     repair = RepairsRequest.GetRepair(SelectedRepair.RepairId);
                     repair.Engineer = engineer != null ? engineer.Id : 0;
@@ -318,7 +321,7 @@ namespace Pronets.VievModel.MainWindows.Pages
                             {
                                 RepairsRequest.EditItem(repair);
                                 ReceiptDocumentRequest.SetStatus((int)repair.DocumentId, "В ремонте");
-                                SearchItemAsync();
+                                FillList();
                             }
                         }
                         else
@@ -330,6 +333,38 @@ namespace Pronets.VievModel.MainWindows.Pages
                 MessageBox.Show("Необходимо выбрать элемент!", "Ошибка");
 
             Repair_Date = DateTime.Now.Date;
+        }
+        private void FillList()
+        {
+            TextVisibility = Visibility.Visible;
+            V_Repairs.Clear();
+           
+            if (!string.IsNullOrWhiteSpace(buffer))
+            {
+                V_Repairs.Clear();
+                string engWord = IsChecked != true ? EditChars.ToEnglish(buffer) : SearchText;
+                try
+                {
+                    var repairs = RepairsRequest.SearchItem(engWord);
+                    if (repairs != null)
+                    {
+                        foreach (var repair in repairs)
+                        {
+                                V_Repairs.Add(repair);
+                        }
+                        if (V_Repairs.Count > 0)
+                            SelectedIndex = 0;
+                    }
+                }
+                catch (Exception)
+                {
+                }
+            }
+            if (V_Repairs.Count == 0)
+            {
+                V_Repairs.Add(new v_Repairs { RepairId = -10, Serial_Number = "Устройство не найдено" });
+            }
+            TextVisibility = Visibility.Hidden;
         }
         #endregion
 
@@ -428,25 +463,28 @@ namespace Pronets.VievModel.MainWindows.Pages
         }
         private void GetInfo(object parametr)
         {
-            string info = $"№ ремонта: {selectedRepair.RepairId}\n" +
-                $"№ документа: {selectedRepair.DocumentId}\n" +
-                $"Наименование: {selectedRepair.Nomenclature}\n" +
-                $"Серийный номер: {selectedRepair.Serial_Number}\n" +
-                $"Клиент: {selectedRepair.Client_Name}\n" +
-                $"Дата приемки: {selectedRepair.Date_Of_Receipt}\n" +
-                $"Приемщик: {selectedRepair.Inspector}\n" +
-                $"Получатель: {selectedRepair.Recipient}\n" +
-                $"Дата отправки: {selectedRepair.Departure_Date}\n" +
-                $"Гарантия: {selectedRepair.Warranty}\n" +
-                $"Заявленная неисправность: {selectedRepair.Claimed_Malfunction}\n" +
-                $"Выявленная неисправность: {selectedRepair.Identifie_Fault}\n" +
-                $"Проделанная работа: {selectedRepair.Work_Done}\n" +
-                $"Инженер: {selectedRepair.Engineer}\n" +
-                $"Дата ремонта: {selectedRepair.Repair_Date}\n" +
-                $"Категория ремонта: {selectedRepair.Repair_Category}\n" +
-                $"Статус ремонта: {selectedRepair.Status}\n" +
-                $"Заметка: {selectedRepair.Note}";
-            MessageBox.Show(info, "Информация о ремонте");
+            if (selectedRepair != null)
+            {
+                string info = $"№ ремонта: {selectedRepair.RepairId}\n" +
+               $"№ документа: {selectedRepair.DocumentId}\n" +
+               $"Наименование: {selectedRepair.Nomenclature}\n" +
+               $"Серийный номер: {selectedRepair.Serial_Number}\n" +
+               $"Клиент: {selectedRepair.Client_Name}\n" +
+               $"Дата приемки: {selectedRepair.Date_Of_Receipt}\n" +
+               $"Приемщик: {selectedRepair.Inspector}\n" +
+               $"Получатель: {selectedRepair.Recipient}\n" +
+               $"Дата отправки: {selectedRepair.Departure_Date}\n" +
+               $"Гарантия: {selectedRepair.Warranty}\n" +
+               $"Заявленная неисправность: {selectedRepair.Claimed_Malfunction}\n" +
+               $"Выявленная неисправность: {selectedRepair.Identifie_Fault}\n" +
+               $"Проделанная работа: {selectedRepair.Work_Done}\n" +
+               $"Инженер: {selectedRepair.Engineer}\n" +
+               $"Дата ремонта: {selectedRepair.Repair_Date}\n" +
+               $"Категория ремонта: {selectedRepair.Repair_Category}\n" +
+               $"Статус ремонта: {selectedRepair.Status}\n" +
+               $"Заметка: {selectedRepair.Note}";
+                MessageBox.Show(info, "Информация о ремонте");
+            }
         }
         #endregion
     }

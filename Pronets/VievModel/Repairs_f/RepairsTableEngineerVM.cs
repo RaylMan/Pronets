@@ -254,8 +254,9 @@ namespace Pronets.VievModel.Repairs_f
             {
                 foreach (var serial in serialNumbers)
                 {
-                    var repairs = RepairsRequest.v_FillList(serial.Serial);
-                    if(repairs != null)
+                    string engSerial = EditChars.ToEnglish(serial.Serial);
+                    var repairs = RepairsRequest.v_FillList(engSerial);
+                    if (repairs != null)
                     {
                         if (repairs.Count > 0)
                         {
@@ -265,7 +266,7 @@ namespace Pronets.VievModel.Repairs_f
                             }
                         }
                         else
-                            error += $" {serial.Serial},";
+                            error += $" {engSerial},";
                     }
                 }
                 if (error != null)
@@ -279,7 +280,7 @@ namespace Pronets.VievModel.Repairs_f
                 {
                     int.TryParse(serial.Serial, out int documentId);
                     var repairs = RepairsRequest.v_FillList(documentId);
-                    if(repairs != null)
+                    if (repairs != null)
                     {
                         foreach (var repair in repairs)
                         {
@@ -523,29 +524,51 @@ namespace Pronets.VievModel.Repairs_f
             {
                 if (SelectedStatus.Status != null && SelectedCategory != null)
                 {
-                    var result = MessageBox.Show("Вы действительно хотите редактировать?", "Редактирование", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                    if (result == MessageBoxResult.Yes)
+                    if(IsAllHaveDefect())
                     {
-                        foreach (var repair in V_Repairs)
+                        var result = MessageBox.Show("Вы действительно хотите редактировать?", "Редактирование", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                        if (result == MessageBoxResult.Yes)
                         {
-                            Repairs editingRepair = RepairsRequest.GetRepair(repair.RepairId);
-                            editingRepair.Engineer = engineer.Id;
-                            editingRepair.Identifie_Fault = repair.Identifie_Fault;
-                            editingRepair.Work_Done = repair.Work_Done;
-                            editingRepair.Repair_Date = DateTime.Now.Date;
-                            editingRepair.Repair_Category = SelectedCategory != null ? SelectedCategory.Category : null;
-                            editingRepair.Status = SelectedStatus != null ? SelectedStatus.Status : "Готово";
+                            foreach (var repair in V_Repairs)
+                            {
+                                Repairs editingRepair = RepairsRequest.GetRepair(repair.RepairId);
+                                editingRepair.Engineer = engineer.Id;
+                                editingRepair.Identifie_Fault = repair.Identifie_Fault;
+                                editingRepair.Work_Done = repair.Work_Done;
+                                editingRepair.Repair_Date = DateTime.Now.Date;
+                                editingRepair.Repair_Category = SelectedCategory != null ? SelectedCategory.Category : null;
+                                editingRepair.Status = SelectedStatus != null ? SelectedStatus.Status : "Готово";
 
-                            RepairsRequest.EditItem(editingRepair);
-                            ReceiptDocumentRequest.SetStatus((int)repair.DocumentId, "В ремонте");
+                                RepairsRequest.EditItem(editingRepair);
+                                ReceiptDocumentRequest.SetStatus((int)repair.DocumentId, "В ремонте");
+                            }
+                            object e = null;
+                            AddToTable(e);
                         }
                     }
+                    else
+                        MessageBox.Show("Необходимо заполнить поля \"Неисправность\" и \"Проделанный ремонт\"", "Ошибка");
                 }
                 else
                     MessageBox.Show("Установите статус и категорию ремонта!", "Ошибка");
             }
-            object e = null;
-            AddToTable(e);
+           
+        }
+
+        private bool IsAllHaveDefect()
+        {
+            bool isAllHaveDefect = true;
+            if (V_Repairs != null)
+            {
+                foreach (var repair in V_Repairs)
+                {
+                    if(string.IsNullOrWhiteSpace(repair.Identifie_Fault) || string.IsNullOrWhiteSpace(repair.Work_Done))
+                    {
+                        isAllHaveDefect = false;
+                    }
+                }
+            }
+            return isAllHaveDefect;
         }
         #endregion
 

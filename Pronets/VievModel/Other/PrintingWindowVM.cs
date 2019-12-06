@@ -288,6 +288,7 @@ namespace Pronets.VievModel.Other
             }
         }
         #endregion
+
         #region ExportToExcelCommand
         private ICommand exportToExcelCommand;
         public ICommand ExportToExcelCommand

@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -14,7 +15,7 @@ using System.Windows.Input;
 
 namespace Pronets.VievModel.Other
 {
-    class FaultWindowVM : VievModelBase
+    public class FaultWindowVM : VievModelBase
     {
         #region Properties
         private ObservableCollection<Defects> defects = new ObservableCollection<Defects>();
@@ -352,6 +353,42 @@ namespace Pronets.VievModel.Other
                     Defect = string.Empty;
                     Work = string.Empty;
                     selectedDefect = null;
+                }
+            }
+        }
+        #endregion
+
+        #region Test search
+        private string _searchString;
+
+        public string SearchString
+        {
+            get { return _searchString; }
+            set
+            {
+                if (SetProperty(ref _searchString, value))
+                {
+
+                    PropertyInfo prop = typeof(Defects).GetProperty("Defect");
+                    if (prop != null)
+                    {
+                        if (
+                            Defects.Any(
+                                p =>
+                                    prop.GetValue(p)
+                                        .ToString()
+                                        .ToLower()
+                                        .Contains(_searchString.ToLower())))
+                        {
+                            SelectedDefect =
+                                Defects.First(
+                                    p =>
+                                        prop.GetValue(p)
+                                            .ToString()
+                                            .ToLower()
+                                            .Contains(_searchString.ToLower()));
+                        }
+                    }
                 }
             }
         }

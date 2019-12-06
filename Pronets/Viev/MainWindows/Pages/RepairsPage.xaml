@@ -33,8 +33,8 @@
                 HorizontalAlignment="Left"  Margin="180,5,0,5" RenderTransformOrigin="-1.503,0.609" Click="BtnSearch_Click" />
         <CheckBox x:Name="checkBox" Content="Искать с русскими символами" IsChecked="{Binding IsChecked}" HorizontalAlignment="Left" Margin="243,10,0,0"
                   VerticalAlignment="Top" Grid.ColumnSpan="2" Width="194"/>
-        <TextBlock Text="Выполнение операции" Visibility="{Binding TextVisibility}" Grid.Row="0" Grid.Column="1" Background="Lime" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="42,10,232,9"/>
-         <Menu Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right">
+        <TextBlock Text="Выполнение операции" Visibility="{Binding TextVisibility}" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="42,10,232,9" Background="Lime"/>
+        <Menu Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right">
             <MenuItem Header="Данные">
                 <MenuItem Header="Обновить данные страницы" Command="{Binding RefreshCommand}"></MenuItem>
             </MenuItem>
@@ -92,7 +92,7 @@
 
         <!--Row 2-->
         <Grid Grid.Row="2" Background="Gainsboro" Margin="5">
-            <TextBox Text="{Binding RepairsInfo}" IsReadOnly="True" TextWrapping="Wrap" FontSize="14" VerticalScrollBarVisibility="Visible"/>
+            <TextBox x:Name="tbxInfo" Text="{Binding RepairsInfo}" IsReadOnly="True" TextWrapping="Wrap" FontSize="14" VerticalScrollBarVisibility="Visible" BorderThickness="3" />
         </Grid>
 
         <Grid Grid.Row="2" Grid.Column="1" Margin="0,5,5,5" Background="Gainsboro">
@@ -132,7 +132,8 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-            <ComboBox  ItemsSource="{Binding Statuses, UpdateSourceTrigger=PropertyChanged}" SelectedValue="{Binding SelectedStatus, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Grid.Column="1" Grid.Row="5"  >
+            <ComboBox x:Name="cbxStatuses" ItemsSource="{Binding Statuses, UpdateSourceTrigger=PropertyChanged}" SelectedValue="{Binding SelectedStatus, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Grid.Column="1" Grid.Row="5" 
+                       SelectionChanged="CbxStatuses_SelectionChanged">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Status}"/>
@@ -142,7 +143,7 @@
             <Button x:Name="btOpenRepairsTable" Content="  Таблица ремонтов  " Click="BtOpenRepairsTable_Click" 
                     HorizontalAlignment="Left" Grid.Column="0" Grid.Row="6" Margin="5" />
 
-            <Button Grid.Column="1" Grid.Row="6" Command="{Binding EditCommand}" HorizontalAlignment="Right" Margin="5" Content="Записать" Width="85"/>
+            <Button x:Name="btnEdit" Grid.Column="1" Grid.Row="6" Command="{Binding EditCommand}" Click="BtnEdit_Click" HorizontalAlignment="Right" Margin="5" Content="Записать" Width="85"/>
         </Grid>
     </Grid>
 
