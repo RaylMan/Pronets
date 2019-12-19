@@ -99,6 +99,29 @@ namespace Pronets.EntityRequests.Other
                 }
             }
         }
+
+        public static void EditNomenclature(BaseFromExcel item)
+        {
+            if (item != null)
+            {
+                using (var db = ConnectionTools.GetConnection())
+                {
+                    try
+                    {
+                        BaseFromExcel result = db.BaseFromExcel.FirstOrDefault(r => r.Id == item.Id);
+                        if (result != null)
+                        {
+                            result.Name = item.Name;
+                            db.SaveChanges();
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(e.Message);
+                    }
+                }
+            }
+        }
     }
 }
 

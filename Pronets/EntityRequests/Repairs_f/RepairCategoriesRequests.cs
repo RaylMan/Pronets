@@ -15,12 +15,19 @@ namespace Pronets.EntityRequests.Repairs_f
         /// </summary>
         public static ObservableCollection<Repair_Categories> FillList()
         {
-            ObservableCollection<Repair_Categories> repair_Categories = null;
+            ObservableCollection<Repair_Categories> repair_Categories = new ObservableCollection<Repair_Categories>() ;
             using (var db = ConnectionTools.GetConnection())
             {
                 try
                 {
-                    repair_Categories = new ObservableCollection<Repair_Categories>(db.Repair_Categories.ToList());
+                    //repair_Categories = new ObservableCollection<Repair_Categories>(db.Repair_Categories.ToList());
+                    foreach (var category in db.Repair_Categories)
+                    {
+                        repair_Categories.Add(new Repair_Categories
+                        {
+                            Category = category.Category
+                        });
+                    }
                 }
                 catch (Exception e)
                 {

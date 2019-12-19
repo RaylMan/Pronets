@@ -60,6 +60,16 @@ namespace Pronets.VievModel.ConvertToSQL
                 RaisedPropertyChanged("Sheets");
             }
         }
+        private ObservableCollection<ReceiptDocument> receiptDocuments = new ObservableCollection<ReceiptDocument>();
+        public ObservableCollection<ReceiptDocument> ReceiptDocuments
+        {
+            get { return receiptDocuments; }
+            set
+            {
+                receiptDocuments = value;
+                RaisedPropertyChanged("ReceiptDocuments");
+            }
+        }
         private ObservableCollection<Clients> clients = new ObservableCollection<Clients>();
         public ObservableCollection<Clients> Clients
         {
@@ -99,7 +109,18 @@ namespace Pronets.VievModel.ConvertToSQL
             set
             {
                 selectedNomenclature = value;
+                SetNomenclatureInTable();
                 RaisedPropertyChanged("SelectedNomenclature");
+            }
+        }
+        private ReceiptDocument selectedDocument;
+        public ReceiptDocument SelectedDocument
+        {
+            get { return selectedDocument; }
+            set
+            {
+                selectedDocument = value;
+                RaisedPropertyChanged("SelectedDocument");
             }
         }
 
@@ -145,6 +166,27 @@ namespace Pronets.VievModel.ConvertToSQL
                 RaisedPropertyChanged("Path");
             }
         }
+        private string name;
+        public string Name
+        {
+            get { return name; }
+            set
+            {
+                name = value;
+                RaisedPropertyChanged("Name");
+            }
+        }
+
+        private bool isNewDocument;
+        public bool IsNewDocument
+        {
+            get { return isNewDocument; }
+            set
+            {
+                isNewDocument = value;
+                RaisedPropertyChanged("IsNewDocument");
+            }
+        }
         private bool allChecked;
         public bool AllChecked
         {
@@ -181,12 +223,11 @@ namespace Pronets.VievModel.ConvertToSQL
 
         public ConvertToSQLWindowVM()
         {
-            GetContent();
             _dispatcher = Dispatcher.CurrentDispatcher;
+            GetContent();
         }
 
         #region Methods  
-
         private void GetContent()
         {
             Clients.Clear();
@@ -196,7 +237,14 @@ namespace Pronets.VievModel.ConvertToSQL
             Clients = ClientsRequests.FillList();
             Nomenclature = NomenclatureRequest.FillList();
             Statuses = StatusesRequests.FillList();
-
+            GetReceiptDocuments();
+            isNewDocument = true;
+        }
+        private void GetReceiptDocuments()
+        {
+            ReceiptDocuments.Clear();
+            ReceiptDocuments = ReceiptDocumentRequest.FillList();
+            ReceiptDocuments = new ObservableCollection<ReceiptDocument>(ReceiptDocuments.OrderByDescending(i => i.DocumentId));
         }
         public void GetAllChecked()
         {
@@ -206,6 +254,24 @@ namespace Pronets.VievModel.ConvertToSQL
                 {
                     item.IsSelected = allChecked;
                 }
+            }
+        }
+
+        private void SetNomenclatureInTable()
+        {
+            if(SelectedNomenclature != null)
+            {
+                TextVisibility = Visibility.Visible;
+                foreach (var item in BaseFromExcel)
+                {
+                    if(item.IsSelected)
+                    {
+                        item.Name = SelectedNomenclature.Name;
+                        BaseFromExcelRequest.EditNomenclature(item);
+                    }
+                }
+                GetBaseFromExcel();
+                TextVisibility = Visibility.Hidden;
             }
         }
         private string SetStatus(string status)
@@ -223,20 +289,18 @@ namespace Pronets.VievModel.ConvertToSQL
                         }
                     }
                 }
-
             }
             return newStatus;
         }
         void GetBaseFromExcel()
         {
-            baseFromExcel.Clear();
+            BaseFromExcel.Clear();
             var repairs = BaseFromExcelRequest.FillList();
             if (repairs != null)
             {
                 foreach (var item in repairs)
                 {
                     _dispatcher.Invoke(new Action(() =>
-
                     {
                         BaseFromExcel.Add(item);
                     }));
@@ -375,8 +439,8 @@ namespace Pronets.VievModel.ConvertToSQL
                     BaseFromExcelRequest.AddToBase(item);//запись на строну sql
                 }
             }
-            catch (Exception) {}
-           
+            catch (Exception) { }
+
             TextVisibility = Visibility.Hidden;
         }
         #endregion
@@ -429,14 +493,68 @@ namespace Pronets.VievModel.ConvertToSQL
         {
             await Task.Run(() => SaveAtRepairs());
             GetBaseFromExcel();
-            MessageBox.Show("Успешная запись!", "Запись");
+            GetReceiptDocuments();
         }
+        private bool IsSameNomenclature(string nomenclatureFromXlsx)
+        {
+            bool isSame = false;
+            if (Nomenclature != null)
+            {
+                if (!string.IsNullOrWhiteSpace(nomenclatureFromXlsx))
+                {
+                    var nomenclature = Nomenclature.FirstOrDefault(n => n.Name == nomenclatureFromXlsx);
+                    if (nomenclature != null)
+                    {
+                        isSame = true;
+                    }
+                }
+            }
+            return isSame;
+        }
+        private int GetDocumentId()
+        {
+            int documentId = 0;
+
+            if (IsNewDocument)
+            {
+                ReceiptDocument newReceiptDocument = new ReceiptDocument
+                {
+                    ClientId = selectedClient.ClientId,
+                    InspectorId = Properties.Settings.Default.DefaultUserId,
+                    Date = DateTime.Now,
+                    Status = SelectedStatus.Status
+                };
+                ReceiptDocumentRequest.AddToBase(newReceiptDocument);
+                documentId = ReceiptDocumentRequest.GetDocumentID();
+            }
+            else
+            {
+                if (selectedDocument != null)
+                {
+                    documentId = SelectedDocument.DocumentId;
+                }
+            }
+            return documentId;
+        }
+
+        private string SetRepairStatus(string itemStatus)
+        {
+            string statusString = "Принято";
+            if (itemStatus != null && Statuses != null)
+            {
+                var status = Statuses.FirstOrDefault(s => s.Status == itemStatus);
+                if (status != null)
+                    statusString = status.Status;
+            }
+            return statusString;
+        }
+
         public void SaveAtRepairs(/*object Parameter*/)
         {
-
+            string error = null;
             if (selectedClient != null && selectedStatus != null)
             {
-                
+                int documentID = GetDocumentId();
                 DateTime defaultDate = new DateTime(2017, 1, 1);
                 var result = MessageBox.Show("Вы действительно хотете записать в базу?\nПроверьте правильность данных!", "Создание экземпляра", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
@@ -451,45 +569,47 @@ namespace Pronets.VievModel.ConvertToSQL
                     if (count > 0)
                     {
                         var defaultEngineer = UsersRequest.GetEngineer("Не выбран");
-                        ReceiptDocument newReceiptDocument = new ReceiptDocument
-                        {
-                            ClientId = selectedClient.ClientId,
-                            InspectorId = Properties.Settings.Default.DefaultUserId,
-                            Date = DateTime.Now,
-                            Status = SelectedStatus.Status
-                        };
-                        ReceiptDocumentRequest.AddToBase(newReceiptDocument);
-                        int documentId = ReceiptDocumentRequest.GetDocumentID();
+
                         foreach (var item in BaseFromExcel)
                         {
-                            var engineer = UsersRequest.GetEngineer(item.Engineer.Split(' ').First()) ?? defaultEngineer;
-                            _dispatcher.Invoke(new Action(() =>
+                            if (IsSameNomenclature(item.Name))
                             {
-                                if (item.IsSelected)
+                                var engineer = UsersRequest.GetEngineer(item.Engineer.Split(' ').First()) ?? defaultEngineer;
+                                _dispatcher.Invoke(new Action(() =>
                                 {
-                                    var repair = new Repairs
+                                    if (item.IsSelected)
                                     {
-                                        DocumentId = documentId,
-                                        Nomenclature = selectedNomenclature != null ? selectedNomenclature.Name : "Отсутствует",
-                                        Serial_Number = item.SerialNumber,
-                                        Claimed_Malfunction = item.Claimed_Malfunction,
-                                        Client = SelectedClient.ClientId,
-                                        Status = item.Status,
-                                        Date_Of_Receipt = item.DateOfReceipt > defaultDate ? item.DateOfReceipt : defaultDate,
-                                        Engineer = engineer.Id,
-                                        Inspector = Properties.Settings.Default.DefaultUserId,
-                                        Warranty = item.Warranty,
-                                        Identifie_Fault = item.IdentifyFault,
-                                        Work_Done = item.WorkDone,
-                                        Repair_Date = item.Date > defaultDate ? item.DateOfReceipt : defaultDate
-                                    };
-                                    RepairsRequest.AddToBase(repair);
-                                    BaseFromExcelRequest.RemoveFromBase(item);
-                                }
-                            }));
+                                        var repair = new Repairs
+                                        {
+                                            DocumentId = documentID,
+                                            Nomenclature = item.Name,
+                                            Serial_Number = item.SerialNumber,
+                                            Claimed_Malfunction = item.Claimed_Malfunction,
+                                            Client = SelectedClient.ClientId,
+                                            Status = SetRepairStatus(item.Status),
+                                            Date_Of_Receipt = item.DateOfReceipt > defaultDate ? item.DateOfReceipt : defaultDate,
+                                            Engineer = engineer.Id,
+                                            Inspector = Properties.Settings.Default.DefaultUserId,
+                                            Warranty = item.Warranty,
+                                            Identifie_Fault = item.IdentifyFault,
+                                            Work_Done = item.WorkDone,
+                                            Repair_Date = item.Date > defaultDate ? item.DateOfReceipt : defaultDate
+                                        };
+                                        RepairsRequest.AddToBase(repair);
+                                        BaseFromExcelRequest.RemoveFromBase(item);
+                                    }
+                                }));
+                            }
+                            else
+                                error += $" {item.SerialNumber},";
                         }
                     }
                 }
+                if (error != null)
+                {
+                    MessageBox.Show($"Нет соответствующих номенклатур:{error.Remove(error.Length - 1)}", "Ошибка");
+                }
+                MessageBox.Show("Успешная запись!", "Запись");
             }
             else
                 MessageBox.Show("Выберите клиента, номенклатуру, статус!", "Ошибка");

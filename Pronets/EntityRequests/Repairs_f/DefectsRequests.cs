@@ -95,6 +95,7 @@ namespace Pronets.EntityRequests.Repairs_f
                         var defectFrombase = db.Defects.Where(d => d.Id == defect.Id).FirstOrDefault();
                         defectFrombase.Defect = defect.Defect;
                         defectFrombase.Work = defect.Work;
+                        defectFrombase.Repair_Category = defect.Repair_Category;
                         db.SaveChanges();
                     }
                 }

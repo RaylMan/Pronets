@@ -23,9 +23,19 @@
         <Button Content="  Добавить  " Command="{Binding AddCommand}" HorizontalAlignment="Left" Margin="513,22,0,0" VerticalAlignment="Top" Width="74"/>
         <Button Content="  Изменить  " Command="{Binding EditCommand}" HorizontalAlignment="Left" Margin="513,48,0,0" VerticalAlignment="Top" Width="74"/>
         <Button Content="  Удалить  " Command="{Binding DeleteCommand}" HorizontalAlignment="Left" Margin="513,75,0,0" VerticalAlignment="Top" Width="74"/>
-        <Label Content="Поиск" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0,0,0,4" RenderTransformOrigin="0.307,1.538"/>
+        <Label Content="Поиск" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0,0,0,4"/>
         <TextBox x:Name="tbxSearch" Text="{Binding SearchString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="44,0,0,5" Width="209"
                  ToolTip="Search" TextWrapping="Wrap" KeyDown="TbxSearch_KeyDown"/>
+        <Label Content="Категория" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="260,0,0,4"/>
+        <ComboBox x:Name="cbxCategories" ItemsSource="{Binding Repair_Categories}" SelectedValue="{Binding SelectedCategory, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Grid.Row="0" 
+                  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="325,98,0,0" Width="183">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Category}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
         <!--Row 1-->
 
         <DataGrid x:Name="workDatagrid" Grid.Row="1" ItemsSource="{Binding Defects}" SelectedValue="{Binding SelectedDefect}" SelectedIndex="{Binding SelectedDefectIndex}"

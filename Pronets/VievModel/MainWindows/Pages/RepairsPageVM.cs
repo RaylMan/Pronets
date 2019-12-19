@@ -338,7 +338,7 @@ namespace Pronets.VievModel.MainWindows.Pages
         {
             TextVisibility = Visibility.Visible;
             V_Repairs.Clear();
-           
+
             if (!string.IsNullOrWhiteSpace(buffer))
             {
                 V_Repairs.Clear();
@@ -350,7 +350,7 @@ namespace Pronets.VievModel.MainWindows.Pages
                     {
                         foreach (var repair in repairs)
                         {
-                                V_Repairs.Add(repair);
+                            V_Repairs.Add(repair);
                         }
                         if (V_Repairs.Count > 0)
                             SelectedIndex = 0;
@@ -376,20 +376,19 @@ namespace Pronets.VievModel.MainWindows.Pages
                $"Наименование: {selectedRepair.Nomenclature}\n" +
                $"Серийный номер: {selectedRepair.Serial_Number}\n" +
                $"Клиент: {selectedRepair.Client_Name}\n" +
+               $"Гарантия: {selectedRepair.Warranty}\n" +
                $"Заявленная неисправность: {selectedRepair.Claimed_Malfunction}\n" +
                $"Выявленная неисправность: {selectedRepair.Identifie_Fault}\n" +
                $"Проделанная работа: {selectedRepair.Work_Done}\n" +
                $"Заметка: {selectedRepair.Note}\n" +
-               $"Дата приемки: {selectedRepair.Date_Of_Receipt}\n" +
-               $"Приемщик: {selectedRepair.Inspector}\n" +
-               $"Получатель: {selectedRepair.Recipient}\n" +
-               $"Дата отправки: {selectedRepair.Departure_Date}\n" +
-               $"Гарантия: {selectedRepair.Warranty}\n" +
                $"Инженер: {selectedRepair.Engineer}\n" +
                $"Дата ремонта: {selectedRepair.Repair_Date}\n" +
                $"Категория ремонта: {selectedRepair.Repair_Category}\n" +
-               $"Статус ремонта: {selectedRepair.Status}";
-
+               $"Статус ремонта: {selectedRepair.Status}\n" +
+               $"Приемщик: {selectedRepair.Inspector}\n" +
+               $"Дата приемки: {selectedRepair.Date_Of_Receipt}\n" +
+               $"Получатель: {selectedRepair.Recipient}\n" +
+               $"Дата отправки: {selectedRepair.Departure_Date}\n";
         }
         //Устанавливает значение по умолчанию Combobox "статус документа" в соответствии с БД
         public void GetStatus()
@@ -487,6 +486,6 @@ namespace Pronets.VievModel.MainWindows.Pages
             }
         }
         #endregion
-    }
 
+    }
 }

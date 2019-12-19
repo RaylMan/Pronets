@@ -43,6 +43,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Defect" Type="nvarchar" MaxLength="200" />
           <Property Name="Work" Type="nvarchar" MaxLength="200" />
+          <Property Name="Repair_Category" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Engineers">
           <Key>
@@ -537,6 +538,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Defect" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="Work" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Repair_Category" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Engineers">
           <Key>
@@ -1031,6 +1033,7 @@
           <EntitySetMapping Name="Defects">
             <EntityTypeMapping TypeName="PronetsDBModel.Defects">
               <MappingFragment StoreEntitySet="Defects">
+                <ScalarProperty Name="Repair_Category" ColumnName="Repair_Category" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Defect" ColumnName="Defect" />
                 <ScalarProperty Name="Work" ColumnName="Work" />

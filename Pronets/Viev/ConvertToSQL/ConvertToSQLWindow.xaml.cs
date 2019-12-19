@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using Pronets.Data;
 using Pronets.Navigation;
 using Pronets.VievModel.ConvertToSQL;
 using System;
@@ -91,6 +92,43 @@ namespace Pronets.Viev.ConvertToSQL
             OpenFileDialog fileDialog = new OpenFileDialog();
             fileDialog.ShowDialog();
             tbxPath.Text = fileDialog.FileName;
+        }
+
+        private void CmbDocuments_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            cbxIsNewDocument.IsChecked = false;
+        }
+
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            cmbDocuments.SelectedItem = null;
+            cbxIsNewDocument.IsChecked = true;
+        }
+        private void CmbNoemclature_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            //var row = GetDataGridRows(baseFromExcel);
+            //foreach (DataGridRow r in row)
+            //{
+            //    try
+            //    {
+            //        FrameworkElement elmchbx = baseFromExcel.Columns[0].GetCellContent(r);
+            //        FrameworkElement elmtbx = baseFromExcel.Columns[1].GetCellContent(r);
+            //        CheckBox checkBox = ItemTemplateFind.FindChild<CheckBox>(elmchbx, "chkbx");
+            //        TextBlock tbx = ItemTemplateFind.FindChild<TextBlock>(elmtbx, "textBlock");
+                   
+                    
+            //        if (checkBox.IsChecked == true)
+            //        {
+            //            Nomenclature nom = (Nomenclature)cmbNoemclature.SelectedItem;
+            //            if(nom != null)
+            //            tbx.Text = nom.Name;
+            //        }
+            //    }
+            //    catch (System.ArgumentNullException)
+            //    {
+
+            //    }
+            //}
         }
     }
 }

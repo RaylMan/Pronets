@@ -17,5 +17,6 @@ namespace Pronets.Data
         public int Id { get; set; }
         public string Defect { get; set; }
         public string Work { get; set; }
+        public string Repair_Category { get; set; }
     }
 }
