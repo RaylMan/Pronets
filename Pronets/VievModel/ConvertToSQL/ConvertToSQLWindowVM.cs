@@ -369,17 +369,25 @@ namespace Pronets.VievModel.ConvertToSQL
         {
             if (!string.IsNullOrWhiteSpace(path))
             {
-                using (SpreadsheetDocument spreadSheetDocument = SpreadsheetDocument.Open(path, false))
+                try
                 {
-                    WorkbookPart workbookPart = spreadSheetDocument.WorkbookPart;
-                    IEnumerable<Sheet> sheetsXls = spreadSheetDocument.WorkbookPart.Workbook.GetFirstChild<Sheets>().Elements<Sheet>();
-                    List<SheetsId> listSheets = new List<SheetsId>();
-
-                    foreach (var sheet in sheetsXls)
+                    using (SpreadsheetDocument spreadSheetDocument = SpreadsheetDocument.Open(path, false))
                     {
-                        Sheets.Add(new SheetsId() { SheetID = sheet.Id, SheetName = sheet.Name });
+                        WorkbookPart workbookPart = spreadSheetDocument.WorkbookPart;
+                        IEnumerable<Sheet> sheetsXls = spreadSheetDocument.WorkbookPart.Workbook.GetFirstChild<Sheets>().Elements<Sheet>();
+                        List<SheetsId> listSheets = new List<SheetsId>();
+
+                        foreach (var sheet in sheetsXls)
+                        {
+                            Sheets.Add(new SheetsId() { SheetID = sheet.Id, SheetName = sheet.Name });
+                        }
                     }
                 }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
+               
             }
         }
         #endregion

@@ -9,14 +9,12 @@ namespace Pronets.EntityRequests.Nomenclature_f
 {
     class NomenclatureRequest
     {
-        //private static ObservableCollection<Nomenclature> nomenclatures = new ObservableCollection<Nomenclature>();
-
         /// <summary>
         /// <para>Возращает коллекцию Nomenclature</para>
         /// </summary>
         public static ObservableCollection<Nomenclature> FillList()
         {
-            ObservableCollection<Nomenclature> nomenclatures = null;
+            ObservableCollection<Nomenclature> nomenclatures = new ObservableCollection<Nomenclature>(); ;
             using (var db = ConnectionTools.GetConnection())
             {
                 try

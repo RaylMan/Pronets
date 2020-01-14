@@ -11,10 +11,6 @@ namespace Pronets.EntityRequests.Clients_f
 {
     public static class ClientsRequests
     {
-        private static ObservableCollection<Clients> clients = new ObservableCollection<Clients>();
-        private static ObservableCollection<Clients> searchClients = new ObservableCollection<Clients>();
-        private static Clients client;
-
         /// <summary>
         /// <para>Возвращает коллекцию Clients</para>
         /// </summary>
@@ -40,6 +36,7 @@ namespace Pronets.EntityRequests.Clients_f
         /// </summary>
         public static Clients GetClient(int? id)
         {
+            Clients client = new Clients();
             using (var db = ConnectionTools.GetConnection())
             {
                 try
@@ -144,7 +141,7 @@ namespace Pronets.EntityRequests.Clients_f
                         }
                         MessageBox.Show(error, "Ошибка");
                     }
-                    catch(Exception e)
+                    catch (Exception e)
                     {
                         MessageBox.Show(e.Message, "Ошибка");
                     }
@@ -157,6 +154,7 @@ namespace Pronets.EntityRequests.Clients_f
         /// </summary>
         public static ObservableCollection<Clients> SearchItem(string word)
         {
+            ObservableCollection<Clients> searchClients = new ObservableCollection<Clients>();
             using (var db = ConnectionTools.GetConnection())
             {
                 try
@@ -183,6 +181,7 @@ namespace Pronets.EntityRequests.Clients_f
         /// </summary>
         public static Clients GetPronetsClient()
         {
+            Clients client = new Clients();
             using (var db = ConnectionTools.GetConnection())
             {
                 try
@@ -193,7 +192,6 @@ namespace Pronets.EntityRequests.Clients_f
                 {
                     MessageBox.Show(e.Message, "Ошибка");
                 }
-                
             }
             return client;
         }

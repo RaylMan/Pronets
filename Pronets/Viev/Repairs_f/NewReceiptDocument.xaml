@@ -53,7 +53,7 @@
 
         <DataGrid x:Name="repairsGrid"  ItemsSource="{Binding Repairs, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" FrozenColumnCount="4" SelectedIndex="{Binding SelectedIndex}"
                   Grid.Row="3" Margin="5"  AutoGenerateColumns="False" CanUserAddRows="True" CanUserDeleteRows="True"
-                  RowDetailsVisibilityMode="VisibleWhenSelected"  SelectionMode="Extended" >
+                  RowDetailsVisibilityMode="VisibleWhenSelected"  SelectionMode="Extended"  >
             <DataGrid.Resources>
                 <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="White" />
                 <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#0078D7"/>
@@ -64,7 +64,7 @@
                 </ContextMenu>
             </DataGrid.ContextMenu>
             <DataGrid.Columns >
-                <DataGridTemplateColumn>
+                <DataGridTemplateColumn CanUserSort="False">
                     <DataGridTemplateColumn.Header>
                         <CheckBox x:Name="allChecked" Checked="AllChecked_Checked" Unchecked="AllChecked_Unchecked"  VerticalAlignment="Center" HorizontalAlignment="Center" />
                     </DataGridTemplateColumn.Header>
@@ -76,7 +76,7 @@
                 </DataGridTemplateColumn>
 
 
-                <DataGridTemplateColumn  x:Name="cbxNomenclatureOfRepair" Header="Номенклатура">
+                <DataGridTemplateColumn  x:Name="cbxNomenclatureOfRepair" Header="Номенклатура" CanUserSort="False">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <ComboBox x:Name="cbxGridNom" ItemsSource="{Binding  Path=DataContext.Nomenclatures, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" 
@@ -90,7 +90,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTextColumn Header="Серийный номер" Width="160" Binding="{Binding Path=Serial_Number, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" >
+                <DataGridTextColumn Header="Серийный номер" Width="160" Binding="{Binding Path=Serial_Number, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" CanUserSort="False" >
                     <DataGridTextColumn.EditingElementStyle>
                         <Style TargetType="{x:Type TextBox}">
                             <Setter Property="MaxLength" Value="50"/>
@@ -99,7 +99,7 @@
                     </DataGridTextColumn.EditingElementStyle>
                 </DataGridTextColumn>
 
-                <DataGridTemplateColumn  Header="Гарантия">
+                <DataGridTemplateColumn  Header="Гарантия" CanUserSort="False">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <ComboBox x:Name="cbxGridWar" ItemsSource="{Binding Path=DataContext.Warrantys, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" 
@@ -113,7 +113,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTextColumn Header="Заявленная неисправность" Binding="{Binding Path=Claimed_Malfunction, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="*"   >
+                <DataGridTextColumn Header="Заявленная неисправность" Binding="{Binding Path=Claimed_Malfunction, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="*" CanUserSort="False"  >
                     <DataGridTextColumn.EditingElementStyle>
                         <Style TargetType="{x:Type TextBox}">
                             <Setter Property="MaxLength" Value="200"/>

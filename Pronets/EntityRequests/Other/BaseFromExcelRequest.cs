@@ -11,14 +11,12 @@ namespace Pronets.EntityRequests.Other
 {
     public static class BaseFromExcelRequest
     {
-        private static ObservableCollection<BaseFromExcel> baseFromExcel = new ObservableCollection<BaseFromExcel>();
-
         /// <summary>
         /// <para>Возвращает колекцию BaseFromExcel</para>
         /// </summary>
         public static ObservableCollection<BaseFromExcel> FillList()
         {
-
+            ObservableCollection<BaseFromExcel> baseFromExcel = new ObservableCollection<BaseFromExcel>();
             using (var db = ConnectionTools.GetConnection())
             {
                 try
@@ -87,7 +85,6 @@ namespace Pronets.EntityRequests.Other
             ex = false;
             using (var db = ConnectionTools.GetConnection())
             {
-
                 try
                 {
                     db.Database.ExecuteSqlCommand("TRUNCATE TABLE [BaseFromExcel]");

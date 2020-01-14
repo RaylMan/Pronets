@@ -410,7 +410,7 @@ namespace Pronets.VievModel.Repairs_f
                         for (int i = 0; i < repairs.Count; i++)
                         {
                             nm = repairs[i].Nomenclature1 != null ? repairs[i].Nomenclature1.Name : "Отсутствует";
-                            wt = repairs[i].Warrantys != null ? repairs[i].Warrantys.Warranty : "нет";
+                            wt = repairs[i].Warrantys != null ? repairs[i].Warrantys.Warranty : "Нет";
 
                             repairs[i].DocumentId = DocumentId;
                             repairs[i].Nomenclature = nm;
@@ -454,7 +454,7 @@ namespace Pronets.VievModel.Repairs_f
                         for (int i = 0; i < repairs.Count; i++)
                         {
                             nm = repairs[i].Nomenclature1 != null ? repairs[i].Nomenclature1.Name : "Отсутствует";
-                            wt = repairs[i].Warrantys != null ? repairs[i].Warrantys.Warranty : "нет";
+                            wt = repairs[i].Warrantys != null ? repairs[i].Warrantys.Warranty : "Нет";
 
                             repairs[i].DocumentId = DocumentId;
                             repairs[i].Nomenclature = nm;

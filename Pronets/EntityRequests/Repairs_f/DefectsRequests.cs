@@ -11,14 +11,12 @@ namespace Pronets.EntityRequests.Repairs_f
 {
     public static class DefectsRequests
     {
-        //private static ObservableCollection<Defects> defects = new ObservableCollection<Defects>();
-
         /// <summary>
         /// <para>Возращает коллекцию Defects</para>
         /// </summary>
         public static ObservableCollection<Defects> FillList()
         {
-            ObservableCollection<Defects> defects = null;
+            ObservableCollection<Defects> defects = new ObservableCollection<Defects>();
             using (var db = ConnectionTools.GetConnection())
             {
                 try
@@ -67,17 +65,9 @@ namespace Pronets.EntityRequests.Repairs_f
             {
                 if (defect != null)
                 {
-
                     db.Defects.Attach(defect);
                     db.Defects.Remove(defect);
                     db.SaveChanges();
-
-
-                    //catch (Exception e)
-                    //{
-                    //    MessageBox.Show(e.Message, "Ошибка");
-                    //    isExeption = false;
-                    //}
                 }
             }
         }

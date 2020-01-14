@@ -11,14 +11,12 @@ namespace Pronets.EntityRequests.Other
 {
     public static class PartsOrderRequest
     {
-        private static ObservableCollection<PartsOrder> partsOrder = new ObservableCollection<PartsOrder>();
-
         /// <summary>
         /// <para>Возращает коллекцию PartsOrder</para>
         /// </summary>
         public static ObservableCollection<PartsOrder> FillList()
         {
-            ObservableCollection<PartsOrder> partsOrder = null;
+            ObservableCollection<PartsOrder> partsOrder = new ObservableCollection<PartsOrder>();
             using (var db = ConnectionTools.GetConnection())
             {
                 try
@@ -38,7 +36,7 @@ namespace Pronets.EntityRequests.Other
         /// </summary>
         public static ObservableCollection<PartsOrder> FillList(int documentId)
         {
-            ObservableCollection<PartsOrder> partsOrder = null;
+            ObservableCollection<PartsOrder> partsOrder = new ObservableCollection<PartsOrder>();
             using (var db = ConnectionTools.GetConnection())
             {
                 try

@@ -21,8 +21,8 @@
                     <MenuItem Header="Удалить" Command="{Binding RemoveSerialCommand}" CommandParameter="{Binding SelectedSerialIndex}" />
                 </ContextMenu>
             </DataGrid.ContextMenu>
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Серийный номер" Binding="{Binding Serial}" Width="*"/>
+            <DataGrid.Columns >
+                <DataGridTextColumn Header="Серийный номер" Binding="{Binding Serial}" Width="*" CanUserSort="False"/>
             </DataGrid.Columns>
         </DataGrid>
         <TextBlock Text="{Binding SerialsCount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Bottom" HorizontalAlignment="Left"  Margin="5,0,0,55"/>

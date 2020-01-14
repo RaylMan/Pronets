@@ -8,8 +8,6 @@ namespace Pronets.EntityRequests.Repairs_f
 {
     public static class RepairCategoriesRequests
     {
-        private static ObservableCollection<Repair_Categories> repair_Categories = new ObservableCollection<Repair_Categories>();
-
         /// <summary>
         /// <para>Возращает коллекцию Repair_Categories</para>
         /// </summary>
@@ -33,7 +31,6 @@ namespace Pronets.EntityRequests.Repairs_f
                 {
                     MessageBox.Show(e.Message, "Ошибка");
                 }
-
             }
             return repair_Categories;
         }
