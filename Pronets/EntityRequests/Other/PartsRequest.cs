@@ -12,16 +12,12 @@ namespace Pronets.EntityRequests.Other
 {
     public static class PartsRequest
     {
-
-        //private static ObservableCollection<Parts> parts = new ObservableCollection<Parts>();
-
-
         /// <summary>
         /// <para>Возращает коллекцию Parts</para>
         /// </summary>
         public static ObservableCollection<Parts> FillList()
         {
-            ObservableCollection<Parts> parts = null;
+            ObservableCollection<Parts> parts = new ObservableCollection<Parts>();
             using (var db = ConnectionTools.GetConnection())
             {
                 try
@@ -32,7 +28,6 @@ namespace Pronets.EntityRequests.Other
                 {
                     MessageBox.Show(e.Message, "Ошибка");
                 }
-
             }
             return parts;
         }

@@ -8,14 +8,12 @@ namespace Pronets.EntityRequests
 {
     public static class StatusesRequests
     {
-       // private static ObservableCollection<Statuses> statuses = new ObservableCollection<Statuses>();
-
         /// <summary>
-        /// <para>Возращает коллекцию Statuses</para>
+        /// <para>Возращает коллекцию Statuses, где статус "Готово" будет последняя в списке</para>
         /// </summary>
         public static ObservableCollection<Statuses> FillList()
         {
-            ObservableCollection<Statuses> statuses = null;
+            ObservableCollection<Statuses> statuses = new ObservableCollection<Statuses>();
             using (var db = ConnectionTools.GetConnection())
             {
                 try

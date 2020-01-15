@@ -21,8 +21,8 @@
                     <MenuItem Header="Удалить" Command="{Binding RemoveSerialCommand}" CommandParameter="{Binding SelectedSerialIndex}" />
                 </ContextMenu>
             </DataGrid.ContextMenu>
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Серийный номер" Binding="{Binding Serial}" Width="*"/>
+            <DataGrid.Columns >
+                <DataGridTextColumn Header="Серийный номер" Binding="{Binding Serial}" Width="*" CanUserSort="False"/>
             </DataGrid.Columns>
         </DataGrid>
         <TextBlock Text="{Binding SerialsCount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Bottom" HorizontalAlignment="Left"  Margin="5,0,0,55"/>
@@ -49,7 +49,7 @@
             </ComboBox.ItemTemplate>
         </ComboBox>
         <Label Content="Категория ремонта" Grid.Column="1"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="201,60,0,0" RenderTransformOrigin="0.537,0.526"/>
-        <ComboBox  ItemsSource="{Binding Repair_Categories, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" HorizontalAlignment="Left"
+        <ComboBox x:Name="cbxCategories"  ItemsSource="{Binding Repair_Categories, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" HorizontalAlignment="Left"
                    SelectedValue="{Binding SelectedCategory, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Grid.Column="1" Margin="201,81,0,0" Width="191"   >
             <ComboBox.ItemTemplate>
                 <DataTemplate>

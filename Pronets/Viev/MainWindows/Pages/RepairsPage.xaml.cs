@@ -1,5 +1,6 @@
 ﻿using Pronets.Data;
 using Pronets.EntityRequests.Other;
+using Pronets.EntityRequests.Repairs_f;
 using Pronets.EntityRequests.Users_f;
 using Pronets.Viev.Other;
 using Pronets.Viev.Repairs_f;
@@ -80,6 +81,7 @@ namespace Pronets.Viev.MainWindows.Pages
             LinearGradientBrush gradientRed = new LinearGradientBrush(Color.FromRgb(250, 160, 160), Color.FromRgb(255, 99, 71), new Point(0.5, 0), new Point(0.5, 1));
             LinearGradientBrush gradientYellow = new LinearGradientBrush(Color.FromRgb(240, 240, 240), Color.FromRgb(249, 241, 76), new Point(0.5, 0), new Point(0.5, 1));
             LinearGradientBrush gradientGrey = new LinearGradientBrush(Color.FromRgb(237, 237, 237), Color.FromRgb(112, 112, 112), new Point(0.5, 0), new Point(0.5, 1));
+            LinearGradientBrush gradientDefault = new LinearGradientBrush(Color.FromRgb(243, 243, 243), Color.FromRgb(205, 205, 205), new Point(0.5, 0), new Point(0.5, 1));
 
             if (cbxStatuses.SelectedItem != null)
             {
@@ -133,8 +135,8 @@ namespace Pronets.Viev.MainWindows.Pages
                             tbxInfo.BorderBrush = gradientRed;
                             break;
                         default:
-                            cbxStatuses.Background = default;
-                            tbxInfo.BorderBrush = default;
+                            cbxStatuses.Background = gradientDefault;
+                            tbxInfo.BorderBrush = gradientDefault;
                             break;
                     }
                 }

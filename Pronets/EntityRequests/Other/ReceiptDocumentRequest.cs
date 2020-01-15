@@ -9,18 +9,13 @@ namespace Pronets.EntityRequests.Other
 {
     class ReceiptDocumentRequest
     {
-        ReceiptDocument document;
-        //private static ObservableCollection<ReceiptDocument> receiptDocuments = new ObservableCollection<ReceiptDocument>();
-        //private static ObservableCollection<v_Receipt_Document> v_ReceiptDocuments = new ObservableCollection<v_Receipt_Document>();
-
         #region FillLists
-
         /// <summary>
         /// <para>Возращает коллекцию ReceiptDocument</para>
         /// </summary>
         public static ObservableCollection<ReceiptDocument> FillList()
         {
-            ObservableCollection<ReceiptDocument> receiptDocuments = null;
+            ObservableCollection<ReceiptDocument> receiptDocuments = new ObservableCollection<ReceiptDocument>();
             using (var db = ConnectionTools.GetConnection())
             {
                 try
@@ -40,7 +35,7 @@ namespace Pronets.EntityRequests.Other
         /// </summary>
         public static ObservableCollection<ReceiptDocument> FillListClient(int clientId)
         {
-            ObservableCollection<ReceiptDocument> receiptDocuments = null;
+            ObservableCollection<ReceiptDocument> receiptDocuments = new ObservableCollection<ReceiptDocument>();
             using (var db = ConnectionTools.GetConnection())
             {
                 try
@@ -63,7 +58,7 @@ namespace Pronets.EntityRequests.Other
         /// </summary>
         public static ObservableCollection<ReceiptDocument> FillListWithStatus(string status)
         {
-            ObservableCollection<ReceiptDocument> receiptDocuments = null;
+            ObservableCollection<ReceiptDocument> receiptDocuments = new ObservableCollection<ReceiptDocument>();
             using (var db = ConnectionTools.GetConnection())
             {
                 try

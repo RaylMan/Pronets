@@ -8,20 +8,12 @@ namespace Pronets.EntityRequests.Users_f
 {
     public static class UsersRequest
     {
-        private static Users loginUser = new Users();
-        //private static ObservableCollection<Users> users = new ObservableCollection<Users>();
-        //private static ObservableCollection<Engineers> engineers = new ObservableCollection<Engineers>();
-        //private static ObservableCollection<Users> searchUsers = new ObservableCollection<Users>();
-        //private static ObservableCollection<Positions> positions = new ObservableCollection<Positions>();
-        private static Users user;
-        private static Engineers engineer;
-
         /// <summary>
         /// <para>Возращает коллекцию Users</para>
         /// </summary>
         public static ObservableCollection<Users> FillList()
         {
-            ObservableCollection<Users> allUsers = null;
+            ObservableCollection<Users> allUsers = new ObservableCollection<Users>();
             using (var db = ConnectionTools.GetConnection())
             {
                 try
@@ -42,7 +34,7 @@ namespace Pronets.EntityRequests.Users_f
         /// </summary>
         public static ObservableCollection<Engineers> FillListEngineers()
         {
-            ObservableCollection<Engineers> engineers = null;
+            ObservableCollection<Engineers> engineers = new ObservableCollection<Engineers>();
             using (var db = ConnectionTools.GetConnection())
             {
                 try
@@ -66,6 +58,7 @@ namespace Pronets.EntityRequests.Users_f
         /// </summary>
         public static Users GetUser(int? id)
         {
+            Users user = new Users();
             using (var db = ConnectionTools.GetConnection())
             {
                 try
@@ -85,6 +78,7 @@ namespace Pronets.EntityRequests.Users_f
         /// </summary>
         public static Engineers GetEngineer(int? id)
         {
+            Engineers engineer = new Engineers();
             using (var db = ConnectionTools.GetConnection())
             {
                 try
@@ -104,6 +98,7 @@ namespace Pronets.EntityRequests.Users_f
         /// </summary>
         public static Engineers GetEngineer(string lastName)
         {
+            Engineers engineer = new Engineers();
             using (var db = ConnectionTools.GetConnection())
             {
                 try
@@ -122,7 +117,7 @@ namespace Pronets.EntityRequests.Users_f
         /// </summary>
         public static ObservableCollection<Positions> FillPosoitions()
         {
-            ObservableCollection<Positions> positions = null;
+            ObservableCollection<Positions> positions = new ObservableCollection<Positions>();
             using (var db = ConnectionTools.GetConnection())
             {
                 try
@@ -176,9 +171,7 @@ namespace Pronets.EntityRequests.Users_f
                     {
                         MessageBox.Show(ex.Message, "Ошибка");
                     }
-
                 }
-
             }
         }
 
@@ -278,6 +271,7 @@ namespace Pronets.EntityRequests.Users_f
         /// </summary>
         public static void EditEngineer(Engineers eng)
         {
+            Engineers engineer = new Engineers();
             using (var db = ConnectionTools.GetConnection())
             {
                 try
@@ -299,7 +293,7 @@ namespace Pronets.EntityRequests.Users_f
         /// </summary>
         public static ObservableCollection<Users> SearchItem(string word)
         {
-            ObservableCollection<Users> searchUsers = null;
+            ObservableCollection<Users> searchUsers = new ObservableCollection<Users>();
             using (var db = ConnectionTools.GetConnection())
             {
                 try
@@ -328,6 +322,7 @@ namespace Pronets.EntityRequests.Users_f
         /// </summary>
         public static Users Login(string login, string password, out bool ex)
         {
+            Users loginUser = new Users();
             ex = true;
             using (var db = ConnectionTools.GetConnection())
             {

@@ -9,14 +9,12 @@ namespace Pronets.EntityRequests.Nomenclature_f
 {
     class NomenclatureRequest
     {
-        //private static ObservableCollection<Nomenclature> nomenclatures = new ObservableCollection<Nomenclature>();
-
         /// <summary>
         /// <para>Возращает коллекцию Nomenclature</para>
         /// </summary>
         public static ObservableCollection<Nomenclature> FillList()
         {
-            ObservableCollection<Nomenclature> nomenclatures = null;
+            ObservableCollection<Nomenclature> nomenclatures = new ObservableCollection<Nomenclature>(); ;
             using (var db = ConnectionTools.GetConnection())
             {
                 try
@@ -62,6 +60,7 @@ namespace Pronets.EntityRequests.Nomenclature_f
             }
         }
 
+
         /// <summary>
         /// <para>Удаляет экземпляр Nomenclature</para>
         /// </summary>
@@ -90,6 +89,27 @@ namespace Pronets.EntityRequests.Nomenclature_f
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// <para>Записывает в базу экземпляр Nomenclature</para>
+        /// </summary>
+        public static Nomenclature GetDefaultNomenclature()
+        {
+            Nomenclature nomenclature = null;
+            using (var db = ConnectionTools.GetConnection())
+            {
+                try
+                {
+                    nomenclature = db.Nomenclature.Where(n => n.Name == "Отсутствует").FirstOrDefault();
+                }
+                
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Ошибка");
+                }
+            }
+            return nomenclature;
         }
     }
 }

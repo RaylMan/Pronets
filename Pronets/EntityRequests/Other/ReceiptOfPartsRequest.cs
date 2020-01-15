@@ -11,14 +11,12 @@ namespace Pronets.EntityRequests.Other
 {
     public static class ReceiptOfPartsRequest
     {
-        //private static ObservableCollection<ReceiptOfParts> receiptOfParts = new ObservableCollection<ReceiptOfParts>();
-
         /// <summary>
         /// <para>Возращает коллекцию ReceiptOfParts</para>
         /// </summary>
         public static ObservableCollection<ReceiptOfParts> FillList()
         {
-            ObservableCollection<ReceiptOfParts> receiptOfParts = null;
+            ObservableCollection<ReceiptOfParts> receiptOfParts = new ObservableCollection<ReceiptOfParts>();
             using (var db = ConnectionTools.GetConnection())
             {
                 try

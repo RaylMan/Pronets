@@ -28,6 +28,16 @@ namespace Pronets.VievModel.Other
                 RaisedPropertyChanged("Defects");
             }
         }
+        private ObservableCollection<Repair_Categories> repair_Categories = new ObservableCollection<Repair_Categories>();
+        public ObservableCollection<Repair_Categories> Repair_Categories
+        {
+            get { return repair_Categories; }
+            set
+            {
+                repair_Categories = value;
+                RaisedPropertyChanged("Repair_Categories");
+            }
+        }
         private Defects selectedDefect;
         public Defects SelectedDefect
         {
@@ -36,7 +46,18 @@ namespace Pronets.VievModel.Other
             {
                 selectedDefect = value;
                 FillTextBoxes();
+                FillCategoryComboBox();
                 RaisedPropertyChanged("SelectedDefect");
+            }
+        }
+        private Repair_Categories selectedCategory;
+        public Repair_Categories SelectedCategory
+        {
+            get { return selectedCategory; }
+            set
+            {
+                selectedCategory = value;
+                RaisedPropertyChanged("SelectedCategory");
             }
         }
         private int selectedDefectIndex;
@@ -88,11 +109,13 @@ namespace Pronets.VievModel.Other
         {
             baseRepairPage = page;
             GetDeffects();
+            Repair_Categories = RepairCategoriesRequests.FillList();
         }
         public FaultWindowVM(RepairsTableEngineer page)
         {
             baseRepairTablePage = page;
             GetDeffects();
+            Repair_Categories = RepairCategoriesRequests.FillList();
         }
 
         private void GetDeffects()
@@ -111,6 +134,17 @@ namespace Pronets.VievModel.Other
             {
                 Defect = selectedDefect.Defect;
                 Work = selectedDefect.Work;
+            }
+        }
+        private void FillCategoryComboBox()
+        {
+            if (selectedDefect != null)
+            {
+                Repair_Categories category = Repair_Categories.FirstOrDefault(c => c.Category == selectedDefect.Repair_Category);
+                if (category != null)
+                {
+                    SelectedCategory = category;
+                }
             }
         }
 
@@ -138,20 +172,48 @@ namespace Pronets.VievModel.Other
         /// <param name="parametr"></param>
         public void Send(object parametr)
         {
-            if (selectedDefect != null)
+            if (selectedDefect != null && SelectedCategory != null)
             {
                 if (baseRepairPage != null)
                 {
                     baseRepairPage.tbxDefect.Text = selectedDefect.Defect;
                     baseRepairPage.tbxWork.Text = selectedDefect.Work;
+                    SetCategoryAtBaseWindow();
                 }
                 else if (baseRepairTablePage != null)
                 {
                     baseRepairTablePage.tbxDefect.Text = selectedDefect.Defect;
                     baseRepairTablePage.tbxWork.Text = selectedDefect.Work;
+                    SetCategoryAtBaseWindow();
                 }
 
                 CloseFaultWindow();
+            }
+        }
+        /// <summary>
+        /// Устновка значения списка с категорией ремонта в окне ремонта или таблицы ремонтов
+        /// </summary>
+        private void SetCategoryAtBaseWindow()
+        {
+            if (baseRepairPage != null && baseRepairPage.cbxCategories.Items != null)
+            {
+                foreach (Repair_Categories item in baseRepairPage.cbxCategories.Items)
+                {
+                    if (item.Category == selectedCategory.Category)
+                    {
+                        baseRepairPage.cbxCategories.SelectedItem = item;
+                    }
+                }
+            }
+            else if (baseRepairTablePage != null && baseRepairTablePage.cbxCategories.Items != null)
+            {
+                foreach (Repair_Categories item in baseRepairTablePage.cbxCategories.Items)
+                {
+                    if (item.Category == selectedCategory.Category)
+                    {
+                        baseRepairTablePage.cbxCategories.SelectedItem = item;
+                    }
+                }
             }
         }
         /// <summary>
@@ -224,18 +286,49 @@ namespace Pronets.VievModel.Other
                 workTemp.Remove(workTemp.Length - 1);
             }
 
-            if (baseRepairPage != null)
+            if (baseRepairPage != null && SelectedCategory != null)
             {
                 baseRepairPage.tbxDefect.Text = defectTemp;
                 baseRepairPage.tbxWork.Text = workTemp;
+                SendHardRepairCategory();
+
             }
-            else if (baseRepairTablePage != null)
+            else if (baseRepairTablePage != null && SelectedCategory != null)
             {
                 baseRepairTablePage.tbxDefect.Text = defectTemp;
                 baseRepairTablePage.tbxWork.Text = workTemp;
+                SendHardRepairCategory();
             }
 
             CloseFaultWindow();
+        }
+        /// <summary>
+        /// Устновка значения  списка с категорией ремонта в окне ремонта или таблицы ремонтов на "Сложный ремонт"
+        /// </summary>
+        /// <returns></returns>
+        private void SendHardRepairCategory()
+        {
+            Repair_Categories category = Repair_Categories.FirstOrDefault(c => c.Category == "Сложный ремонт");
+            if (baseRepairPage != null && baseRepairPage.cbxCategories.Items != null)
+            {
+                foreach (Repair_Categories item in baseRepairPage.cbxCategories.Items)
+                {
+                    if (item.Category == category.Category)
+                    {
+                        baseRepairPage.cbxCategories.SelectedItem = item;
+                    }
+                }
+            }
+            else if (baseRepairTablePage != null && baseRepairTablePage.cbxCategories.Items != null)
+            {
+                foreach (Repair_Categories item in baseRepairTablePage.cbxCategories.Items)
+                {
+                    if (item.Category == category.Category)
+                    {
+                        baseRepairTablePage.cbxCategories.SelectedItem = item;
+                    }
+                }
+            }
         }
         #endregion
 
@@ -263,9 +356,9 @@ namespace Pronets.VievModel.Other
         /// <param name="parametr"></param>
         public void AddToBase(object parametr)
         {
-            if (!string.IsNullOrWhiteSpace(Defect) && !string.IsNullOrWhiteSpace(Work))
+            if (!string.IsNullOrWhiteSpace(Defect) && !string.IsNullOrWhiteSpace(Work) && SelectedCategory != null)
             {
-                Defects defect = new Defects { Defect = Defect, Work = Work };
+                Defects defect = new Defects { Defect = Defect, Work = Work, Repair_Category = SelectedCategory.Category };
                 DefectsRequests.AddToBase(defect);
                 Defects.Add(defect);
                 selectedDefect = null;
@@ -274,7 +367,7 @@ namespace Pronets.VievModel.Other
                 GetDeffects();
             }
             else
-                MessageBox.Show("Введите неисправность и проделанную работу", "Ошибка");
+                MessageBox.Show("Введите неисправность, проделанную работу и выберете категорию ремонта", "Ошибка");
 
         }
         #endregion
@@ -305,17 +398,17 @@ namespace Pronets.VievModel.Other
         {
             if (selectedDefect != null)
             {
-                if (!string.IsNullOrWhiteSpace(Defect) && !string.IsNullOrWhiteSpace(Work))
+                if (!string.IsNullOrWhiteSpace(Defect) && !string.IsNullOrWhiteSpace(Work) && SelectedCategory != null)
                 {
                     selectedDefect.Defect = Defect;
                     selectedDefect.Work = Work;
-
+                    selectedDefect.Repair_Category = SelectedCategory.Category;
                     DefectsRequests.EditItem(selectedDefect);
                     GetDeffects();
                     MessageBox.Show("Успешное изменение!");
                 }
                 else
-                    MessageBox.Show("Введите неисправность и проделанную работу", "Ошибка");
+                    MessageBox.Show("Введите неисправность, проделанную работу и выберете категорию ремонта", "Ошибка");
             }
         }
         #endregion

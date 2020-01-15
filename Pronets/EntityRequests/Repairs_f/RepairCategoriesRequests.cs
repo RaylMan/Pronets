@@ -8,25 +8,29 @@ namespace Pronets.EntityRequests.Repairs_f
 {
     public static class RepairCategoriesRequests
     {
-        private static ObservableCollection<Repair_Categories> repair_Categories = new ObservableCollection<Repair_Categories>();
-
         /// <summary>
         /// <para>Возращает коллекцию Repair_Categories</para>
         /// </summary>
         public static ObservableCollection<Repair_Categories> FillList()
         {
-            ObservableCollection<Repair_Categories> repair_Categories = null;
+            ObservableCollection<Repair_Categories> repair_Categories = new ObservableCollection<Repair_Categories>() ;
             using (var db = ConnectionTools.GetConnection())
             {
                 try
                 {
-                    repair_Categories = new ObservableCollection<Repair_Categories>(db.Repair_Categories.ToList());
+                    //repair_Categories = new ObservableCollection<Repair_Categories>(db.Repair_Categories.ToList());
+                    foreach (var category in db.Repair_Categories)
+                    {
+                        repair_Categories.Add(new Repair_Categories
+                        {
+                            Category = category.Category
+                        });
+                    }
                 }
                 catch (Exception e)
                 {
                     MessageBox.Show(e.Message, "Ошибка");
                 }
-
             }
             return repair_Categories;
         }

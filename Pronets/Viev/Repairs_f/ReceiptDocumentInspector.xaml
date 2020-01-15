@@ -141,6 +141,7 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
+                <DataGridTextColumn Header="Приемщик" Binding="{Binding Inspector}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Дата приема" Binding="{Binding Date_Of_Receipt, StringFormat='dd.MM.yyyy'}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Клиент" Binding="{Binding Client_Name}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Дата отправки" Binding="{Binding Departure_Date, StringFormat='dd.MM.yyyy'}" IsReadOnly="True"/>
