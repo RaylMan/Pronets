@@ -92,11 +92,11 @@ namespace Pronets.EntityRequests.Other
                         db.PartsOrder.Remove(partOrder);
                         db.SaveChanges();
                     }
-                    catch (System.Data.Entity.Infrastructure.DbUpdateException)
-                    {
-                        MessageBox.Show("Невозможно удалить , так как есть связи с данными!", "Ошибка");
-                        isExeption = false;
-                    }
+                    //catch (System.Data.Entity.Infrastructure.DbUpdateException)
+                    //{
+                    //    MessageBox.Show("Невозможно удалить , так как есть связи с данными!", "Ошибка");
+                    //    isExeption = false;
+                    //}
                     catch(Exception e)
                     {
                         MessageBox.Show(e.Message, "Ошибка");

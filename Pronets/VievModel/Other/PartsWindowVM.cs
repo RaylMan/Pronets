@@ -152,24 +152,24 @@ namespace Pronets.VievModel.Other
                 RaisedPropertyChanged("Count");
             }
         }
-        private int selectedOrderIndex;
-        public int SelectedOrderIndex
+        private int selectedOrderPartIndex;
+        public int SelectedOrderPartIndex
         {
-            get { return selectedOrderIndex; }
+            get { return selectedOrderPartIndex; }
             set
             {
-                selectedOrderIndex = value;
-                RaisedPropertyChanged("SelectedOrderIndex");
+                selectedOrderPartIndex = value;
+                RaisedPropertyChanged("SelectedOrderPartIndex");
             }
         }
-        private PartsOrder selectedOrder;
-        public PartsOrder SelectedOrder
+        private PartsOrder selectedOrderPart;
+        public PartsOrder SelectedOrderPart
         {
-            get { return selectedOrder; }
+            get { return selectedOrderPart; }
             set
             {
-                selectedOrder = value;
-                RaisedPropertyChanged("SelectedOrder");
+                selectedOrderPart = value;
+                RaisedPropertyChanged("SelectedOrderPart");
             }
         }
 
@@ -273,6 +273,8 @@ namespace Pronets.VievModel.Other
         {
             ReceiptOfParts = ReceiptOfPartsRequest.FillList();
             Parts = PartsRequest.FillList();
+            if (ReceiptOfParts != null && ReceiptOfParts.Count > -1)
+                SelectedDocument = ReceiptOfParts.FirstOrDefault();
         }
         #region Parts
         #region Add Part
@@ -527,7 +529,7 @@ namespace Pronets.VievModel.Other
 
         #region RemoveCommand
         protected ICommand removeOrder;
-        public ICommand RemoveOrderCommand
+        public ICommand RemoveOrderPartCommand
         {
             get
             {
@@ -540,29 +542,27 @@ namespace Pronets.VievModel.Other
             set
             {
                 removeOrder = value;
-                RaisedPropertyChanged("RemoveOrderCommand");
+                RaisedPropertyChanged("RemoveOrderPartCommand");
             }
         }
         public void RemoveOrder(object Parameter)
         {
-            if (SelectedOrder != null)
+            if (SelectedOrderPart != null)
             {
                 var result = MessageBox.Show("Вы действительно хотете удалить?", "Удаление", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    if (SelectedOrder.DocumentId != 0)
+                    if (SelectedOrderPart.DocumentId != null)
                     {
-                        PartsOrderRequest.RemoveFromBase(SelectedOrder, out bool ex);
+                        PartsOrderRequest.RemoveFromBase(SelectedOrderPart, out bool ex);
                         if (ex)
-                           PartsOrder.RemoveAt(SelectedOrderIndex);
+                           PartsOrder.RemoveAt(SelectedOrderPartIndex);
                     }
                     else
-                        PartsOrder.RemoveAt(SelectedOrderIndex);
+                        PartsOrder.RemoveAt(SelectedOrderPartIndex);
                 }
             }
-            else
-                MessageBox.Show("Необходимо выбрать элемент в таблице!", "Ошибка");
         }
         #endregion
         #endregion
@@ -597,6 +597,7 @@ namespace Pronets.VievModel.Other
             ReceiptOfPartsRequest.AddToBase(recipe);
             ReceiptOfParts.Clear();
             ReceiptOfParts = ReceiptOfPartsRequest.FillList();
+            SelectedReceiptIndex = 0;
         }
         #endregion
 
@@ -633,9 +634,9 @@ namespace Pronets.VievModel.Other
                         if (ex)
                             ReceiptOfParts.RemoveAt(SelectedReceiptIndex);
                         PartsOrder.Clear();
+                        OrderTitleName = string.Empty;
                         document = null;
                     }
-
                 }
             }
             else

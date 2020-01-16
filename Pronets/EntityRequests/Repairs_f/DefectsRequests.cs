@@ -44,7 +44,8 @@ namespace Pronets.EntityRequests.Repairs_f
                     {
                         Id = defect.Id,
                         Defect = defect.Defect,
-                        Work = defect.Work
+                        Work = defect.Work,
+                        Repair_Category = defect.Repair_Category
                     });
                     db.SaveChanges();
                 }
