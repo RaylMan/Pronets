@@ -511,6 +511,10 @@ namespace Pronets.VievModel.Other
                             order.DocumentId = document.Id;
                             PartsOrderRequest.AddToBase(order);
                         }
+                        else
+                        {
+                            PartsOrderRequest.EditItem(order);
+                        }
                     }
                     if (SelectedStatus == "Принято")
                     {

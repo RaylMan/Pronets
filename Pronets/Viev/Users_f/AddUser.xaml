@@ -6,7 +6,7 @@
          xmlns:vm="clr-namespace:Pronets.VievModel.Users_f"
         xmlns:local="clr-namespace:Pronets.Viev.Users_f"
         mc:Ignorable="d"
-         Title="Добавить работника" Height="400" Width="380" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Background="LightSlateGray">
+         Title="Добавить работника" Height="400" Width="380" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Background="Gainsboro">
     <Window.DataContext>
         <vm:AddUserVM/>
     </Window.DataContext>

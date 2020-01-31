@@ -158,6 +158,7 @@
     <Compile Include="Data\Users.cs">
       <DependentUpon>PronetsDBEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\EngineersMe.cs" />
     <Compile Include="Data\v_Receipt_Document.cs">
       <DependentUpon>PronetsDBEntities.tt</DependentUpon>
     </Compile>
@@ -223,6 +224,7 @@
     <Compile Include="VievModel\Other\UserOvertimeWindowVM.cs" />
     <Compile Include="VievModel\RelayCommand.cs" />
     <Compile Include="VievModel\Repairs_f\AllRepairsWindowVM.cs" />
+    <Compile Include="VievModel\Repairs_f\CountOfRepairsWindowVM.cs" />
     <Compile Include="VievModel\Repairs_f\EditRepairWindowVM.cs" />
     <Compile Include="VievModel\Repairs_f\NewReceiptDocumentVM.cs" />
     <Compile Include="VievModel\Repairs_f\ReceiptDocumentInspectorVM.cs" />
@@ -231,6 +233,7 @@
     <Compile Include="VievModel\Repairs_f\StatusesVM.cs" />
     <Compile Include="VievModel\Users_f\AddUserVM.cs" />
     <Compile Include="VievModel\Users_f\UserInfoWindowVM.cs" />
+    <Compile Include="VievModel\Users_f\UsersReportWindowVM.cs" />
     <Compile Include="VievModel\Users_f\UsersVM.cs" />
     <Compile Include="VievModel\VievModelBase.cs" />
     <Compile Include="Viev\Clients_f\AddClient.xaml.cs">
@@ -308,6 +311,9 @@
     <Compile Include="Viev\Repairs_f\AllRepairsWindow.xaml.cs">
       <DependentUpon>AllRepairsWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Viev\Repairs_f\CountOfRepairsWindow.xaml.cs">
+      <DependentUpon>CountOfRepairsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Viev\Repairs_f\EditRepairWindow.xaml.cs">
       <DependentUpon>EditRepairWindow.xaml</DependentUpon>
     </Compile>
@@ -331,6 +337,9 @@
     </Compile>
     <Compile Include="Viev\Users_f\UserInfoWindow.xaml.cs">
       <DependentUpon>UserInfoWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Viev\Users_f\UsersReportWindow.xaml.cs">
+      <DependentUpon>UsersReportWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Viev\Users_f\UsersWindow.xaml.cs">
       <DependentUpon>UsersWindow.xaml</DependentUpon>
@@ -481,6 +490,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Viev\Repairs_f\CountOfRepairsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Viev\Repairs_f\EditRepairWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -510,6 +523,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Viev\Users_f\UserInfoWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Viev\Users_f\UsersReportWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

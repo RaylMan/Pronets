@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Pronets.Viev.Repairs_f"
         xmlns:vm="clr-namespace:Pronets.VievModel.Repairs_f"
         mc:Ignorable="d"
-        Title="Создать приходную накладную" MinHeight="450" MinWidth="950" Height="450" Width="950" WindowStartupLocation="CenterScreen">
+        Title="Создать приходную накладную" MinHeight="450" MinWidth="950" Height="450" Width="950"  Background="Gainsboro" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0"></RowDefinition>

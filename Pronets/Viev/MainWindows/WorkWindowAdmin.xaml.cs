@@ -2,6 +2,7 @@
 using Pronets.Viev.Other;
 using Pronets.VievModel.MainWindows;
 using Pronets.VievModel.MainWindows.Pages;
+using Pronets.Viev.Repairs_f;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Pronets.Viev.Users_f;
 
 namespace Pronets.Viev.MainWindows
 {
@@ -40,7 +42,7 @@ namespace Pronets.Viev.MainWindows
         void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             Navigation.Navigation.Service = MainFrame.NavigationService;
-           // DataContext = new WorkWindowAdminVM(new ViewModelsResolver(), user);
+            // DataContext = new WorkWindowAdminVM(new ViewModelsResolver(), user);
         }
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
@@ -61,6 +63,19 @@ namespace Pronets.Viev.MainWindows
         {
             SettingsWindow settingsWindow = new SettingsWindow(user);
             settingsWindow.Show();
+
+        }
+
+        private void CalculateRepairs_Click(object sender, RoutedEventArgs e)
+        {
+            CountOfRepairsWindow win = new CountOfRepairsWindow();
+            win.Show();
+        }
+
+        private void ReportUsers_Click(object sender, RoutedEventArgs e)
+        {
+            UsersReportWindow win = new UsersReportWindow();
+            win.Show();
         }
     }
 }

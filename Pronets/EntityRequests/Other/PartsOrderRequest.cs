@@ -75,7 +75,30 @@ namespace Pronets.EntityRequests.Other
                 }
             }
         }
-
+        public static void EditItem(PartsOrder partOrder)
+        {
+            using (var db = ConnectionTools.GetConnection())
+            {
+                try
+                {
+                    if(partOrder != null)
+                    {
+                        var result = db.PartsOrder.FirstOrDefault(o => o.OrderId == partOrder.OrderId);
+                        result.DocumentId = partOrder.DocumentId;
+                        result.PartName = partOrder.PartName;
+                        result.Count = partOrder.Count;
+                        db.SaveChanges();
+                    }
+                    
+                    
+                    db.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
+            }
+        }
         /// <summary>
         /// <para>Удаляет из базы экземпляр PartsOrder</para>
         /// </summary>

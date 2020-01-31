@@ -45,6 +45,7 @@
             </MenuItem>
             <MenuItem Header="Работники">
                 <MenuItem Name="Users" Header="Пользователи" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type users:UsersWindow}"></MenuItem>
+                <MenuItem Name="ReportUsers" Header="Отчет о выполненных работах" Click="ReportUsers_Click"></MenuItem>
                 <MenuItem Name="Overtime" Header="Переработка" Click="Overtime_Click"></MenuItem>
                 <MenuItem Name="OvertimeAdmin" Header="Переработка(Все сотрудники)" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type other:OvertimeWindow}"></MenuItem>
             </MenuItem>
@@ -59,6 +60,7 @@
                 <!--<MenuItem Name="Nomenclature_Types" Header="Типы оборудования" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type nom:Nomenclature_TypesWindow}"></MenuItem>-->
              </MenuItem>
             <MenuItem Header="Ремонт">
+                <MenuItem Name="CalculateRepairs" Header="Подсчет ремонтов" Click="CalculateRepairs_Click"></MenuItem>
                 <MenuItem Name="Repairs" Header="Список ремонтов" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type repair:AllRepairsWindow}"></MenuItem>
                 <MenuItem Name="Statuses" Header="Статусы ремонта" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type repair:StatusesWindow}" ></MenuItem>
                 <MenuItem Name="RepairCategories" Header="Категории ремонта" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type repair:RepairCategoriesWindow}"></MenuItem>

@@ -72,6 +72,28 @@ namespace Pronets.EntityRequests.Repairs_f
             return v_RepairsAll;
         }
         /// <summary>
+        /// <para>Возращает коллекцию v_Repairs(Представление SQL)</para>
+        /// </summary>
+        public static ObservableCollection<v_Repairs> v_FillListFromDate(DateTime firstDate, DateTime secondDate)
+        {
+            ObservableCollection<v_Repairs> v_Repairs = new ObservableCollection<v_Repairs>();
+            using (var db = ConnectionTools.GetConnection())
+            {
+                try
+                {
+                    var result = from repair in db.v_Repairs
+                                 where repair.Repair_Date >= firstDate && repair.Repair_Date <= secondDate
+                                 select repair;
+                    v_Repairs = new ObservableCollection<v_Repairs>(result);
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Ошибка");
+                }
+            }
+            return v_Repairs;
+        }
+        /// <summary>
         /// <para>Возращает коллекцию v_Repairs(Представление SQL) по серийному номеру</para>
         /// </summary>
         public static ObservableCollection<v_Repairs> v_FillList(string SerialNumber)
@@ -621,11 +643,39 @@ namespace Pronets.EntityRequests.Repairs_f
             }
             return v_Repairs;
         }
+        /// <summary>
+        /// Возвращает коллекцию Repairs сортированную по клиенту, статусу и датам
+        /// </summary>
+        /// <param name="clientId"></param>
+        /// <param name="status"></param>
+        /// <param name="firstDate"></param>
+        /// <param name="secondDate"></param>
+        /// <returns></returns>
+        public static ObservableCollection<Repairs> CalculateRepairs(int clientId, string status, DateTime firstDate, DateTime secondDate)
+        {
+            ObservableCollection<Repairs> repairs = new ObservableCollection<Repairs>();
+            using (var db = ConnectionTools.GetConnection())
+            {
+                try
+                {
+                    var result = from repair in db.Repairs
+                                 where repair.Client == clientId &&
+                                 repair.Status == status &&
+                                 repair.Repair_Date >= firstDate && repair.Repair_Date <= secondDate
+                                 select repair;
+                    repairs = new ObservableCollection<Repairs>(result);
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Ошибка");
+                }
+            }
+            return repairs;
+        }
         #endregion
 
         // <summary>
-        /// <para>Возращает коллекцию v_Repairs(Представление SQL) с одинаковыми серийными номерами</para>
-        //// <para>номер ремонта указаный в сигнатуре - не включен в коллекцию</para>
+        /// <para>Возращает коллекцию v_Repairs(Представление SQL) с одинаковыми серийными номерами номер ремонта указаный в сигнатуре - не включен в коллекцию</para>
         /// </summary>
         public static ObservableCollection<v_Repairs> GetCopy(int repairId, string serialNumber)
         {

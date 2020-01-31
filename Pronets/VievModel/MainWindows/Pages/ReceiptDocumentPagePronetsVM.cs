@@ -229,6 +229,7 @@ namespace Pronets.VievModel.MainWindows.Pages
                 }
             }
             catch (Exception) { }
+
            // ReceiptDocuments = new ObservableCollection<v_Receipt_Document>(ReceiptDocuments.OrderByDescending(i => i.Document_Id));
         }
 
