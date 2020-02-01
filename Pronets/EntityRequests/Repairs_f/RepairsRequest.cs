@@ -1066,7 +1066,7 @@ namespace Pronets.EntityRequests.Repairs_f
         /// <summary>
         /// <para>Возращает коллекцию v_Repairs(Представление SQL), поиск по всем полям</para>
         /// </summary>
-        public static ObservableCollection<v_Repairs> SearchItem(string word)
+        public static ObservableCollection<v_Repairs> SearchItemAllColumns(string word)
         {
             ObservableCollection<v_Repairs> v_Repairs = new ObservableCollection<v_Repairs>();
             using (var db = ConnectionTools.GetConnection())
@@ -1089,7 +1089,33 @@ namespace Pronets.EntityRequests.Repairs_f
                                       u.Note.Contains(word) ||
                                       u.Repair_Category.Contains(word)
                                       select u;
-                    v_Repairs = new ObservableCollection<v_Repairs>(searchItems.OrderByDescending(r => r.Date_Of_Receipt)) ;
+                    v_Repairs = new ObservableCollection<v_Repairs>(searchItems.OrderByDescending(r => r.Date_Of_Receipt));
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Ошибка");
+                }
+            }
+            return v_Repairs;
+        }
+        /// <summary>
+        /// <para>Возращает коллекцию v_Repairs(Представление SQL), поиск по серийному нрмепу, номеру документа или номеру ремонта</para>
+        /// </summary>
+        public static ObservableCollection<v_Repairs> SearchItem(string word)
+        {
+            ObservableCollection<v_Repairs> v_Repairs = new ObservableCollection<v_Repairs>();
+            using (var db = ConnectionTools.GetConnection())
+            {
+                try
+                {
+                    Int32.TryParse(word, out int numericWord);
+                    var searchItems = from u in db.v_Repairs
+                                      where
+                                      u.Serial_Number.Contains(word) ||
+                                      u.DocumentId == numericWord ||
+                                      u.RepairId == numericWord
+                                      select u;
+                    v_Repairs = new ObservableCollection<v_Repairs>(searchItems.OrderByDescending(r => r.Date_Of_Receipt));
                 }
                 catch (Exception e)
                 {

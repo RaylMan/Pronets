@@ -236,18 +236,10 @@ namespace Pronets.VievModel.MainWindows.Pages
             }
             TextVisibility = Visibility.Hidden;
         }
-        public async void SearchItemAsync()
-        {
-            try
-            {
-                V_Repairs.Clear();
-                await Task.Run(() => SearchItem());
-            }
-            catch (Exception) { }
-        }
+        
         public void SearchItem()
         {
-            if (SearchText != null && SearchText != "")
+            if (!string.IsNullOrWhiteSpace(SearchText))
             {
                 buffer = SearchText;
                 string engWord = IsChecked != true ? EditChars.ToEnglish(SearchText) : SearchText;
@@ -258,7 +250,6 @@ namespace Pronets.VievModel.MainWindows.Pages
                     {
                         foreach (var repair in repairs)
                         {
-
                             _dispatcher.Invoke(new Action(() =>
                             {
                                 V_Repairs.Add(repair);
@@ -321,7 +312,7 @@ namespace Pronets.VievModel.MainWindows.Pages
                             {
                                 RepairsRequest.EditItem(repair);
                                 ReceiptDocumentRequest.SetStatus((int)repair.DocumentId, "В ремонте");
-                                FillList();
+                                FillList();//обновляет таблицу серийных номеров
                             }
                         }
                         else
