@@ -332,14 +332,14 @@ namespace Pronets.EntityRequests.Users_f
                         loginUser = null;
                     loginUser = db.Users.Where(u => u.Login == login && u.Password == password).FirstOrDefault();
                 }
-                catch (System.Data.Entity.Core.EntityException)
-                {
-                    MessageBox.Show("Отсутствует соединение с сервером!", "Ошибка");
-                    ex = false;
-                }
+                //catch (System.Data.Entity.Core.EntityException)
+                //{
+                //    MessageBox.Show("Отсутствует соединение с сервером!", "Ошибка");
+                //    ex = false;
+                //}
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message);
+                    MessageBox.Show(e.InnerException.Message);
                     ex = false;
                 }
                 return loginUser;

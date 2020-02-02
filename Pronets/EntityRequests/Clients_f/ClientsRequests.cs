@@ -90,7 +90,7 @@ namespace Pronets.EntityRequests.Clients_f
                         db.SaveChanges();
                     }
                 }
-                catch (InvalidOperationException e)
+                catch (InvalidOperationException)
                 {
                     MessageBox.Show("Невозможно удалить , так как есть связи с данными!", "Ошибка");
                     isExeption = false;
