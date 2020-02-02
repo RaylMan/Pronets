@@ -598,7 +598,7 @@ namespace Pronets.VievModel.ConvertToSQL
                                             Date_Of_Receipt = item.DateOfReceipt > defaultDate ? item.DateOfReceipt : defaultDate,
                                             Engineer = engineer.Id,
                                             Inspector = Properties.Settings.Default.DefaultUserId,
-                                            Warranty = item.Warranty,
+                                            Warranty = item.Warranty != "0" || item.Warranty != "" ? item.Warranty : "Нет",
                                             Identifie_Fault = item.IdentifyFault,
                                             Work_Done = item.WorkDone,
                                             Repair_Date = item.Date > defaultDate ? item.DateOfReceipt : defaultDate

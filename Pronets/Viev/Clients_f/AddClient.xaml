@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Pronets.Viev.Clients_f"
         xmlns:vm="clr-namespace:Pronets.VievModel.Clients_f"
         mc:Ignorable="d"
-         Title="Добавить клиента" Height="400" Width="380" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Background="LightSlateGray">
+         Title="Добавить клиента" Height="400" Width="380" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Background="Gainsboro">
     <Window.DataContext>
         <vm:AddClientVM/>
     </Window.DataContext>

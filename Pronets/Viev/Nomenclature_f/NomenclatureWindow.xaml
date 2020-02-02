@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Pronets.Viev.Nomenclature_f"
         xmlns:vm="clr-namespace:Pronets.VievModel.Nomenclature_f"
         mc:Ignorable="d"
-        Title="Номенклатура" Height="400" Width="700" WindowStartupLocation="CenterScreen" >
+        Title="Номенклатура" Height="400" Width="700" WindowStartupLocation="CenterScreen" Background="Gainsboro" >
     
     <Grid>
         <Grid.ColumnDefinitions>

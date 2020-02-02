@@ -231,9 +231,10 @@ namespace Pronets.Viev.Other
 
         private void BtnSaveXls_Click(object sender, RoutedEventArgs e)
         {
+            string date = DateTime.Now.ToString("MM/dd/yyyy Hч mmм");
             SaveFileDialog showDialog = new SaveFileDialog();
             showDialog.Filter = ".xlsx Files (*.xlsx)|*.xlsx";
-            showDialog.FileName = $"Дефектная ведомость для {vm.ClientInstance.ClientName}";
+            showDialog.FileName = $"Дефектная ведомость для {vm.ClientInstance.ClientName} от {date}";
             if (showDialog.ShowDialog() == true)
                 vm.FilePath = showDialog.FileName;
         }

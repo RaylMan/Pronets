@@ -45,18 +45,22 @@
             </MenuItem>
             <MenuItem Header="Работники">
                 <MenuItem Name="Users" Header="Пользователи" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type users:UsersWindow}"></MenuItem>
+                <MenuItem Name="ReportUsers" Header="Отчет о выполненных работах" Click="ReportUsers_Click"></MenuItem>
                 <MenuItem Name="Overtime" Header="Переработка" Click="Overtime_Click"></MenuItem>
                 <MenuItem Name="OvertimeAdmin" Header="Переработка(Все сотрудники)" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type other:OvertimeWindow}"></MenuItem>
             </MenuItem>
-            <MenuItem Header="Клиенты">
-                <MenuItem Name="Clients" Header="Клиенты" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type clients:ClientsWindow}"></MenuItem>
+            <MenuItem Header="Клиенты" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type clients:ClientsWindow}">
+                <!--<MenuItem Name="Clients" Header="Клиенты" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type clients:ClientsWindow}"></MenuItem>-->
             </MenuItem>
-            <MenuItem Header="Оборудование">
-                <MenuItem Name="Nomenclature" Header="Номенклатура" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type nom:NomenclatureWindow}"></MenuItem>
+            <MenuItem Header="Заказ запчастей" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type other:PartsWindow}">
+               <!--<MenuItem Name="Parts" Header="Заказ запчастей" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type other:PartsWindow}"></MenuItem>-->
+            </MenuItem>
+            <MenuItem Header="Оборудование" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type nom:NomenclatureWindow}">
+                <!--<MenuItem Name="Nomenclature" Header="Номенклатура" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type nom:NomenclatureWindow}"></MenuItem>-->
                 <!--<MenuItem Name="Nomenclature_Types" Header="Типы оборудования" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type nom:Nomenclature_TypesWindow}"></MenuItem>-->
-                <MenuItem Name="Parts" Header="Заказ запчастей" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type other:PartsWindow}"></MenuItem>
-            </MenuItem>
+             </MenuItem>
             <MenuItem Header="Ремонт">
+                <MenuItem Name="CalculateRepairs" Header="Подсчет ремонтов" Click="CalculateRepairs_Click"></MenuItem>
                 <MenuItem Name="Repairs" Header="Список ремонтов" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type repair:AllRepairsWindow}"></MenuItem>
                 <MenuItem Name="Statuses" Header="Статусы ремонта" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type repair:StatusesWindow}" ></MenuItem>
                 <MenuItem Name="RepairCategories" Header="Категории ремонта" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type repair:RepairCategoriesWindow}"></MenuItem>

@@ -39,8 +39,6 @@ namespace Pronets.EntityRequests.Users_f
             {
                 try
                 {
-                    if (engineers != null)
-                        engineers.Clear();
                     var result = db.Engineers.ToList();
                     engineers = new ObservableCollection<Engineers>(result);
 

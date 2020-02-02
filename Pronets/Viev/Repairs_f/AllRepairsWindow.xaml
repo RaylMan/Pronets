@@ -7,7 +7,7 @@
         xmlns:vm="clr-namespace:Pronets.VievModel.Repairs_f"
         xmlns:model="clr-namespace:Pronets.Model"
         mc:Ignorable="d"
-        Title="Список ремонтов" Height="450" Width="800">
+        Title="Список ремонтов" Height="450" Width="800" WindowStartupLocation="CenterScreen" Background="Gainsboro">
 
     <Grid>
         <Grid.RowDefinitions>
