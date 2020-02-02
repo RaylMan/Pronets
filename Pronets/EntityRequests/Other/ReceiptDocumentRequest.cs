@@ -24,7 +24,7 @@ namespace Pronets.EntityRequests.Other
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(e.InnerException.Message, "Ошибка");
                 }
             }
             return receiptDocuments;
@@ -47,7 +47,7 @@ namespace Pronets.EntityRequests.Other
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(e.InnerException.Message, "Ошибка");
                 }
             }
             return receiptDocuments;
@@ -70,7 +70,7 @@ namespace Pronets.EntityRequests.Other
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(e.InnerException.Message, "Ошибка");
                 }
             }
             return receiptDocuments;
@@ -103,7 +103,7 @@ namespace Pronets.EntityRequests.Other
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(e.InnerException.Message, "Ошибка");
                 }
             }
             return v_ReceiptDocuments;
@@ -161,7 +161,7 @@ namespace Pronets.EntityRequests.Other
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(e.InnerException.Message, "Ошибка");
                 }
             }
             return v_ReceiptDocuments;
@@ -266,7 +266,7 @@ namespace Pronets.EntityRequests.Other
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(e.InnerException.Message, "Ошибка");
                 }
             }
             return v_ReceiptDocuments;
@@ -300,7 +300,7 @@ namespace Pronets.EntityRequests.Other
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(e.InnerException.Message, "Ошибка");
                 }
             }
             return lastId;
@@ -330,7 +330,7 @@ namespace Pronets.EntityRequests.Other
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show(e.Message, "Ошибка");
+                        MessageBox.Show(e.InnerException.Message, "Ошибка");
                     }
                 }
             }
@@ -359,7 +359,7 @@ namespace Pronets.EntityRequests.Other
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show(e.Message, "Ошибка");
+                        MessageBox.Show(e.InnerException.Message, "Ошибка");
                         isExeption = false;
                     }
                 }
@@ -391,7 +391,7 @@ namespace Pronets.EntityRequests.Other
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show(e.Message, "Ошибка");
+                        MessageBox.Show(e.InnerException.Message, "Ошибка");
                         isExeption = false;
                     }
                 }
@@ -419,7 +419,7 @@ namespace Pronets.EntityRequests.Other
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(e.InnerException.Message, "Ошибка");
                 }
             }
         }
@@ -442,7 +442,7 @@ namespace Pronets.EntityRequests.Other
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(e.InnerException.Message, "Ошибка");
                 }
             }
         }

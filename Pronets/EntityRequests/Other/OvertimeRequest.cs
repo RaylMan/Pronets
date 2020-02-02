@@ -25,7 +25,7 @@ namespace Pronets.EntityRequests.Other
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message);
+                    MessageBox.Show(e.InnerException.Message);
                 }
             }
             return overtimeList;
@@ -46,7 +46,7 @@ namespace Pronets.EntityRequests.Other
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message);
+                    MessageBox.Show(e.InnerException.Message);
                 }
             }
             return overtimeList;
@@ -66,7 +66,7 @@ namespace Pronets.EntityRequests.Other
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message);
+                    MessageBox.Show(e.InnerException.Message);
                 }
             }
             return overtimeList;
@@ -90,7 +90,7 @@ namespace Pronets.EntityRequests.Other
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message);
+                    MessageBox.Show(e.InnerException.Message);
                 }
             }
         }
@@ -111,7 +111,7 @@ namespace Pronets.EntityRequests.Other
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message);
+                    MessageBox.Show(e.InnerException.Message);
                 }
             }
         }
@@ -132,7 +132,7 @@ namespace Pronets.EntityRequests.Other
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show(e.Message);
+                        MessageBox.Show(e.InnerException.Message);
                     }
                 }
             }

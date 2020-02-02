@@ -26,7 +26,7 @@ namespace Pronets.EntityRequests.Clients_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(e.InnerException.Message, "Ошибка");
                 }
             }
             return allClients;
@@ -46,7 +46,7 @@ namespace Pronets.EntityRequests.Clients_f
                 catch (Exception e)
                 {
 
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(e.InnerException.Message, "Ошибка");
                 }
                 return client;
             }
@@ -69,7 +69,7 @@ namespace Pronets.EntityRequests.Clients_f
                 catch (Exception e)
                 {
 
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(e.InnerException.Message, "Ошибка");
                 }
             }
         }
@@ -97,7 +97,7 @@ namespace Pronets.EntityRequests.Clients_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(e.InnerException.Message, "Ошибка");
                     isExeption = false;
                 }
             }
@@ -143,7 +143,7 @@ namespace Pronets.EntityRequests.Clients_f
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show(e.Message, "Ошибка");
+                        MessageBox.Show(e.InnerException.Message, "Ошибка");
                     }
 
                 }
@@ -171,7 +171,7 @@ namespace Pronets.EntityRequests.Clients_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(e.InnerException.Message, "Ошибка");
                 }
             }
             return searchClients;
@@ -190,7 +190,7 @@ namespace Pronets.EntityRequests.Clients_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(e.InnerException.Message, "Ошибка");
                 }
             }
             return client;

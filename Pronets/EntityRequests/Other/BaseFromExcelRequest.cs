@@ -25,7 +25,7 @@ namespace Pronets.EntityRequests.Other
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message);
+                    MessageBox.Show(e.InnerException.Message);
                 }
             }
             return baseFromExcel;
@@ -49,7 +49,7 @@ namespace Pronets.EntityRequests.Other
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message);
+                    MessageBox.Show(e.InnerException.Message);
                 }
             }
         }
@@ -71,7 +71,7 @@ namespace Pronets.EntityRequests.Other
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show(e.Message);
+                        MessageBox.Show(e.InnerException.Message);
                     }
                 }
             }
@@ -91,7 +91,7 @@ namespace Pronets.EntityRequests.Other
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message);
+                    MessageBox.Show(e.InnerException.Message);
                     ex = true;
                 }
             }
@@ -114,7 +114,7 @@ namespace Pronets.EntityRequests.Other
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show(e.Message);
+                        MessageBox.Show(e.InnerException.Message);
                     }
                 }
             }
