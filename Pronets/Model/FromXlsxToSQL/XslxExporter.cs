@@ -43,7 +43,6 @@ namespace Pronets.Model.FromXlsxToSQL
                         }
 
                     }
-
                     foreach (Row row in rows)
                     {
                         DataRow dataRow = dataTable.NewRow();

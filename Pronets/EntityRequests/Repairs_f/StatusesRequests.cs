@@ -24,7 +24,7 @@ namespace Pronets.EntityRequests
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(e.InnerException.Message, "Ошибка");
                 }
             }
             return statuses;
@@ -52,7 +52,7 @@ namespace Pronets.EntityRequests
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show(e.Message, "Ошибка");
+                        MessageBox.Show(e.InnerException.Message, "Ошибка");
                     }
                 }
             }
@@ -80,7 +80,7 @@ namespace Pronets.EntityRequests
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show(e.Message, "Ошибка");
+                        MessageBox.Show(e.InnerException.Message, "Ошибка");
                         isExeption = false;
                     }
                 }

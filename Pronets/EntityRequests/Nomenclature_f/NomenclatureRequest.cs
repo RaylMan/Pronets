@@ -23,7 +23,7 @@ namespace Pronets.EntityRequests.Nomenclature_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(e.InnerException.Message, "Ошибка");
                 }
             }
             return nomenclatures;
@@ -54,7 +54,7 @@ namespace Pronets.EntityRequests.Nomenclature_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(e.InnerException.Message, "Ошибка");
                     isExeption = false;
                 }
             }
@@ -84,7 +84,7 @@ namespace Pronets.EntityRequests.Nomenclature_f
                     }
                     catch(Exception e)
                     {
-                        MessageBox.Show(e.Message, "Ошибка");
+                        MessageBox.Show(e.InnerException.Message, "Ошибка");
                         isExeption = false;
                     }
                 }
@@ -106,7 +106,7 @@ namespace Pronets.EntityRequests.Nomenclature_f
                 
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(e.InnerException.Message, "Ошибка");
                 }
             }
             return nomenclature;

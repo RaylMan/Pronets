@@ -23,7 +23,7 @@ namespace Pronets.EntityRequests.Users_f
 
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(e.InnerException.Message, "Ошибка");
                 }
             }
             return allUsers;
@@ -45,7 +45,7 @@ namespace Pronets.EntityRequests.Users_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(e.InnerException.Message, "Ошибка");
                 }
             }
             return engineers;
@@ -65,7 +65,7 @@ namespace Pronets.EntityRequests.Users_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(e.InnerException.Message, "Ошибка");
                 }
             }
             return user;
@@ -85,7 +85,7 @@ namespace Pronets.EntityRequests.Users_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(e.InnerException.Message, "Ошибка");
                 }
             }
             return engineer;
@@ -105,7 +105,7 @@ namespace Pronets.EntityRequests.Users_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(e.InnerException.Message, "Ошибка");
                 }
             }
             return engineer;
@@ -124,7 +124,7 @@ namespace Pronets.EntityRequests.Users_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(e.InnerException.Message, "Ошибка");
                 }
             }
             return positions;
@@ -146,7 +146,7 @@ namespace Pronets.EntityRequests.Users_f
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show(e.Message, "Ошибка");
+                        MessageBox.Show(e.InnerException.Message, "Ошибка");
                     }
                 }
             }
@@ -196,7 +196,7 @@ namespace Pronets.EntityRequests.Users_f
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show(e.Message, "Ошибка");
+                        MessageBox.Show(e.InnerException.Message, "Ошибка");
                         isExeption = false;
                     }
                 }
@@ -225,7 +225,7 @@ namespace Pronets.EntityRequests.Users_f
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show(e.Message, "Ошибка");
+                        MessageBox.Show(e.InnerException.Message, "Ошибка");
                         isExeption = false;
                     }
                 }
@@ -259,7 +259,7 @@ namespace Pronets.EntityRequests.Users_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(e.InnerException.Message, "Ошибка");
                 }
             }
         }
@@ -281,7 +281,7 @@ namespace Pronets.EntityRequests.Users_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(e.InnerException.Message, "Ошибка");
                 }
             }
         }
@@ -310,7 +310,7 @@ namespace Pronets.EntityRequests.Users_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(e.InnerException.Message, "Ошибка");
                 }
             }
             return searchUsers;
@@ -337,7 +337,7 @@ namespace Pronets.EntityRequests.Users_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message);
+                    MessageBox.Show(e.InnerException.Message);
                     ex = false;
                 }
                 return loginUser;
@@ -373,7 +373,7 @@ namespace Pronets.EntityRequests.Users_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message);
+                    MessageBox.Show(e.InnerException.Message);
                 }
             }
         }
@@ -395,7 +395,7 @@ namespace Pronets.EntityRequests.Users_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message);
+                    MessageBox.Show(e.InnerException.Message);
                 }
 
             }
@@ -417,7 +417,7 @@ namespace Pronets.EntityRequests.Users_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message);
+                    MessageBox.Show(e.InnerException.Message);
                 }
             }
             return isSame;
