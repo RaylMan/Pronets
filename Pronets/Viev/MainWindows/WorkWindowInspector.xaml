@@ -51,21 +51,22 @@
             <MenuItem Header="Переработка" Click="Overtime_Click">
                 <!--<MenuItem Name="Overtime" Header="Переработка" Click="Overtime_Click"></MenuItem>-->
             </MenuItem>
-            <MenuItem Header="Клиенты" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type clients:ClientsWindow}">
+            <MenuItem Header="Клиенты" Click="Open_ClientsWindow_Click">
                 <!--<MenuItem Name="Clients" Header="Клиенты" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type clients:ClientsWindow}"></MenuItem>-->
             </MenuItem>
-            <MenuItem Header="Заказ запчастей" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type other:PartsWindow}">
+            <MenuItem Header="Заказ запчастей" Click="Open_PartsOrder_Click">
                 <!--<MenuItem Name="Parts" Header="Заказ запчастей" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type other:PartsWindow}"></MenuItem>-->
             </MenuItem>
-            <MenuItem Header="Оборудование" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type nom:NomenclatureWindow}">
+            <MenuItem Header="Оборудование" Click="Open_NomenclatureWindow_Click">
                 <!--<MenuItem Name="Nomenclature" Header="Номенклатура" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type nom:NomenclatureWindow}"></MenuItem>-->
                 <!--<MenuItem Name="Nomenclature_Types" Header="Типы оборудования" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type nom:Nomenclature_TypesWindow}"></MenuItem>-->
             </MenuItem>
             <MenuItem Header="Ремонт">
-                <MenuItem Name="Repairs" Header="Список ремонтов" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type repair:AllRepairsWindow}"></MenuItem>
-                <MenuItem Name="Statuses" Header="Статусы ремонта" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type repair:StatusesWindow}" ></MenuItem>
-                <MenuItem Name="RepairCategories" Header="Категории ремонта" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type repair:RepairCategoriesWindow}"></MenuItem>
-                <MenuItem Name="export" Header="Выгрузка из Excel" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type xlsx:ConvertToSQLWindow}"></MenuItem>
+                <MenuItem Name="CalculateRepairs" Header="Подсчет ремонтов" Click="CalculateRepairs_Click"></MenuItem>
+                <MenuItem Name="Repairs" Header="Список ремонтов" Click="Open_AllRepairs_Click"></MenuItem>
+                <MenuItem Name="Statuses" Header="Статусы ремонта" Click="Open_StatusesWindow_Click" ></MenuItem>
+                <MenuItem Name="RepairCategories" Header="Категории ремонта" Click="Open_CategoriesWindow_Click"></MenuItem>
+                <MenuItem Name="export" Header="Выгрузка из Excel" Click="Open_Export_Click"></MenuItem>
             </MenuItem>
         </Menu>
 

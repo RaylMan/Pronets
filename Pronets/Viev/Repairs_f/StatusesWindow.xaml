@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Pronets.Viev.Repairs_f"
         xmlns:vm="clr-namespace:Pronets.VievModel.Repairs_f"
         mc:Ignorable="d"
-        Title="Статусы ремонта" Height="250" Width="400" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="SingleBorderWindow">
+        Title="Статусы ремонта" Height="250" Width="400" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="SingleBorderWindow" Closed="Window_Closed">
     
     <Grid Margin="5">
         <Grid.ColumnDefinitions>

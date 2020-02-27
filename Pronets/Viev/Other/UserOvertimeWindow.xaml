@@ -6,12 +6,13 @@
         xmlns:local="clr-namespace:Pronets.Viev.Other"
         xmlns:vm="clr-namespace:Pronets.VievModel.Other"
         mc:Ignorable="d"
-        Title="{Binding Head}" Height="450" Width="800" MinHeight="450" MinWidth="800"  WindowStartupLocation="CenterScreen" Background="Gainsboro">
+        Title="{Binding Head}" Height="450" Width="800" MinHeight="450" MinWidth="800"  WindowStartupLocation="CenterScreen" Background="Gainsboro" Closed="Window_Closed">
 
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="220"></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="15*"></ColumnDefinition>
+            <ColumnDefinition Width="11*"/>
         </Grid.ColumnDefinitions>
         <!--Column 0-->
         <Label x:Name="label" Content="Дата переработки" Grid.Row="0" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top"/>
@@ -36,14 +37,14 @@
         <Button x:Name="btnSumm" Content="  Расчет  " Command="{Binding AmountCommand}" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="84,164,0,0"/>
         <TextBox x:Name="tbxResult" Text="{Binding Amount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Left" 
                      IsReadOnly="True" Margin="10,197,0,0" Height="100" Width="210"/>
-        <TextBlock Text="{Binding Info}" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Center" Grid.Column="0" Margin="10,302,7,0"/>
-        
+        <TextBlock Text="{Binding Info}" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Center" Grid.Column="0" Margin="112,302,108,0"/>
+
         <!--Column 1-->
         <CheckBox IsChecked="{Binding OnlyAmounted, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Column="1"
-                       Content="Только не оплаченые" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Top"/>
+                       Content="Только не оплаченые" HorizontalAlignment="Left" Margin="5,5,0,0" VerticalAlignment="Top"/>
         <DataGrid x:Name="overtime" ItemsSource="{Binding OvertimeList}" AutoGenerateColumns="False" Grid.Column="1" 
                   SelectedIndex="{Binding SelectedIndex}" SelectedValue="{Binding SelectedOvertime}" 
-                       HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999" Margin="5,25,5,5" CanUserAddRows="False" CanUserDeleteRows="False">
+                       HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999" Margin="5,25,5,5" CanUserAddRows="False" CanUserDeleteRows="False" Grid.ColumnSpan="2">
             <DataGrid.Resources>
                 <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="White" />
                 <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#0078D7"/>

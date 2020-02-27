@@ -26,6 +26,17 @@ namespace Pronets.Viev.ConvertToSQL
     /// </summary>
     public partial class ConvertToSQLWindow : Window
     {
+        private static ConvertToSQLWindow instance;
+        public static ConvertToSQLWindow Instatnce
+        {
+            get
+            {
+                if (instance == null)
+                    instance = new ConvertToSQLWindow();
+
+                return instance;
+            }
+        }
         Dispatcher dispatcher = Dispatcher.CurrentDispatcher;
         public ConvertToSQLWindow()
         {
@@ -129,6 +140,11 @@ namespace Pronets.Viev.ConvertToSQL
 
             //    }
             //}
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            instance = null;
         }
     }
 }

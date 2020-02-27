@@ -21,6 +21,15 @@ namespace Pronets.Viev.Other
     /// </summary>
     public partial class UserOvertimeWindow : Window
     {
+        private static UserOvertimeWindow userOvertimeWindowInstance;
+        public static UserOvertimeWindow GetUserOvertimeWindowInstance(Users user)
+        {
+            if (userOvertimeWindowInstance == null)
+                userOvertimeWindowInstance = new UserOvertimeWindow(user);
+
+            return userOvertimeWindowInstance;
+        }
+
         private Users user;
         public UserOvertimeWindow(Users user)
         {
@@ -42,6 +51,11 @@ namespace Pronets.Viev.Other
         private void TbxHours_SelectionChanged(object sender, RoutedEventArgs e)
         {
             checkBox.IsChecked = false;
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            userOvertimeWindowInstance = null;
         }
     }
 }

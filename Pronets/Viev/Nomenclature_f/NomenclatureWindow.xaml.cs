@@ -22,10 +22,26 @@ namespace Pronets.Viev.Nomenclature_f
     /// </summary>
     public partial class NomenclatureWindow : Window
     {
+        private static NomenclatureWindow nomenclatureWindowInstance;
+        public static NomenclatureWindow NomenclatureWindowInstance
+        {
+            get
+            {
+                if (nomenclatureWindowInstance == null)
+                    nomenclatureWindowInstance = new NomenclatureWindow();
+
+                return nomenclatureWindowInstance;
+            }
+        }
         public NomenclatureWindow()
         {
             InitializeComponent();
             DataContext = new NomenclatureVM();
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            nomenclatureWindowInstance = null;
         }
     }
 }

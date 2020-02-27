@@ -27,6 +27,17 @@ namespace Pronets.Viev
     /// </summary>
     public partial class DataBaseSettingsWindow : Window
     {
+        private static DataBaseSettingsWindow windowInstance;
+        public static DataBaseSettingsWindow WindowInstance
+        {
+            get
+            {
+                if (windowInstance == null)
+                    windowInstance = new DataBaseSettingsWindow();
+
+                return windowInstance;
+            }
+        }
         public DataBaseSettingsWindow()
         {
             InitializeComponent();
@@ -42,6 +53,7 @@ namespace Pronets.Viev
             Properties.Settings.Default.ServerPassword = tbxPassword.Password;
             Properties.Settings.Default.Save();
             MessageBox.Show("Настройки сохранены!");
+            this.Close();
         }
     }
 }

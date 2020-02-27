@@ -134,6 +134,7 @@ namespace Pronets.VievModel.Users_f
 
                 var result = from item in v_Repairs
                              where item.EngineerId == engineerId
+                             orderby item.Repair_Category
                              group item by new
                              {
                                  item.Repair_Category

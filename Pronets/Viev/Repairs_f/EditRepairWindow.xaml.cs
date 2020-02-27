@@ -21,7 +21,14 @@ namespace Pronets.Viev.Repairs_f
     /// </summary>
     public partial class EditRepairWindow : Window
     {
+        private static EditRepairWindow instance;
+        public static EditRepairWindow GetInstance(v_Repairs repair)
+        {
+            if (instance == null)
+                instance = new EditRepairWindow(repair);
 
+            return instance;
+        }
         public EditRepairWindow(v_Repairs repair)
         {
             InitializeComponent();
@@ -29,6 +36,11 @@ namespace Pronets.Viev.Repairs_f
             {
                 DataContext = new EditRepairWindowVM(repair);
             }
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            instance = null;
         }
     }
 }

@@ -343,6 +343,17 @@ namespace Pronets.EntityRequests.Users_f
                 return loginUser;
             }
         }
+        /// <summary>
+        /// <para>Возращает экземпляр Users по логину и паролю</para>
+        /// </summary>
+        public static Users LoginWork(string login, string password)
+        {
+            Users loginUser = new Users();
+            using (var db = ConnectionTools.GetConnection())
+            {
+                return loginUser = db.Users.Where(u => u.Login == login && u.Password == password).FirstOrDefault();
+            }
+        }
 
         /// <summary>
         /// <para>Изменяет в экземпляре Users пароль, по id пользователя</para>

@@ -6,7 +6,7 @@
         xmlns:vm="clr-namespace:Pronets.VievModel.Other"
         xmlns:local="clr-namespace:Pronets.Viev.Other"
         mc:Ignorable="d"
-        Title="Заказ запчастей" Height="595" Width="1020" MinHeight="595" MinWidth="1020" Background="Gainsboro" WindowStartupLocation="CenterScreen">
+        Title="Заказ запчастей" Height="595" Width="1020" MinHeight="595" MinWidth="1020" Background="Gainsboro" WindowStartupLocation="CenterScreen" Closed="Window_Closed">
     <Window.DataContext>
         <vm:PartsWindowVM/>
     </Window.DataContext>

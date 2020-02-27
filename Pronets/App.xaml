@@ -4,6 +4,6 @@
              xmlns:local="clr-namespace:Pronets"
              StartupUri="Viev\LoginWindow.xaml">
     <Application.Resources>
-         
+        
     </Application.Resources>
 </Application>

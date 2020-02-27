@@ -53,5 +53,11 @@ namespace Pronets.Viev.MainWindows.Pages
                 window.Show();
             }
         }
+
+        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (gridNomemclature.SelectedItem != null)
+                gridNomemclature.ScrollIntoView(gridNomemclature.SelectedItem);
+        }
     }
 }

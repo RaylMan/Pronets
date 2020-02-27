@@ -24,6 +24,8 @@ namespace Pronets.Viev.Repairs_f
     /// </summary>
     public partial class NewReceiptDocument : Window
     {
+        private IEnumerable<DataGridRow> row;
+
         public NewReceiptDocumentVM vm => (NewReceiptDocumentVM)DataContext;
         public NewReceiptDocument()
         {
@@ -37,27 +39,30 @@ namespace Pronets.Viev.Repairs_f
         }
         private void ComboBoxNomenclature_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var row = GetDataGridRows(repairsGrid);
-            foreach (DataGridRow r in row)
+            var rows = GetDataGridRows(repairsGrid);
+            if (rows != null)
             {
-                try
+                foreach (DataGridRow r in rows)
                 {
-                    FrameworkElement elmcbmx = repairsGrid.Columns[1].GetCellContent(r);
-                    FrameworkElement elmchbx = repairsGrid.Columns[0].GetCellContent(r);
-                    ComboBox cbx = ItemTemplateFind.FindChild<ComboBox>(elmcbmx, "cbxGridNom");
-                    CheckBox checkBox = ItemTemplateFind.FindChild<CheckBox>(elmchbx, "chkbx");
-                    if (checkBox.IsChecked == true)
+                    try
                     {
-                        cbx.SelectedItem = comboBoxNomenclature.SelectedItem;
+                        FrameworkElement elmcbmx = repairsGrid.Columns[1].GetCellContent(r);
+                        FrameworkElement elmchbx = repairsGrid.Columns[0].GetCellContent(r);
+                        ComboBox cbx = ItemTemplateFind.FindChild<ComboBox>(elmcbmx, "cbxGridNom");
+                        CheckBox checkBox = ItemTemplateFind.FindChild<CheckBox>(elmchbx, "chkbx");
+                        if (checkBox.IsChecked == true)
+                        {
+                            cbx.SelectedItem = comboBoxNomenclature.SelectedItem;
+                        }
                     }
-                }
-                catch (System.ArgumentNullException)
-                {
+                    catch (System.ArgumentNullException)
+                    {
 
+                    }
                 }
             }
         }
-        
+
 
         public IEnumerable<DataGridRow> GetDataGridRows(DataGrid grid)
         {
@@ -87,40 +92,48 @@ namespace Pronets.Viev.Repairs_f
 
         private void ComboBoxWarranty_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
-            var row = GetDataGridRows(repairsGrid);
-            foreach (DataGridRow r in row)
+            var rows = GetDataGridRows(repairsGrid);
+            if (rows != null)
             {
-                FrameworkElement elmcbmx = repairsGrid.Columns[3].GetCellContent(r);
-                FrameworkElement elmchbx = repairsGrid.Columns[0].GetCellContent(r);
-                ComboBox cbx = ItemTemplateFind.FindChild<ComboBox>(elmcbmx, "cbxGridWar");
-                CheckBox checkBox = ItemTemplateFind.FindChild<CheckBox>(elmchbx, "chkbx");
-                if (checkBox.IsChecked == true)
+                foreach (DataGridRow r in rows)
                 {
-                    cbx.SelectedIndex = comboBoxWarranty.SelectedIndex;
+                    FrameworkElement elmcbmx = repairsGrid.Columns[3].GetCellContent(r);
+                    FrameworkElement elmchbx = repairsGrid.Columns[0].GetCellContent(r);
+                    ComboBox cbx = ItemTemplateFind.FindChild<ComboBox>(elmcbmx, "cbxGridWar");
+                    CheckBox checkBox = ItemTemplateFind.FindChild<CheckBox>(elmchbx, "chkbx");
+                    if (checkBox.IsChecked == true)
+                    {
+                        cbx.SelectedIndex = comboBoxWarranty.SelectedIndex;
+                    }
                 }
             }
         }
 
         private void AllChecked_Checked(object sender, RoutedEventArgs e)
         {
-            var row = GetDataGridRows(repairsGrid);
-            foreach (DataGridRow r in row)
+            var rows = GetDataGridRows(repairsGrid);
+            if (rows != null)
             {
-                FrameworkElement elmchbx = repairsGrid.Columns[0].GetCellContent(r);
-                CheckBox checkBox = ItemTemplateFind.FindChild<CheckBox>(elmchbx, "chkbx");
-                checkBox.IsChecked = true;
+                foreach (DataGridRow r in rows)
+                {
+                    FrameworkElement elmchbx = repairsGrid.Columns[0].GetCellContent(r);
+                    CheckBox checkBox = ItemTemplateFind.FindChild<CheckBox>(elmchbx, "chkbx");
+                    checkBox.IsChecked = true;
+                }
             }
         }
 
         private void AllChecked_Unchecked(object sender, RoutedEventArgs e)
         {
-            var row = GetDataGridRows(repairsGrid);
-            foreach (DataGridRow r in row)
+            var rows = GetDataGridRows(repairsGrid);
+            if (rows != null)
             {
-                FrameworkElement elmchbx = repairsGrid.Columns[0].GetCellContent(r);
-                CheckBox checkBox = ItemTemplateFind.FindChild<CheckBox>(elmchbx, "chkbx");
-                checkBox.IsChecked = false;
+                foreach (DataGridRow r in rows)
+                {
+                    FrameworkElement elmchbx = repairsGrid.Columns[0].GetCellContent(r);
+                    CheckBox checkBox = ItemTemplateFind.FindChild<CheckBox>(elmchbx, "chkbx");
+                    checkBox.IsChecked = false;
+                }
             }
         }
     }

@@ -11,18 +11,15 @@
         <TextBox x:Name="tbxLogin"  HorizontalAlignment="Center" Height="22" Margin="0,34,0,0" TextWrapping="Wrap" 
                  VerticalAlignment="Top" Width="120"/>
 
-        <Label Content="Пароль" HorizontalAlignment="Center" Height="32" Margin="0,56,0,0" VerticalAlignment="Top" Width="106"/>
+        <Label Content="Пароль" HorizontalAlignment="Center" Height="32" Margin="32,56,46,0" VerticalAlignment="Top" Width="106"/>
         <PasswordBox x:Name="tbxPassword" HorizontalAlignment="Center" Height="22" Margin="0,80,0,0"  VerticalAlignment="Top" Width="120" />
 
         <CheckBox x:Name="cbxSaveLogin"  Content="Запомнить логин" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,107,0,0" />
 
-        <Button x:Name="button" Content="Вход" HorizontalAlignment="Center" Height="24" Margin="0,127,0,0" VerticalAlignment="Top" Width="66" Click="Button_Click" />
+        <Button x:Name="button" Content="Войти" HorizontalAlignment="Center" Height="24" Margin="0,127,0,0" VerticalAlignment="Top" Width="66" Click="Button_Click" />
 
         <Button x:Name="btnSettings"   HorizontalAlignment="Left" VerticalAlignment="Top" Margin="144,127,0,0" Click="BtnSettings_Click" Height="24">
             <Image Source="Settings.png" Height="18" Width="19"/>
         </Button>
-
-
-        <!--<Button x:Name="button1" Content="Login" HorizontalAlignment="Left" Height="25" Margin="0,127,0,0" VerticalAlignment="Top" Width="43" Click="Start_Click"/>-->
     </Grid>
 </Window>

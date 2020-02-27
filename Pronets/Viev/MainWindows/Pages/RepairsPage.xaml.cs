@@ -63,8 +63,9 @@ namespace Pronets.Viev.MainWindows.Pages
 
         private void BtOpenRepairsTable_Click(object sender, RoutedEventArgs e)
         {
-            RepairsTableEngineer win = new RepairsTableEngineer();
+            RepairsTableEngineer win = RepairsTableEngineer.Instance;
             win.Show();
+            win.Focus();
         }
 
         private void BtnEdit_Click(object sender, RoutedEventArgs e)

@@ -20,10 +20,26 @@ namespace Pronets.Viev.Repairs_f
     /// </summary>
     public partial class CountOfRepairsWindow : Window
     {
+        private static CountOfRepairsWindow instance;
+        public static CountOfRepairsWindow Instance
+        {
+            get
+            {
+                if (instance == null)
+                    instance = new CountOfRepairsWindow();
+
+                return instance;
+            }
+        }
         public CountOfRepairsWindow()
         {
             InitializeComponent();
             DataContext = new CountOfRepairsWindowVM();
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            instance = null;
         }
     }
 }

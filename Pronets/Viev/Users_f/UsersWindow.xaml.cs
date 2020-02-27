@@ -22,6 +22,17 @@ namespace Pronets.Viev.Users_f
     public partial class UsersWindow : Window
     {
         private Users user;
+        private static UsersWindow usersWindowInstance;
+        public static UsersWindow UsersWindowInstance
+        {
+            get
+            {
+                if (usersWindowInstance == null)
+                    usersWindowInstance = new UsersWindow();
+
+                return usersWindowInstance;
+            }
+        }
         public UsersWindow()
         {
             InitializeComponent();
@@ -42,6 +53,11 @@ namespace Pronets.Viev.Users_f
             {
                 MessageBox.Show("Как вы собираетесь открыть строку без работника?", "Ошибка");
             }
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            usersWindowInstance = null;
         }
     }
 }

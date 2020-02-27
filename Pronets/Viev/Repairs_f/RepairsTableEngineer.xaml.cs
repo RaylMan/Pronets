@@ -23,6 +23,17 @@ namespace Pronets.Viev.Repairs_f
     /// </summary>
     public partial class RepairsTableEngineer : Window
     {
+        private static RepairsTableEngineer instance;
+        public static RepairsTableEngineer Instance
+        {
+            get
+            {
+                if (instance == null)
+                    instance = new RepairsTableEngineer();
+
+                return instance;
+            }
+        }
         public RepairsTableEngineer()
         {
             InitializeComponent();
@@ -80,6 +91,11 @@ namespace Pronets.Viev.Repairs_f
         {
             if (Docunents1.SelectedItem != null)
                 Docunents1.ScrollIntoView(Docunents1.SelectedItem);
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            instance = null;
         }
     }
 }

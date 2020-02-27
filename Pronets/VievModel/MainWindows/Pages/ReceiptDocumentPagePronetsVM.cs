@@ -19,7 +19,9 @@ namespace Pronets.VievModel.MainWindows.Pages
     public class ReceiptDocumentPagePronetsVM : VievModelBase
     {
         #region Properties
-        object e = null;
+        object e = new object();
+        object block1 = new object();
+        object block2 = new object();
         string baseClient = "Пронетс";
         Dispatcher _dispatcher;
         public OpenWindowCommand OpenWindowCommand { get; set; }
@@ -230,7 +232,7 @@ namespace Pronets.VievModel.MainWindows.Pages
             }
             catch (Exception) { }
 
-           // ReceiptDocuments = new ObservableCollection<v_Receipt_Document>(ReceiptDocuments.OrderByDescending(i => i.Document_Id));
+            // ReceiptDocuments = new ObservableCollection<v_Receipt_Document>(ReceiptDocuments.OrderByDescending(i => i.Document_Id));
         }
 
         #region Sort Command

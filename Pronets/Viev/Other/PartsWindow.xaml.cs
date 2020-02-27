@@ -19,6 +19,16 @@ namespace Pronets.Viev.Other
     /// </summary>
     public partial class PartsWindow : Window
     {
+        private static PartsWindow partsWindowInstance;
+        public static PartsWindow PartsWindowInstance
+        {
+            get
+            {
+                if (partsWindowInstance == null)
+                    partsWindowInstance = new PartsWindow();
+                return partsWindowInstance;
+            }
+        }
         public PartsWindow()
         {
             InitializeComponent();
@@ -41,6 +51,11 @@ namespace Pronets.Viev.Other
         {
             if (grdParts.SelectedItem != null)
                 grdParts.ScrollIntoView(grdParts.SelectedItem);
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            partsWindowInstance = null;
         }
     }
 }

@@ -20,19 +20,31 @@ namespace Pronets.Viev.Clients_f
     /// </summary>
     public partial class ClientsWindow : Window
     {
+        private static ClientsWindow clientsWindowInstance;
+        public static ClientsWindow ClientsWindowInstance
+        {
+            get
+            {
+                if (clientsWindowInstance == null)
+                    clientsWindowInstance = new ClientsWindow();
+
+                return clientsWindowInstance;
+            }
+        }
         public ClientsWindow()
         {
             InitializeComponent();
-            //Style rowStyle = new Style(typeof(DataGridRow));
-            //rowStyle.Setters.Add(new EventSetter(DataGridRow.MouseDoubleClickEvent,
-            //                         new MouseButtonEventHandler(Row_DoubleClick)));
-            //dataGrid.RowStyle = rowStyle;
         }
         private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
         {
             Clients client = (Clients)dataGrid.SelectedItem;
             ClientInfoWindow win = new ClientInfoWindow(client);
             win.Show();
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            clientsWindowInstance = null;
         }
     }
 }

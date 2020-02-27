@@ -20,7 +20,9 @@ namespace Pronets.VievModel.MainWindows.Pages
     public class ReceiptDocumentPageVM : VievModelBase
     {
         #region Properties
-        object e = null;
+        object e = new object();
+        object block1 = new object();
+        object block2 = new object();
         Dispatcher _dispatcher;
         public OpenWindowCommand OpenWindowCommand { get; set; }
 
@@ -201,7 +203,7 @@ namespace Pronets.VievModel.MainWindows.Pages
             // GetDocumentsAsync(); //Загрузка данных в датагрид происходит в selectedClient, selectedstatus, allclients, allstatuese
             GetContent();
         }
-       
+
         private void GetContent()
         {
             Statuses.Clear();
@@ -220,6 +222,7 @@ namespace Pronets.VievModel.MainWindows.Pages
         {
             try
             {
+
                 foreach (var item in ReceiptDocumentRequest.v_FillList(status, client))
                 {
                     _dispatcher.Invoke(new Action(() =>
@@ -227,11 +230,9 @@ namespace Pronets.VievModel.MainWindows.Pages
                         ReceiptDocuments.Add(item);
                     }));
                 }
+
             }
             catch (Exception) { }
-                
-            
-           // ReceiptDocuments = new ObservableCollection<v_Receipt_Document>(ReceiptDocuments.OrderByDescending(i => i.Document_Id));
         }
         #region Sort Command
         private ICommand sortCommand;
@@ -261,8 +262,7 @@ namespace Pronets.VievModel.MainWindows.Pages
             string client = SelectedClientItem != null ? selectedClientItem.ClientName : null;
             ReceiptDocuments.Clear();
             GetDocumentsAsync(status, client);
-            //ReceiptDocuments = ReceiptDocumentRequest.v_FillList(status, client);
-
+            // ReceiptDocuments = ReceiptDocumentRequest.v_FillList(status, client);
         }
         #endregion
 

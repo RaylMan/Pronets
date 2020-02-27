@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Pronets.Viev.Other"
          xmlns:vm="clr-namespace:Pronets.VievModel.Other"
         mc:Ignorable="d"
-        Title="Переработка" Height="450" Width="650" MinHeight="450" MinWidth="650"  WindowStartupLocation="CenterScreen" Background="Gainsboro">
+        Title="Переработка" Height="450" Width="650" MinHeight="450" MinWidth="650"  WindowStartupLocation="CenterScreen" Background="Gainsboro" Closed="Window_Closed">
     
     <Grid>
         <Grid.ColumnDefinitions>

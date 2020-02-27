@@ -21,6 +21,7 @@ namespace Pronets.VievModel.MainWindows.Pages
     public class EquipmentWindowVM : RepairsModel
     {
         #region Properties
+        Object block = new Object();
         Dispatcher _dispatcher;
         private Clients pronetsClient;
 
@@ -100,7 +101,7 @@ namespace Pronets.VievModel.MainWindows.Pages
             _dispatcher = Dispatcher.CurrentDispatcher;
             OpenWindowCommand = new OpenWindowCommand();
             GetStatuses();
-            GetContentAsync();
+            //GetContentAsync(new object());
         }
 
         #region refresh page
@@ -120,15 +121,6 @@ namespace Pronets.VievModel.MainWindows.Pages
                 refresh = value;
                 RaisedPropertyChanged("RefreshCommand");
             }
-        }
-        private async void GetContentAsync()
-        {
-            V_Repairs.Clear();
-            RepairsByNomenclature.Clear();
-            pronetsClient = null;
-            Repairs.Clear();
-            SortingEquipments.Clear();
-            await Task.Run(() => GetContent());
         }
         private async void GetContentAsync(object parametr)
         {
@@ -163,7 +155,6 @@ namespace Pronets.VievModel.MainWindows.Pages
                     
                 }
                 catch (Exception) { }
-                
             }
 
             if (repairs != null && repairs.Count > 0)
@@ -235,33 +226,36 @@ namespace Pronets.VievModel.MainWindows.Pages
         }
         private void GetRepairByNomenclature()
         {
-            try
+            lock(block)
             {
-                foreach (var status in statuses)
+                try
                 {
-                    if (status.IsSelected == true)
+                    foreach (var status in statuses)
                     {
-                        foreach (var item in RepairsRequest.FillListPronets(status.Status))
+                        if (status.IsSelected == true)
                         {
-                            _dispatcher.Invoke(new Action(() =>
+                            foreach (var item in RepairsRequest.FillListPronets(status.Status))
                             {
-                                V_Repairs.Add(item);
-                            }));
+                                _dispatcher.Invoke(new Action(() =>
+                                {
+                                    V_Repairs.Add(item);
+                                }));
+                            }
                         }
                     }
                 }
-            }
-            catch (Exception) { }   
-           
-            var result = from repair in V_Repairs
-                         where repair.Nomenclature == selectedSortingEquipent.NomenclatureName
-                         select repair;
-            foreach (var item in result)
-            {
-                _dispatcher.Invoke(new Action(() =>
+                catch (Exception) { }
+
+                var result = from repair in V_Repairs
+                             where repair.Nomenclature == selectedSortingEquipent.NomenclatureName
+                             select repair;
+                foreach (var item in result)
                 {
-                    RepairsByNomenclature.Add(item);
-                }));
+                    _dispatcher.Invoke(new Action(() =>
+                    {
+                        RepairsByNomenclature.Add(item);
+                    }));
+                }
             }
         }
 

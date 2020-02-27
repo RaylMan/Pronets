@@ -323,7 +323,7 @@ namespace Pronets.VievModel.MainWindows.Pages
             else
                 MessageBox.Show("Необходимо выбрать элемент!", "Ошибка");
 
-            Repair_Date = DateTime.Now.Date;
+            Repair_Date = DateTime.Now;
         }
         private void FillList()
         {

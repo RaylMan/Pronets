@@ -11,7 +11,7 @@
         xmlns:page="clr-namespace:Pronets.Viev.MainWindows.Pages"
         mc:Ignorable="d"
         Title="Пронетс(Инженер)" Height="595" Width="1020" MinHeight="595" MinWidth="1020" WindowStartupLocation="CenterScreen" Background="Gainsboro" Closing="Window_Closing">
-    
+
     <Grid Margin="3">
         <Grid.RowDefinitions>
             <RowDefinition Height="25"></RowDefinition>
@@ -23,21 +23,10 @@
                 <MenuItem Name="Settings" Header="Настройки" Click="Settings_Click"></MenuItem>
                 <MenuItem Name="exit" Header="Выход" Click="Exit_Click"></MenuItem>
             </MenuItem>
-            <MenuItem Header="Переработка" Click="Overtime_Click">
-                <!--<MenuItem Name="Overtime" Header="Переработка" Click="Overtime_Click"></MenuItem>-->
-            </MenuItem>
-            <MenuItem Header="Заказ запчастей" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type other:PartsWindow}">
-                <!--<MenuItem Name="Parts" Header="Заказ запчастей" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type other:PartsWindow}"></MenuItem>-->
-            </MenuItem>
-            <!--<MenuItem Header="Оборудование" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type nom:NomenclatureWindow}">
-                --><!--<MenuItem Name="Nomenclature" Header="Номенклатура" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type nom:NomenclatureWindow}"></MenuItem>-->
-                <!--<MenuItem Name="Nomenclature_Types" Header="Типы оборудования" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type nom:Nomenclature_TypesWindow}"></MenuItem>--><!--
-            </MenuItem>-->
-            <MenuItem Header="Список ремонтов" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type repair:AllRepairsWindow}">
-                <!--<MenuItem Name="Repairs" Header="Список ремонтов" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type repair:AllRepairsWindow}"></MenuItem>
-                --><!--<MenuItem Name="Statuses" Header="Статусы ремонта" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type repair:StatusesWindow}" ></MenuItem>
-                <MenuItem Name="RepairCategories" Header="Категории ремонта" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type repair:RepairCategoriesWindow}"></MenuItem>-->
-            </MenuItem>
+            <MenuItem Header="Переработка" Click="Overtime_Click"/>
+            <MenuItem Header="Заказ запчастей" Click="Open_PartsOrder_Click"/>
+            <MenuItem Header="Список ремонтов" Click="Open_AllRepairsWindow_Click"/>
+
         </Menu>
         <Frame x:Name="frame" Grid.Row="1" Source="Pages\RepairsPage.xaml"></Frame>
 

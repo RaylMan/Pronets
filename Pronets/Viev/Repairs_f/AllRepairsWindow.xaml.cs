@@ -25,6 +25,17 @@ namespace Pronets.Viev.Repairs_f
     /// </summary>
     public partial class AllRepairsWindow : Window
     {
+        private static AllRepairsWindow instance;
+        public static AllRepairsWindow Instance
+        {
+            get
+            {
+                if (instance == null)
+                    instance = new AllRepairsWindow();
+
+                return instance;
+            }
+        }
         public AllRepairsWindow()
         {
             InitializeComponent();
@@ -82,12 +93,18 @@ namespace Pronets.Viev.Repairs_f
             {
                 if (Docunents1.SelectedItem != null)
                 {
-                    EditRepairWindow window = new EditRepairWindow((v_Repairs)Docunents1.SelectedItem);
+                    EditRepairWindow window = new EditRepairWindow((v_Repairs)Docunents1.SelectedItem); 
                     window.Show();
+                   
                 }
             }
             else
                 MessageBox.Show("Нет доступа!", "Редактирование");
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            instance = null;
         }
     }
 }
