@@ -191,6 +191,7 @@
     <Compile Include="Model\FromXlsxToSQL\SheetsId.cs" />
     <Compile Include="Model\FromXlsxToSQL\WorkList.cs" />
     <Compile Include="Model\FromXlsxToSQL\XslxExporter.cs" />
+    <Compile Include="Model\Logging.cs" />
     <Compile Include="Model\RepairsModel.cs" />
     <Compile Include="Model\SerialNumbers.cs" />
     <Compile Include="Model\SortingRepair.cs" />

@@ -1115,7 +1115,7 @@ namespace Pronets.EntityRequests.Repairs_f
                                       u.DocumentId == numericWord ||
                                       u.RepairId == numericWord
                                       select u;
-                    v_Repairs = new ObservableCollection<v_Repairs>(searchItems.OrderByDescending(r => r.Date_Of_Receipt));
+                    v_Repairs = new ObservableCollection<v_Repairs>(searchItems);
                 }
                 catch (Exception e)
                 {

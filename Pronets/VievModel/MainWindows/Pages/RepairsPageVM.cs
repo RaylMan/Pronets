@@ -245,7 +245,7 @@ namespace Pronets.VievModel.MainWindows.Pages
                 string engWord = IsChecked != true ? EditChars.ToEnglish(SearchText) : SearchText;
                 try
                 {
-                    var repairs = RepairsRequest.SearchItem(engWord);
+                    var repairs = RepairsRequest.SearchItem(engWord).OrderByDescending(r => r.RepairId);
                     if (repairs != null)
                     {
                         foreach (var repair in repairs)
@@ -336,7 +336,8 @@ namespace Pronets.VievModel.MainWindows.Pages
                 string engWord = IsChecked != true ? EditChars.ToEnglish(buffer) : SearchText;
                 try
                 {
-                    var repairs = RepairsRequest.SearchItem(engWord);
+                    var repairs = RepairsRequest.SearchItem(engWord).OrderByDescending(r => r.RepairId);
+                    
                     if (repairs != null)
                     {
                         foreach (var repair in repairs)

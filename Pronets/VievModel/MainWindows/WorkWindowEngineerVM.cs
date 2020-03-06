@@ -1,11 +1,12 @@
 ﻿using Pronets.Data;
 using Pronets.Navigation.WindowsNavigation;
-
+using System.Reflection;
 
 namespace Pronets.VievModel.MainWindows
 {
     public class WorkWindowEngineerVM : VievModelBase
     {
+        private string assemblyVersion;
         public OpenWindowCommand OpenWindowCommand { get; private set; }
         private Users currentUser;
         public Users CurrentUser
@@ -23,7 +24,7 @@ namespace Pronets.VievModel.MainWindows
             get
             {
                 if (currentUser != null)
-                    return currentUser.LastName + " " + currentUser.FirstName;
+                    return currentUser.LastName + " " + currentUser.FirstName + "\tВерсия: " + assemblyVersion;
                 return userName = "Error";
             }
             set
@@ -38,6 +39,7 @@ namespace Pronets.VievModel.MainWindows
                 currentUser = user;
             GetDefaultUser();
             OpenWindowCommand = new OpenWindowCommand();
+            assemblyVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
 
         /// <summary>

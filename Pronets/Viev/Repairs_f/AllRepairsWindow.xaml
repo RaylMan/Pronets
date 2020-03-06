@@ -10,10 +10,6 @@
         Title="Список ремонтов" Height="450" Width="800" WindowStartupLocation="CenterScreen" Background="Gainsboro" Closed="Window_Closed">
 
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="5*"/>
-            <ColumnDefinition Width="4*"/>
-        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="35"></RowDefinition>
             <RowDefinition></RowDefinition>
@@ -23,10 +19,10 @@
         <Label Content="Поиск по серийному номеру" Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,7,0,0"/>
         <TextBox Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" GotFocus="TbxSearch_GotFocus" SelectionChanged="TbxSearch_SelectionChanged"
                      ToolTip="Search" Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="175,8,0,0" Width="251" Height="23"/>
-        <Button Content="  Поиск  " Command="{Binding SearchCommand}" HorizontalAlignment="Left" Margin="431,8,0,4" Grid.Row="0" Grid.ColumnSpan="2"/>
-        <Button Content="  Далее  " Command="{Binding SearchNextCommand}" HorizontalAlignment="Left" Margin="47,8,0,4" Grid.Row="0" Grid.Column="1"/>
-        <CheckBox x:Name="checkBox" Content="Искать с русскими символами" IsChecked="{Binding IsChecked}" HorizontalAlignment="Left" Margin="108,13,0,0"
-                  VerticalAlignment="Top" Width="194" Grid.Column="1"/>
+        <Button Content="  Поиск  " Command="{Binding SearchCommand}" HorizontalAlignment="Left" Margin="431,8,0,4" Grid.Row="0"/>
+        <Button Content="  Далее  " Command="{Binding SearchNextCommand}" HorizontalAlignment="Left" Margin="489,8,0,4" Grid.Row="0" />
+        <CheckBox x:Name="checkBox" Content="Искать с русскими символами" IsChecked="{Binding IsChecked}" HorizontalAlignment="Left" Margin="556,12,0,0"
+                  VerticalAlignment="Top" Width="194"/>
         <!--Row 1-->
         <DataGrid x:Name="Docunents1" ItemsSource="{Binding V_Repairs}" SelectedIndex="{Binding SelectedIndex}" SelectedValue="{Binding SelectedItem}" 
                   FrozenColumnCount="3"  Grid.Row="1" Margin="5,5,5,24" AutoGenerateColumns="False" HorizontalGridLinesBrush="#FF999999"

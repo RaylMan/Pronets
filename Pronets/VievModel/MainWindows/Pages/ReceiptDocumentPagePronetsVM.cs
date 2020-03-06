@@ -20,9 +20,6 @@ namespace Pronets.VievModel.MainWindows.Pages
     {
         #region Properties
         object e = new object();
-        object block1 = new object();
-        object block2 = new object();
-        string baseClient = "Пронетс";
         Dispatcher _dispatcher;
         public OpenWindowCommand OpenWindowCommand { get; set; }
 
@@ -88,7 +85,7 @@ namespace Pronets.VievModel.MainWindows.Pages
             set
             {
                 allClients = value;
-                Sort(e);
+               Sort(e);
                 RaisedPropertyChanged("AllClients");
             }
         }
@@ -194,7 +191,6 @@ namespace Pronets.VievModel.MainWindows.Pages
                 RaisedPropertyChanged("Count");
             }
         }
-
         #endregion
 
         public ReceiptDocumentPagePronetsVM()
@@ -261,8 +257,8 @@ namespace Pronets.VievModel.MainWindows.Pages
         {
             string status = SelectedStatusItem != null ? SelectedStatusItem.Status : null;
             ReceiptDocuments.Clear();
-            //GetDocumentsAsync(status);
-            ReceiptDocuments = ReceiptDocumentRequest.v_FillListPronets(status);
+            GetDocumentsAsync(status);
+            //ReceiptDocuments = ReceiptDocumentRequest.v_FillListPronets(status);
         }
         #endregion
 
