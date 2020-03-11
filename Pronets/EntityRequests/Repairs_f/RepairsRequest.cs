@@ -979,9 +979,12 @@ namespace Pronets.EntityRequests.Repairs_f
                 {
                     var result = db.Repairs.Where(r => r.RepairId == repairId).FirstOrDefault();
                     repair = (Repairs)result;
-                    db.Repairs.Attach(repair);
-                    db.Repairs.Remove(repair);
-                    db.SaveChanges();
+                    if(result != null)
+                    {
+                        db.Repairs.Attach(repair);
+                        db.Repairs.Remove(repair);
+                        db.SaveChanges();
+                    }
                 }
                 catch (System.Data.Entity.Infrastructure.DbUpdateException)
                 {

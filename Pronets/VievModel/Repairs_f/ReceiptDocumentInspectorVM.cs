@@ -402,7 +402,6 @@ namespace Pronets.VievModel.Repairs_f
                     if (ex)
                         v_Repairs.RemoveAt(selectedIndex);
                 }
-
             }
             else
                 MessageBox.Show("Необходимо выбрать элемент в списке!", "Ошибка");

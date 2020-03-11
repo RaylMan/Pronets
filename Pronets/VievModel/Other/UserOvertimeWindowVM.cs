@@ -1,5 +1,6 @@
 ﻿using Pronets.Data;
 using Pronets.EntityRequests.Other;
+using Pronets.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -45,11 +46,31 @@ namespace Pronets.VievModel.Other
                 RaisedPropertyChanged("SelectedOvertime");
             }
         }
+        private ObservableCollection<OvertimeHours> overtimeHoursList = new ObservableCollection<OvertimeHours>();
+        public ObservableCollection<OvertimeHours> OvertimeHoursList
+        {
+            get { return overtimeHoursList; }
+            set
+            {
+                overtimeHoursList = value;
+                RaisedPropertyChanged("OvertimeHoursList");
+            }
+        }
+        private OvertimeHours selectedOvertimeHour;
+        public OvertimeHours SelectedOvertimeHour
+        {
+            get { return selectedOvertimeHour; }
+            set
+            {
+                selectedOvertimeHour = value;
+                RaisedPropertyChanged("SelectedOvertimeHour");
+            }
+        }
         private string hours;
         public string Hours
         {
-           get { return hours; }
-           set
+            get { return hours; }
+            set
             {
                 hours = value;
                 RaisedPropertyChanged("Hours");
@@ -65,7 +86,7 @@ namespace Pronets.VievModel.Other
                 RaisedPropertyChanged("Day");
             }
         }
-        
+
         private DateTime date = DateTime.Now;
         public DateTime Date
         {
@@ -115,22 +136,7 @@ namespace Pronets.VievModel.Other
             {
                 onlyAmounted = value;
 
-                if(onlyAmounted)
-                {
-                    overtimeList.Clear();
-                    foreach (var item in OvertimeRequest.FillList(user.LastName, "Не оплачено"))
-                    {
-                        overtimeList.Add(item);
-                    }
-                }
-                else
-                {
-                    overtimeList.Clear();
-                    foreach (var item in OvertimeRequest.FillList(user.LastName))
-                    {
-                        overtimeList.Add(item);
-                    }
-                }
+                GetOvertime(onlyAmounted);
                 RaisedPropertyChanged("OnlyAmounted");
             }
         }
@@ -151,17 +157,41 @@ namespace Pronets.VievModel.Other
                 this.user = user;
             head = $"Переработка {user.LastName}";
             date = DateTime.Now;
-            pricePerDay = Properties.Settings.Default.PricePerDay.ToString();// значение по умолчанию из настроек
-            pricePerHour = Properties.Settings.Default.PricePerHour.ToString(); // значение по умолчанию из настроек
-            onlyAmounted = true; 
-            GetAmount();//вывод информации о зарплате
+            pricePerDay = user.SalaryPerDay.ToString();// значение по умолчанию из настроек
+            pricePerHour = user.SalaryPerHour.ToString(); // значение по умолчанию из настроек
+            onlyAmounted = true;
+            GetTimeHours();
             GetInfo();
-            GetOvertime();
+            GetOvertime(onlyAmounted);
+            GetAmount();//вывод информации о зарплате
+
         }
-        private void GetOvertime()
+        private void GetOvertime(bool amount)
         {
-            OvertimeList.Clear();
-            OvertimeList = OvertimeRequest.FillList(user.LastName, "Не оплачено");
+            if (amount)
+            {
+                overtimeList.Clear();
+                var query = OvertimeRequest.FillList(user.LastName, "Не оплачено");
+                if (query != null)
+                {
+                    foreach (var item in query)
+                    {
+                        overtimeList.Add(item);
+                    }
+                }
+            }
+            else
+            {
+                overtimeList.Clear();
+                var query = OvertimeRequest.FillList(user.LastName);
+                if (query != null)
+                {
+                    foreach (var item in query)
+                    {
+                        overtimeList.Add(item);
+                    }
+                }
+            }
         }
 
         #region Add to base
@@ -184,26 +214,18 @@ namespace Pronets.VievModel.Other
         }
         public void AddToBase(object Parameter)
         {
-
-            if (int.TryParse(hours, out int numericHours))
+            OverTime overtime = new OverTime
             {
-                OverTime overtime = new OverTime
-                {
-                    LastName = user.LastName,
-                    Date = date,
-                    Hours = numericHours,
-                    Day = day == true ? 1 : 0,
-                    Status = "Не оплачено"
+                LastName = user.LastName,
+                Date = date,
+                Hours = SelectedOvertimeHour != null ? SelectedOvertimeHour.Time : 0,
+                Day = day == true ? 1 : 0,
+                Status = "Не оплачено"
 
-                };
-                OvertimeRequest.AddToBase(overtime);
-                GetOvertime();
-                GetAmount();
-                
-            }
-            else
-                MessageBox.Show("Введите в поле \"Количество часов\" цифру", "Ошибка");
-            
+            };
+            OvertimeRequest.AddToBase(overtime);
+            GetOvertime(onlyAmounted);
+            GetAmount();
         }
         #endregion
 
@@ -230,9 +252,9 @@ namespace Pronets.VievModel.Other
             if (SelectedOvertime != null)
             {
                 OvertimeRequest.RemoveFromBase(SelectedOvertime);
-                GetOvertime();
+                GetOvertime(onlyAmounted);
             }
-               
+
         }
         #endregion
 
@@ -256,56 +278,44 @@ namespace Pronets.VievModel.Other
         }
         public void GetAmount(object Parameter)
         {
-            if(OvertimeList.Count > 0)
+            if (OvertimeList.Count > 0)
             {
-                int hoursCount = 0, daysCount = 0;
+                double hoursCount = 0, daysCount = 0;
                 foreach (var overtime in overtimeList)
                 {
                     if (overtime.Status == "Не оплачено")
                     {
-                        hoursCount += (int)overtime.Hours;
-                        daysCount += (int)overtime.Day;
+                        hoursCount += (double)overtime.Hours;
+                        daysCount += (double)overtime.Day;
                     }
                 }
-                if (int.TryParse(pricePerDay, out int numericPricePerDay) && int.TryParse(pricePerHour, out int numericPricePerHour))
-                {
-                    Amount = $"Количество часов:   {hoursCount}\n" +
-                             $"Количество выходных:   {daysCount}\n" +
-                             $"Сумма за часы:   {hoursCount * numericPricePerHour} рублей\n" +
-                             $"Сумма за выходные:   {daysCount * numericPricePerDay} рублей\n" +
-                             $"Общая сумма:   {(hoursCount * numericPricePerHour) + (daysCount * numericPricePerDay)} рублей";
-                }
-                else
-                    MessageBox.Show("В полях \"Зарплата за час\" и \"Зарплата за день\" должны быть цифры!\n Если не хотите считать, установите \"0\"", "Ошибка");
+                Amount = $"Количество часов:   {hoursCount}\n" +
+                         $"Количество выходных:   {daysCount}\n" +
+                         $"Сумма за часы:   {hoursCount * user.SalaryPerHour} рублей\n" +
+                         $"Сумма за выходные:   {daysCount * user.SalaryPerDay} рублей\n" +
+                         $"Общая сумма:   {(hoursCount * user.SalaryPerHour) + (daysCount * user.SalaryPerDay)} рублей";
             }
-            
         }
 
         public void GetAmount()
         {
             if (OvertimeList.Count > 0)
             {
-                int hoursCount = 0, daysCount = 0;
+                double hoursCount = 0, daysCount = 0;
                 foreach (var overtime in overtimeList)
                 {
                     if (overtime.Status == "Не оплачено")
                     {
-                        hoursCount += (int)overtime.Hours;
-                        daysCount += (int)overtime.Day;
+                        hoursCount += (double)overtime.Hours;
+                        daysCount += (double)overtime.Day;
                     }
                 }
-                if (int.TryParse(pricePerDay, out int numericPricePerDay) && int.TryParse(pricePerHour, out int numericPricePerHour))
-                {
-                    Amount = $"Количество часов:   {hoursCount}\n" +
-                             $"Количество выходных:   {daysCount}\n" +
-                             $"Сумма за часы:   {hoursCount * numericPricePerHour} рублей\n" +
-                             $"Сумма за выходные:   {daysCount * numericPricePerDay} рублей\n" +
-                             $"Общая сумма:   {(hoursCount * numericPricePerHour) + (daysCount * numericPricePerDay)} рублей";
-                }
-                else
-                    MessageBox.Show("В полях \"Зарплата за час\" и \"Зарплата за день\" должны быть цифры!\n Если не хотите считать, установите \"0\"", "Ошибка");
+                Amount = $"Количество часов:   {hoursCount}\n" +
+                         $"Количество выходных:   {daysCount}\n" +
+                         $"Сумма за часы:   {hoursCount * user.SalaryPerHour} рублей\n" +
+                         $"Сумма за выходные:   {daysCount * user.SalaryPerDay} рублей\n" +
+                         $"Общая сумма:   {(hoursCount * user.SalaryPerHour) + (daysCount * user.SalaryPerDay)} рублей";
             }
-
         }
         #endregion
         private void GetInfo()
@@ -313,6 +323,15 @@ namespace Pronets.VievModel.Other
             info = "Нельзя одновременно выбрать переработу за день и часы. Одно заменяет другое автоматически.\n" +
                 "Дата по умолчанию, сегодняшняя.\n" +
                 "Значение зарплаты по умолчанию можно изменить в настройках.";
+        }
+        private void GetTimeHours()
+        {
+            double time = 0.5;
+            while (time != 10.5)
+            {
+                overtimeHoursList.Add(new OvertimeHours { Time = time });
+                time += 0.5;
+            }
         }
     }
 }

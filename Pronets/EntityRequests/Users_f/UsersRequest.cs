@@ -254,6 +254,8 @@ namespace Pronets.EntityRequests.Users_f
                         result.Birthday = user.Birthday;
                         result.Telephone = user.Telephone;
                         result.Adress = user.Adress;
+                        result.SalaryPerHour = user.SalaryPerHour;
+                        result.SalaryPerDay = user.SalaryPerDay;
                         db.SaveChanges();
                     }
                 }

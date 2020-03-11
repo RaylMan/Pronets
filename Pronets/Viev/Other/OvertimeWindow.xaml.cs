@@ -88,5 +88,11 @@ namespace Pronets.Viev.Other
         {
             overtimeWindowInstance = null;
         }
+
+        private void BtnOpenAdminOvertimeWindow_Click(object sender, RoutedEventArgs e)
+        {
+            AdminOvertimeWindow win = new AdminOvertimeWindow((OvertimeWindowVM)this.DataContext);
+            win.ShowDialog();
+        }
     }
 }

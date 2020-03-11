@@ -44,8 +44,9 @@ namespace Pronets.Viev.Other
 
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            tbxHours.Text = "0";
+            //tbxHours.Text = "0";
             checkBox.IsChecked = true;
+            comboBoxWarranty.SelectedItem = null;
         }
 
         private void TbxHours_SelectionChanged(object sender, RoutedEventArgs e)
@@ -56,6 +57,12 @@ namespace Pronets.Viev.Other
         private void Window_Closed(object sender, EventArgs e)
         {
             userOvertimeWindowInstance = null;
+        }
+
+        private void ComboBoxWarranty_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (comboBoxWarranty.SelectedItem != null)
+                checkBox.IsChecked = false;
         }
     }
 }

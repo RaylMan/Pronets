@@ -1,0 +1,16 @@
+﻿<Window x:Class="Pronets.Viev.Other.EditPartInfoWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Pronets.Viev.Other"
+        mc:Ignorable="d"
+        Title="Изменение описания" Height="151" Width="289" ResizeMode="NoResize" Background="Gainsboro" WindowStartupLocation="CenterScreen">
+    <Grid Margin="0,0,0,-2">
+        <Label Content="Название" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,0,0,0"/>
+        <TextBox x:Name="tbxName" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,20,0,0" Width="261" IsReadOnly="True"/>
+        <Label Content="Описание" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,36,0,0"/>
+        <TextBox x:Name="tbxInfo" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,58,0,0" Width="261" MaxLength="49"/>
+        <Button x:Name="btnEdit" Content=" Изменить " Click="BtnEdit_Click" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="105,85,0,0" />
+    </Grid>
+</Window>

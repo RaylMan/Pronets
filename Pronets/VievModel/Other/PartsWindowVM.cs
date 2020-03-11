@@ -218,6 +218,16 @@ namespace Pronets.VievModel.Other
                 RaisedPropertyChanged("Part_Price");
             }
         }
+        private string part_Info;
+        public string Part_Info
+        {
+            get { return part_Info; }
+            set
+            {
+                part_Info = value;
+                RaisedPropertyChanged("Part_Info");
+            }
+        }
         private Parts selectedPart;
         public Parts SelectedPart
         {
@@ -272,9 +282,14 @@ namespace Pronets.VievModel.Other
         public PartsWindowVM()
         {
             ReceiptOfParts = ReceiptOfPartsRequest.FillList();
-            Parts = PartsRequest.FillList();
+            FillPartsList();
             if (ReceiptOfParts != null && ReceiptOfParts.Count > -1)
                 SelectedDocument = ReceiptOfParts.FirstOrDefault();
+        }
+        public void FillPartsList()
+        {
+            parts.Clear();
+            Parts = PartsRequest.FillList();
         }
         #region Parts
         #region Add Part
@@ -302,6 +317,7 @@ namespace Pronets.VievModel.Other
                 Parts part = new Parts
                 {
                     Part_Name = part_Name,
+                    Part_Info = Part_Info,
                     Part_Price = part_Price
                 };
 
@@ -314,6 +330,7 @@ namespace Pronets.VievModel.Other
                         parts.Add(part);
                     }
                     Part_Name = string.Empty;
+                    Part_Info = string.Empty;
                     Part_Price = 0;
                 }
             }

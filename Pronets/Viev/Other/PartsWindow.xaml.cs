@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Pronets.Data;
+using Pronets.VievModel.Other;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,6 +34,7 @@ namespace Pronets.Viev.Other
         public PartsWindow()
         {
             InitializeComponent();
+            DataContext = new PartsWindowVM();
         }
         private bool isFocused;
         private void TbxSearch_GotFocus(object sender, RoutedEventArgs e)
@@ -56,6 +59,15 @@ namespace Pronets.Viev.Other
         private void Window_Closed(object sender, EventArgs e)
         {
             partsWindowInstance = null;
+        }
+
+        private void EditPartMetuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if(grdParts.SelectedItem != null)
+            {
+                EditPartInfoWindow win = new EditPartInfoWindow((Parts)grdParts.SelectedItem, (PartsWindowVM)this.DataContext);
+                win.ShowDialog();
+            }
         }
     }
 }

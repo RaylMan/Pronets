@@ -46,6 +46,7 @@ namespace Pronets.EntityRequests.Other
                     {
                         Part_Name = part.Part_Name,
                         Part_Price = part.Part_Price,
+                        Part_Info = part.Part_Info,
                         PartsOrder = part.PartsOrder
                     });
                     db.SaveChanges();
@@ -88,6 +89,31 @@ namespace Pronets.EntityRequests.Other
                     {
                         MessageBox.Show(e.InnerException.Message, "Ошибка");
                         isExeption = false;
+                    }
+                }
+            }
+        }
+        /// <summary>
+        /// <para>Удаляет из базы экземпляр Parts</para>
+        /// </summary>
+        public static void EditPartInfo(string name, string info)
+        {
+            using (var db = ConnectionTools.GetConnection())
+            {
+                if (!string.IsNullOrWhiteSpace(name))
+                {
+                    try
+                    {
+                        var part = db.Parts.Where(n => n.Part_Name == name).FirstOrDefault();
+                        if(part != null)
+                        {
+                            part.Part_Info = info;
+                            db.SaveChanges();
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(e.InnerException.Message, "Ошибка");
                     }
                 }
             }

@@ -138,10 +138,12 @@ namespace Pronets.VievModel.Other
             Statuses.Add(new OvertimeStatuses { Status = "Не оплачено" });
             onlyAmounted = true;
         }
-        private void GetOvertimeList()
+        public void GetOvertimeList()
         {
             if (SelectedUser != null)
             {
+                PricePerHour = SelectedUser.SalaryPerHour.ToString();
+                PricePerDay = SelectedUser.SalaryPerDay.ToString();
                 if (onlyAmounted)
                 {
                     OvertimeList.Clear();
@@ -153,7 +155,6 @@ namespace Pronets.VievModel.Other
                             OvertimeList.Add(item);
                         }
                     }
-
                 }
                 else
                 {
@@ -256,20 +257,21 @@ namespace Pronets.VievModel.Other
         {
             if (OvertimeList.Count > 0)
             {
-                int hoursCount = 0, daysCount = 0;
+                double hoursCount = 0, daysCount = 0;
                 foreach (var overtime in OvertimeList)
                 {
                     if (overtime.Status == "Не оплачено")
                     {
-                        hoursCount += (int)overtime.Hours;
-                        daysCount += (int)overtime.Day;
+                        hoursCount += (double)overtime.Hours;
+                        daysCount += (double)overtime.Day;
                     }
                 }
+                
                 if (string.IsNullOrWhiteSpace(pricePerDay))
                     PricePerDay = "0";
                 if (string.IsNullOrWhiteSpace(pricePerHour))
                     PricePerHour = "0";
-                if (int.TryParse(pricePerDay, out int numericPricePerDay) && int.TryParse(pricePerHour, out int numericPricePerHour))
+                if (double.TryParse(pricePerDay, out double numericPricePerDay) && double.TryParse(pricePerHour, out double numericPricePerHour))
                 {
                     Amount = $"Количество часов:   {hoursCount}\n" +
                              $"Количество выходных:   {daysCount}\n" +
@@ -280,26 +282,25 @@ namespace Pronets.VievModel.Other
                 else
                     MessageBox.Show("В полях \"Зарплата за час\" и \"Зарплата за день\" должны быть цифры!\n Если не хотите считать, установите \"0\"", "Ошибка");
             }
-
         }
         public void GetAmount()
         {
             if (OvertimeList.Count > 0)
             {
-                int hoursCount = 0, daysCount = 0;
+                double hoursCount = 0, daysCount = 0;
                 foreach (var overtime in OvertimeList)
                 {
                     if (overtime.Status == "Не оплачено")
                     {
-                        hoursCount += (int)overtime.Hours;
-                        daysCount += (int)overtime.Day;
+                        hoursCount += (double)overtime.Hours;
+                        daysCount += (double)overtime.Day;
                     }
                 }
                 if (string.IsNullOrWhiteSpace(pricePerDay))
                     PricePerDay = "0";
                 if (string.IsNullOrWhiteSpace(pricePerHour))
                     PricePerHour = "0";
-                if (int.TryParse(pricePerDay, out int numericPricePerDay) && int.TryParse(pricePerHour, out int numericPricePerHour))
+                if (double.TryParse(pricePerDay, out double numericPricePerDay) && double.TryParse(pricePerHour, out double numericPricePerHour))
                 {
                     Amount = $"Количество часов:   {hoursCount}\n" +
                              $"Количество выходных:   {daysCount}\n" +
@@ -310,7 +311,6 @@ namespace Pronets.VievModel.Other
                 else
                     MessageBox.Show("В полях \"Зарплата за час\" и \"Зарплата за день\" должны быть цифры!\n Если не хотите считать, установите \"0\"", "Ошибка");
             }
-
         }
         #endregion
     }
