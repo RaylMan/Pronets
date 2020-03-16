@@ -3,6 +3,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using System.Data.Entity;
 
 namespace Pronets.EntityRequests.Users_f
 {
@@ -39,7 +40,7 @@ namespace Pronets.EntityRequests.Users_f
             {
                 try
                 {
-                    var result = db.Engineers.ToList();
+                    var result = db.Engineers.Include(e => e.Repairs).ToList();
                     engineers = new ObservableCollection<Engineers>(result);
 
                 }
@@ -81,7 +82,7 @@ namespace Pronets.EntityRequests.Users_f
             {
                 try
                 {
-                    engineer = db.Engineers.Where(e => e.Id == id).FirstOrDefault();
+                    engineer = db.Engineers.Where(e => e.Id == id).Include(e => e.Repairs).FirstOrDefault();
                 }
                 catch (Exception e)
                 {
@@ -101,7 +102,7 @@ namespace Pronets.EntityRequests.Users_f
             {
                 try
                 {
-                    engineer = db.Engineers.Where(e => e.LastName == lastName).FirstOrDefault();
+                    engineer = db.Engineers.Where(e => e.LastName == lastName).Include(e => e.Repairs).FirstOrDefault();
                 }
                 catch (Exception e)
                 {

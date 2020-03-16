@@ -1,6 +1,7 @@
 ﻿using Pronets.Data;
 using Pronets.Viev.Other;
 using Pronets.Viev.Repairs_f;
+using Pronets.Viev.Users_f;
 using Pronets.VievModel.MainWindows;
 using System;
 using System.Collections.Generic;
@@ -67,6 +68,19 @@ namespace Pronets.Viev.MainWindows
             AllRepairsWindow win = AllRepairsWindow.Instance;
             win.Show();
             win.Focus();
+        }
+
+        private void CalculateRepairs_Click(object sender, RoutedEventArgs e)
+        {
+            CountOfRepairsWindow win = CountOfRepairsWindow.Instance;
+            win.Show();
+            win.Focus();
+        }
+
+        private void SelfUserReportWindow_Click(object sender, RoutedEventArgs e)
+        {
+            SelfUserReportWindow win = new SelfUserReportWindow(user);
+            win.ShowDialog();
         }
     }
 }

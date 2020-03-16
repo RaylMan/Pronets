@@ -1,4 +1,5 @@
-﻿using Pronets.Navigation;
+﻿using Pronets.Model;
+using Pronets.Navigation;
 using Pronets.Viev.Other;
 using Pronets.VievModel.Repairs_f;
 using System;
@@ -38,6 +39,9 @@ namespace Pronets.Viev.Repairs_f
         {
             InitializeComponent();
             DataContext = new RepairsTableEngineerVM();
+            var vm = (RepairsTableEngineerVM)DataContext;
+            vm.SerialNumbers.Add(new SerialNumbers());
+            
         }
 
         private void BtnDefect_Click(object sender, RoutedEventArgs e)
@@ -96,6 +100,12 @@ namespace Pronets.Viev.Repairs_f
         private void Window_Closed(object sender, EventArgs e)
         {
             instance = null;
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            serialsGrid.CurrentCell = new DataGridCellInfo(serialsGrid.Items[0], serialsGrid.Columns[0]);
+            serialsGrid.BeginEdit();
         }
     }
 }

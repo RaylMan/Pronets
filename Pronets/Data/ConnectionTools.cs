@@ -59,7 +59,7 @@ namespace Pronets.Data
                 source.Database.Connection.ConnectionString
                     = sqlCnxStringBuilder.ConnectionString;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // set log item if required
             }

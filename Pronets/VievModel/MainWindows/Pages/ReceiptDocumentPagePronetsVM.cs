@@ -74,7 +74,7 @@ namespace Pronets.VievModel.MainWindows.Pages
             set
             {
                 selectedStatusItem = value;
-                Sort(e);
+                //Sort(e);
                 RaisedPropertyChanged("SelectedStatusItem");
             }
         }
@@ -85,7 +85,7 @@ namespace Pronets.VievModel.MainWindows.Pages
             set
             {
                 allClients = value;
-               Sort(e);
+                //Sort(e);
                 RaisedPropertyChanged("AllClients");
             }
         }
@@ -96,7 +96,7 @@ namespace Pronets.VievModel.MainWindows.Pages
             set
             {
                 allStatuses = value;
-                Sort(e);
+                //Sort(e);
                 RaisedPropertyChanged("AllStatuses");
             }
         }
@@ -196,7 +196,7 @@ namespace Pronets.VievModel.MainWindows.Pages
         public ReceiptDocumentPagePronetsVM()
         {
             _dispatcher = Dispatcher.CurrentDispatcher;
-            // GetDocumentsAsync(); //Загрузка данных в датагрид происходит в selectedClient, selectedstatus, allclients, allstatuese
+            GetDocumentsAsync(null); //Загрузка данных в датагрид происходит в selectedClient, selectedstatus, allclients, allstatuese
             GetContent();
         }
 

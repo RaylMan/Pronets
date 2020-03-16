@@ -140,5 +140,11 @@ namespace Pronets.Viev.MainWindows
             win.Show();
             win.Focus();
         }
+
+        private void SelfUserReportWindow_Click(object sender, RoutedEventArgs e)
+        {
+            SelfUserReportWindow win = new SelfUserReportWindow(user);
+            win.ShowDialog();
+        }
     }
 }

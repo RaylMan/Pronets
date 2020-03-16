@@ -4,6 +4,7 @@ using Pronets.Viev.ConvertToSQL;
 using Pronets.Viev.Nomenclature_f;
 using Pronets.Viev.Other;
 using Pronets.Viev.Repairs_f;
+using Pronets.Viev.Users_f;
 using Pronets.VievModel.MainWindows;
 using Pronets.VievModel.MainWindows.Pages;
 using System;
@@ -125,6 +126,12 @@ namespace Pronets.Viev.MainWindows
             ConvertToSQLWindow win = ConvertToSQLWindow.Instatnce;
             win.Show();
             win.Focus();
+        }
+
+        private void SelfUserReportWindow_Click(object sender, RoutedEventArgs e)
+        {
+            SelfUserReportWindow win = new SelfUserReportWindow(user);
+            win.ShowDialog();
         }
     }
 }

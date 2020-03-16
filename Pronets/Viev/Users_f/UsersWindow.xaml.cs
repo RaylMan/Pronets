@@ -21,7 +21,6 @@ namespace Pronets.Viev.Users_f
     /// </summary>
     public partial class UsersWindow : Window
     {
-        private Users user;
         private static UsersWindow usersWindowInstance;
         public static UsersWindow UsersWindowInstance
         {

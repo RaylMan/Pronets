@@ -21,8 +21,6 @@ namespace Pronets.VievModel.MainWindows.Pages
     {
         #region Properties
         object e = new object();
-        object block1 = new object();
-        object block2 = new object();
         Dispatcher _dispatcher;
         public OpenWindowCommand OpenWindowCommand { get; set; }
 
@@ -66,7 +64,7 @@ namespace Pronets.VievModel.MainWindows.Pages
             set
             {
                 selectedClientItem = value;
-                Sort(e);
+                //Sort(e);
                 RaisedPropertyChanged("SelectedClientItem");
             }
         }
@@ -77,7 +75,7 @@ namespace Pronets.VievModel.MainWindows.Pages
             set
             {
                 selectedStatusItem = value;
-                Sort(e);
+                //Sort(e);
                 RaisedPropertyChanged("SelectedStatusItem");
             }
         }
@@ -88,7 +86,7 @@ namespace Pronets.VievModel.MainWindows.Pages
             set
             {
                 allClients = value;
-                Sort(e);
+                //Sort(e);
                 RaisedPropertyChanged("AllClients");
             }
         }
@@ -99,7 +97,7 @@ namespace Pronets.VievModel.MainWindows.Pages
             set
             {
                 allStatuses = value;
-                Sort(e);
+                //Sort(e);
                 RaisedPropertyChanged("AllStatuses");
             }
         }
@@ -200,8 +198,8 @@ namespace Pronets.VievModel.MainWindows.Pages
         public ReceiptDocumentPageVM()
         {
             _dispatcher = Dispatcher.CurrentDispatcher;
-            // GetDocumentsAsync(); //Загрузка данных в датагрид происходит в selectedClient, selectedstatus, allclients, allstatuese
             GetContent();
+            GetDocumentsAsync(null,null); //Загрузка данных в датагрид происходит в selectedClient, selectedstatus, allclients, allstatuese
         }
 
         private void GetContent()
@@ -222,7 +220,6 @@ namespace Pronets.VievModel.MainWindows.Pages
         {
             try
             {
-
                 foreach (var item in ReceiptDocumentRequest.v_FillList(status, client))
                 {
                     _dispatcher.Invoke(new Action(() =>

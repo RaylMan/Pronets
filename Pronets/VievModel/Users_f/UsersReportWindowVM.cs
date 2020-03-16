@@ -9,13 +9,16 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace Pronets.VievModel.Users_f
 {
     class UsersReportWindowVM : VievModelBase
     {
         #region Properties
+        Dispatcher dispatcher;
         private ObservableCollection<v_Repairs> v_Repairs = new ObservableCollection<v_Repairs>();
 
         private ObservableCollection<Engineers> engineers = new ObservableCollection<Engineers>();
@@ -46,6 +49,8 @@ namespace Pronets.VievModel.Users_f
             set
             {
                 firstDate = value;
+                if (firstDate > secondDate)
+                    SecondDate = firstDate;
                 RaisedPropertyChanged("FirstDate");
             }
         }
@@ -67,21 +72,37 @@ namespace Pronets.VievModel.Users_f
         #region Methods
         private void GetContent()
         {
+            dispatcher = Dispatcher.CurrentDispatcher;
+            TextVisibility = Visibility.Visible;
             var today = DateTime.Today;
             var month = new DateTime(today.Year, today.Month, 1);
-            FirstDate = month.AddMonths(-1); //new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
-            SecondDate = month.AddDays(-1).AddHours(23);//DateTime.Now.Date.AddHours(23);
-            GetEngineers();
+            FirstDate = month.AddMonths(-1); 
+            SecondDate = month.AddDays(-1).AddHours(23);
+            GetEngineersAsync();
+
+        }
+        private async void GetEngineersAsync()
+        {
+            Engineers.Clear();
+            await Task.Run(() => GetEngineers());
+            TextVisibility = Visibility.Hidden;
         }
         private void GetEngineers()
         {
-            Engineers.Clear();
-            Engineers = UsersRequest.FillListEngineers();
-            var deletableItems = Engineers.Where(item => item.LastName == "admin" || item.LastName == "Не выбран").ToList();
-            foreach (var item in deletableItems)
+            try
             {
-                Engineers.Remove(item);
+                foreach (var item in UsersRequest.FillListEngineers())
+                {
+                    if (item.LastName != "admin" && item.LastName != "Не выбран")
+                    {
+                        dispatcher.Invoke(new Action(() =>
+                        {
+                            Engineers.Add(item);
+                        }));
+                    }
+                }
             }
+            catch (Exception) { }
         }
         #endregion
 
@@ -104,50 +125,59 @@ namespace Pronets.VievModel.Users_f
             }
         }
 
-
-
         public void GenerateReport(object parametr)
+        {
+            GenerateReport(FirstDate, SecondDate);
+        }
+
+        private void GenerateReport(DateTime fDate, DateTime sDate)
         {
             ReportInfo = null;
             v_Repairs.Clear();
-            v_Repairs = RepairsRequest.v_FillListFromDate(firstDate, secondDate);
-            
-            ReportInfo = $"С {FirstDate.ToShortDateString()} по {SecondDate.ToShortDateString()}\nОбщее количество: {v_Repairs.Count} шт.\n";
+            v_Repairs = RepairsRequest.v_FillListFromDate(fDate, sDate);
+
+            ReportInfo = $"С {fDate.ToShortDateString()} по {sDate.ToShortDateString()}\nОбщее количество: {v_Repairs.Count} шт.\n";
             foreach (var item in Engineers)
             {
                 if (item.IsChecked)
                 {
-                    ReportInfo += $"\n{item.LastName}, всего: ";
-                     GenerateEngineerInfo(item.Id);
+                    ReportInfo += $"\n{item.LastName}, ";
+                    //GenerateEngineerInfo(item.Id);
+                    ReportInfo += item.GetRepairsCountInfo(fDate, sDate);
                 }
             }
         }
-        private void GenerateEngineerInfo(int engineerId)
-        {
-            List<SortingRepair> list = new List<SortingRepair>();
-            if (v_Repairs.Count > 0)
-            {
-                var allCount = from item in v_Repairs
-                               where item.EngineerId == engineerId
-                               select item;
-                ReportInfo += $"{allCount.Count()}\n";
+        #endregion
 
-                var result = from item in v_Repairs
-                             where item.EngineerId == engineerId
-                             orderby item.Repair_Category
-                             group item by new
-                             {
-                                 item.Repair_Category
-                             }
-                             into info
-                             select new { info.Key.Repair_Category, Count = info.Count() };
-                foreach (var info in result)
+        #region Generate Report This Month
+        private ICommand generateReportThisMonthCommand;
+        public ICommand GenerateReportThisMonthCommand
+        {
+            get
+            {
+                if (generateReportThisMonthCommand == null)
                 {
-                    ReportInfo += $"\t  {info.Repair_Category}: {info.Count} шт.\n";
+                    generateReportThisMonthCommand = new RelayCommand(new Action<object>(GenerateReportThisMonth));
                 }
+                return generateReportThisMonthCommand;
+            }
+            set
+            {
+                generateReportThisMonthCommand = value;
+                RaisedPropertyChanged("GenerateReportThisMonthCommand");
             }
         }
+
+        public void GenerateReportThisMonth(object parametr)
+        {
+            DateTime fDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+            DateTime SDate = DateTime.Now.Date.AddHours(23);
+            GenerateReport(fDate, SDate);
+        }
+        #endregion
     }
-    #endregion
+
 }
+    
+
 

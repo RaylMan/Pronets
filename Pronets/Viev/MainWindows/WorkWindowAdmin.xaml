@@ -35,18 +35,21 @@
             <Button x:Name="defects" Content="Отправка" VerticalAlignment="Top" Margin="5,90,5,0" Command="{Binding GoToDefectsCommand}" CommandParameter="{Binding DefectsPageVM}" Grid.ColumnSpan="3" />
             <Button x:Name="AddDocument" Content="Оборудование" VerticalAlignment="Top" Margin="5,120,5,0" Command="{Binding GoToEquipmentWindowCommand}" CommandParameter="{Binding EquipmentWindowVM}" Grid.ColumnSpan="3" />
 
-            <Frame  x:Name="MainFrame" NavigationUIVisibility="Hidden" Grid.Column="3" Background="#CCCCCC" Grid.ColumnSpan="2" Margin="0,0,0,25"/>
+            <Frame  x:Name="MainFrame" NavigationUIVisibility="Hidden" Grid.Column="3" Background="Gainsboro" Grid.ColumnSpan="2" Margin="0,0,0,25"/>
         </Grid>
 
         <Menu Height="20" Grid.Row="0">
             <MenuItem Header="Файл">
-                <MenuItem Name="Settings" Header="Настройки" Click="Settings_Click"></MenuItem>
                 <MenuItem Name="exit" Header="Выход" Click="Exit_Click"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="Личные данные">
+                <MenuItem Name="SelfUserReportWindow" Header="Проделанные работы" Click="SelfUserReportWindow_Click"/>
+                <MenuItem Name="Overtime" Header="Переработка" Click="Overtime_Click"/>
+                <MenuItem Name="Settings" Header="Настройки" Click="Settings_Click"/>
             </MenuItem>
             <MenuItem Header="Работники">
                 <MenuItem Name="Users" Header="Пользователи" Click="Open_Users_Click"></MenuItem>
                 <MenuItem Name="ReportUsers" Header="Отчет о выполненных работах" Click="ReportUsers_Click"></MenuItem>
-                <MenuItem Name="Overtime" Header="Переработка" Click="Overtime_Click"></MenuItem>
                 <MenuItem Name="OvertimeAdmin" Header="Переработка(Все сотрудники)" Click="Open_OvertimeWindow_Click"></MenuItem>
             </MenuItem>
             <MenuItem Header="Клиенты" Click="Open_ClientsWindow_Click">
@@ -72,8 +75,6 @@
         <StatusBar  Grid.Row="1"  VerticalAlignment="Bottom" Height="24">
             <TextBlock Text="{Binding UserName}"  HorizontalAlignment="Right" VerticalAlignment="Center"/>
         </StatusBar>
-
-
     </Grid>
 </Window>
 

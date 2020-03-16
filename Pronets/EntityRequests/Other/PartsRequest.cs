@@ -51,7 +51,7 @@ namespace Pronets.EntityRequests.Other
                     });
                     db.SaveChanges();
                 }
-                catch (DbUpdateException e)
+                catch (DbUpdateException)
                 {
                     MessageBox.Show("Запчасть с таким именем уже существует в базе!", "Ошибка");
                     isExeption = false;

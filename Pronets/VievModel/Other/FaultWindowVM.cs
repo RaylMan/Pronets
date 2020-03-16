@@ -309,6 +309,12 @@ namespace Pronets.VievModel.Other
         private void SendHardRepairCategory()
         {
             Repair_Categories category = Repair_Categories.FirstOrDefault(c => c.Category == "Сложный ремонт");
+            if(!IsSomeFaults())
+            {
+                var defect = Defects.FirstOrDefault(d => d.IsSelected == true);
+                category = Repair_Categories.FirstOrDefault(c => c.Category == defect.Repair_Category);
+            }
+
             if (baseRepairPage != null && baseRepairPage.cbxCategories.Items != null)
             {
                 foreach (Repair_Categories item in baseRepairPage.cbxCategories.Items)
@@ -329,6 +335,20 @@ namespace Pronets.VievModel.Other
                     }
                 }
             }
+        }
+        /// <summary>
+        /// Возвращает true если несколько выбранных неисправностей
+        /// </summary>
+        /// <returns></returns>
+        private bool IsSomeFaults()
+        {
+            var query = Defects.Where(d => d.IsSelected == true).ToList();
+            if(query != null)
+            {
+                if (query.Count > 1)
+                    return true;
+            }
+            return false;
         }
         #endregion
 

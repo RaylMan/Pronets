@@ -56,16 +56,16 @@ namespace Pronets.Viev.Repairs_f
                                 cbx.SelectedItem = comboBoxNomenclature.SelectedItem;
                             }
                         }
-                        catch (System.ArgumentNullException)
+                        catch (System.ArgumentNullException ex)
                         {
-
+                            string error = $" {ex.Message} \n\t {ex.InnerException}\n\t {ex.HResult} \n\t {ex.TargetSite} \n\t {ex.StackTrace} \n\t {ex.Data} \n\t {ex.Source}";
+                            Logging.NewLog(error);
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Ошибка, скажи Андрею прочитать лог", "Error");
                 string error = $" {ex.Message} \n\t {ex.InnerException}\n\t {ex.HResult} \n\t {ex.TargetSite} \n\t {ex.StackTrace} \n\t {ex.Data} \n\t {ex.Source}";
                 Logging.NewLog(error);
             }
@@ -120,7 +120,6 @@ namespace Pronets.Viev.Repairs_f
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Ошибка, скажи Андрею прочитать лог", "Error");
                 string error = $" {ex.Message} \n\t {ex.InnerException}\n\t {ex.HResult} \n\t {ex.TargetSite} \n\t {ex.StackTrace} \n\t {ex.Data} \n\t {ex.Source}";
                 Logging.NewLog(error);
             }
@@ -143,7 +142,6 @@ namespace Pronets.Viev.Repairs_f
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Ошибка, скажи Андрею прочитать лог", "Error");
                 string error = $" {ex.Message} \n\t {ex.InnerException}\n\t {ex.HResult} \n\t {ex.TargetSite} \n\t {ex.StackTrace} \n\t {ex.Data} \n\t {ex.Source}";
                 Logging.NewLog(error);
             }
@@ -165,7 +163,6 @@ namespace Pronets.Viev.Repairs_f
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Ошибка, скажи Андрею прочитать лог", "Error");
                 string error = $" {ex.Message} \n\t {ex.InnerException}\n\t {ex.HResult} \n\t {ex.TargetSite} \n\t {ex.StackTrace} \n\t {ex.Data} \n\t {ex.Source}";
                 Logging.NewLog(error);
             }

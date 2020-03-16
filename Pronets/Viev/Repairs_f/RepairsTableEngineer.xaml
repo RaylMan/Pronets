@@ -5,16 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pronets.Viev.Repairs_f"
         mc:Ignorable="d"
-        Title="Таблица ремонта" Height="595" Width="1020" MinHeight="595" MinWidth="1020" WindowStartupLocation="CenterScreen" Background="Gainsboro" Closed="Window_Closed">
+        Title="Таблица ремонта" Height="595" Width="1020" MinHeight="595" MinWidth="1020" WindowStartupLocation="CenterScreen" Background="Gainsboro" Closed="Window_Closed" Loaded="Window_Loaded">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="220"></ColumnDefinition>
+            <ColumnDefinition Width="205"></ColumnDefinition>
+            <ColumnDefinition Width="15"/>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <!--Column 0-->
         <DataGrid x:Name="serialsGrid" Grid.Column="0" ItemsSource="{Binding SerialNumbers}" Margin="5,5,5,76" CanUserAddRows="True" 
                   HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999" AutoGenerateColumns="False" 
-                  SelectedItem="{Binding SelectedSerialItem}"  SelectedIndex="{Binding SelectedSerialIndex}" CanUserDeleteRows="False"
+                  SelectedItem="{Binding SelectedSerialItem}"  SelectedIndex="{Binding SelectedSerialIndex}" CanUserDeleteRows="False" Grid.ColumnSpan="2"
                  >
             <DataGrid.ContextMenu>
                 <ContextMenu>
@@ -31,26 +32,26 @@
         <Button x:Name="btnAddToTable" Content="  Добавить  " Grid.Column="0" Command="{Binding AddToTableCommand}" VerticalAlignment="Bottom" HorizontalAlignment="Left"
                 Margin="5,0,0,5" Height="25"/>
         <Button x:Name="btnClear" Content="  Очистить  " Grid.Column="0" Command="{Binding ClearCommand}" VerticalAlignment="Bottom" HorizontalAlignment="Right"
-                Margin="0,0,5,5" Height="25"/>
+                Margin="0,0,5,5" Height="25" Grid.ColumnSpan="2"/>
 
         <!--Column 1-->
-        <Menu Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right">
+        <Menu Grid.Row="0" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Right">
             <MenuItem Header="Данные">
                 <MenuItem Header="Обновить данные страницы" Command="{Binding RefreshCommand}"></MenuItem>
             </MenuItem>
         </Menu>
-        <Label Content="Статус ремонта" Grid.Column="1"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,60,0,0"/>
+        <Label Content="Статус ремонта" Grid.Column="2"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,60,0,0"/>
         <ComboBox  ItemsSource="{Binding Statuses, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" HorizontalAlignment="Left"
-                   SelectedValue="{Binding SelectedStatus, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Grid.Column="1" Margin="5,81,0,0" Width="191"   >
+                   SelectedValue="{Binding SelectedStatus, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Grid.Column="2" Margin="5,81,0,0" Width="191"   >
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Status}"/>
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
-        <Label Content="Категория ремонта" Grid.Column="1"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="201,60,0,0" RenderTransformOrigin="0.537,0.526"/>
+        <Label Content="Категория ремонта" Grid.Column="2"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="201,60,0,0" RenderTransformOrigin="0.537,0.526"/>
         <ComboBox x:Name="cbxCategories"  ItemsSource="{Binding Repair_Categories, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" HorizontalAlignment="Left"
-                   SelectedValue="{Binding SelectedCategory, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Grid.Column="1" Margin="201,81,0,0" Width="191"   >
+                   SelectedValue="{Binding SelectedCategory, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Grid.Column="2" Margin="201,81,0,0" Width="191"   >
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Category}"/>
@@ -58,7 +59,7 @@
             </ComboBox.ItemTemplate>
         </ComboBox>
         <DataGrid x:Name="Docunents1" ItemsSource="{Binding V_Repairs, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedValue="{Binding SelectedItem}" SelectedIndex="{Binding SelectedRepairIndex}"
-                   Grid.Column="1" Margin="5,108,5,35" AutoGenerateColumns="False" SelectionMode="Single" HorizontalGridLinesBrush="#FF999999" 
+                   Grid.Column="2" Margin="5,108,5,35" AutoGenerateColumns="False" SelectionMode="Single" HorizontalGridLinesBrush="#FF999999" 
                   VerticalGridLinesBrush="#FF999999"  CanUserAddRows="False" CanUserDeleteRows="False" >
             <DataGrid.ContextMenu>
                 <ContextMenu>
@@ -131,17 +132,17 @@
                 </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <TextBlock Text="{Binding RepairsCount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Column="1"
-                   VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="5"/>
-        <Button x:Name="btnCreate" Content="  Записать  " Grid.Column="1" Command="{Binding EditCommand}"
+        <TextBlock Text="{Binding RepairsCount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Column="2"
+                   VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="5,0,0,5"/>
+        <Button x:Name="btnCreate" Content="  Записать  " Grid.Column="2" Command="{Binding EditCommand}"
                 VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,5,5" Height="25"/>
-        <Label Content="Выявленная неисправность" Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,-6,0,0" Grid.Column="1"/>
+        <Label Content="Выявленная неисправность" Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,-6,0,0" Grid.Column="2"/>
         <TextBox x:Name="tbxDefect" Text="{Binding IdentifieFault, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,16,0,0" Width="191" MaxLength="200" Height="44"
-            TextWrapping="Wrap" Grid.Column="1"/>
-        <Label Content="Проделанная работа" Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="201,-6,0,0" Grid.Column="1"/>
+            TextWrapping="Wrap" Grid.Column="2"/>
+        <Label Content="Проделанная работа" Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="201,-6,0,0" Grid.Column="2"/>
         <TextBox x:Name="tbxWork" Text="{Binding WorkDone, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="201,16,0,0" Width="191" MaxLength="200" Height="44"
-            TextWrapping="Wrap" Grid.Column="1"/>
-        <Button x:Name="btnDefect" Click="BtnDefect_Click" Content=" Выбрать  " Grid.Column="1" Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="397,16,0,0" Width="70" />
-        <Button x:Name="btnFill" Command="{Binding FillCommand}" Content=" Заполнить " Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="397,40,0,0"  />
+            TextWrapping="Wrap" Grid.Column="2"/>
+        <Button x:Name="btnDefect" Click="BtnDefect_Click" Content=" Выбрать  " Grid.Column="2" Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="397,16,0,0" Width="70" />
+        <Button x:Name="btnFill" Command="{Binding FillCommand}" Content=" Заполнить " Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="397,40,0,0"  />
     </Grid>
 </Window>
