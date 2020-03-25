@@ -56,7 +56,9 @@
             </DataGrid.Resources>
             <DataGrid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Информация о ремонте" Command="{Binding GetInfoCommand}" CommandParameter="{Binding SelectedRepair}" />
+                    <MenuItem Header="Редактировать" Click="OpenEditRepairWindow"/>
+                    <MenuItem Header="Открыть документ" Click="BtnOpenDocument_Click"/>
+                    <!--<MenuItem Header="Информация о ремонте" Command="{Binding GetInfoCommand}" CommandParameter="{Binding SelectedRepair}" />-->
                 </ContextMenu>
             </DataGrid.ContextMenu>
             <DataGrid.RowStyle>

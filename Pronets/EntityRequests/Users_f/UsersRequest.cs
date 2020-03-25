@@ -40,6 +40,28 @@ namespace Pronets.EntityRequests.Users_f
             {
                 try
                 {
+                    var result = db.Engineers.ToList();
+                    engineers = new ObservableCollection<Engineers>(result);
+
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.InnerException.Message, "Ошибка");
+                }
+            }
+            return engineers;
+        }
+
+        /// <summary>
+        /// <para>Возращает коллекцию Engineers</para>
+        /// </summary>
+        public static ObservableCollection<Engineers> FillListEngineersWithRepairs()
+        {
+            ObservableCollection<Engineers> engineers = new ObservableCollection<Engineers>();
+            using (var db = ConnectionTools.GetConnection())
+            {
+                try
+                {
                     var result = db.Engineers.Include(e => e.Repairs).ToList();
                     engineers = new ObservableCollection<Engineers>(result);
 

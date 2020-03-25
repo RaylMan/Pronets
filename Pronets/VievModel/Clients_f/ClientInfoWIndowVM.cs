@@ -844,7 +844,7 @@ namespace Pronets.VievModel.Clients_f
                 RaisedPropertyChanged("RefreshCommand");
             }
         }
-        private void Refresh(object parametr)
+        public void Refresh(object parametr)
         {
             GetContent();
         }

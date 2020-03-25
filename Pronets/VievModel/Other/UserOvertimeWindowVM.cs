@@ -8,7 +8,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls.Primitives;
+using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace Pronets.VievModel.Other
 {
@@ -164,8 +167,8 @@ namespace Pronets.VievModel.Other
             GetInfo();
             GetOvertime(onlyAmounted);
             GetAmount();//вывод информации о зарплате
-
         }
+
         private void GetOvertime(bool amount)
         {
             if (amount)
@@ -251,10 +254,14 @@ namespace Pronets.VievModel.Other
         {
             if (SelectedOvertime != null)
             {
-                OvertimeRequest.RemoveFromBase(SelectedOvertime);
-                GetOvertime(onlyAmounted);
-            }
+                var result = MessageBox.Show("Вы действительно хотете удалить?", "Удаление", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
+                if (result == MessageBoxResult.Yes)
+                {
+                    OvertimeRequest.RemoveFromBase(SelectedOvertime);
+                    GetOvertime(onlyAmounted);
+                }
+            }
         }
         #endregion
 

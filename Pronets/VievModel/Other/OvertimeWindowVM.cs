@@ -228,8 +228,13 @@ namespace Pronets.VievModel.Other
         {
             if (SelectedOvertime != null)
             {
-                OvertimeRequest.RemoveFromBase(SelectedOvertime);
-                OvertimeList.Remove(SelectedOvertime);
+                var result = MessageBox.Show("Вы действительно хотете удалить?", "Удаление", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                if(result == MessageBoxResult.Yes)
+                {
+                    OvertimeRequest.RemoveFromBase(SelectedOvertime);
+                    OvertimeList.Remove(SelectedOvertime);
+                }
             }
 
         }

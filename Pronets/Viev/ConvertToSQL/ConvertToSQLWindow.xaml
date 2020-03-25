@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Pronets.Viev.ConvertToSQL"
         xmlns:vm="clr-namespace:Pronets.VievModel.ConvertToSQL"
         mc:Ignorable="d"
-        Title="Импорт в базу" Height="595" Width="1020" MinHeight="595" MinWidth="1020" Background="Gainsboro" WindowStartupLocation="CenterScreen" Closed="Window_Closed">
+        Title="Импорт в базу" Height="595" Width="1020" MinHeight="595" MinWidth="1020" Background="Gainsboro" WindowStartupLocation="CenterScreen" Closed="Window_Closed" KeyDown="Window_KeyDown">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -21,7 +21,7 @@
 
         <Menu Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right">
             <MenuItem Header="Данные">
-                <MenuItem Header="Обновить данные страницы" Command="{Binding RefreshCommand}"></MenuItem>
+                <MenuItem Header="Обновить данные страницы (F5)" Command="{Binding RefreshCommand}"></MenuItem>
             </MenuItem>
         </Menu>
         <TextBox x:Name="tbxPath" Text="{Binding Path, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  VerticalAlignment="Top" HorizontalAlignment="Left" Width="296" 

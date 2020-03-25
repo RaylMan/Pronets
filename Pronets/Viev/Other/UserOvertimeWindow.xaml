@@ -8,6 +8,7 @@
         mc:Ignorable="d"
         Title="{Binding Head}" Height="450" Width="800" MinHeight="450" MinWidth="800"  WindowStartupLocation="CenterScreen" Background="Gainsboro" Closed="Window_Closed">
 
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="220"></ColumnDefinition>
@@ -91,6 +92,5 @@
                 <DataGridTextColumn Header="Статус" Binding="{Binding Path=Status, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" />
             </DataGrid.Columns>
         </DataGrid>
-
     </Grid>
 </Window>

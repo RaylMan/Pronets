@@ -91,7 +91,7 @@ namespace Pronets.VievModel.Users_f
         {
             try
             {
-                foreach (var item in UsersRequest.FillListEngineers())
+                foreach (var item in UsersRequest.FillListEngineersWithRepairs())
                 {
                     if (item.LastName != "admin" && item.LastName != "Не выбран")
                     {

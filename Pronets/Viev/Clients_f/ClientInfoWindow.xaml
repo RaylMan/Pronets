@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pronets.Viev.Clients_f"
         mc:Ignorable="d"
-        Title="{Binding TitleName}" Height="595" Width="1020" MinHeight="595" MinWidth="1020" Background="Gainsboro" WindowStartupLocation="CenterScreen" Topmost="True">
+        Title="{Binding TitleName}" Height="595" Width="1020" MinHeight="595" MinWidth="1020" Background="Gainsboro" WindowStartupLocation="CenterScreen" Topmost="True" KeyDown="Window_KeyDown">
 
     <Grid Margin="5">
         <Grid.RowDefinitions>
@@ -18,7 +18,7 @@
         <Button Content=" Сохранить изменения " Command="{Binding EditCommand}" Grid.Row="0" HorizontalAlignment="Left" Margin="5,12,0,0"/>
         <Menu Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Right">
             <MenuItem Header="Данные">
-                <MenuItem Header="Обновить данные страницы" Command="{Binding RefreshCommand}"></MenuItem>
+                <MenuItem Header="Обновить данные страницы (F5)" Command="{Binding RefreshCommand}"></MenuItem>
             </MenuItem>
         </Menu>
         <!--Row 1-->

@@ -38,8 +38,8 @@
         <CheckBox x:Name="cbxAllClients" Content="Все Киленты" IsChecked="{Binding AllClients}" Checked="CbxAllClients_Checked"
                   VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Row="0" Margin="706,13,0,0"/>
         <Menu Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Right">
-            <MenuItem Header="Данные">
-                <MenuItem Header="Обновить данные страницы" Command="{Binding RefreshCommand}"></MenuItem>
+            <MenuItem Header="Данные" Click="MenuItem_Click">
+                <MenuItem Header="Обновить данные страницы (F5)" Command="{Binding RefreshCommand}"></MenuItem>
             </MenuItem>
         </Menu>
         <!--Row 1-->

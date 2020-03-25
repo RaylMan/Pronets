@@ -38,8 +38,7 @@ namespace Pronets.Viev.Other
             {
                 this.user = user;
                 DataContext = new UserOvertimeWindowVM(user);
-            }
-
+            } 
         }
 
         private void CheckBox_Checked(object sender, RoutedEventArgs e)

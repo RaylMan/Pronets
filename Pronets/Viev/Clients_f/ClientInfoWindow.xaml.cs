@@ -85,5 +85,13 @@ namespace Pronets.Viev.Clients_f
 
         #endregion
 
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.F5)
+            {
+                var vm = (ClientInfoWIndowVM)DataContext;
+                vm.Refresh(sender);
+            }
+        }
     }
 }

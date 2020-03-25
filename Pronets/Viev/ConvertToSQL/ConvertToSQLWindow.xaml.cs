@@ -146,5 +146,14 @@ namespace Pronets.Viev.ConvertToSQL
         {
             instance = null;
         }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.F5)
+            {
+                var vm = (ConvertToSQLWindowVM)DataContext;
+                vm.Refresh(sender);
+            }
+        }
     }
 }
