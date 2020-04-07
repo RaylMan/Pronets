@@ -33,7 +33,7 @@
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="ServerName" Type="System.String" Scope="User">
-      <Value Profile="(Default)">LENOVO-PC\SQLEXPRESS</Value>
+      <Value Profile="(Default)">DESKTOP-D6JRGFG\SQLEXPRESS</Value>
     </Setting>
     <Setting Name="BaseName" Type="System.String" Scope="User">
       <Value Profile="(Default)">PronetsDB</Value>
