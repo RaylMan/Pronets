@@ -22,11 +22,23 @@ namespace Pronets.Viev.Other
     public partial class SettingsWindow : Window
     {
         private Users user;
+        private static SettingsWindow settingsWindowInstance;
+        public static SettingsWindow GetSettingsWindowInstance(Users user)
+        {
+            if (settingsWindowInstance == null)
+                settingsWindowInstance = new SettingsWindow(user);
+
+            return settingsWindowInstance;
+        }
         public SettingsWindow(Users user)
         {
             InitializeComponent();
             this.user = user;
             DataContext = new SettingsWindowVM(user);
+        }
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            settingsWindowInstance = null;
         }
     }
 }

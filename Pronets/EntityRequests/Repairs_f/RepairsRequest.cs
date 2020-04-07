@@ -979,9 +979,12 @@ namespace Pronets.EntityRequests.Repairs_f
                 {
                     var result = db.Repairs.Where(r => r.RepairId == repairId).FirstOrDefault();
                     repair = (Repairs)result;
-                    db.Repairs.Attach(repair);
-                    db.Repairs.Remove(repair);
-                    db.SaveChanges();
+                    if(result != null)
+                    {
+                        db.Repairs.Attach(repair);
+                        db.Repairs.Remove(repair);
+                        db.SaveChanges();
+                    }
                 }
                 catch (System.Data.Entity.Infrastructure.DbUpdateException)
                 {
@@ -1115,7 +1118,7 @@ namespace Pronets.EntityRequests.Repairs_f
                                       u.DocumentId == numericWord ||
                                       u.RepairId == numericWord
                                       select u;
-                    v_Repairs = new ObservableCollection<v_Repairs>(searchItems.OrderByDescending(r => r.Date_Of_Receipt));
+                    v_Repairs = new ObservableCollection<v_Repairs>(searchItems);
                 }
                 catch (Exception e)
                 {

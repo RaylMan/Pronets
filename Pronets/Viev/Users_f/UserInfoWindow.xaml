@@ -9,7 +9,7 @@
     <Grid Margin="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="35"></RowDefinition>
-            <RowDefinition Height="200"></RowDefinition>
+            <RowDefinition Height="240"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <!--Row 0-->
@@ -38,13 +38,14 @@
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
 
                 <Label Content="Логин" VerticalAlignment="Top" Padding="5,0" Grid.Row="0" Grid.Column="0"/>
-                <TextBox Text="{Binding Login}" MaxLength="49" Grid.Row="0" Grid.Column="0" Margin="5,18,5,0" ></TextBox>
+                <TextBox Text="{Binding Login, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MaxLength="49" Grid.Row="0" Grid.Column="0" Margin="5,18,5,0" ></TextBox>
 
                 <Label Content="Пароль" VerticalAlignment="Top" Padding="5,0" Grid.Row="1" Grid.Column="0"/>
-                <TextBox Text="{Binding Password}" MaxLength="49" Grid.Row="1" Grid.Column="0" Margin="5,18,5,0" ></TextBox>
+                <TextBox Text="{Binding Password, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MaxLength="49" Grid.Row="1" Grid.Column="0" Margin="5,18,5,0" ></TextBox>
 
                 <Label Content="Должность" VerticalAlignment="Top" Padding="5,0" Grid.Row="2" Grid.Column="0"/>
                 <ComboBox x:Name="cmbposition" Grid.Row="2" Grid.Column="0" Margin="0,16,5,0" ItemsSource="{Binding Positions}" Width="190" HorizontalAlignment="Right" VerticalAlignment="Top" SelectedValue="{Binding SelectedPosition}">
@@ -55,16 +56,16 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
                 <Label Content="Телефон" VerticalAlignment="Top" Padding="5,0" Grid.Row="3" Grid.Column="0"  />
-                <TextBox Text="{Binding Telephone}" MaxLength="49" Grid.Row="3" Grid.Column="0" Margin="5,18,0,35" Width="190" HorizontalAlignment="Left" Grid.RowSpan="2" />
+                <TextBox Text="{Binding Telephone, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MaxLength="49" Grid.Row="3" Grid.Column="0" Margin="5,18,0,35" Width="190" HorizontalAlignment="Left" Grid.RowSpan="2" />
 
                 <Label Content="Фамилия" VerticalAlignment="Top" Padding="5,0" Grid.Row="0" Grid.Column="1"/>
-                <TextBox Text="{Binding LastName}" MaxLength="49"  Grid.Row="0" Grid.Column="1" Margin="5,18,5,0" ></TextBox>
+                <TextBox Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MaxLength="49"  Grid.Row="0" Grid.Column="1" Margin="5,18,5,0" ></TextBox>
 
                 <Label Content="Имя" VerticalAlignment="Top" Padding="5,0" Grid.Row="1" Grid.Column="1"/>
-                <TextBox Text="{Binding FirstName}" MaxLength="49" Grid.Row="1" Grid.Column="1" Margin="5,18,5,0" ></TextBox>
+                <TextBox Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MaxLength="49" Grid.Row="1" Grid.Column="1" Margin="5,18,5,0" ></TextBox>
 
                 <Label Content="Отчество" VerticalAlignment="Top" Padding="5,0" Grid.Row="2" Grid.Column="1"/>
-                <TextBox Text="{Binding Patronymic}" MaxLength="49" Grid.Row="2" Grid.Column="1" Margin="5,18,5,0" ></TextBox>
+                <TextBox Text="{Binding Patronymic, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MaxLength="49" Grid.Row="2" Grid.Column="1" Margin="5,18,5,0" ></TextBox>
 
                 <Label Content="Дата пождения" VerticalAlignment="Top" Padding="5,0" Grid.Row="3" Grid.Column="1"/>
                 <DatePicker SelectedDate="{Binding Birthday,UpdateSourceTrigger=PropertyChanged}" DisplayDateStart="01/01/1950" DisplayDateEnd="12/31/2030" Grid.Row="3" Grid.Column="1" Margin="5,18,5,35" Grid.RowSpan="2" />
@@ -72,6 +73,11 @@
                 <Label Content="Адресс" VerticalAlignment="Top" Margin="0,5,151,0" Padding="5,0" Grid.Row="4" Grid.Column="0" RenderTransformOrigin="0.769,0.625"/>
                 <TextBox Text="{Binding Adress}" MaxLength="180" Grid.Row="4" Grid.Column="0" Margin="54,10,5,0" Grid.ColumnSpan="2" TextWrapping="Wrap" AcceptsReturn="True" ></TextBox>
 
+                <Label Content="Зарплата за час" VerticalAlignment="Top" Padding="5,0" Grid.Row="5" Grid.Column="0"/>
+                <TextBox Text="{Binding SalaryPerHour, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MaxLength="10" Grid.Row="5" Grid.Column="0" Margin="5,18,0,0" Width="190" HorizontalAlignment="Left" />
+
+                <Label Content="Зарплата за день" VerticalAlignment="Top" Padding="5,0" Grid.Row="5" Grid.Column="1"/>
+                <TextBox Text="{Binding SalaryPerDay, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MaxLength="10" Grid.Row="5" Grid.Column="1" Margin="5,18,0,0" Width="190" HorizontalAlignment="Left"  />
             </Grid>
 
             <Grid Margin="0,0,5,0" Grid.Column="1">
@@ -90,7 +96,7 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
 
-                <Button VerticalAlignment="Bottom" HorizontalAlignment="Left" Content=" Сортировать " Height="25" Command="{Binding SortCommand}" Margin="5,0,0,25"/>
+                <Button VerticalAlignment="Bottom" HorizontalAlignment="Left" Content=" Сортировать " Height="25" Command="{Binding SortCommand}" Margin="111,0,0,64"/>
 
                 <CheckBox x:Name="chbxAllCategory"  IsChecked="{Binding AllCategory}" Content="Все категории ремонта" Checked="ChbxAllCategory_Checked" HorizontalAlignment="Left" Margin="5,130,0,0" VerticalAlignment="Top"/>
 

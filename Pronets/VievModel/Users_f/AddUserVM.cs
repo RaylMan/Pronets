@@ -82,7 +82,9 @@ namespace Pronets.VievModel.Users_f
                         Patronymic = base.Patronymic,
                         Birthday = base.Birthday,
                         Telephone = base.Telephone,
-                        Adress = base.Adress
+                        Adress = base.Adress,
+                        SalaryPerHour = 0,
+                        SalaryPerDay = 0
                     };
                     var result = MessageBox.Show("Вы действительно хотете добавить работника?\nПроверьте правильность данных!", "Создание экземпляра", MessageBoxButton.YesNo, MessageBoxImage.Question);
                     if (result == MessageBoxResult.Yes)

@@ -1,0 +1,34 @@
+﻿<Window x:Class="Pronets.Viev.Other.AdminOvertimeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Pronets.Viev.Other"
+        mc:Ignorable="d"
+        Title="Рабочее время" Height="195" Width="238" Background="Gainsboro" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Label x:Name="label" Content="Дата" Grid.Row="0" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top"/>
+        <DatePicker SelectedDate="{Binding Date, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Row="0"
+                    DisplayDateStart="01/01/2019" DisplayDateEnd="12/31/2030" 
+                    Margin="10,26,10,0" VerticalAlignment="Top" />
+        <Label Content="Работник" Grid.Row="0" HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top"/>
+        <ComboBox x:Name="cbxUsers" ItemsSource="{Binding Users}" SelectedValue="{Binding SelectedUser}" 
+                    VerticalAlignment="Top"  Grid.Column="0" Margin="10,70,10,0" >
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding LastName}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        <Label Content="Отработанное время(ч)" Grid.Row="0" HorizontalAlignment="Left" Margin="6,102,0,0" VerticalAlignment="Top"/>
+        <ComboBox x:Name="comboBoxWarranty" ItemsSource="{Binding OvertimeHoursList}" SelectedValue="{Binding SelectedOvertimeHour}" 
+                  HorizontalAlignment="Right"  VerticalAlignment="Top" Width="59" Grid.Column="0" Margin="0,106,10,0">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Time}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        <Button x:Name="btnWrite" Content=" Записать " Command="{Binding WriteCommand}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="85,0,0,10"/>
+    </Grid>
+</Window>

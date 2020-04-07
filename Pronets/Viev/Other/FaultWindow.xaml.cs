@@ -23,6 +23,7 @@ namespace Pronets.Viev.Other
     public partial class FaultWindow : Window
     {
         public FaultWindowVM vm => (FaultWindowVM)DataContext;
+
         public FaultWindow(RepairsPage page)
         {
             InitializeComponent();
@@ -48,6 +49,10 @@ namespace Pronets.Viev.Other
             }
         }
 
-       
+        private void WorkDatagrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (workDatagrid.SelectedItem != null)
+                workDatagrid.ScrollIntoView(workDatagrid.SelectedItem);
+        }
     }
 }

@@ -19,9 +19,25 @@ namespace Pronets.Viev.Repairs_f
     /// </summary>
     public partial class RepairCategoriesWindow : Window
     {
+        private static RepairCategoriesWindow instance;
+        public static RepairCategoriesWindow Instance
+        {
+            get
+            {
+                if (instance == null)
+                    instance = new RepairCategoriesWindow();
+
+                return instance;
+            }
+        }
         public RepairCategoriesWindow()
         {
             InitializeComponent();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            instance = null;
         }
     }
 }

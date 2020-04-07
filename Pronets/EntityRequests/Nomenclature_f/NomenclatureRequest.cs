@@ -47,7 +47,7 @@ namespace Pronets.EntityRequests.Nomenclature_f
                     });
                     db.SaveChanges();
                 }
-                catch (DbUpdateException e)
+                catch (DbUpdateException)
                 {
                     MessageBox.Show("Элемент уже существует в базе!", "Ошибка");
                     isExeption = false;

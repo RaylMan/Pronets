@@ -33,13 +33,13 @@
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="ServerName" Type="System.String" Scope="User">
-      <Value Profile="(Default)">DESKTOP-D6JRGFG\SQLEXPRESS</Value>
+      <Value Profile="(Default)">192.168.91.196\SQLEXPRESS</Value>
     </Setting>
     <Setting Name="BaseName" Type="System.String" Scope="User">
       <Value Profile="(Default)">PronetsDB</Value>
     </Setting>
     <Setting Name="ServerLogin" Type="System.String" Scope="User">
-      <Value Profile="(Default)">sa</Value>
+      <Value Profile="(Default)">Pronets</Value>
     </Setting>
     <Setting Name="ServerPassword" Type="System.String" Scope="User">
       <Value Profile="(Default)">Pronetspassword123</Value>

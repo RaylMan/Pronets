@@ -64,5 +64,10 @@ namespace Pronets.Viev.MainWindows.Pages
             cmbStatuses.SelectedItem = null;
             cbxAllStatus.IsChecked = true;
         }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

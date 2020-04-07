@@ -6,44 +6,52 @@
         xmlns:local="clr-namespace:Pronets.Viev.Other"
         xmlns:vm="clr-namespace:Pronets.VievModel.Other"
         mc:Ignorable="d"
-        Title="{Binding Head}" Height="450" Width="800" MinHeight="450" MinWidth="800"  WindowStartupLocation="CenterScreen" Background="Gainsboro">
+        Title="{Binding Head}" Height="450" Width="800" MinHeight="450" MinWidth="800"  WindowStartupLocation="CenterScreen" Background="Gainsboro" Closed="Window_Closed">
+
 
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="220"></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="15*"></ColumnDefinition>
+            <ColumnDefinition Width="11*"/>
         </Grid.ColumnDefinitions>
         <!--Column 0-->
         <Label x:Name="label" Content="Дата переработки" Grid.Row="0" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top"/>
         <DatePicker SelectedDate="{Binding Date, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Row="0"
                     DisplayDateStart="01/01/2019" DisplayDateEnd="12/31/2030" HorizontalAlignment="Left"
                     Margin="10,26,0,0" VerticalAlignment="Top" Width="210"/>
-        <TextBox x:Name="tbxHours" HorizontalAlignment="Left" Height="23" Margin="10,76,0,0" TextWrapping="Wrap" Grid.Row="0"
+        <!--<TextBox x:Name="tbxHours" HorizontalAlignment="Left" Height="23" Margin="10,76,0,0" TextWrapping="Wrap" Grid.Row="0"
                      TextChanged="TbxHours_SelectionChanged"
-                 Text="{Binding Hours, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Top" Width="51"/>
+                 Text="{Binding Hours, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Top" Width="51"/>-->
 
-        <Label x:Name="label1" Content="Количество часов/день" HorizontalAlignment="Left" Margin="10,55,0,0" Grid.Row="0" VerticalAlignment="Top"/>
+        <Label x:Name="label1" Content="Количество часов/день" HorizontalAlignment="Left" Margin="7,55,0,0" Grid.Row="0" VerticalAlignment="Top"/>
         <CheckBox x:Name="checkBox" IsChecked="{Binding Day, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Row="0"
                       Checked="CheckBox_Checked" Content="Выходной" HorizontalAlignment="Left" Margin="67,81,0,0" VerticalAlignment="Top"/>
         <Button x:Name="button" Content="  Записать  " Command="{Binding AddToBaseCommand}" Grid.Row="0"  HorizontalAlignment="Left" Margin="147,76,0,0" VerticalAlignment="Top" Width="73" Height="23"/>
         <!--summary-->
         <Label Content="Зарплата за час" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,115,0,0"/>
         <TextBox x:Name="tbxPricePerHour" Grid.Column="0" Text="{Binding PricePerHour, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top"
-                     HorizontalAlignment="Left" Margin="10,141,0,0" Width="96"/>
+                     HorizontalAlignment="Left" Margin="10,141,0,0" Width="96" IsReadOnly="True" Background="#FFEEEEEE"/>
         <Label Content="Зарплата за день" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="116,115,0,0"/>
         <TextBox x:Name="tbxPricePerDay" Grid.Column="0" Text="{Binding PricePerDay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top"
-                     HorizontalAlignment="Left" Margin="116,141,0,0" Width="104"/>
-        <Button x:Name="btnSumm" Content="  Расчет  " Command="{Binding AmountCommand}" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="84,164,0,0"/>
+                     HorizontalAlignment="Left" Margin="116,141,0,0" Width="104" IsReadOnly="True" Background="#FFEEEEEE"/>
+        <ComboBox x:Name="comboBoxWarranty" ItemsSource="{Binding OvertimeHoursList}" SelectedValue="{Binding SelectedOvertimeHour}" 
+                  HorizontalAlignment="Left"  VerticalAlignment="Top" Width="52" Grid.Column="0" Margin="10,77,0,0" SelectionChanged="ComboBoxWarranty_SelectionChanged">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Time}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        <Button x:Name="btnSumm" Content="  Расчет  " Command="{Binding AmountCommand}" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="84,168,0,0"/>
         <TextBox x:Name="tbxResult" Text="{Binding Amount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Left" 
-                     IsReadOnly="True" Margin="10,197,0,0" Height="100" Width="210"/>
-        <TextBlock Text="{Binding Info}" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Center" Grid.Column="0" Margin="10,302,7,0"/>
-        
+                     IsReadOnly="True" Margin="10,197,0,0" Height="100" Width="210" Background="#FFEEEEEE"/>
         <!--Column 1-->
         <CheckBox IsChecked="{Binding OnlyAmounted, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Column="1"
-                       Content="Только не оплаченые" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Top"/>
+                       Content="Только не оплаченые" HorizontalAlignment="Left" Margin="5,5,0,0" VerticalAlignment="Top"/>
         <DataGrid x:Name="overtime" ItemsSource="{Binding OvertimeList}" AutoGenerateColumns="False" Grid.Column="1" 
                   SelectedIndex="{Binding SelectedIndex}" SelectedValue="{Binding SelectedOvertime}" 
-                       HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999" Margin="5,25,5,5" CanUserAddRows="False" CanUserDeleteRows="False">
+                       HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999" Margin="5,25,5,5" CanUserAddRows="False" CanUserDeleteRows="False" Grid.ColumnSpan="2">
             <DataGrid.Resources>
                 <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="White" />
                 <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#0078D7"/>
@@ -84,6 +92,5 @@
                 <DataGridTextColumn Header="Статус" Binding="{Binding Path=Status, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" />
             </DataGrid.Columns>
         </DataGrid>
-
     </Grid>
 </Window>

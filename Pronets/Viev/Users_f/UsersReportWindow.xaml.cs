@@ -20,10 +20,26 @@ namespace Pronets.Viev.Users_f
     /// </summary>
     public partial class UsersReportWindow : Window
     {
+        private static UsersReportWindow usersReportWindowInstance;
+        public static UsersReportWindow UsersReportWindowInstance
+        {
+            get
+            {
+                if (usersReportWindowInstance == null)
+                    usersReportWindowInstance = new UsersReportWindow();
+
+                return usersReportWindowInstance;
+            }
+        }
         public UsersReportWindow()
         {
             InitializeComponent();
             DataContext = new UsersReportWindowVM();
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            usersReportWindowInstance = null;
         }
     }
 }

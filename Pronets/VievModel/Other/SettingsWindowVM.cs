@@ -104,8 +104,8 @@ namespace Pronets.VievModel.Other
             login = user.Login;
             chiefEngineer = Properties.Settings.Default.ChiefEngineer.ToString();
             responsiblePerson = Properties.Settings.Default.ResponsiblePerson.ToString();
-            pricePerDay = Properties.Settings.Default.PricePerDay.ToString();
-            pricePerHour = Properties.Settings.Default.PricePerHour.ToString();
+            pricePerDay = user.SalaryPerDay.ToString();
+            pricePerHour = user.SalaryPerHour.ToString();
         }
 
         #region SaveCommand

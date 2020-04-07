@@ -1,5 +1,7 @@
 ﻿using Pronets.Data;
 using Pronets.Viev.Other;
+using Pronets.Viev.Repairs_f;
+using Pronets.Viev.Users_f;
 using Pronets.VievModel.MainWindows;
 using System;
 using System.Collections.Generic;
@@ -42,14 +44,43 @@ namespace Pronets.Viev.MainWindows
 
         private void Overtime_Click(object sender, RoutedEventArgs e)
         {
-            UserOvertimeWindow overtimeWindow = new UserOvertimeWindow(user);
+            UserOvertimeWindow overtimeWindow = UserOvertimeWindow.GetUserOvertimeWindowInstance(user);
             overtimeWindow.Show();
+            overtimeWindow.Focus();
         }
 
         private void Settings_Click(object sender, RoutedEventArgs e)
         {
-            SettingsWindow settingsWindow = new SettingsWindow(user);
+            SettingsWindow settingsWindow = SettingsWindow.GetSettingsWindowInstance(user);
             settingsWindow.Show();
+            settingsWindow.Focus();
+        }
+
+        private void Open_PartsOrder_Click(object sender, RoutedEventArgs e)
+        {
+            PartsWindow win = PartsWindow.PartsWindowInstance;
+            win.Show();
+            win.Focus();
+        }
+
+        private void Open_AllRepairsWindow_Click(object sender, RoutedEventArgs e)
+        {
+            AllRepairsWindow win = AllRepairsWindow.Instance;
+            win.Show();
+            win.Focus();
+        }
+
+        private void CalculateRepairs_Click(object sender, RoutedEventArgs e)
+        {
+            CountOfRepairsWindow win = CountOfRepairsWindow.Instance;
+            win.Show();
+            win.Focus();
+        }
+
+        private void SelfUserReportWindow_Click(object sender, RoutedEventArgs e)
+        {
+            SelfUserReportWindow win = new SelfUserReportWindow(user);
+            win.ShowDialog();
         }
     }
 }

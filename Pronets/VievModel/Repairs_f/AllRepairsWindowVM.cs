@@ -47,7 +47,7 @@ namespace Pronets.VievModel.Repairs_f
                 RaisedPropertyChanged("LoadingStatus");
             }
         }
-        
+
         #endregion
 
         public AllRepairsWindowVM()
@@ -62,10 +62,7 @@ namespace Pronets.VievModel.Repairs_f
             if (V_Repairs != null)
                 V_Repairs.Clear();
             await Task.Run(() => GetRepairs());
-            
             LoadingStatus = "Загрузка завершена";
-            
-
         }
         private void GetRepairs()
         {
@@ -81,7 +78,7 @@ namespace Pronets.VievModel.Repairs_f
             }
             catch (Exception)
             {
-               
+                LoadingStatus = "Отсутствует соединение с сервером";
             }
         }
         #region Search

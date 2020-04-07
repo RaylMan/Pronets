@@ -2,8 +2,13 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:Pronets"
-             StartupUri="Viev\LoginWindow.xaml">
+             StartupUri="Viev\LoginWindow.xaml"><!--StartupUri="Viev\LoginWindow.xaml"-->
     <Application.Resources>
-         
+        <Style TargetType="Window">
+            <Setter Property="Background" Value="Gainsboro"/>
+        </Style>
+        <Style TargetType="Page">
+            <Setter Property="Background" Value="Gainsboro"/>
+        </Style>
     </Application.Resources>
 </Application>

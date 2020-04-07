@@ -40,7 +40,7 @@
 
         <DataGrid x:Name="workDatagrid" Grid.Row="1" ItemsSource="{Binding Defects}" SelectedValue="{Binding SelectedDefect}" SelectedIndex="{Binding SelectedDefectIndex}"
                   AutoGenerateColumns="False" SelectionMode="Single" HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999" Margin="5,0,5,30"
-                       CanUserAddRows="False" CanUserDeleteRows="False" Grid.RowSpan="2">
+                       CanUserAddRows="False" CanUserDeleteRows="False" Grid.RowSpan="2" SelectionChanged="WorkDatagrid_SelectionChanged">
             <DataGrid.Resources>
                 <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="White" />
                 <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#0078D7"/>

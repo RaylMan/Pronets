@@ -13,7 +13,10 @@ namespace Pronets.Model
         /// </summary> 
         public static string ToEnglish(string word)
         {
-            Dictionary<string, string> dictionaryChar = new Dictionary<string, string>()
+            var result = "";
+            if (word != null)
+            {
+                Dictionary<string, string> dictionaryChar = new Dictionary<string, string>()
             {
                 {"а","f"},
                 {"б",","},
@@ -84,23 +87,23 @@ namespace Pronets.Model
                 {"Я","z"}
 
             };
-            var result = "";
-            // проход по строке для поиска символов подлежащих замене которые находятся в словаре dictionaryChar
-            foreach (var ch in word)
-            {
-                var ss = "";
-                // берём каждый символ строки и проверяем его на нахождение его в словаре для замены,
-                // если в словаре есть ключ с таким значением то получаем true 
-                // и добавляем значение из словаря соответствующее ключу
-                if (dictionaryChar.TryGetValue(ch.ToString(), out ss))
+                // проход по строке для поиска символов подлежащих замене которые находятся в словаре dictionaryChar
+                foreach (var ch in word)
                 {
-                    result += ss;
+                    var ss = "";
+                    // берём каждый символ строки и проверяем его на нахождение его в словаре для замены,
+                    // если в словаре есть ключ с таким значением то получаем true 
+                    // и добавляем значение из словаря соответствующее ключу
+                    if (dictionaryChar.TryGetValue(ch.ToString(), out ss))
+                    {
+                        result += ss;
+                    }
+                    // иначе добавляем тот же символ
+                    // иначе добавляем тот же символ
+                    else result += ch;
                 }
-                // иначе добавляем тот же символ
-                else result += ch;
             }
             return result;
         }
-        
     }
 }

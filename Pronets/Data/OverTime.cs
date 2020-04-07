@@ -17,7 +17,7 @@ namespace Pronets.Data
         public int Id { get; set; }
         public string LastName { get; set; }
         public Nullable<System.DateTime> Date { get; set; }
-        public Nullable<int> Hours { get; set; }
+        public Nullable<double> Hours { get; set; }
         public Nullable<int> Day { get; set; }
         public string Status { get; set; }
     }

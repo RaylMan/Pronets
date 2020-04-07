@@ -63,8 +63,9 @@ namespace Pronets.Viev.MainWindows.Pages
 
         private void BtOpenRepairsTable_Click(object sender, RoutedEventArgs e)
         {
-            RepairsTableEngineer win = new RepairsTableEngineer();
+            RepairsTableEngineer win = RepairsTableEngineer.Instance;
             win.Show();
+            win.Focus();
         }
 
         private void BtnEdit_Click(object sender, RoutedEventArgs e)
@@ -148,5 +149,45 @@ namespace Pronets.Viev.MainWindows.Pages
            SetStatusColor();
         }
 
+        private void BtnOpenDocument_Click(object sender, RoutedEventArgs e)
+        {
+            if (IsInspectorOrAdmin())
+            {
+                v_Repairs repair = (v_Repairs)Docunents.SelectedItem;
+                if (repair != null)
+                {
+                    v_Receipt_Document document = ReceiptDocumentRequest.GetDocument((int)repair.DocumentId);
+                    ReceiptDocumentInspector window = new ReceiptDocumentInspector(document);
+                    window.Show();
+                }
+            }
+            else
+                MessageBox.Show("Нет доступа!", "Открыть документ");
+        }
+
+        private void OpenEditRepairWindow(object sender, RoutedEventArgs e)
+        {
+            if (IsInspectorOrAdmin())
+            {
+                if (Docunents.SelectedItem != null)
+                {
+                    EditRepairWindow window = new EditRepairWindow((v_Repairs)Docunents.SelectedItem);
+                    window.Show();
+
+                }
+            }
+            else
+                MessageBox.Show("Нет доступа!", "Редактирование");
+        }
+        private bool IsInspectorOrAdmin()
+        {
+            int.TryParse(Properties.Settings.Default.DefaultUserId.ToString(), out int userId);
+            var user = UsersRequest.GetUser(userId);
+            if (user != null && user.Position != "Инженер")
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

@@ -23,6 +23,18 @@ namespace Pronets.Viev.Other
     /// </summary>
     public partial class OvertimeWindow : Window
     {
+        private static OvertimeWindow overtimeWindowInstance;
+        public static OvertimeWindow OvertimeWindowInstance
+        {
+            get
+            {
+                if (overtimeWindowInstance == null)
+                    overtimeWindowInstance = new OvertimeWindow();
+
+                return overtimeWindowInstance;
+            }
+        }
+
         public OvertimeWindow()
         {
             InitializeComponent();
@@ -70,6 +82,17 @@ namespace Pronets.Viev.Other
                 CheckBox checkBox = ItemTemplateFind.FindChild<CheckBox>(elmchbx, "chkbx");
                 checkBox.IsChecked = false;
             }
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            overtimeWindowInstance = null;
+        }
+
+        private void BtnOpenAdminOvertimeWindow_Click(object sender, RoutedEventArgs e)
+        {
+            AdminOvertimeWindow win = new AdminOvertimeWindow((OvertimeWindowVM)this.DataContext);
+            win.ShowDialog();
         }
     }
 }

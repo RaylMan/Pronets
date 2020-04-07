@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,6 +15,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace Pronets.Viev
 {
@@ -32,23 +34,49 @@ namespace Pronets.Viev
                 tbxLogin.Text = Properties.Settings.Default.Login;
                 tbxPassword.Password = Properties.Settings.Default.Password;
             }
+
         }
-        private void Start_Click(object sender, RoutedEventArgs e)
-        {
-            //WorkWindowAdmin workWindowAdmin = new WorkWindowAdmin(UsersRequest.Login("admin", "password", out bool ex));
-            //workWindowAdmin.Show();
-            //this.Close();
-            //Properties.Settings.Default.Save();
-        }
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private async void Login()
         {
             SaveLogin();
             try
             {
-                user = UsersRequest.Login(tbxLogin.Text, tbxPassword.Password, out bool ex);
-                if (ex)
+                string login = tbxLogin.Text;
+                string pwd = tbxPassword.Password;
+
+                await Task.Factory.StartNew(() =>
                 {
-                    if (user != null)
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        button.Content = "Загрузка";
+                        button.IsEnabled = false;
+                        btnSettings.IsEnabled = false;
+                    });
+                    try
+                    {
+                        user = UsersRequest.LoginWork(login, pwd);
+                        if (user == null) //true => нет совпадений
+                        {
+                            user = new Users();
+                            user.UserId = -1;
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        MessageBox.Show("Ошибка подключения к серверу!", "Ошибка");
+                    }
+
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        button.Content = "Войти";
+                        button.IsEnabled = true;
+                        btnSettings.IsEnabled = true;
+                    });
+                });
+
+                if (user != null)
+                {
+                    if (user.UserId != -1)
                     {
                         GetDefaultUser();
                         if (user.Position == "Администратор" || user.Position == "Директор")
@@ -90,11 +118,15 @@ namespace Pronets.Viev
                     $"{ex.InnerException}\n" +
                     $"{ex.Message}\n" +
                     $"{ex.Source}\n" +
-                    $"{ex.StackTrace}\n"+
-                    $"{ex.TargetSite}\n" ;
+                    $"{ex.StackTrace}\n" +
+                    $"{ex.TargetSite}\n";
                 MessageBox.Show(er);
             }
-           
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Login();
         }
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
@@ -108,8 +140,9 @@ namespace Pronets.Viev
         /// <param name="e"></param>
         private void BtnSettings_Click(object sender, RoutedEventArgs e)
         {
-            DataBaseSettingsWindow win = new DataBaseSettingsWindow();
+            DataBaseSettingsWindow win = DataBaseSettingsWindow.WindowInstance;
             win.Show();
+            win.Focus();
         }
         /// <summary>
         /// Сохраняет логин в настройки, для автоматического заполнения tbxLogin и tbxPassword при открытии окна.

@@ -19,8 +19,7 @@ namespace Pronets.VievModel.MainWindows.Pages
     public class ReceiptDocumentPagePronetsVM : VievModelBase
     {
         #region Properties
-        object e = null;
-        string baseClient = "Пронетс";
+        object e = new object();
         Dispatcher _dispatcher;
         public OpenWindowCommand OpenWindowCommand { get; set; }
 
@@ -75,7 +74,7 @@ namespace Pronets.VievModel.MainWindows.Pages
             set
             {
                 selectedStatusItem = value;
-                Sort(e);
+                //Sort(e);
                 RaisedPropertyChanged("SelectedStatusItem");
             }
         }
@@ -86,7 +85,7 @@ namespace Pronets.VievModel.MainWindows.Pages
             set
             {
                 allClients = value;
-                Sort(e);
+                //Sort(e);
                 RaisedPropertyChanged("AllClients");
             }
         }
@@ -97,7 +96,7 @@ namespace Pronets.VievModel.MainWindows.Pages
             set
             {
                 allStatuses = value;
-                Sort(e);
+                //Sort(e);
                 RaisedPropertyChanged("AllStatuses");
             }
         }
@@ -192,13 +191,12 @@ namespace Pronets.VievModel.MainWindows.Pages
                 RaisedPropertyChanged("Count");
             }
         }
-
         #endregion
 
         public ReceiptDocumentPagePronetsVM()
         {
             _dispatcher = Dispatcher.CurrentDispatcher;
-            // GetDocumentsAsync(); //Загрузка данных в датагрид происходит в selectedClient, selectedstatus, allclients, allstatuese
+            GetDocumentsAsync(null); //Загрузка данных в датагрид происходит в selectedClient, selectedstatus, allclients, allstatuese
             GetContent();
         }
 
@@ -230,7 +228,7 @@ namespace Pronets.VievModel.MainWindows.Pages
             }
             catch (Exception) { }
 
-           // ReceiptDocuments = new ObservableCollection<v_Receipt_Document>(ReceiptDocuments.OrderByDescending(i => i.Document_Id));
+            // ReceiptDocuments = new ObservableCollection<v_Receipt_Document>(ReceiptDocuments.OrderByDescending(i => i.Document_Id));
         }
 
         #region Sort Command
@@ -259,8 +257,8 @@ namespace Pronets.VievModel.MainWindows.Pages
         {
             string status = SelectedStatusItem != null ? SelectedStatusItem.Status : null;
             ReceiptDocuments.Clear();
-            //GetDocumentsAsync(status);
-            ReceiptDocuments = ReceiptDocumentRequest.v_FillListPronets(status);
+            GetDocumentsAsync(status);
+            //ReceiptDocuments = ReceiptDocumentRequest.v_FillListPronets(status);
         }
         #endregion
 

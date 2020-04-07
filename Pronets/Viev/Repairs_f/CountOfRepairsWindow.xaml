@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pronets.Viev.Repairs_f"
         mc:Ignorable="d"
-        Title="Подсчет ремонтов" Height="400" Width="639" MinHeight="400" MinWidth="639" Background="Gainsboro" WindowStartupLocation="CenterScreen" >
+        Title="Подсчет ремонтов" Height="400" Width="639" MinHeight="400" MinWidth="639" Background="Gainsboro" WindowStartupLocation="CenterScreen" Closed="Window_Closed" >
     <Grid>
         <Label Content="Начальная дата" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,0,0,0" />
         <Label Content="Конечная дата" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="170,0,0,0" />

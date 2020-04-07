@@ -6,16 +6,17 @@
         xmlns:local="clr-namespace:Pronets.Viev.Other"
          xmlns:vm="clr-namespace:Pronets.VievModel.Other"
         mc:Ignorable="d"
-        Title="Переработка" Height="450" Width="650" MinHeight="450" MinWidth="650"  WindowStartupLocation="CenterScreen" Background="Gainsboro">
-    
+        Title="Переработка" Height="450" Width="650" MinHeight="450" MinWidth="650"  WindowStartupLocation="CenterScreen" Background="Gainsboro" Closed="Window_Closed">
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="217"></ColumnDefinition>
             <ColumnDefinition ></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <!--Column 0-->
+        <Button x:Name="btnOpenAdminOvertimeWindow" Content=" Добавить часы " Click="BtnOpenAdminOvertimeWindow_Click" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,5,0,0"/>
         <ListBox x:Name="statuses" ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser}" HorizontalAlignment="Left"
-                 VerticalAlignment="Top" Margin="5,25,0,0" IsTabStop="False" Height="160" Width="210"  >
+                 VerticalAlignment="Top" Margin="5,30,0,0" IsTabStop="False" Height="155" Width="210"  >
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Height="auto">
@@ -30,10 +31,10 @@
         <Label Content="Зарплата за день" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="111,185,0,0" Height="26" Width="104"/>
         <TextBox x:Name="tbxPricePerDay" Grid.Column="0" Text="{Binding PricePerDay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top"
             HorizontalAlignment="Left" Margin="111,211,0,0" Width="106" />
-        <Button x:Name="btnSumm" Content="  Расчет  " Command="{Binding AmountCommand}" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="79,238,0,0" Height="20" />
+        <Button x:Name="btnSumm" Content="  Расчет  " Command="{Binding AmountCommand}" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="79,238,0,0"  />
         <TextBox x:Name="tbxResult" Text="{Binding Amount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Left" 
-            IsReadOnly="True" Margin="5,265,0,0" Height="135" Width="212" />
-        
+            IsReadOnly="True" Margin="5,265,0,0" Height="135" Width="212" Background="#FFEEEEEE"/>
+
         <!--Column 1-->
         <Label Content="Статус" VerticalAlignment="Top" HorizontalAlignment="Right" Grid.Column="1" Margin="0,2,229,0" />
         <ComboBox x:Name="cbxUsers" ItemsSource="{Binding Statuses}" SelectedValue="{Binding SelectedStatus}" Grid.Column="1" HorizontalAlignment="Right"
@@ -99,6 +100,6 @@
                 <DataGridTextColumn Header="Статус" Binding="{Binding Path=Status, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" />
             </DataGrid.Columns>
         </DataGrid>
-        
+
     </Grid>
 </Window>

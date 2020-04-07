@@ -31,6 +31,8 @@ namespace Pronets.Data
         public Nullable<System.DateTime> Birthday { get; set; }
         public string Telephone { get; set; }
         public string Adress { get; set; }
+        public Nullable<double> SalaryPerDay { get; set; }
+        public Nullable<double> SalaryPerHour { get; set; }
     
         public virtual Positions Positions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

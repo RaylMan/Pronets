@@ -283,6 +283,26 @@ namespace Pronets.VievModel.Users_f
                 RaisedPropertyChanged("SelectedItem");
             }
         }
+        private string salaryPerHour;
+        public string SalaryPerHour
+        {
+            get { return salaryPerHour; }
+            set
+            {
+                salaryPerHour = value;
+                RaisedPropertyChanged("SalaryPerHour");
+            }
+        }
+        private string salaryPerDay;
+        public string SalaryPerDay
+        {
+            get { return salaryPerDay; }
+            set
+            {
+                salaryPerDay = value;
+                RaisedPropertyChanged("SalaryPerDay");
+            }
+        }
 
         #endregion
         public UserInfoWindowVM(Users user)
@@ -302,6 +322,8 @@ namespace Pronets.VievModel.Users_f
             Patronymic = user.Patronymic;
             Birthday = user.Birthday;
             Adress = user.Adress;
+            SalaryPerDay = user.SalaryPerDay.ToString() ;
+            SalaryPerHour = user.SalaryPerHour.ToString();
             GetPosition();
             FirstDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
             SecondDate = DateTime.Now.Date.AddHours(23);
@@ -454,38 +476,47 @@ namespace Pronets.VievModel.Users_f
         {
             Users modifiedUser = null;
             Engineers modifiedEngineer = null;
-            if (selectedPosition != null && engineer != null)
+            if (double.TryParse(SalaryPerHour, out double salaryPerHourNumeric) && double.TryParse(SalaryPerDay, out double salaryPerDayNumeric))
             {
-                modifiedUser = new Users
+                if (selectedPosition != null && engineer != null)
                 {
-                    UserId = user.UserId,
-                    Login = Login,
-                    Password = Password,
-                    Position = selectedPosition.Position,
-                    FirstName = FirstName,
-                    LastName = LastName,
-                    Patronymic = Patronymic,
-                    Birthday = Birthday,
-                    Telephone = Telephone,
-                    Adress = Adress
-                };
-                modifiedEngineer = new Engineers
-                {
-                    Id = engineer.Id,
-                    LastName = LastName,
-                    Position = selectedPosition.Position
-                };
 
-                var result = MessageBox.Show("Вы действительно хотите редактировать?", "Редактирование", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                if (result == MessageBoxResult.Yes)
-                {
-                    if (modifiedUser != null && modifiedEngineer!= null)
+                    modifiedUser = new Users
                     {
-                        UsersRequest.EditItem(modifiedUser);
-                        UsersRequest.EditEngineer(modifiedEngineer);
+                        UserId = user.UserId,
+                        Login = Login,
+                        Password = Password,
+                        Position = selectedPosition.Position,
+                        FirstName = FirstName,
+                        LastName = LastName,
+                        Patronymic = Patronymic,
+                        Birthday = Birthday,
+                        Telephone = Telephone,
+                        Adress = Adress,
+                        SalaryPerHour = salaryPerHourNumeric,
+                        SalaryPerDay = salaryPerDayNumeric
+
+                    };
+                    modifiedEngineer = new Engineers
+                    {
+                        Id = engineer.Id,
+                        LastName = LastName,
+                        Position = selectedPosition.Position
+                    };
+
+                    var result = MessageBox.Show("Вы действительно хотите редактировать?", "Редактирование", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        if (modifiedUser != null && modifiedEngineer != null)
+                        {
+                            UsersRequest.EditItem(modifiedUser);
+                            UsersRequest.EditEngineer(modifiedEngineer);
+                        }
                     }
                 }
             }
+            else
+                MessageBox.Show("В полях \"Зарплата за день\" и \"Зарплата за час\"\nдолжны быть числа!", "Ошибка");
         }
         #endregion
 

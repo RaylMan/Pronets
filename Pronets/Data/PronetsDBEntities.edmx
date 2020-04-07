@@ -90,7 +90,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="LastName" Type="nvarchar" MaxLength="50" />
           <Property Name="Date" Type="date" />
-          <Property Name="Hours" Type="int" />
+          <Property Name="Hours" Type="float" />
           <Property Name="Day" Type="int" />
           <Property Name="Status" Type="nvarchar" MaxLength="50" />
         </EntityType>
@@ -100,6 +100,7 @@
           </Key>
           <Property Name="Part_Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Part_Price" Type="money" />
+          <Property Name="Part_Info" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="PartsOrder">
           <Key>
@@ -197,6 +198,8 @@
           <Property Name="Birthday" Type="date" />
           <Property Name="Telephone" Type="nvarchar" MaxLength="50" />
           <Property Name="Adress" Type="nvarchar" MaxLength="200" />
+          <Property Name="SalaryPerHour" Type="float" />
+          <Property Name="SalaryPerDay" Type="float" />
         </EntityType>
         <!--Ошибки, обнаруженные при создании:
 предупреждение 6002: В таблице или представлении "PronetsDB.dbo.v_Receipt_Document" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
@@ -589,7 +592,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Date" Type="DateTime" Precision="0" />
-          <Property Name="Hours" Type="Int32" />
+          <Property Name="Hours" Type="Double" />
           <Property Name="Day" Type="Int32" />
           <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
@@ -600,6 +603,7 @@
           <Property Name="Part_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Part_Price" Type="Decimal" Precision="19" Scale="4" />
           <NavigationProperty Name="PartsOrder" Relationship="Self.FK_PartsOrder_Parts" FromRole="Parts" ToRole="PartsOrder" />
+          <Property Name="Part_Info" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="PartsOrder">
           <Key>
@@ -716,6 +720,8 @@
           <NavigationProperty Name="Positions" Relationship="Self.FK_Users_Positions" FromRole="Users" ToRole="Positions" />
           <NavigationProperty Name="ReceiptDocument" Relationship="Self.FK_ReceiptDocument_Users" FromRole="Users" ToRole="ReceiptDocument" />
           <NavigationProperty Name="Repairs" Relationship="Self.FK_Repairs_Users_Inspector_" FromRole="Users" ToRole="Repairs" />
+          <Property Name="SalaryPerDay" Type="Double" />
+          <Property Name="SalaryPerHour" Type="Double" />
         </EntityType>
         <EntityType Name="v_Receipt_Document">
           <Key>
@@ -1097,6 +1103,7 @@
           <EntitySetMapping Name="Parts">
             <EntityTypeMapping TypeName="PronetsDBModel.Parts">
               <MappingFragment StoreEntitySet="Parts">
+                <ScalarProperty Name="Part_Info" ColumnName="Part_Info" />
                 <ScalarProperty Name="Part_Name" ColumnName="Part_Name" />
                 <ScalarProperty Name="Part_Price" ColumnName="Part_Price" />
               </MappingFragment>
@@ -1195,6 +1202,8 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="PronetsDBModel.Users">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="SalaryPerHour" ColumnName="SalaryPerHour" />
+                <ScalarProperty Name="SalaryPerDay" ColumnName="SalaryPerDay" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Login" ColumnName="Login" />
                 <ScalarProperty Name="Password" ColumnName="Password" />

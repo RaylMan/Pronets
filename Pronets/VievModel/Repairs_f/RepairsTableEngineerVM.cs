@@ -254,19 +254,22 @@ namespace Pronets.VievModel.Repairs_f
             {
                 foreach (var serial in serialNumbers)
                 {
-                    string engSerial = EditChars.ToEnglish(serial.Serial);
-                    var repairs = RepairsRequest.v_FillList(engSerial);
-                    if (repairs != null)
+                    if (!string.IsNullOrWhiteSpace(serial.Serial))
                     {
-                        if (repairs.Count > 0)
+                        string engSerial = EditChars.ToEnglish(serial.Serial);
+                        var repairs = RepairsRequest.v_FillList(engSerial);
+                        if (repairs != null)
                         {
-                            foreach (var repair in repairs)
+                            if (repairs.Count > 0)
                             {
-                                V_Repairs.Add(repair);
+                                foreach (var repair in repairs)
+                                {
+                                    V_Repairs.Add(repair);
+                                }
                             }
+                            else
+                                error += $" {engSerial},";
                         }
-                        else
-                            error += $" {engSerial},";
                     }
                 }
                 if (error != null)
@@ -289,7 +292,6 @@ namespace Pronets.VievModel.Repairs_f
                     }
                 }
             }
-
             GetCounts();
         }
         #endregion
@@ -524,7 +526,7 @@ namespace Pronets.VievModel.Repairs_f
             {
                 if (SelectedStatus.Status != null && SelectedCategory != null)
                 {
-                    if(IsAllHaveDefect())
+                    if (IsAllHaveDefect())
                     {
                         var result = MessageBox.Show("Вы действительно хотите редактировать?", "Редактирование", MessageBoxButton.YesNo, MessageBoxImage.Question);
                         if (result == MessageBoxResult.Yes)
@@ -552,7 +554,7 @@ namespace Pronets.VievModel.Repairs_f
                 else
                     MessageBox.Show("Установите статус и категорию ремонта!", "Ошибка");
             }
-           
+
         }
 
         private bool IsAllHaveDefect()
@@ -562,7 +564,7 @@ namespace Pronets.VievModel.Repairs_f
             {
                 foreach (var repair in V_Repairs)
                 {
-                    if(string.IsNullOrWhiteSpace(repair.Identifie_Fault) || string.IsNullOrWhiteSpace(repair.Work_Done))
+                    if (string.IsNullOrWhiteSpace(repair.Identifie_Fault) || string.IsNullOrWhiteSpace(repair.Work_Done))
                     {
                         isAllHaveDefect = false;
                     }

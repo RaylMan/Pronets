@@ -21,8 +21,7 @@ namespace Pronets.EntityRequests.Clients_f
             {
                 try
                 {
-                    allClients = new ObservableCollection<Clients>(db.Clients.ToList());
-                    //db.ReceiptDocument.Load();
+                    allClients = new ObservableCollection<Clients>(db.Clients.ToList().OrderBy(c => c.ClientName));
                 }
                 catch (Exception e)
                 {

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pronets.Viev.Other"
         mc:Ignorable="d"
-        Title="Настройки" Height="245" Width="340" Background="Gainsboro" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Title="Настройки" Height="245" Width="340" Background="Gainsboro" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Closed="Window_Closed">
     <Grid>
 
 
@@ -22,10 +22,11 @@
         <TextBox Text="{Binding VerifiedPassword, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Top" HorizontalAlignment="Left" Width="120" Margin="10,151,0,0" />
 
         <Label Content="Зарплата за день (По умолчанию)"  VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,8,5,0"/>
-        <TextBox Text="{Binding PricePerDay, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Top" HorizontalAlignment="Right" Width="120" Margin="0,30,10,0" />
+        <TextBox Text="{Binding PricePerDay, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Top" HorizontalAlignment="Right" Width="120" Margin="0,30,10,0" Background="Gainsboro" IsReadOnly="True" />
 
         <Label Content="Зарплата за час (По умолчанию)"  VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,48,5,0"/>
-        <TextBox Text="{Binding PricePerHour, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Top" HorizontalAlignment="Right" Width="120" Margin="0,70,10,0" />
+        <TextBox Text="{Binding PricePerHour, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Top" HorizontalAlignment="Right" Width="120" Margin="0,70,10,0"  Background="Gainsboro" IsReadOnly="True" 
+                 />
 
         <Label Content="Инженер (Для печати)"  VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,88,5,0"/>
         <TextBox Text="{Binding ChiefEngineer, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Top" HorizontalAlignment="Right" Width="120" Margin="0,109,10,0" />

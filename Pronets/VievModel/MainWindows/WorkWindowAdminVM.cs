@@ -5,15 +5,17 @@ using Pronets.Data;
 using Pronets.VievModel;
 using Pronets.VievModel.MainWindows.Pages;
 using Pronets.Navigation.WindowsNavigation;
+using System.Reflection;
 
 namespace Pronets.VievModel.MainWindows
 {
     public class WorkWindowAdminVM : VievModelBase
     {
+        private string assemblyVersion;
         public OpenWindowCommand OpenWindowCommand { get; private set; }
         public WorkWindowAdminVM()
         {
-           
+            
         }
         public WorkWindowAdminVM(IViewModelsResolver resolver, Users user)
         {
@@ -27,6 +29,7 @@ namespace Pronets.VievModel.MainWindows
             repairsPageVM = _resolver.GetViewModelInstance(RepairsPageVMAlias);
             equipmentWindowVM = _resolver.GetViewModelInstance(EquipmentWindowVMAlias);
             InitializeCommands();
+            assemblyVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
             //GetDefaultUser();
         }
 
@@ -46,7 +49,7 @@ namespace Pronets.VievModel.MainWindows
             get
             {
                 if (currentUser != null)
-                    return currentUser.LastName + " " + currentUser.FirstName;
+                    return currentUser.LastName + " " + currentUser.FirstName + "\tВерсия: " + assemblyVersion;
                 return userName = "Error";
             }
             set

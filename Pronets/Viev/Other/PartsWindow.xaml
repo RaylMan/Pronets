@@ -6,10 +6,7 @@
         xmlns:vm="clr-namespace:Pronets.VievModel.Other"
         xmlns:local="clr-namespace:Pronets.Viev.Other"
         mc:Ignorable="d"
-        Title="Заказ запчастей" Height="595" Width="1020" MinHeight="595" MinWidth="1020" Background="Gainsboro" WindowStartupLocation="CenterScreen">
-    <Window.DataContext>
-        <vm:PartsWindowVM/>
-    </Window.DataContext>
+        Title="Заказ запчастей" Height="595" Width="1020" MinHeight="595" MinWidth="1020" Background="Gainsboro" WindowStartupLocation="CenterScreen" Closed="Window_Closed">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="400"></ColumnDefinition>
@@ -23,7 +20,7 @@
         <Grid Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" >
             <DataGrid x:Name="grdParts" ItemsSource="{Binding Parts}" AutoGenerateColumns="False" SelectedIndex="{Binding SelectedIndex}" 
                       SelectedValue="{Binding SelectedPart}"  SelectionMode="Single" HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999"
-                      HorizontalAlignment="Left" Margin="5,95,0,5" CanUserAddRows="False" CanUserDeleteRows="False" SelectionChanged="DataGrid_SelectionChanged">
+                      HorizontalAlignment="Left" Margin="5,125,0,5" CanUserAddRows="False" CanUserDeleteRows="False" SelectionChanged="DataGrid_SelectionChanged">
 
                 <DataGrid.InputBindings>
                     <MouseBinding  MouseAction="LeftDoubleClick" Command="{Binding DoubleClickCommand}"/>
@@ -34,24 +31,26 @@
                 </DataGrid.Resources>
                 <DataGrid.ContextMenu>
                     <ContextMenu>
+                        <MenuItem x:Name="EditPartMetuItem" Header="Изменить описание" Click="EditPartMetuItem_Click"/>
                         <MenuItem Header="Удалить" Command="{Binding RemovePartCommand}" CommandParameter="{Binding SelectedIndex}"/>
                     </ContextMenu>
                 </DataGrid.ContextMenu>
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Название" Binding="{Binding Path=Part_Name, UpdateSourceTrigger=PropertyChanged}" Width="*" IsReadOnly="True" />
-                    <!--<DataGridTextColumn Header="Цена" Binding="{Binding Path=Part_Price, UpdateSourceTrigger=PropertyChanged}" Width="70" IsReadOnly="True"/>-->
+                    <DataGridTextColumn Header="Описание" Binding="{Binding Path=Part_Info, UpdateSourceTrigger=PropertyChanged}" Width="*" IsReadOnly="True"/>
                 </DataGrid.Columns>
             </DataGrid>
-            <Label Content=" Добавить запчасть " HorizontalAlignment="Left" VerticalAlignment="Top"  Height="28" Margin="40,8,0,0"/>
+            <Label Content=" Добавить запчасть " HorizontalAlignment="Left" VerticalAlignment="Top"  Height="28" Margin="32,0,0,0" FontWeight="Bold"/>
+            <Label Content=" Название " HorizontalAlignment="Left" VerticalAlignment="Top"  Height="28" Margin="25,15,0,0"/>
             <TextBox Text="{Binding Part_Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Left" MaxLength="49" VerticalAlignment="Top" Width="150" Margin="25,36,0,0"/>
-            <!--<Label Content=" Цена " HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,42,130,0" Height="26"/>
-            <TextBox Text="{Binding Part_Price, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Right" VerticalAlignment="Top" Width="150" Margin="0,63,24,0"/>-->
-            <Button Content=" Добавить " Command="{Binding AddPartCommand}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="65,63,0,0"  />
+            <Label Content=" Описание " HorizontalAlignment="Left" VerticalAlignment="Top"  Height="28" Margin="25,52,0,0"/>
+            <TextBox Text="{Binding Part_Info, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Left" MaxLength="49" VerticalAlignment="Top" Width="150" Margin="25,73,0,0"/>
+            <Button Content=" Добавить " Command="{Binding AddPartCommand}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="65,100,0,0"  />
             <TextBox TextWrapping="Wrap" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" GotFocus="TbxSearch_GotFocus"
-                     SelectionChanged="TbxSearch_SelectionChanged" HorizontalAlignment="Right" VerticalAlignment="Top" Width="150" Margin="0,36,25,0" RenderTransformOrigin="0.667,0.41"/>
-            <Button Content="  Поиск  " Command="{Binding SearchCommand}" HorizontalAlignment="Right" VerticalAlignment="Top"  Grid.Row="0" Margin="0,63,122,0" RenderTransformOrigin="0.792,0.545"/>
-            <Button Content="  Далее  " Command="{Binding SearchNextCommand}" HorizontalAlignment="Right" VerticalAlignment="Top"  Grid.Row="0" RenderTransformOrigin="5.26,4.85" Margin="0,63,25,0"/>
-            <Label Content=" Поиск " HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,131,0" Height="26"/>
+                     SelectionChanged="TbxSearch_SelectionChanged" HorizontalAlignment="Right" VerticalAlignment="Top" Width="150" Margin="0,71,25,0" RenderTransformOrigin="0.667,0.41"/>
+            <Button Content="  Поиск  " Command="{Binding SearchCommand}" HorizontalAlignment="Right" VerticalAlignment="Top"  Grid.Row="0" Margin="0,98,122,0" RenderTransformOrigin="0.792,0.545"/>
+            <Button Content="  Далее  " Command="{Binding SearchNextCommand}" HorizontalAlignment="Right" VerticalAlignment="Top"  Grid.Row="0" RenderTransformOrigin="5.26,4.85" Margin="0,98,25,0"/>
+            <Label Content=" Поиск " HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,45,129,0" Height="26"/>
         </Grid>
         <!--Receipt of Parts-->
         <Grid Grid.Row="0" Grid.Column="1"  >

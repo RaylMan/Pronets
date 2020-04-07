@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Pronets.Viev.Repairs_f"
         xmlns:vm="clr-namespace:Pronets.VievModel.Repairs_f"
         mc:Ignorable="d"
-         Title="Категории ремонта" Height="400" Width="600" WindowStartupLocation="CenterScreen"  Background="Gainsboro" ResizeMode="NoResize" >
+         Title="Категории ремонта" Height="400" Width="600" WindowStartupLocation="CenterScreen"  Background="Gainsboro" ResizeMode="NoResize" Closing="Window_Closing" >
     <Window.DataContext>
         <vm:RepairCategoriesVM/>
     </Window.DataContext>

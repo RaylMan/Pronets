@@ -20,10 +20,26 @@ namespace Pronets.Viev.Repairs_f
     /// </summary>
     public partial class StatusesWindow : Window
     {
+        private static StatusesWindow instance;
+        public static StatusesWindow Instance
+        {
+            get
+            {
+                if (instance == null)
+                    instance = new StatusesWindow();
+
+                return instance;
+            }
+        }
         public StatusesWindow()
         {
             InitializeComponent();
             DataContext = new StatusesVM();
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            instance = null;
         }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using System.Data.Entity;
 
 namespace Pronets.EntityRequests.Users_f
 {
@@ -52,6 +53,28 @@ namespace Pronets.EntityRequests.Users_f
         }
 
         /// <summary>
+        /// <para>Возращает коллекцию Engineers</para>
+        /// </summary>
+        public static ObservableCollection<Engineers> FillListEngineersWithRepairs()
+        {
+            ObservableCollection<Engineers> engineers = new ObservableCollection<Engineers>();
+            using (var db = ConnectionTools.GetConnection())
+            {
+                try
+                {
+                    var result = db.Engineers.Include(e => e.Repairs).ToList();
+                    engineers = new ObservableCollection<Engineers>(result);
+
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.InnerException.Message, "Ошибка");
+                }
+            }
+            return engineers;
+        }
+
+        /// <summary>
         /// <para>Возращает экземпляр Users по Id</para>
         /// </summary>
         public static Users GetUser(int? id)
@@ -81,7 +104,7 @@ namespace Pronets.EntityRequests.Users_f
             {
                 try
                 {
-                    engineer = db.Engineers.Where(e => e.Id == id).FirstOrDefault();
+                    engineer = db.Engineers.Where(e => e.Id == id).Include(e => e.Repairs).FirstOrDefault();
                 }
                 catch (Exception e)
                 {
@@ -101,7 +124,7 @@ namespace Pronets.EntityRequests.Users_f
             {
                 try
                 {
-                    engineer = db.Engineers.Where(e => e.LastName == lastName).FirstOrDefault();
+                    engineer = db.Engineers.Where(e => e.LastName == lastName).Include(e => e.Repairs).FirstOrDefault();
                 }
                 catch (Exception e)
                 {
@@ -254,6 +277,8 @@ namespace Pronets.EntityRequests.Users_f
                         result.Birthday = user.Birthday;
                         result.Telephone = user.Telephone;
                         result.Adress = user.Adress;
+                        result.SalaryPerHour = user.SalaryPerHour;
+                        result.SalaryPerDay = user.SalaryPerDay;
                         db.SaveChanges();
                     }
                 }
@@ -341,6 +366,17 @@ namespace Pronets.EntityRequests.Users_f
                     ex = false;
                 }
                 return loginUser;
+            }
+        }
+        /// <summary>
+        /// <para>Возращает экземпляр Users по логину и паролю</para>
+        /// </summary>
+        public static Users LoginWork(string login, string password)
+        {
+            Users loginUser = new Users();
+            using (var db = ConnectionTools.GetConnection())
+            {
+                return loginUser = db.Users.Where(u => u.Login == login && u.Password == password).FirstOrDefault();
             }
         }
 

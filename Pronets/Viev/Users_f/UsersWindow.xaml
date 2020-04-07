@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Pronets.Viev.Users_f"
         xmlns:vm="clr-namespace:Pronets.VievModel.Users_f"
         mc:Ignorable="d"
-        Title="Работники" MinHeight="450" MinWidth="500" Height="450" Width="500" Background="Gainsboro" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Title="Работники" MinHeight="450" MinWidth="500" Height="450" Width="500" Background="Gainsboro" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Closed="Window_Closed">
     <Window.DataContext>
         <vm:UsersVM/>
     </Window.DataContext>

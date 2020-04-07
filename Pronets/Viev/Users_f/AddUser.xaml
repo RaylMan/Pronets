@@ -14,7 +14,6 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100"></ColumnDefinition>
             <ColumnDefinition ></ColumnDefinition>
-
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
@@ -50,6 +49,7 @@
         <TextBox x:Name="txbFirstName"  Grid.Column="1" Grid.Row="3" Margin="5" Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}" MaxLength="50" Grid.ColumnSpan="2"/>
         <TextBox x:Name="txbLastName"  Grid.Column="1" Grid.Row="4" Margin="5" Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}" MaxLength="50" Grid.ColumnSpan="2"/>
         <TextBox x:Name="txbPatronymic"  Grid.Column="1" Grid.Row="5" Margin="5" Text="{Binding Patronymic, UpdateSourceTrigger=PropertyChanged}" MaxLength="50" Grid.ColumnSpan="2"/>
+        
         <DatePicker HorizontalAlignment="Left" Grid.Column="1" Margin="5,3,0,0" Grid.Row="6" VerticalAlignment="Top" Width="254" Height="26" SelectedDate="{Binding Path=Birthday, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
                   ValidatesOnExceptions=true, NotifyOnValidationError=true}"/>
         <TextBox x:Name="txbTelephone"  Grid.Column="1" Grid.Row="7" Margin="5" Text="{Binding Telephone, UpdateSourceTrigger=PropertyChanged}" MaxLength="50" Grid.ColumnSpan="2"/>

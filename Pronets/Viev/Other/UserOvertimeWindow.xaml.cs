@@ -21,6 +21,15 @@ namespace Pronets.Viev.Other
     /// </summary>
     public partial class UserOvertimeWindow : Window
     {
+        private static UserOvertimeWindow userOvertimeWindowInstance;
+        public static UserOvertimeWindow GetUserOvertimeWindowInstance(Users user)
+        {
+            if (userOvertimeWindowInstance == null)
+                userOvertimeWindowInstance = new UserOvertimeWindow(user);
+
+            return userOvertimeWindowInstance;
+        }
+
         private Users user;
         public UserOvertimeWindow(Users user)
         {
@@ -29,19 +38,30 @@ namespace Pronets.Viev.Other
             {
                 this.user = user;
                 DataContext = new UserOvertimeWindowVM(user);
-            }
-
+            } 
         }
 
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            tbxHours.Text = "0";
+            //tbxHours.Text = "0";
             checkBox.IsChecked = true;
+            comboBoxWarranty.SelectedItem = null;
         }
 
         private void TbxHours_SelectionChanged(object sender, RoutedEventArgs e)
         {
             checkBox.IsChecked = false;
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            userOvertimeWindowInstance = null;
+        }
+
+        private void ComboBoxWarranty_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (comboBoxWarranty.SelectedItem != null)
+                checkBox.IsChecked = false;
         }
     }
 }
