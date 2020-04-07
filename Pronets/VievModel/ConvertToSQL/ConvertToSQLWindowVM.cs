@@ -387,7 +387,6 @@ namespace Pronets.VievModel.ConvertToSQL
                 {
                     MessageBox.Show(e.Message);
                 }
-               
             }
         }
         #endregion

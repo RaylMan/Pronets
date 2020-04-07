@@ -296,6 +296,18 @@ namespace Pronets.VievModel.Repairs_f
                 RaisedPropertyChanged("SelectedItem");
             }
         }
+        private string noteOfDocument;
+        public string NoteOfDocument
+        {
+            get { return noteOfDocument; }
+            set
+            {
+                noteOfDocument = value;
+                RaisedPropertyChanged("NoteOfDocument");
+            }
+        }
+        
+
         #endregion
         public NewReceiptDocumentVM()
         {
@@ -307,7 +319,6 @@ namespace Pronets.VievModel.Repairs_f
             isOldDocument = true;
             GetContent();
             GetClient();
-            
         }
         #region methods
        
@@ -402,8 +413,9 @@ namespace Pronets.VievModel.Repairs_f
                             ClientId = selectClientItem.ClientId,
                             InspectorId = defaultUser.UserId,
                             Date = DateTime.Now,
-                            Status = SelectedStatus.Status
-                    };
+                            Status = SelectedStatus.Status,
+                            Note = NoteOfDocument
+                        };
                         ReceiptDocumentRequest.AddToBase(newReceiptDocument);
                         DocumentId = ReceiptDocumentRequest.GetDocumentID();
                         string nm, wt;
@@ -421,10 +433,7 @@ namespace Pronets.VievModel.Repairs_f
                             repairs[i].Inspector = defaultUser.UserId;
                             repairs[i].Warranty = wt;
                         }
-                        repairs.GetHashCode();
-
                         RepairsRequest.AddToBase(repairs);
-                        repairs.Clear();
                         MessageBox.Show("Произведена успешная запись в базу данных!", "Результат");
                     }
                 }
@@ -466,7 +475,6 @@ namespace Pronets.VievModel.Repairs_f
                             repairs[i].Warranty = wt;
                         }
                         RepairsRequest.AddToBase(repairs);
-                        repairs.Clear();
                         MessageBox.Show("Произведена успешная запись в базу данных!", "Результат");
                     }
                 }
@@ -474,7 +482,6 @@ namespace Pronets.VievModel.Repairs_f
                 {
                     MessageBox.Show($"Установите номенклатуру: {error}", "Ошибка");
                 }
-
             }
             else
                 MessageBox.Show("Необходимо выбрать клиента!", "Ошибка");
@@ -580,6 +587,35 @@ namespace Pronets.VievModel.Repairs_f
             nomenclatures.Clear();
             Clients = ClientsRequests.FillList();
             Nomenclatures = NomenclatureRequest.FillList();
+        }
+        #endregion
+
+        #region Clear command
+        private ICommand clearCommand;
+        public ICommand ClearCommand
+        {
+            get
+            {
+                if (clearCommand == null)
+                {
+                    clearCommand = new RelayCommand(new Action<object>(Clear));
+                }
+                return clearCommand;
+            }
+            set
+            {
+                clearCommand = value;
+                RaisedPropertyChanged("ClearCommand");
+            }
+        }
+        /// <summary>
+        /// Обновляет данные на странице
+        /// </summary>
+        /// <param name="parametr"></param>
+        public void Clear(object parametr)
+        {
+            repairs.Clear();
+            NoteOfDocument = string.Empty;
         }
         #endregion
     }

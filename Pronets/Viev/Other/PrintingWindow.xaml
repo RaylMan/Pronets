@@ -47,7 +47,7 @@
                                 </Paragraph>
                             </TableCell>
                             <TableCell>
-                                <Paragraph TextAlignment="Right" >
+                                <Paragraph TextAlignment="Right">
                                     <InlineUIContainer>
                                         <Image Source="bigLogo.jpg" Width="50"  HorizontalAlignment="Left" />
                                     </InlineUIContainer>
