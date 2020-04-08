@@ -69,6 +69,7 @@
                 <MenuItem Name="RepairCategories" Header="Категории ремонта" Click="Open_CategoriesWindow_Click"></MenuItem>
                 <MenuItem Name="export" Header="Выгрузка из Excel" Click="Open_Export_Click"></MenuItem>
             </MenuItem>
+            <MenuItem Name="barcode" Header="Этикетки" Click="barcode_Click"/>
         </Menu>
 
 

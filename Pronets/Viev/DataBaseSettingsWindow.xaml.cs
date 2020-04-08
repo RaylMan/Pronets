@@ -55,5 +55,10 @@ namespace Pronets.Viev
             MessageBox.Show("Настройки сохранены!");
             this.Close();
         }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            windowInstance = null;
+        }
     }
 }

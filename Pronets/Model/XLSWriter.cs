@@ -208,7 +208,7 @@ namespace Pronets.Model
         /// 2 - 11 шрифт, толстый border
         /// </summary>
         /// <returns></returns>
-        static Stylesheet GenerateStyleSheet()
+        public static Stylesheet GenerateStyleSheet()
         {
             return new Stylesheet(
                 new Fonts(

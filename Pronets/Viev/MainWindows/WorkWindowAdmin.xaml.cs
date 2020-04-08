@@ -149,15 +149,8 @@ namespace Pronets.Viev.MainWindows
 
         private void barcode_Click(object sender, RoutedEventArgs e)
         {
-            if(user.Login == "Admin")
-            {
-                BarcodeWindow win = new BarcodeWindow();
-                win.ShowDialog();
-            }
-            else
-            {
-                MessageBox.Show("В разработке!");
-            }
+            BarcodeWindow win = new BarcodeWindow();
+            win.ShowDialog();
         }
     }
 }

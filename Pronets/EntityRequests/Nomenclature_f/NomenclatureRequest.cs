@@ -111,5 +111,26 @@ namespace Pronets.EntityRequests.Nomenclature_f
             }
             return nomenclature;
         }
+        /// <summary>
+        /// Возращает коллекцию номенклаьуры по типу
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static ObservableCollection<Nomenclature> GetNomenclaturesByType(Nomenclature_Types type)
+        {
+            ObservableCollection<Nomenclature> nomenclatures = new ObservableCollection<Nomenclature>(); ;
+            using (var db = ConnectionTools.GetConnection())
+            {
+                try
+                {
+                    nomenclatures = new ObservableCollection<Nomenclature>(db.Nomenclature.Where(n => n.Type == type.Type).ToList());
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+            return nomenclatures;
+        }
     }
 }

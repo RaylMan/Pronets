@@ -133,5 +133,11 @@ namespace Pronets.Viev.MainWindows
             SelfUserReportWindow win = new SelfUserReportWindow(user);
             win.ShowDialog();
         }
+
+        private void barcode_Click(object sender, RoutedEventArgs e)
+        {
+            BarcodeWindow win = new BarcodeWindow();
+            win.ShowDialog();
+        }
     }
 }

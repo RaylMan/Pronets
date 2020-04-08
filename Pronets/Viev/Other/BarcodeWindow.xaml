@@ -5,115 +5,46 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pronets.Viev.Other"
         mc:Ignorable="d"
-        Title="Печать наклейки" Height="631" Width="984">
-    <Grid>
-        <TextBox x:Name="tbxSerialNumber" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,10,0,0" Width="130"/>
-        <Button x:Name="btnGenerateBarcode" Content="  Generate  " VerticalAlignment="Top" HorizontalAlignment="Left" Click="btnGenerateBarcode_Click" Margin="146,10,0,0"/>
-        <Border BorderThickness="1" BorderBrush="#FF000000" VerticalAlignment="Top" HorizontalAlignment="Left" Width="460" Height="240" Margin="10,313,0,0">
-            <Grid x:Name="LabelGrid" Margin="0" Background="White">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="154"/>
-                    <ColumnDefinition Width="112"/>
-                    <ColumnDefinition Width="194"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="48"/>
-                    <!--48-->
-                    <RowDefinition x:Name="serialRow" Height="*"/>
-                    <!--60-->
-                    <RowDefinition Height="24"/>
-                    <!--36-->
-                    <RowDefinition x:Name="ponRow" Height="*"/>
-                    <!--60-->
-                    <RowDefinition Height="24"/>
-                    <!--36-->
-                </Grid.RowDefinitions>
-                <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition Width="116"/>
+        Title="Печать этикетки" Height="219.444" Width="444.54" WindowStartupLocation="CenterScreen" Background="Gainsboro" ResizeMode="NoResize">
+    <Grid RenderTransformOrigin="0.5,0.5">
+        <Grid.RenderTransform>
+            <TransformGroup>
+                <ScaleTransform/>
+                <SkewTransform/>
+                <RotateTransform Angle="0.404"/>
+                <TranslateTransform/>
+            </TransformGroup>
+        </Grid.RenderTransform>
+        <Label Content="Тип" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="14,38,0,0"/>
+        <ComboBox x:Name="comboBoxType" ItemsSource="{Binding Nomenclature_Types, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                  SelectedValue="{Binding SelectedType}"
+                   HorizontalAlignment="Left" Margin="86,42,0,0" VerticalAlignment="Top" Width="183"
+                   IsTextSearchEnabled="True" TextSearch.TextPath="Type" IsEditable="True" DisplayMemberPath="Type"/>
+        <Label Content="Модель" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="14,67,0,0"/>
+        <ComboBox x:Name="comboBoxNomenclature" ItemsSource="{Binding Nomenclatures, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                  SelectedValue="{Binding SelectedNomenclature}"
+                  HorizontalAlignment="Left" Margin="86,69,0,0" VerticalAlignment="Top" Width="183"
+                  IsTextSearchEnabled="True" TextSearch.TextPath="Name" IsEditable="True" DisplayMemberPath="Name"/>
 
-                    </Grid.ColumnDefinitions>
-                    <TextBlock x:Name="textModel" Grid.Column="0"  FontFamily="Impact" 
-                           FontSize="28" Text="NTU-RG-1402G-WAC-REV-A" TextAlignment="Center" VerticalAlignment="Center" Height="34" Margin="0,7"/>
-                    <TextBlock x:Name="textInfo"  Grid.Column="1" FontFamily="Impact" TextAlignment="Right" Padding="5" />
-                </Grid>
+        <Label Content="S/N" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="14,93,0,0"/>
+        <TextBox Text="{Binding SerialNumber}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="86,96,0,0" Width="183"/>
 
-                <Border Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
-                    <Image x:Name="SerialImage" Margin="0"/>
-                </Border>
-                <TextBlock x:Name="textWanMac"  Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"  Margin="0" FontSize="20" FontFamily="Impact"
-                         Text="WAN MAC A8:F9:4B:DC:2A:28"  VerticalAlignment="Center" TextAlignment="Center"/>
-                <TextBlock x:Name="textSerial" Grid.Row="2" Grid.Column="2" 
-                           Text="S/N GP21073997"  VerticalAlignment="Center" TextAlignment="Center" FontSize="20" FontFamily="Impact"/>
-                <Border Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Right">
-                    <Image x:Name="PonSerialImage"  HorizontalAlignment="Right"/>
-                </Border>
-                <TextBlock x:Name="textPonSerial" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" FontFamily="Impact"
-                           Text="PON SERIAL ELTX5C0483E0"  VerticalAlignment="Center" TextAlignment="Center" FontSize="20"/>
-            </Grid>
-        </Border>
+        <Label Content="Mac адрес" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="14,119,0,0"/>
+        <TextBox Text="{Binding MacAdress}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="86,123,0,0" Width="183"/>
 
-        <FlowDocumentScrollViewer VerticalAlignment="Top" HorizontalAlignment="Left" Height="220" Width="550" Margin="15,50,0,0" >
-            <FlowDocument x:Name="flowDocument"  >
-                <Table BorderBrush="Black" BorderThickness="1" FontFamily="Helsinki" FontWeight="Bold">
-                    <Table.Columns>
-                        <TableColumn Width="154"></TableColumn>
-                        <TableColumn Width="112"></TableColumn>
-                        <TableColumn Width="197"></TableColumn>
-                    </Table.Columns>
-                    <TableRowGroup>
-                        <TableRow >
-                            <TableCell BorderBrush="Black" BorderThickness="1" ColumnSpan="2" >
-                                <Paragraph x:Name="pModel" FontSize="20" TextAlignment="Center">
-                                    <!--<Run>NTU-1402G-Wac Rev.A</Run>-->
-                                </Paragraph>
-                            </TableCell >
-                            <TableCell BorderBrush="Black" BorderThickness="1" TextAlignment="Right" Padding="5" FontSize="10">
-                                <Paragraph>http://192.168.1.1</Paragraph>
-                                <Paragraph>Username: user</Paragraph>
-                                <Paragraph>Password: user</Paragraph>
-                            </TableCell>
-                        </TableRow>
+        <Label Content="Pon serial" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="14,148,0,0"/>
+        <TextBox Text="{Binding PonSerial}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="86,150,0,0" Width="183"/>
 
-                        <TableRow>
-                            <TableCell/>
-                            <TableCell ColumnSpan="2" BorderBrush="Black" BorderThickness="1" >
-                                <BlockUIContainer TextAlignment="Right" >
-                                    <Image x:Name="imgSerial" HorizontalAlignment="Left" />
-                                </BlockUIContainer>
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell BorderBrush="Black" BorderThickness="1" ColumnSpan="2" >
-                                <Paragraph x:Name="wanMacText"/>
-                            </TableCell>
-                            <TableCell BorderBrush="Black" BorderThickness="1" >
-                                <Paragraph x:Name="serialNumberText"/>
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell BorderBrush="Black" BorderThickness="1" TextAlignment="Right" ColumnSpan="3">
+        <Label Content="Этикетка" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="14,7,0,0"/>
+        <ComboBox x:Name="comboBoxLabel" ItemsSource="{Binding Labels, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                  SelectedValue="{Binding SelectedLabel}"
+                   HorizontalAlignment="Left" Margin="86,10,0,0" VerticalAlignment="Top" Width="183"
+                   IsTextSearchEnabled="True" TextSearch.TextPath="LabelName" IsEditable="True" DisplayMemberPath="LabelName"/>
 
-                                <BlockUIContainer>
-                                    <Image x:Name="imgPonSerial" HorizontalAlignment="Right"/>
-                                </BlockUIContainer>
-                            </TableCell>
-                        </TableRow>
-                        <TableRow >
-                            <TableCell BorderBrush="Black" BorderThickness="1"/>
-                            <TableCell  ColumnSpan="2" BorderBrush="Black" BorderThickness="1" TextAlignment="Right">
-                                <Paragraph x:Name="ponSerialText" />
-                            </TableCell>
-                        </TableRow>
-                    </TableRowGroup>
-                </Table>
-            </FlowDocument>
-        </FlowDocumentScrollViewer>
-        <TextBox x:Name="tbxInfo" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="600,50,0,0" Height="240" Width="292" />
-        <Button x:Name="btnPrint" Content="Print" Click="btnPrint_Click" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="314,10,0,0"/>
-        <Button x:Name="btnSave" Content="  Generate and Save  " Click="btnSave_Click" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="352,286,0,0"/>
-        
-        <Image x:Name="img" VerticalAlignment="Bottom" HorizontalAlignment="Right" RenderTransformOrigin="0.5,0.5"  Width="460" Height="240" Margin="0,0,26,48" />
+        <Button Content=" Печать " Command="{Binding PrintCommand}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="285,150,0,0"/>
+
+        <Button Content=" Таблица для наклеек " Command="{Binding CreateExampleCommand}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="285,10,0,0"/>
+        <Button Content=" Печать из таблицы " Command="{Binding PrintFromFileCommand}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="285,39,0,0" Width="128"/>
+
     </Grid>
 </Window>
