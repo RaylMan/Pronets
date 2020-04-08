@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <configSections>
+    <!-- For more information on Entity Framework configuration, visit http://go.microsoft.com/fwlink/?LinkID=237468 -->
+    <section name="entityFramework" type="System.Data.Entity.Internal.ConfigFile.EntityFrameworkSection, EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" requirePermission="false" />
+    <sectionGroup name="userSettings" type="System.Configuration.UserSettingsGroup, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <section name="Pronets.Properties.Settings" type="System.Configuration.ClientSettingsSection, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" allowExeDefinition="MachineToLocalUser" requirePermission="false" />
+    </sectionGroup>
+  </configSections>
+  <startup>
+    <supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.5" />
+  </startup>
+  <entityFramework>
+    <defaultConnectionFactory type="System.Data.Entity.Infrastructure.SqlConnectionFactory, EntityFramework" />
+    <providers>
+      <provider invariantName="System.Data.SqlClient" type="System.Data.Entity.SqlServer.SqlProviderServices, EntityFramework.SqlServer" />
+    </providers>
+  </entityFramework>
+  <connectionStrings>
+    <add name="PronetsDBEntities" connectionString="metadata=res://*/Data.PronetsDBEntities.csdl|res://*/Data.PronetsDBEntities.ssdl|res://*/Data.PronetsDBEntities.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=LENOVO-PC\SQLEXPRESS;initial catalog=PronetsDB;user id=sa;password=Pronetspassword123;MultipleActiveResultSets=True;App=EntityFramework&quot;" providerName="System.Data.EntityClient" />
+  </connectionStrings>
+  <userSettings>
+    <Pronets.Properties.Settings>
+      <setting name="ProgOpen" serializeAs="String">
+        <value>0</value>
+      </setting>
+      <setting name="ReceiptDocumentId" serializeAs="String">
+        <value>0</value>
+      </setting>
+      <setting name="ChiefEngineer" serializeAs="String">
+        <value>Литвинов М.Я.</value>
+      </setting>
+      <setting name="ResponsiblePerson" serializeAs="String">
+        <value>Федотов М.А.</value>
+      </setting>
+      <setting name="Login" serializeAs="String">
+        <value />
+      </setting>
+      <setting name="SaveLogin" serializeAs="String">
+        <value>False</value>
+      </setting>
+      <setting name="PricePerDay" serializeAs="String">
+        <value>3000</value>
+      </setting>
+      <setting name="PricePerHour" serializeAs="String">
+        <value>200</value>
+      </setting>
+      <setting name="DefaultLastName" serializeAs="String">
+        <value />
+      </setting>
+      <setting name="DefaultUserId" serializeAs="String">
+        <value>0</value>
+      </setting>
+      <setting name="ServerName" serializeAs="String">
+        <value>LENOVO-PC\SQLEXPRESS</value>
+      </setting>
+      <setting name="BaseName" serializeAs="String">
+        <value>PronetsDB</value>
+      </setting>
+      <setting name="ServerLogin" serializeAs="String">
+        <value>sa</value>
+      </setting>
+      <setting name="ServerPassword" serializeAs="String">
+        <value>Pronetspassword123</value>
+      </setting>
+      <setting name="Password" serializeAs="String">
+        <value />
+      </setting>
+    </Pronets.Properties.Settings>
+  </userSettings>
+</configuration>
