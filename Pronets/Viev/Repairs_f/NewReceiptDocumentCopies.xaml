@@ -1,0 +1,119 @@
+﻿<Window x:Class="Pronets.Viev.Repairs_f.NewReceiptDocumentCopies"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Pronets.Viev.Repairs_f"
+        mc:Ignorable="d"
+        Title="Повторные ремнты" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Button Content=" Сохранить без изменений " Click="Close" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="0" Margin="5,0,0,0"/>
+        <Button Content=" Удалить выбранные " Command="{Binding RemoveSelectedCommand}" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="0" Margin="167,0,0,0"/>
+
+        <DataGrid x:Name="Docunents1" ItemsSource="{Binding CopyRepairs,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedIndex="{Binding SelectedIndex}" SelectedValue="{Binding SelectedRepair}" 
+                  FrozenColumnCount="4"  Grid.Row="2" Margin="5" AutoGenerateColumns="False" SelectionMode="Single" HorizontalGridLinesBrush="#FF999999"
+                  VerticalGridLinesBrush="#FF999999" CanUserAddRows="False" CanUserDeleteRows="False" SelectionChanged="Docunents1_SelectionChanged">
+
+            <DataGrid.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="White" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#0078D7"/>
+            </DataGrid.Resources>
+
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Status}" Value="Готово">
+                            <Setter Property="Background" Value="Lime"></Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Status}" Value="Донор">
+                            <Setter Property="Background" Value="Tomato"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Status}" Value="Не смогли починить">
+                            <Setter Property="Background" Value="Tomato"></Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Status}" Value="Восстановлению не подлежит">
+                            <Setter Property="Background" Value="Tomato"></Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Status}" Value="Утеряно">
+                            <Setter Property="Background" Value="Red"></Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Status}" Value="В ремонте">
+                            <Setter Property="Background" Value="#FFF9F14C"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Status}" Value="Отправлено заказчику">
+                            <Setter Property="Background" Value="DarkGray"></Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Открыть документ" Click="OpenDocument"/>
+                    <MenuItem Header="Удалить" Command="{Binding RemoveCommand}" CommandParameter="{Binding SelectedIndex}"/>
+                    <MenuItem Header="Удалить выделенные" Command="{Binding RemoveSelectedCommand}" />
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+            <DataGrid.Columns>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.Header>
+                        <CheckBox x:Name="allChecked" Checked="AllChecked_Checked" Unchecked="AllChecked_Unchecked"  VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox x:Name="chkbx" IsChecked="{Binding Path=IsChecked, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="№" Binding="{Binding RepairId}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Наименование" Binding="{Binding Nomenclature}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Серийный Номер" Binding="{Binding Serial_Number}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Заявленная неисправность" Binding="{Binding Claimed_Malfunction}" MaxWidth="200" IsReadOnly="True">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                            <Setter Property="TextBox.MaxLength" Value="200"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Приемщик" Binding="{Binding Inspector}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Дата приема" Binding="{Binding Date_Of_Receipt, StringFormat='dd.MM.yyyy'}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Клиент" Binding="{Binding Client_Name}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Дата отправки" Binding="{Binding Departure_Date, StringFormat='dd.MM.yyyy'}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Получатель" Binding="{Binding Recipient}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Гарантия" Binding="{Binding Warranty}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Выявленная неисправность" Binding="{Binding Identifie_Fault}" MaxWidth="200" IsReadOnly="True">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                            <Setter Property="TextBox.MaxLength" Value="200"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Проделанный ремонт" Binding="{Binding Work_Done}" MaxWidth="200" IsReadOnly="True">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                            <Setter Property="TextBox.MaxLength" Value="200"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Категория ремонта" Binding="{Binding Repair_Category}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Инженер" Binding="{Binding Engineer}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Дата ремонта" Binding="{Binding Repair_Date, StringFormat='dd.MM.yyyy'}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Статус ремонта" Binding="{Binding Status}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Заметка" Binding="{Binding Note}" MaxWidth="200"  IsReadOnly="True">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                            <Setter Property="TextBox.MaxLength" Value="200"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>

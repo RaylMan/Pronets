@@ -79,7 +79,7 @@
         <!--<Button x:Name="addRepairs" Content="  Добавить оборудование  " Click="AddRepairs_Click" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,63,6"/>-->
         <!--Row 2-->
 
-        <DataGrid x:Name="Docunents1" ItemsSource="{Binding V_Repairs}" SelectedIndex="{Binding SelectedIndex}" SelectedValue="{Binding SelectedItem}" 
+        <DataGrid x:Name="Docunents1" ItemsSource="{Binding V_Repairs}" SelectedIndex="{Binding SelectedIndex}" SelectedValue="{Binding SelectedRepair}" 
                   FrozenColumnCount="4"  Grid.Row="2" Margin="5,5,5,0" AutoGenerateColumns="False" SelectionMode="Single" HorizontalGridLinesBrush="#FF999999"
                   VerticalGridLinesBrush="#FF999999" CanUserAddRows="False" CanUserDeleteRows="False" SelectionChanged="Docunents1_SelectionChanged">
 
@@ -119,6 +119,7 @@
                 <ContextMenu>
                     <MenuItem Header="Редактировать" Click="OpenEditRepairWindow"/>
                     <MenuItem Header="Удалить" Command="{Binding RemoveCommand}" CommandParameter="{Binding SelectedIndex}"/>
+                    <MenuItem Header="Удалить выделенные" Command="{Binding RemoveSelectedCommand}" />
                 </ContextMenu>
             </DataGrid.ContextMenu>
             <DataGrid.Columns>

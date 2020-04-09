@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 namespace Pronets.Model.Labels
 {
     class HuaweiLabel : ILabel
-
     {
         public string LabelName => "Huawei";
 

@@ -17,6 +17,7 @@ namespace Pronets.VievModel.Other
     public class BarcodeWindowVM : VievModelBase
     {
         #region Properties
+        private ZebraPrintLabel printer;
         private ObservableCollection<Nomenclature> nomenclatures = new ObservableCollection<Nomenclature>();
         public ObservableCollection<Nomenclature> Nomenclatures
         {
@@ -110,10 +111,21 @@ namespace Pronets.VievModel.Other
                 RaisedPropertyChanged("PonSerial");
             }
         }
+        private string status;
+        public string Status
+        {
+            get { return status; }
+            set
+            {
+                status = value;
+                RaisedPropertyChanged("Status");
+            }
+        }
         #endregion
         public BarcodeWindowVM()
         {
             DefaultType();
+            InitializePrinter();
             Labels.Add(new EltexONTLabelGpon());
             Labels.Add(new EltexONTLabelGepon());
             Labels.Add(new HuaweiLabel());
@@ -125,6 +137,19 @@ namespace Pronets.VievModel.Other
             SerialNumber = "GP21073997";
             MacAdress = "A8:F9:4B:CA:45:64";
             PonSerial = "ELTX5C0483E0";
+        }
+        private void InitializePrinter()
+        {
+            try
+            {
+                printer = new ZebraPrintLabel();
+                printer.Connect();
+                Status = "Принтер готов к работе";
+            }
+            catch (Exception)
+            {
+                Status = "Ошибка подключения принтера!";
+            }
         }
         private void DefaultType()
         {
@@ -162,16 +187,23 @@ namespace Pronets.VievModel.Other
         {
             if (selectedLabel != null)
             {
-                try
+                if (selectedNomenclature != null)
                 {
-                    ZebraPrintLabel printer = new ZebraPrintLabel();
-                    var printLabel = selectedLabel.GetZPLCodeLabel(selectedNomenclature.Name, SerialNumber, MacAdress, PonSerial);
-                    printer.Print(printLabel);
+                    try
+                    {
+                        Status = "Производится печать";
+                        var printLabel = selectedLabel.GetZPLCodeLabel(selectedNomenclature.Name.ToUpper(), SerialNumber?.ToUpper(), MacAdress?.ToUpper(), PonSerial?.ToUpper());
+                        printer.Print(printLabel);
+                        Status = "Печать завершена!";
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(e.Message, "Ошибка");
+                        Status = "Ошибка!";
+                    }
                 }
-                catch (Exception e)
-                {
-                    MessageBox.Show(e.Message, "Ошибка");
-                }
+                else MessageBox.Show("Неоходимо выбрать модель!", "Ошибка");
+
             }
             else MessageBox.Show("Неоходимо выбрать этикетку!", "Ошибка");
         }
@@ -205,22 +237,32 @@ namespace Pronets.VievModel.Other
 
                 if (openFileDialog.ShowDialog() == true)
                 {
+                    Status = "Производится печать";
                     FilePath = openFileDialog.FileName;
                     await Task.Factory.StartNew(() => PrintFromTable(selectedLabel, FilePath));
                 }
             }
+            else MessageBox.Show("Необходимо выбрать тип этикетки");
         }
         void PrintFromTable(ILabel label, string filepath)
         {
-            ZebraPrintLabel printer = new ZebraPrintLabel();
-            List<DeviceForLabel> devices = XlsxLabels.GetDevices(filepath);
-            if(devices != null)
+            try
             {
-                foreach (var item in devices)
+                List<DeviceForLabel> devices = XlsxLabels.GetDevices(filepath);
+                if (devices != null)
                 {
-                    var printLabel = label.GetZPLCodeLabel(item.Nomenclature, item.SerialNumber, item.MacAdress, item.PonSerial);
-                    printer.Print(printLabel);
+                    foreach (var item in devices)
+                    {
+                        var printLabel = label.GetZPLCodeLabel(item.Nomenclature.ToUpper(), item.SerialNumber.ToUpper(), item.MacAdress.ToUpper(), item.PonSerial.ToUpper());
+                        printer.Print(printLabel);
+                    }
                 }
+                Status = "Печать завершена!";
+            }
+            catch (Exception e)
+            {
+                Status = "Ошибка!";
+                MessageBox.Show(e.Message);
             }
         }
         #endregion
@@ -250,11 +292,60 @@ namespace Pronets.VievModel.Other
             showDialog.FileName = $"Таблица для наклеек";
             if (showDialog.ShowDialog() == true)
             {
-               FilePath = showDialog.FileName;
+                FilePath = showDialog.FileName;
             }
             if (FilePath != null)
                 XlsxLabels.GenerateExampleFile(FilePath);
-                
+
+        }
+        #endregion
+        #region CloseConnectionCommand
+        private ICommand closeConnectionCommand;
+        public ICommand CloseConnectionCommand
+        {
+            get
+            {
+                if (closeConnectionCommand == null)
+                {
+                    closeConnectionCommand = new RelayCommand(new Action<object>(CloseConnection));
+                }
+                return closeConnectionCommand;
+            }
+            set
+            {
+                closeConnectionCommand = value;
+                RaisedPropertyChanged("CloseConnectionCommand");
+            }
+        }
+        public void CloseConnection(object Parameter)
+        {
+            printer.Close();
+            Status = "Соединение закрыто";
+        }
+        #endregion
+
+        #region ConnectPrinterCommand
+        private ICommand connectPrinterCommand;
+        public ICommand ConnectPrinterCommand
+        {
+            get
+            {
+                if (connectPrinterCommand == null)
+                {
+                    connectPrinterCommand = new RelayCommand(new Action<object>(ConnectPrinter));
+                }
+                return connectPrinterCommand;
+            }
+            set
+            {
+                connectPrinterCommand = value;
+                RaisedPropertyChanged("ConnectPrinterCommand");
+            }
+        }
+        public void ConnectPrinter(object Parameter)
+        {
+            if (!printer.Connected)
+                InitializePrinter();
         }
         #endregion
     }

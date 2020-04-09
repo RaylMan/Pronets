@@ -6,6 +6,7 @@ using Pronets.EntityRequests.Other;
 using Pronets.EntityRequests.Repairs_f;
 using Pronets.EntityRequests.Users_f;
 using Pronets.Navigation.WindowsNavigation;
+using Pronets.Viev.Repairs_f;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -368,6 +369,23 @@ namespace Pronets.VievModel.Repairs_f
                     SelectClientItem = item;
             }
         }
+
+        private ObservableCollection<v_Repairs> GetCopyRepairs(ObservableCollection<Repairs> repairs)
+        {
+            ObservableCollection<v_Repairs> copyRepairs = new ObservableCollection<v_Repairs>();
+            foreach (var repair in repairs)
+            {
+                var query = RepairsRequest.GetCopy(repair.RepairId, repair.Serial_Number);
+                if(query != null)
+                {
+                    foreach (var item in query)
+                    {
+                        copyRepairs.Add(item);
+                    }
+                }
+            }
+            return copyRepairs;
+        }
         #endregion
 
         #region AddCommand
@@ -433,6 +451,7 @@ namespace Pronets.VievModel.Repairs_f
                             repairs[i].Inspector = defaultUser.UserId;
                             repairs[i].Warranty = wt;
                         }
+                        
                         RepairsRequest.AddToBase(repairs);
                         MessageBox.Show("Произведена успешная запись в базу данных!", "Результат");
                     }
@@ -503,6 +522,35 @@ namespace Pronets.VievModel.Repairs_f
                 }
             }
             return isHave;
+        }
+        #endregion
+        #region FindCopiesCommand
+        private ICommand findCopiesCommand;
+        public ICommand FindCopiesCommand
+        {
+            get
+            {
+                if (findCopiesCommand == null)
+                {
+                    findCopiesCommand = new RelayCommand(new Action<object>(FindCopies));
+                }
+                return findCopiesCommand;
+            }
+            set
+            {
+                findCopiesCommand = value;
+                RaisedPropertyChanged("FindCopiesCommand");
+            }
+        }
+        private void FindCopies(object parametr)
+        {
+            var copyRepairs = GetCopyRepairs(repairs);
+            if (copyRepairs.Count > 0)
+            {
+                NewReceiptDocumentCopies win = new NewReceiptDocumentCopies(copyRepairs, repairs);
+                win.Show();
+            }
+            else MessageBox.Show("Повторных ремонтов не найдено!");
         }
         #endregion
 

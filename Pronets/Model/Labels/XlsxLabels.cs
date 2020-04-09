@@ -18,19 +18,27 @@ namespace Pronets.Model.Labels
         {
             XslxExporter exporter = new XslxExporter();
             List<DeviceForLabel> devices = new List<DeviceForLabel>();
-            if (!string.IsNullOrWhiteSpace(path))
+            try
             {
-                foreach (var item in exporter.ReadAsDataTable(path, "rId1").AsEnumerable())
+                if (!string.IsNullOrWhiteSpace(path))
                 {
-                    devices.Add(new DeviceForLabel
+                    foreach (var item in exporter.ReadAsDataTable(path, "rId1").AsEnumerable())
                     {
-                        Nomenclature = Regex.Replace(Convert.ToString(item["Наименование"]), " {2,}", " "),
-                        SerialNumber = Regex.Replace(Convert.ToString(item["Serial"]), " {2,}", " "),
-                        MacAdress = Regex.Replace(Convert.ToString(item["Mac"]), " {2,}", " "),
-                        PonSerial = Regex.Replace(Convert.ToString(item["Pon-Serial"]), " {2,}", " ")
-                    });
+                        devices.Add(new DeviceForLabel
+                        {
+                            Nomenclature = Regex.Replace(Convert.ToString(item["Наименование"]), " {2,}", " "),
+                            SerialNumber = Regex.Replace(Convert.ToString(item["Serial"]), " {2,}", " "),
+                            MacAdress = Regex.Replace(Convert.ToString(item["Mac"]), " {2,}", " "),
+                            PonSerial = Regex.Replace(Convert.ToString(item["Pon-Serial"]), " {2,}", " ")
+                        });
+                    }
                 }
             }
+            catch (Exception)
+            {
+                throw;
+            }
+            
             return devices;
         }
         public static void GenerateExampleFile(string filePath)

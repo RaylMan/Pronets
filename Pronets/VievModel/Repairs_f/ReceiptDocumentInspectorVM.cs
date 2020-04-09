@@ -21,7 +21,6 @@ namespace Pronets.VievModel.Repairs_f
 {
     public class ReceiptDocumentInspectorVM : RepairsModel
     {
-
         #region Properties
 
         Dispatcher _dispatcher;
@@ -407,7 +406,43 @@ namespace Pronets.VievModel.Repairs_f
                 MessageBox.Show("Необходимо выбрать элемент в списке!", "Ошибка");
         }
         #endregion
+        #region Remove Few From Base
+        private ICommand removeSelectedCommand;
+        public ICommand RemoveSelectedCommand
+        {
+            get
+            {
+                if (removeSelectedCommand == null)
+                {
+                    removeSelectedCommand = new RelayCommand(new Action<object>(RemovRemoveSelected));
+                }
+                return removeSelectedCommand;
+            }
+            set
+            {
+                removeSelectedCommand = value;
+                RaisedPropertyChanged("RemoveSelectedCommand");
+            }
+        }
+        private void RemovRemoveSelected(object Parameter)
+        {
+            var result = MessageBox.Show("Вы действительно хотете удалить?", "Удаление", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
+            if (result == MessageBoxResult.Yes)
+            {
+                foreach (var item in V_Repairs)
+                {
+                    if (item.IsChecked)
+                    {
+                        RepairsRequest.RemoveFromBaseById(item.RepairId, out bool ex);
+                    }
+                }
+                GetRepairsAsync();
+            }
+            else
+                MessageBox.Show("Необходимо выбрать элемент в списке!", "Ошибка");
+        }
+        #endregion
         #region Search
 
         #region Test search

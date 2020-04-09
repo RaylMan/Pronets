@@ -12,55 +12,39 @@ namespace Pronets.Model.Labels
     {
         private DiscoveredUsbPrinter usbPrinter;
         Connection connection;
+        public bool Connected { get; private set; }
         public ZebraPrintLabel()
         {
-            GetPrinterConection();
         }
-        private void GetPrinterConection()
+        public void Connect()
         {
-
             usbPrinter = UsbDiscoverer.GetZebraUsbPrinters(new ZebraPrinterFilter()).FirstOrDefault();
             if (usbPrinter == null) throw new ArgumentException("Принтер не найден!");
-                connection = usbPrinter.GetConnection();
-
+            connection = usbPrinter.GetConnection();
+            Connected = true;
+        }
+        public bool Close()
+        {
+            if (connection == null) return false;
+            if (connection.Connected)
+            {
+                connection.Close();
+                return true;
+            }
+            return false;   
         }
         public void Print(string zplCommand)
         {
-            try
+            if(Connected)
             {
-                connection.Open();
-                if (connection.Connected)
-                {
-                    connection.Write(Encoding.UTF8.GetBytes(zplCommand));
-                }
-                else throw new ArgumentException("Отсутствует подключение к принтеру");
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            finally
-            {
-                if (connection.Connected)
-                    connection.Close();
-            }
-            
-        }
-
-        public void PrintOld(string zplCommand)
-        {
-            foreach (DiscoveredUsbPrinter usbPrinter in UsbDiscoverer.GetZebraUsbPrinters(new ZebraPrinterFilter()))
-            {
-                Connection c = usbPrinter.GetConnection();
                 try
                 {
-                    c.Open();
-                    if (c.Connected)
+                    connection.Open();
+                    if (connection.Connected)
                     {
-                        //ZebraPrinter printer = ZebraPrinterFactory.GetInstance(c);
-                        //ZebraPrinterLinkOs linkOsPrinter = ZebraPrinterFactory.CreateLinkOsPrinter(printer);
-                        c.Write(Encoding.UTF8.GetBytes(zplCommand));
+                        connection.Write(Encoding.UTF8.GetBytes(zplCommand));
                     }
+                    else throw new ArgumentException("Отсутствует подключение к принтеру");
                 }
                 catch (Exception)
                 {
@@ -68,10 +52,11 @@ namespace Pronets.Model.Labels
                 }
                 finally
                 {
-                    c.Close();
+                    if (connection.Connected)
+                        connection.Close();
                 }
             }
+            else throw new ArgumentException("Отсутствует подключение к принтеру");
         }
-
     }
 }

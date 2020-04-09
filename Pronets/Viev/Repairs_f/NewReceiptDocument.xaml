@@ -21,16 +21,17 @@
             </MenuItem>
         </Menu>
         <TextBlock Text="{Binding TextDocumentId, Mode=TwoWay}" HorizontalAlignment="Center" FontSize="18"/>
-        <Button x:Name="btnClear" Command="{Binding ClearCommand}" Content="  Очистить  " Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="670,3,0,0"/>
+        <Button x:Name="btnClear" Command="{Binding ClearCommand}" Content="  Очистить  " Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="795,4,0,0"/>
         <!--ROW 1-->
         <Button x:Name="Write" Grid.Row="1" Command="{Binding AddCommand}"  Content=" Записать " Margin="2" HorizontalAlignment="Left" Width="65"/>
-        <Label  Content="Клиент" Grid.Row="1" HorizontalAlignment="Left" Margin="75,0,0,0" RenderTransformOrigin="0.556,0.467"/>
+        <Button x:Name="FindCopies" Grid.Row="1" Command="{Binding FindCopiesCommand}"  Content=" Проверить на совпадение " Margin="72,2,0,2" HorizontalAlignment="Left" Width="158"/>
+        <Label  Content="Клиент" Grid.Row="1" HorizontalAlignment="Left" Margin="235,1,0,59" RenderTransformOrigin="0.556,0.467" Grid.RowSpan="2"/>
         <ComboBox x:Name="cbxClient" ItemsSource="{Binding Clients}" SelectedValue="{Binding SelectClientItem}" HorizontalAlignment="Left"
-                  Margin="128,3,0,0" Grid.Row="1" VerticalAlignment="Top" Width="211"
+                  Margin="288,4,0,0" Grid.Row="1" VerticalAlignment="Top" Width="183"
                    IsTextSearchEnabled="True" TextSearch.TextPath="ClientName" IsEditable="True" DisplayMemberPath="ClientName"/>
-        <Label  Content="Статус ремонта" Grid.Row="1" HorizontalAlignment="Left" Margin="347,0,0,0" RenderTransformOrigin="0.556,0.467"/>
+        <Label  Content="Статус ремонта" Grid.Row="1" HorizontalAlignment="Left" Margin="472,1,0,59" RenderTransformOrigin="0.556,0.467" Grid.RowSpan="2"/>
         <ComboBox x:Name="cbxStatuses" ItemsSource="{Binding Statuses}" SelectedValue="{Binding SelectedStatus}" HorizontalAlignment="Left"
-                  Margin="439,3,0,0" Grid.Row="1" VerticalAlignment="Top" Width="211"
+                  Margin="564,4,0,0" Grid.Row="1" VerticalAlignment="Top" Width="211"
                    IsTextSearchEnabled="True" TextSearch.TextPath="Status" IsEditable="True" DisplayMemberPath="Status"/>
 
         <!--ROW 2-->
