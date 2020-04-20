@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using Pronets.Data;
 using Pronets.EntityRequests.Nomenclature_f;
+using Pronets.EntityRequests.Users_f;
 using Pronets.Model.FromXlsxToSQL;
 using Pronets.Model.Labels;
 using System;
@@ -81,6 +82,16 @@ namespace Pronets.VievModel.Other
                 RaisedPropertyChanged("SelectedNomenclature");
             }
         }
+        private string count = "1";
+        public string Count
+        {
+            get { return count; }
+            set
+            {
+                count = value;
+                RaisedPropertyChanged("Count");
+            }
+        }
         private string serialNumber;
         public string SerialNumber
         {
@@ -126,9 +137,8 @@ namespace Pronets.VievModel.Other
         {
             DefaultType();
             InitializePrinter();
-            Labels.Add(new EltexONTLabelGpon());
-            Labels.Add(new EltexONTLabelGepon());
-            Labels.Add(new HuaweiLabel());
+            Labels = LabelRepository.GetLabels();
+            SelectedLabel = Labels[0];
         }
         void TestLabel()
         {
@@ -156,6 +166,7 @@ namespace Pronets.VievModel.Other
             Nomenclature_Types = Nomenclature_TypesRequest.FillList();
             var defaultType = Nomenclature_Types.FirstOrDefault(t => t.Type == "ONT");
             SelectedType = defaultType;
+            selectedNomenclature = nomenclatures[0];
         }
         private void FillNomenclaturete(Nomenclature_Types type)
         {
@@ -185,27 +196,34 @@ namespace Pronets.VievModel.Other
         }
         public void Print(object Parameter)
         {
-            if (selectedLabel != null)
+            if (int.TryParse(count.Replace(" ", ""), out int numCount))
             {
-                if (selectedNomenclature != null)
+                if (selectedLabel != null)
                 {
-                    try
+                    if (selectedNomenclature != null)
                     {
-                        Status = "Производится печать";
-                        var printLabel = selectedLabel.GetZPLCodeLabel(selectedNomenclature.Name.ToUpper(), SerialNumber?.ToUpper(), MacAdress?.ToUpper(), PonSerial?.ToUpper());
-                        printer.Print(printLabel);
-                        Status = "Печать завершена!";
+                        try
+                        {
+                            Status = "Производится печать";
+                            var printLabel = selectedLabel.GetZPLCodeLabel(selectedNomenclature.Name.ToUpper(), SerialNumber?.ToUpper().Replace(" ", ""), MacAdress?.ToUpper(), PonSerial?.ToUpper().Replace(" ", ""));
+                            for (int i = 0; i < numCount; i++)
+                            {
+                                printer.Print(printLabel);
+                            }
+                            Status = "Печать завершена!";
+                        }
+                        catch (Exception e)
+                        {
+                            MessageBox.Show(e.Message, "Ошибка");
+                            Status = "Ошибка!";
+                        }
                     }
-                    catch (Exception e)
-                    {
-                        MessageBox.Show(e.Message, "Ошибка");
-                        Status = "Ошибка!";
-                    }
-                }
-                else MessageBox.Show("Неоходимо выбрать модель!", "Ошибка");
+                    else MessageBox.Show("Неоходимо выбрать модель!", "Ошибка");
 
+                }
+                else MessageBox.Show("Неоходимо выбрать этикетку!", "Ошибка");
             }
-            else MessageBox.Show("Неоходимо выбрать этикетку!", "Ошибка");
+            else MessageBox.Show("Неоходимо ввести количество!", "Ошибка");
         }
         #endregion
 
@@ -346,6 +364,40 @@ namespace Pronets.VievModel.Other
         {
             if (!printer.Connected)
                 InitializePrinter();
+        }
+        #endregion
+
+        #region FillFromBufferCommand
+        private ICommand fillFromBufferCommand;
+        public ICommand FillFromBufferCommand
+        {
+            get
+            {
+                if (fillFromBufferCommand == null)
+                {
+                    fillFromBufferCommand = new RelayCommand(new Action<object>(FillFromBuffer));
+                }
+                return fillFromBufferCommand;
+            }
+            set
+            {
+                fillFromBufferCommand = value;
+                RaisedPropertyChanged("FillFromBufferCommand");
+            }
+        }
+        public async void FillFromBuffer(object Parameter)
+        {
+            try
+            {
+                var user = await Task<Users>.Factory.StartNew(UsersRequest.GetDefauldUser);
+                SerialNumber = user.BufferSerial;
+                MacAdress = user.BufferMac;
+                PonSerial = user.BufferPonMac;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Ошибка");
+            }
         }
         #endregion
     }

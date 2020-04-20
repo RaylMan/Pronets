@@ -307,7 +307,7 @@ namespace Pronets.VievModel.Repairs_f
                 RaisedPropertyChanged("NoteOfDocument");
             }
         }
-        
+
 
         #endregion
         public NewReceiptDocumentVM()
@@ -322,7 +322,7 @@ namespace Pronets.VievModel.Repairs_f
             GetClient();
         }
         #region methods
-       
+
         private void GetContent()
         {
             users = UsersRequest.FillList();
@@ -376,7 +376,7 @@ namespace Pronets.VievModel.Repairs_f
             foreach (var repair in repairs)
             {
                 var query = RepairsRequest.GetCopy(repair.RepairId, repair.Serial_Number);
-                if(query != null)
+                if (query != null)
                 {
                     foreach (var item in query)
                     {
@@ -412,6 +412,7 @@ namespace Pronets.VievModel.Repairs_f
                 AddRepair();
             else
                 AddRepairInOldDocument();
+            repairs.Clear();
         }
         /// <summary>
         /// Добавляет в базу данных новый документ и ремонты к нему
@@ -451,7 +452,7 @@ namespace Pronets.VievModel.Repairs_f
                             repairs[i].Inspector = defaultUser.UserId;
                             repairs[i].Warranty = wt;
                         }
-                        
+
                         RepairsRequest.AddToBase(repairs);
                         MessageBox.Show("Произведена успешная запись в базу данных!", "Результат");
                     }

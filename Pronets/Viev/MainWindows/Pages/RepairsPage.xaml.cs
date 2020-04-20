@@ -7,7 +7,10 @@ using Pronets.Viev.Repairs_f;
 using Pronets.VievModel.MainWindows.Pages;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -19,6 +22,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace Pronets.Viev.MainWindows.Pages
 {
@@ -48,7 +52,7 @@ namespace Pronets.Viev.MainWindows.Pages
             }
         }
         #endregion
-
+        
 
         private void BtnSearch_Click(object sender, RoutedEventArgs e)
         {
@@ -146,7 +150,7 @@ namespace Pronets.Viev.MainWindows.Pages
 
         private void CbxStatuses_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-           SetStatusColor();
+            SetStatusColor();
         }
 
         private void BtnOpenDocument_Click(object sender, RoutedEventArgs e)
@@ -179,6 +183,7 @@ namespace Pronets.Viev.MainWindows.Pages
             else
                 MessageBox.Show("Нет доступа!", "Редактирование");
         }
+       
         private bool IsInspectorOrAdmin()
         {
             int.TryParse(Properties.Settings.Default.DefaultUserId.ToString(), out int userId);

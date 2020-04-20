@@ -200,6 +200,10 @@
           <Property Name="Adress" Type="nvarchar" MaxLength="200" />
           <Property Name="SalaryPerHour" Type="float" />
           <Property Name="SalaryPerDay" Type="float" />
+          <Property Name="CopyBuffer" Type="nvarchar" MaxLength="500" />
+          <Property Name="BufferSerial" Type="nvarchar" MaxLength="50" />
+          <Property Name="BufferMac" Type="nvarchar" MaxLength="50" />
+          <Property Name="BufferPonMac" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Ошибки, обнаруженные при создании:
 предупреждение 6002: В таблице или представлении "PronetsDB.dbo.v_Receipt_Document" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
@@ -722,6 +726,10 @@
           <NavigationProperty Name="Repairs" Relationship="Self.FK_Repairs_Users_Inspector_" FromRole="Users" ToRole="Repairs" />
           <Property Name="SalaryPerDay" Type="Double" />
           <Property Name="SalaryPerHour" Type="Double" />
+          <Property Name="CopyBuffer" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="BufferSerial" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BufferMac" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BufferPonMac" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="v_Receipt_Document">
           <Key>
@@ -1202,6 +1210,10 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="PronetsDBModel.Users">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="BufferPonMac" ColumnName="BufferPonMac" />
+                <ScalarProperty Name="BufferMac" ColumnName="BufferMac" />
+                <ScalarProperty Name="BufferSerial" ColumnName="BufferSerial" />
+                <ScalarProperty Name="CopyBuffer" ColumnName="CopyBuffer" />
                 <ScalarProperty Name="SalaryPerHour" ColumnName="SalaryPerHour" />
                 <ScalarProperty Name="SalaryPerDay" ColumnName="SalaryPerDay" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />

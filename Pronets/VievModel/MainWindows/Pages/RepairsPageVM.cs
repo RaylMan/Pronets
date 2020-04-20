@@ -294,6 +294,7 @@ namespace Pronets.VievModel.MainWindows.Pages
             {
                 if (selectedRepair.RepairId != -10)
                 {
+
                     repair = RepairsRequest.GetRepair(SelectedRepair.RepairId);
                     repair.Engineer = engineer != null ? engineer.Id : 0;
                     repair.Identifie_Fault = Identifie_Fault;
@@ -310,9 +311,11 @@ namespace Pronets.VievModel.MainWindows.Pages
                         {
                             if (repair != null)
                             {
+                                TextVisibility = Visibility.Visible;
                                 RepairsRequest.EditItem(repair);
                                 ReceiptDocumentRequest.SetStatus((int)repair.DocumentId, "В ремонте");
                                 FillList();//обновляет таблицу серийных номеров
+                                TextVisibility = Visibility.Hidden;
                             }
                         }
                         else

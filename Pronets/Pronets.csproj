@@ -28,8 +28,10 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <UpdateUrl>\\ANDREY\Pronets\</UpdateUrl>
-    <ApplicationRevision>14</ApplicationRevision>
-    <ApplicationVersion>1.3.132.%2a</ApplicationVersion>
+    <ProductName>Pronets</ProductName>
+    <PublisherName>Pronets ©</PublisherName>
+    <ApplicationRevision>33</ApplicationRevision>
+    <ApplicationVersion>1.5.139.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -302,6 +304,7 @@
     <Compile Include="EntityRequests\Repairs_f\RepairsRequest.cs" />
     <Compile Include="EntityRequests\Repairs_f\StatusesRequests.cs" />
     <Compile Include="EntityRequests\Users_f\UsersRequest.cs" />
+    <Compile Include="Model\BufferView.cs" />
     <Compile Include="Model\DefectsTextModel.cs" />
     <Compile Include="Model\DocumentPaginatorWrapper.cs" />
     <Compile Include="Model\DocumentType.cs" />
@@ -312,10 +315,15 @@
     <Compile Include="Model\FromXlsxToSQL\SheetsId.cs" />
     <Compile Include="Model\FromXlsxToSQL\WorkList.cs" />
     <Compile Include="Model\FromXlsxToSQL\XslxExporter.cs" />
-    <Compile Include="Model\Labels\EltexONTLabelGepon.cs" />
-    <Compile Include="Model\Labels\EltexONTLabelGpon.cs" />
-    <Compile Include="Model\Labels\HuaweiLabel.cs" />
+    <Compile Include="Model\Labels\LabelSamples\DLinkLoginPassLabel.cs" />
+    <Compile Include="Model\Labels\LabelSamples\DLinkServiceUserInfoLabel.cs" />
+    <Compile Include="Model\Labels\LabelSamples\EltexNTE2Label.cs" />
+    <Compile Include="Model\Labels\LabelSamples\EltexONTLabelGepon.cs" />
+    <Compile Include="Model\Labels\LabelSamples\EltexONTLabelGpon.cs" />
+    <Compile Include="Model\Labels\LabelSamples\EltexTAULabel.cs" />
+    <Compile Include="Model\Labels\LabelSamples\HuaweiLabel.cs" />
     <Compile Include="Model\Labels\ILabel.cs" />
+    <Compile Include="Model\Labels\LabelRepository.cs" />
     <Compile Include="Model\Labels\XlsxLabels.cs" />
     <Compile Include="Model\Labels\ZebraPrintLabel.cs" />
     <Compile Include="Model\Logging.cs" />
@@ -346,6 +354,7 @@
     <Compile Include="VievModel\Nomenclature_f\Nomenclature_TypesVM.cs" />
     <Compile Include="VievModel\Other\AdminOvertimeWindowVM.cs" />
     <Compile Include="VievModel\Other\BarcodeWindowVM.cs" />
+    <Compile Include="VievModel\Other\CopyBufferWindowVM.cs" />
     <Compile Include="VievModel\Other\FaultWindowVM.cs" />
     <Compile Include="VievModel\Other\OvertimeWindowVM.cs" />
     <Compile Include="VievModel\Other\PartsWindowVM.cs" />
@@ -425,6 +434,9 @@
     </Compile>
     <Compile Include="Viev\Other\BarcodeWindow.xaml.cs">
       <DependentUpon>BarcodeWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Viev\Other\CopyBufferWindow.xaml.cs">
+      <DependentUpon>CopyBufferWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Viev\Other\EditPartInfoWindow.xaml.cs">
       <DependentUpon>EditPartInfoWindow.xaml</DependentUpon>
@@ -615,6 +627,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Viev\Other\CopyBufferWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Viev\Other\EditPartInfoWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -709,6 +725,9 @@
     <Resource Include="Notes.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Viev\Users_f\Loading.gif" />
+    <Resource Include="Viev\MainWindows\Pages\Loading.gif" />
+    <Resource Include="Content\Loading.gif" />
     <Content Include="Data\PronetsDBEntities.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>PronetsDBEntities.edmx</DependentUpon>

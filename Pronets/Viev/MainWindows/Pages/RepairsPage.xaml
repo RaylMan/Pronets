@@ -33,20 +33,21 @@
                 HorizontalAlignment="Left"  Margin="180,5,0,5" RenderTransformOrigin="-1.503,0.609" Click="BtnSearch_Click" />
         <CheckBox x:Name="checkBox" Content="Искать с русскими символами" IsChecked="{Binding IsChecked}" HorizontalAlignment="Left" Margin="243,10,0,0"
                   VerticalAlignment="Top" Grid.ColumnSpan="2" Width="194"/>
-        <TextBlock Text="  Выполнение операции" Visibility="{Binding TextVisibility}" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="42,10,215,7" Width="143" Height="18">
+        <!--<TextBlock Text="  Выполнение операции" Visibility="{Binding TextVisibility}" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="42,10,215,7" Width="143" Height="18">
             <TextBlock.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="#FFF3FF00" Offset="0"/>
                     <GradientStop Color="#FF23FF00" Offset="1"/>
                 </LinearGradientBrush>
             </TextBlock.Background>
-        </TextBlock>
+        </TextBlock>-->
         <Menu Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right">
             <MenuItem Header="Данные">
                 <MenuItem Header="Обновить данные страницы" Command="{Binding RefreshCommand}"></MenuItem>
             </MenuItem>
         </Menu>
         <!--Row 1-->
+       
         <DataGrid x:Name="Docunents" ItemsSource="{Binding V_Repairs, UpdateSourceTrigger=PropertyChanged}"  SelectedItem="{Binding SelectedRepair, UpdateSourceTrigger=PropertyChanged}" 
                   Grid.Row="1" Grid.ColumnSpan="2" Margin="5,5,5,10" AutoGenerateColumns="False" SelectionMode="Single" HorizontalGridLinesBrush="#FF999999" 
                   VerticalGridLinesBrush="#FF999999" CanUserAddRows="False" CanUserDeleteRows="False" SelectedIndex="{Binding SelectedIndex, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
@@ -98,6 +99,26 @@
                 <DataGridTextColumn Header="Статус ремонта" Binding="{Binding Path=Status, UpdateSourceTrigger=PropertyChanged}" Width="*" IsReadOnly="True"/>
             </DataGrid.Columns>
         </DataGrid>
+        
+        <Image Source="/Content/Loading.gif"  Width="24" Height="24" Grid.Row="1" Grid.ColumnSpan="2" Visibility="{Binding TextVisibility, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+               VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Image.RenderTransform>
+                <RotateTransform x:Name="rotate"
+                         CenterX="12"
+                         CenterY="12"/>
+            </Image.RenderTransform>
+            <Image.Triggers>
+                <EventTrigger RoutedEvent="Loaded">
+                    <BeginStoryboard>
+                        <Storyboard RepeatBehavior="Forever">
+                            <DoubleAnimation Storyboard.TargetName="rotate"
+                                     Storyboard.TargetProperty="Angle"
+                                     By="360" Duration="0:0:1"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Image.Triggers>
+        </Image>
 
         <!--Row 2-->
         <Grid Grid.Row="2" Background="Gainsboro" Margin="5">

@@ -31,5 +31,11 @@ namespace Pronets.Viev.Other
             InitializeComponent();
             DataContext = new BarcodeWindowVM();
         }
+        private void BufferItem_Click(object sender, RoutedEventArgs e)
+        {
+            CopyBufferWindow win = CopyBufferWindow.CopyBufferWindowInstance;
+            win.Show();
+            win.Focus();
+        }
     }
 }

@@ -87,13 +87,7 @@ namespace Pronets.VievModel.Other
                 if (selectedDocument != null)
                 {
                     document = selectedDocument;
-                    SelectedStatus = document.Status;
-                    OrderTitleName = $"Номер заказа: {document.Id}";
-                    partsOrder.Clear();
-                    foreach (var order in PartsOrderRequest.FillList(selectedDocument.Id))
-                    {
-                        partsOrder.Add(order);
-                    }
+                    GetDocument(selectedDocument.Id);
                 }
                 RaisedPropertyChanged("SelectedDocument");
             }
@@ -291,6 +285,23 @@ namespace Pronets.VievModel.Other
             parts.Clear();
             Parts = PartsRequest.FillList();
         }
+        private void GetDocument(int documentId)
+        {
+            SelectedStatus = document.Status;
+            OrderTitleName = $"Номер заказа: {document.Id}";
+            partsOrder.Clear();
+            try
+            {
+                foreach (var order in PartsOrderRequest.FillList(documentId))
+                {
+                    partsOrder.Add(order);
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Ошибка");
+            }
+        }
         #region Parts
         #region Add Part
         private ICommand addPart;
@@ -397,17 +408,27 @@ namespace Pronets.VievModel.Other
         {
             if (document != null && document.Id != 0)
             {
-                PartsOrder.Add(new PartsOrder
-                {
-                    PartName = selectedPart.Part_Name
-                });
+                if (!HasCopy(selectedPart.Part_Name, PartsOrder))
+                    PartsOrder.Add(new PartsOrder
+                    {
+                        PartName = selectedPart.Part_Name
+                    });
+                else MessageBox.Show("Уже есть в заказе");
             }
             else
             {
                 MessageBox.Show("Необходимо выбрать документ", "Ошибка");
             }
         }
-
+        private bool HasCopy(string partName, ObservableCollection<PartsOrder> order)
+        {
+            foreach (var item in order)
+            {
+                if (item.PartName == partName)
+                    return true;
+            }
+            return false;
+        }
         #endregion
 
         #region Search
@@ -543,6 +564,7 @@ namespace Pronets.VievModel.Other
                     ReceiptOfPartsRequest.EditItem(document);
                     ReceiptOfParts.Clear();
                     ReceiptOfParts = ReceiptOfPartsRequest.FillList();
+                    GetDocument(document.Id);
                 }
             }
         }
@@ -578,7 +600,7 @@ namespace Pronets.VievModel.Other
                     {
                         PartsOrderRequest.RemoveFromBase(SelectedOrderPart, out bool ex);
                         if (ex)
-                           PartsOrder.RemoveAt(SelectedOrderPartIndex);
+                            PartsOrder.RemoveAt(SelectedOrderPartIndex);
                     }
                     else
                         PartsOrder.RemoveAt(SelectedOrderPartIndex);

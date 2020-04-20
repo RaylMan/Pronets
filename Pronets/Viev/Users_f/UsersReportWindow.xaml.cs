@@ -1,6 +1,7 @@
 ﻿using Pronets.VievModel.Users_f;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,9 +10,11 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace Pronets.Viev.Users_f
 {
@@ -36,7 +39,6 @@ namespace Pronets.Viev.Users_f
             InitializeComponent();
             DataContext = new UsersReportWindowVM();
         }
-
         private void Window_Closed(object sender, EventArgs e)
         {
             usersReportWindowInstance = null;

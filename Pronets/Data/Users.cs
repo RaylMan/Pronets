@@ -33,6 +33,10 @@ namespace Pronets.Data
         public string Adress { get; set; }
         public Nullable<double> SalaryPerDay { get; set; }
         public Nullable<double> SalaryPerHour { get; set; }
+        public string CopyBuffer { get; set; }
+        public string BufferSerial { get; set; }
+        public string BufferMac { get; set; }
+        public string BufferPonMac { get; set; }
     
         public virtual Positions Positions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

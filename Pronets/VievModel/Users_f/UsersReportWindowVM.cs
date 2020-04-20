@@ -36,7 +36,7 @@ namespace Pronets.VievModel.Users_f
         public string ReportInfo
         {
             get { return reportInfo; }
-            private set
+            set
             {
                 reportInfo = value;
                 RaisedPropertyChanged("ReportInfo");
