@@ -13,12 +13,12 @@
             <RowDefinition Height="24"/>
         </Grid.RowDefinitions>
         <Menu Grid.Row="0">
-            <MenuItem Header="Буфер" Click="BufferItem_Click"/>
+            <!--<MenuItem Header="Буфер" Click="BufferItem_Click"/>-->
             <MenuItem Header="Таблица для наклеек" Command="{Binding CreateExampleCommand}"/>
-            <MenuItem Header="Принтер">
+            <!--<MenuItem Header="Принтер">
                 <MenuItem Header="Закрыть соединение с принтером" Command="{Binding CloseConnectionCommand}"/>
                 <MenuItem Header="Повторное соединение с принтером" Command="{Binding ConnectPrinterCommand}"/>
-            </MenuItem>
+            </MenuItem>-->
         </Menu>
         
         <Label Content="Тип" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="14,38,0,0" Grid.Row="1"/>
@@ -54,9 +54,28 @@
 
         <!--<Button Content=" Таблица для наклеек " Command="{Binding CreateExampleCommand}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="285,10,0,0" Grid.Row="1"/>-->
         <Button Content=" Печать из таблицы " Command="{Binding PrintFromFileCommand}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="285,10,0,0" Width="128" Grid.Row="1"/>
-        <Button Content=" Заполнить из буфера " Command="{Binding FillFromBufferCommand}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="274,121,0,0" Width="142" Grid.Row="1"/>
+        <!--<Button Content=" Заполнить из буфера " Command="{Binding FillFromBufferCommand}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="274,121,0,0" Width="142" Grid.Row="1"/>-->
         <StatusBar  Grid.Row="2">
             <StatusBarItem Content="{Binding Status, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Right" Margin="5 0"/>
         </StatusBar>
+        <Image Source="/Content/Loading.gif"  Width="24" Height="24" Grid.Row="1"  Visibility="{Binding TextVisibility, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+               VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Image.RenderTransform>
+                <RotateTransform x:Name="rotate"
+                         CenterX="12"
+                         CenterY="12"/>
+            </Image.RenderTransform>
+            <Image.Triggers>
+                <EventTrigger RoutedEvent="Loaded">
+                    <BeginStoryboard>
+                        <Storyboard RepeatBehavior="Forever">
+                            <DoubleAnimation Storyboard.TargetName="rotate"
+                                     Storyboard.TargetProperty="Angle"
+                                     By="360" Duration="0:0:1"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Image.Triggers>
+        </Image>
     </Grid>
 </Window>

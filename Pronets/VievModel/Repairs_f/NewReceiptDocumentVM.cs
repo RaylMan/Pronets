@@ -412,7 +412,6 @@ namespace Pronets.VievModel.Repairs_f
                 AddRepair();
             else
                 AddRepairInOldDocument();
-            repairs.Clear();
         }
         /// <summary>
         /// Добавляет в базу данных новый документ и ремонты к нему
@@ -494,6 +493,7 @@ namespace Pronets.VievModel.Repairs_f
                             repairs[i].Inspector = defaultUser.UserId;
                             repairs[i].Warranty = wt;
                         }
+
                         RepairsRequest.AddToBase(repairs);
                         MessageBox.Show("Произведена успешная запись в базу данных!", "Результат");
                     }

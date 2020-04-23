@@ -30,8 +30,8 @@
     <UpdateUrl>\\ANDREY\Pronets\</UpdateUrl>
     <ProductName>Pronets</ProductName>
     <PublisherName>Pronets ©</PublisherName>
-    <ApplicationRevision>33</ApplicationRevision>
-    <ApplicationVersion>1.5.139.%2a</ApplicationVersion>
+    <ApplicationRevision>36</ApplicationRevision>
+    <ApplicationVersion>1.6.140.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -331,6 +331,7 @@
     <Compile Include="Model\RepairsModel.cs" />
     <Compile Include="Model\SerialNumbers.cs" />
     <Compile Include="Model\SortingRepair.cs" />
+    <Compile Include="Model\TCP\TCPClient.cs" />
     <Compile Include="Model\XLSWriter.cs" />
     <Compile Include="Navigation\IPageResolver.cs" />
     <Compile Include="Navigation\ItemTemplateFind.cs" />

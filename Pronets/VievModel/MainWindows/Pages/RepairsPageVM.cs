@@ -241,8 +241,8 @@ namespace Pronets.VievModel.MainWindows.Pages
         {
             if (!string.IsNullOrWhiteSpace(SearchText))
             {
-                buffer = SearchText;
-                string engWord = IsChecked != true ? EditChars.ToEnglish(SearchText) : SearchText;
+                buffer = SearchText.Replace(" ","");
+                string engWord = IsChecked != true ? EditChars.ToEnglish(SearchText.Replace(" ", "")) : SearchText.Replace(" ", ""); 
                 try
                 {
                     var repairs = RepairsRequest.SearchItem(engWord).OrderByDescending(r => r.RepairId);

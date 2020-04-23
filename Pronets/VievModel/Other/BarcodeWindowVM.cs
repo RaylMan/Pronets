@@ -4,11 +4,14 @@ using Pronets.EntityRequests.Nomenclature_f;
 using Pronets.EntityRequests.Users_f;
 using Pronets.Model.FromXlsxToSQL;
 using Pronets.Model.Labels;
+using Pronets.Model.TCP;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -19,6 +22,7 @@ namespace Pronets.VievModel.Other
     {
         #region Properties
         private ZebraPrintLabel printer;
+        TCPClient TCPClient;
         private ObservableCollection<Nomenclature> nomenclatures = new ObservableCollection<Nomenclature>();
         public ObservableCollection<Nomenclature> Nomenclatures
         {
@@ -135,8 +139,8 @@ namespace Pronets.VievModel.Other
         #endregion
         public BarcodeWindowVM()
         {
+            TCPClient = new TCPClient();
             DefaultType();
-            InitializePrinter();
             Labels = LabelRepository.GetLabels();
             SelectedLabel = Labels[0];
         }
@@ -194,7 +198,7 @@ namespace Pronets.VievModel.Other
                 RaisedPropertyChanged("PrintCommand");
             }
         }
-        public void Print(object Parameter)
+        public async void Print(object Parameter)
         {
             if (int.TryParse(count.Replace(" ", ""), out int numCount))
             {
@@ -202,13 +206,16 @@ namespace Pronets.VievModel.Other
                 {
                     if (selectedNomenclature != null)
                     {
+                        TextVisibility = Visibility.Visible;
                         try
                         {
                             Status = "Производится печать";
                             var printLabel = selectedLabel.GetZPLCodeLabel(selectedNomenclature.Name.ToUpper(), SerialNumber?.ToUpper().Replace(" ", ""), MacAdress?.ToUpper(), PonSerial?.ToUpper().Replace(" ", ""));
                             for (int i = 0; i < numCount; i++)
                             {
-                                printer.Print(printLabel);
+                                //printer.Print(printLabel);
+                                Status = "Подключение к серверу и печать.";
+                                await Task.Factory.StartNew(() => TCPClient.SendMessage(printLabel)); 
                             }
                             Status = "Печать завершена!";
                         }
@@ -217,9 +224,9 @@ namespace Pronets.VievModel.Other
                             MessageBox.Show(e.Message, "Ошибка");
                             Status = "Ошибка!";
                         }
+                        TextVisibility = Visibility.Hidden;
                     }
                     else MessageBox.Show("Неоходимо выбрать модель!", "Ошибка");
-
                 }
                 else MessageBox.Show("Неоходимо выбрать этикетку!", "Ошибка");
             }
@@ -264,6 +271,7 @@ namespace Pronets.VievModel.Other
         }
         void PrintFromTable(ILabel label, string filepath)
         {
+            TextVisibility = Visibility.Visible;
             try
             {
                 List<DeviceForLabel> devices = XlsxLabels.GetDevices(filepath);
@@ -271,8 +279,13 @@ namespace Pronets.VievModel.Other
                 {
                     foreach (var item in devices)
                     {
-                        var printLabel = label.GetZPLCodeLabel(item.Nomenclature.ToUpper(), item.SerialNumber.ToUpper(), item.MacAdress.ToUpper(), item.PonSerial.ToUpper());
-                        printer.Print(printLabel);
+                        if(!string.IsNullOrWhiteSpace(item.Nomenclature) && item.Nomenclature != "0")
+                        {
+                            var printLabel = label.GetZPLCodeLabel(item.Nomenclature.ToUpper(), item.SerialNumber.ToUpper(), item.MacAdress.ToUpper(), item.PonSerial.ToUpper());
+                            //printer.Print(printLabel);
+                            Status = "Подключение к серверу и печать.";
+                            TCPClient.SendMessage(printLabel);
+                        }
                     }
                 }
                 Status = "Печать завершена!";
@@ -280,10 +293,13 @@ namespace Pronets.VievModel.Other
             catch (Exception e)
             {
                 Status = "Ошибка!";
+               
                 MessageBox.Show(e.Message);
             }
+            TextVisibility = Visibility.Hidden;
         }
         #endregion
+
         #region Create Example table
         private ICommand createExampleCommand;
         public ICommand CreateExampleCommand
@@ -317,6 +333,7 @@ namespace Pronets.VievModel.Other
 
         }
         #endregion
+
         #region CloseConnectionCommand
         private ICommand closeConnectionCommand;
         public ICommand CloseConnectionCommand
