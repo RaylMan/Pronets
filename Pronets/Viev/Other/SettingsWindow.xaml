@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pronets.Viev.Other"
         mc:Ignorable="d"
-        Title="Настройки" Height="245" Width="340" Background="Gainsboro" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Closed="Window_Closed">
+        Title="Настройки" Height="290" Width="340" Background="Gainsboro" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Closed="Window_Closed">
     <Grid>
 
 
@@ -36,5 +36,8 @@
 
         <Button Content="  Изменить пароль  " Command="{Binding ChangePasswordCommand}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10"/>
         <Button Content="  Сохранить  " Command="{Binding SaveCommand}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="10" />
+        
+        <Label Content="IP адрес принтера"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,169,0,0"/>
+        <TextBox Text="{Binding PrinterServerHost, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" HorizontalAlignment="Left" Width="120" Margin="10,193,0,0" />
     </Grid>
 </Window>

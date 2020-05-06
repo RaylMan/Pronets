@@ -30,8 +30,8 @@
     <UpdateUrl>\\ANDREY\Pronets\</UpdateUrl>
     <ProductName>Pronets</ProductName>
     <PublisherName>Pronets ©</PublisherName>
-    <ApplicationRevision>36</ApplicationRevision>
-    <ApplicationVersion>1.6.140.%2a</ApplicationVersion>
+    <ApplicationRevision>41</ApplicationRevision>
+    <ApplicationVersion>1.6.141.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -72,6 +72,9 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AngleSharp, Version=0.14.0.0, Culture=neutral, PublicKeyToken=e83494dcdc6d31ea, processorArchitecture=MSIL">
+      <HintPath>..\packages\AngleSharp.0.14.0\lib\net472\AngleSharp.dll</HintPath>
+    </Reference>
     <Reference Include="BarcodeStandard, Version=2.2.5.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\BarcodeLib.2.2.5\lib\netstandard2.0\BarcodeStandard.dll</HintPath>
     </Reference>
@@ -306,6 +309,7 @@
     <Compile Include="EntityRequests\Users_f\UsersRequest.cs" />
     <Compile Include="Model\BufferView.cs" />
     <Compile Include="Model\DefectsTextModel.cs" />
+    <Compile Include="Model\DevicePrefix.cs" />
     <Compile Include="Model\DocumentPaginatorWrapper.cs" />
     <Compile Include="Model\DocumentType.cs" />
     <Compile Include="Model\EditChars.cs" />
@@ -315,6 +319,7 @@
     <Compile Include="Model\FromXlsxToSQL\SheetsId.cs" />
     <Compile Include="Model\FromXlsxToSQL\WorkList.cs" />
     <Compile Include="Model\FromXlsxToSQL\XslxExporter.cs" />
+    <Compile Include="Model\Labels\LabelSamples\CanNotBeRestoredLabel.cs" />
     <Compile Include="Model\Labels\LabelSamples\DLinkLoginPassLabel.cs" />
     <Compile Include="Model\Labels\LabelSamples\DLinkServiceUserInfoLabel.cs" />
     <Compile Include="Model\Labels\LabelSamples\EltexNTE2Label.cs" />
@@ -324,10 +329,13 @@
     <Compile Include="Model\Labels\LabelSamples\HuaweiLabel.cs" />
     <Compile Include="Model\Labels\ILabel.cs" />
     <Compile Include="Model\Labels\LabelRepository.cs" />
+    <Compile Include="Model\Labels\LabelSamples\MacAdressLabel.cs" />
     <Compile Include="Model\Labels\XlsxLabels.cs" />
     <Compile Include="Model\Labels\ZebraPrintLabel.cs" />
     <Compile Include="Model\Logging.cs" />
     <Compile Include="Model\OvertimeHours.cs" />
+    <Compile Include="Model\Parsehtml\HTMLParser.cs" />
+    <Compile Include="Model\Parsehtml\HTTPClient.cs" />
     <Compile Include="Model\RepairsModel.cs" />
     <Compile Include="Model\SerialNumbers.cs" />
     <Compile Include="Model\SortingRepair.cs" />

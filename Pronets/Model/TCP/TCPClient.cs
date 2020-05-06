@@ -9,7 +9,7 @@ namespace Pronets.Model.TCP
 {
     public class TCPClient
     {
-        private const string host = "192.168.91.196";
+        private string host = Properties.Settings.Default.PrinterServerHost.ToString();
         private const int port = 8888;
         static TcpClient client;
         static NetworkStream stream;

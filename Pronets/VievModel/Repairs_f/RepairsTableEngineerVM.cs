@@ -526,35 +526,82 @@ namespace Pronets.VievModel.Repairs_f
             {
                 if (SelectedStatus.Status != null && SelectedCategory != null)
                 {
-                    if (IsAllHaveDefect())
+                    var result = MessageBox.Show("Вы действительно хотите редактировать?", "Редактирование", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if (result == MessageBoxResult.Yes)
                     {
-                        var result = MessageBox.Show("Вы действительно хотите редактировать?", "Редактирование", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                        if (result == MessageBoxResult.Yes)
+                        try
                         {
-                            foreach (var repair in V_Repairs)
-                            {
-                                Repairs editingRepair = RepairsRequest.GetRepair(repair.RepairId);
-                                editingRepair.Engineer = engineer.Id;
-                                editingRepair.Identifie_Fault = repair.Identifie_Fault;
-                                editingRepair.Work_Done = repair.Work_Done;
-                                editingRepair.Repair_Date = DateTime.Now.Date;
-                                editingRepair.Repair_Category = SelectedCategory != null ? SelectedCategory.Category : null;
-                                editingRepair.Status = SelectedStatus != null ? SelectedStatus.Status : "Готово";
-
-                                RepairsRequest.EditItem(editingRepair);
-                                ReceiptDocumentRequest.SetStatus((int)repair.DocumentId, "В ремонте");
-                            }
-                            object e = null;
-                            AddToTable(e);
+                            if (Checked())
+                                EditCheckedRepairs();
+                            else
+                                EditAllRepairs();
                         }
+                        catch (ArgumentException e)
+                        {
+                            MessageBox.Show(e.Message, "Ошибка");
+                        }
+                        AddToTable(this);
                     }
-                    else
-                        MessageBox.Show("Необходимо заполнить поля \"Неисправность\" и \"Проделанный ремонт\"\nВозможно вы забыли нажать кнопку \"Заполнить\"", "Ошибка");
                 }
                 else
                     MessageBox.Show("Установите статус и категорию ремонта!", "Ошибка");
             }
+        }
 
+        private void EditAllRepairs()
+        {
+            foreach (var repair in V_Repairs)
+            {
+                if (string.IsNullOrWhiteSpace(repair.Identifie_Fault))
+                    throw new ArgumentException("Необходимо заполнить поля \"Неисправность\" и \"Проделанный ремонт\"\nВозможно вы забыли нажать кнопку \"Заполнить\"");
+                Repairs editingRepair = RepairsRequest.GetRepair(repair.RepairId);
+                editingRepair.Engineer = engineer.Id;
+                editingRepair.Identifie_Fault = repair.Identifie_Fault;
+                editingRepair.Work_Done = repair.Work_Done;
+                editingRepair.Repair_Date = DateTime.Now.Date;
+                editingRepair.Repair_Category = SelectedCategory != null ? SelectedCategory.Category : null;
+                editingRepair.Status = SelectedStatus != null ? SelectedStatus.Status : "Готово";
+
+                RepairsRequest.EditItem(editingRepair);
+                ReceiptDocumentRequest.SetStatus((int)repair.DocumentId, "В ремонте");
+            }
+        }
+        private void EditCheckedRepairs()
+        {
+            foreach (var repair in V_Repairs)
+            {
+                if (repair.IsChecked)
+                {
+                    if (string.IsNullOrWhiteSpace(repair.Identifie_Fault))
+                        throw new ArgumentException("Необходимо заполнить поля \"Неисправность\" и \"Проделанный ремонт\"\nВозможно вы забыли нажать кнопку \"Заполнить\"");
+                    Repairs editingRepair = RepairsRequest.GetRepair(repair.RepairId);
+                    editingRepair.Engineer = engineer.Id;
+                    editingRepair.Identifie_Fault = repair.Identifie_Fault;
+                    editingRepair.Work_Done = repair.Work_Done;
+                    editingRepair.Repair_Date = DateTime.Now.Date;
+                    editingRepair.Repair_Category = SelectedCategory != null ? SelectedCategory.Category : null;
+                    editingRepair.Status = SelectedStatus != null ? SelectedStatus.Status : "Готово";
+
+                    RepairsRequest.EditItem(editingRepair);
+                    ReceiptDocumentRequest.SetStatus((int)repair.DocumentId, "В ремонте");
+                }
+            }
+        }
+        /// <summary>
+        /// True если есть один выбранный элемент в ремонтов
+        /// </summary>
+        /// <returns></returns>
+        private bool Checked()
+        {
+            if (V_Repairs != null)
+            {
+                foreach (var repair in V_Repairs)
+                {
+                    if (repair.IsChecked)
+                        return true;
+                }
+            }
+            return false;
         }
 
         private bool IsAllHaveDefect()

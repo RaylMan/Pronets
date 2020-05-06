@@ -199,7 +199,7 @@ namespace Pronets.VievModel.MainWindows.Pages
         {
             _dispatcher = Dispatcher.CurrentDispatcher;
             GetContent();
-            GetDocumentsAsync(null,null); //Загрузка данных в датагрид происходит в selectedClient, selectedstatus, allclients, allstatuese
+            //GetDocumentsAsync(null,null); //Загрузка данных в датагрид происходит в selectedClient, selectedstatus, allclients, allstatuese
         }
 
         private void GetContent()
@@ -210,6 +210,7 @@ namespace Pronets.VievModel.MainWindows.Pages
             Clients = ClientsRequests.FillList();
             AllClients = true;
             AllStatuses = true;
+            GetDocumentsAsync(null, null);
         }
         private async void GetDocumentsAsync(string status, string client)
         {

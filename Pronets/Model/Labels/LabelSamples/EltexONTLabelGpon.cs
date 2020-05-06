@@ -3,12 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace Pronets.Model.Labels
 {
     public class EltexONTLabelGpon : ILabel
     {
         public string LabelName { get { return "Eltex GPON"; } }
+
+        public Brush SNBorderColor => Brushes.Green;
+
+        public Brush MacBorderColor => Brushes.Green;
+
+        public Brush PonBorderColor => Brushes.Green;
 
         public string GetZPLCodeLabel(string nomenclature, string serialNumber, string macAdress, string ponSerial)
         {

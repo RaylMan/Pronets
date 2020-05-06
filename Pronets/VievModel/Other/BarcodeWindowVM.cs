@@ -4,11 +4,14 @@ using Pronets.EntityRequests.Nomenclature_f;
 using Pronets.EntityRequests.Users_f;
 using Pronets.Model.FromXlsxToSQL;
 using Pronets.Model.Labels;
+using Pronets.Model.Parsehtml;
 using Pronets.Model.TCP;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
@@ -62,7 +65,17 @@ namespace Pronets.VievModel.Other
             set
             {
                 selectedLabel = value;
+                SerBorderBrushColor();
                 RaisedPropertyChanged("SelectedLabel");
+            }
+        }
+        private void SerBorderBrushColor()
+        {
+            if(selectedLabel != null)
+            {
+                SNBorderColor = selectedLabel.SNBorderColor;
+                MacBorderColor = selectedLabel.MacBorderColor;
+                PonBorderColor = selectedLabel.PonBorderColor;
             }
         }
         private Nomenclature_Types selectedType;
@@ -136,6 +149,36 @@ namespace Pronets.VievModel.Other
                 RaisedPropertyChanged("Status");
             }
         }
+        private System.Windows.Media.Brush snBorderColor;
+        public System.Windows.Media.Brush SNBorderColor
+        {
+            get { return snBorderColor; }
+            set
+            {
+                snBorderColor = value;
+                RaisedPropertyChanged("SNBorderColor");
+            }
+        }
+        private System.Windows.Media.Brush macBorderColor;
+        public System.Windows.Media.Brush MacBorderColor
+        {
+            get { return macBorderColor; }
+            set
+            {
+                macBorderColor = value;
+                RaisedPropertyChanged("MacBorderColor");
+            }
+        }
+        private System.Windows.Media.Brush ponBorderColor;
+        public System.Windows.Media.Brush PonBorderColor
+        {
+            get { return ponBorderColor; }
+            set
+            {
+                ponBorderColor = value;
+                RaisedPropertyChanged("PonBorderColor");
+            }
+        }
         #endregion
         public BarcodeWindowVM()
         {
@@ -202,7 +245,7 @@ namespace Pronets.VievModel.Other
         {
             if (int.TryParse(count.Replace(" ", ""), out int numCount))
             {
-                if (selectedLabel != null)
+                if (SelectedLabel != null)
                 {
                     if (selectedNomenclature != null)
                     {
@@ -215,7 +258,7 @@ namespace Pronets.VievModel.Other
                             {
                                 //printer.Print(printLabel);
                                 Status = "Подключение к серверу и печать.";
-                                await Task.Factory.StartNew(() => TCPClient.SendMessage(printLabel)); 
+                                await Task.Factory.StartNew(() => TCPClient.SendMessage(printLabel));
                             }
                             Status = "Печать завершена!";
                         }
@@ -279,7 +322,7 @@ namespace Pronets.VievModel.Other
                 {
                     foreach (var item in devices)
                     {
-                        if(!string.IsNullOrWhiteSpace(item.Nomenclature) && item.Nomenclature != "0")
+                        if (!string.IsNullOrWhiteSpace(item.Nomenclature) && item.Nomenclature != "0")
                         {
                             var printLabel = label.GetZPLCodeLabel(item.Nomenclature.ToUpper(), item.SerialNumber.ToUpper(), item.MacAdress.ToUpper(), item.PonSerial.ToUpper());
                             //printer.Print(printLabel);
@@ -293,7 +336,7 @@ namespace Pronets.VievModel.Other
             catch (Exception e)
             {
                 Status = "Ошибка!";
-               
+
                 MessageBox.Show(e.Message);
             }
             TextVisibility = Visibility.Hidden;
@@ -415,6 +458,82 @@ namespace Pronets.VievModel.Other
             {
                 MessageBox.Show(e.Message, "Ошибка");
             }
+        }
+        #endregion
+
+        #region FillFromDeviceCommand
+        private ICommand fillFromDeviceCommand;
+        public ICommand FillFromDeviceCommand
+        {
+            get
+            {
+                if (fillFromDeviceCommand == null)
+                {
+                    fillFromDeviceCommand = new RelayCommand(new Action<object>(FillFromDevice));
+                }
+                return fillFromDeviceCommand;
+            }
+            set
+            {
+                fillFromDeviceCommand = value;
+                RaisedPropertyChanged("FillFromDeviceCommand");
+            }
+        }
+        public async void FillFromDevice(object Parameter)
+        {
+            TextVisibility = Visibility.Visible;
+            await Task.Factory.StartNew(FillInfo);
+            TextVisibility = Visibility.Hidden;
+        }
+        private void FillInfo()
+        {
+            string sHTML = "";
+            HTTPClient client = new HTTPClient("session");
+            HttpWebResponse httpWebResponse = client.Request(@"http://192.168.1.1/");
+            if (httpWebResponse != null && httpWebResponse.StatusCode == HttpStatusCode.OK)
+            {
+                httpWebResponse.Close();
+                httpWebResponse = client.Request_Post(@"http://192.168.1.1/login", "username=user&password=user");
+                if (httpWebResponse != null && httpWebResponse.StatusCode == HttpStatusCode.OK)
+                {
+                    Stream stream = httpWebResponse.GetResponseStream();
+                    using (StreamReader reader = new StreamReader(stream, System.Text.Encoding.GetEncoding(1251)))
+                    {
+                        sHTML = reader.ReadToEnd();
+                    }
+                }
+            }
+            if (httpWebResponse != null && httpWebResponse.StatusCode == HttpStatusCode.OK)
+            {
+                httpWebResponse.Close();
+                //папка входящие, доступна после авторизации
+                httpWebResponse = client.Request(@"http://192.168.1.1/info.html");
+                if (httpWebResponse != null && httpWebResponse.StatusCode == HttpStatusCode.OK)
+                {
+                    Stream stream = httpWebResponse.GetResponseStream();
+                    using (StreamReader reader = new StreamReader(stream, System.Text.Encoding.GetEncoding(1251)))
+                    {
+                        sHTML = reader.ReadToEnd();
+                    }
+                }
+            }
+            if (sHTML.Length > 0)
+            {
+                var nomenclature = GetNomenclature(HTMLParser.GetNomenclature(sHTML).Result);
+                if (nomenclature != null)
+                    SelectedNomenclature = nomenclature;
+                SerialNumber = HTMLParser.GetSerial(sHTML).Result;
+                PonSerial = HTMLParser.GetPonSerial(sHTML).Result.Replace("454C5458", "ELTX");
+                MacAdress = HTMLParser.GetMac(sHTML).Result;
+            }
+            else
+                MessageBox.Show("Нет соединения с оборудованием");
+        }
+        private Nomenclature GetNomenclature(string name)
+        {
+            if (name != null)
+                return nomenclatures.FirstOrDefault(n => n.Name == name);
+            return null;
         }
         #endregion
     }

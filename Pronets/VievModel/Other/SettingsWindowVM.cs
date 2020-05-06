@@ -96,12 +96,22 @@ namespace Pronets.VievModel.Other
                 RaisedPropertyChanged("PricePerDay");
             }
         }
-
+        private string printerServerHost;
+        public string PrinterServerHost
+        {
+            get { return printerServerHost; }
+            set
+            {
+                printerServerHost = value;
+                RaisedPropertyChanged("PrinterServerHost");
+            }
+        }
         #endregion
         public SettingsWindowVM(Users user)
         {
             this.user = user;
             login = user.Login;
+            printerServerHost = Properties.Settings.Default.PrinterServerHost.ToString();
             chiefEngineer = Properties.Settings.Default.ChiefEngineer.ToString();
             responsiblePerson = Properties.Settings.Default.ResponsiblePerson.ToString();
             pricePerDay = user.SalaryPerDay.ToString();
@@ -161,6 +171,12 @@ namespace Pronets.VievModel.Other
             }
             else
                 errors += "\n-Зарплата за день (По умолчанию): Необходимо ввести число";
+            if (!string.IsNullOrWhiteSpace(printerServerHost))
+            {
+                Properties.Settings.Default.PrinterServerHost = printerServerHost;
+            }
+            else
+                errors += "\n-IP адрес принтера: Невозможно сохранить пустое поле";
 
             Properties.Settings.Default.Save();
 
@@ -170,8 +186,6 @@ namespace Pronets.VievModel.Other
                 MessageBox.Show(message, "Запись");
             else if (message.Length < 20 && errors.Length > 10)
                 MessageBox.Show(errors, "Запись");
-
-
         }
         #endregion
 

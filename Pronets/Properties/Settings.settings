@@ -2,8 +2,8 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Pronets.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="ProgOpen" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
+    <Setting Name="PrinterServerHost" Type="System.String" Scope="User">
+      <Value Profile="(Default)">192.168.91.100</Value>
     </Setting>
     <Setting Name="ReceiptDocumentId" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
@@ -33,7 +33,7 @@
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="ServerName" Type="System.String" Scope="User">
-      <Value Profile="(Default)">192.168.91.196\SQLEXPRESS</Value>
+      <Value Profile="(Default)">192.168.91.100\SQLEXPRESS</Value>
     </Setting>
     <Setting Name="BaseName" Type="System.String" Scope="User">
       <Value Profile="(Default)">PronetsDB</Value>
@@ -42,7 +42,7 @@
       <Value Profile="(Default)">Pronets</Value>
     </Setting>
     <Setting Name="ServerPassword" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Pronetspassword123</Value>
+      <Value Profile="(Default)">Password2020</Value>
     </Setting>
     <Setting Name="Password" Type="System.String" Scope="User">
       <Value Profile="(Default)" />

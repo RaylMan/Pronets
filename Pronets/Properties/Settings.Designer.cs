@@ -25,13 +25,13 @@ namespace Pronets.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int ProgOpen {
+        [global::System.Configuration.DefaultSettingValueAttribute("192.168.91.100")]
+        public string PrinterServerHost {
             get {
-                return ((int)(this["ProgOpen"]));
+                return ((string)(this["PrinterServerHost"]));
             }
             set {
-                this["ProgOpen"] = value;
+                this["PrinterServerHost"] = value;
             }
         }
         
@@ -145,7 +145,7 @@ namespace Pronets.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("192.168.91.196\\SQLEXPRESS")]
+        [global::System.Configuration.DefaultSettingValueAttribute("192.168.91.100\\SQLEXPRESS")]
         public string ServerName {
             get {
                 return ((string)(this["ServerName"]));
@@ -181,7 +181,7 @@ namespace Pronets.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Pronetspassword123")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Password2020")]
         public string ServerPassword {
             get {
                 return ((string)(this["ServerPassword"]));
