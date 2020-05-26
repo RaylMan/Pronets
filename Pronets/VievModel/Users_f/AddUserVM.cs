@@ -67,11 +67,7 @@ namespace Pronets.VievModel.Users_f
             {
                 if (!UsersRequest.IsSameLogin(login))
                 {
-                    var engineer = new Engineers
-                    {
-                        LastName = base.LastName,
-                        Position = selItem.Position
-                    };
+                    
                     user = new Users
                     {
                         Login = base.Login,
@@ -89,8 +85,16 @@ namespace Pronets.VievModel.Users_f
                     var result = MessageBox.Show("Вы действительно хотете добавить работника?\nПроверьте правильность данных!", "Создание экземпляра", MessageBoxButton.YesNo, MessageBoxImage.Question);
                     if (result == MessageBoxResult.Yes)
                     {
-                        UsersRequest.AddEngineer(engineer);
                         UsersRequest.AddToBase(user);
+                        var engineer = new Engineers
+                        {
+                            UserId = user.UserId,
+                            LastName = base.LastName,
+                            Position = selItem.Position
+                        };
+                        UsersRequest.AddEngineer(engineer);
+                        
+                       
                         Login = string.Empty;
                         Password = string.Empty;
                         FirstName = string.Empty;

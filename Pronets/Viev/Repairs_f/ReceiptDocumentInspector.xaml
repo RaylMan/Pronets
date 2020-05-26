@@ -30,8 +30,9 @@
 
         <Menu Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right">
             <MenuItem Header="Данные">
-                <MenuItem Header="Обновить данные страницы" Command="{Binding RefreshCommand}"></MenuItem>
                 <MenuItem Header="Добавить оборудование" Click="AddRepairs_Click"></MenuItem>
+                <MenuItem Header="Дефектовки документа" Click="DefectiveStatements_Click"></MenuItem>
+                <MenuItem Header="Обновить данные страницы" Command="{Binding RefreshCommand}"></MenuItem>
             </MenuItem>
         </Menu>
         <!--Row 1-->

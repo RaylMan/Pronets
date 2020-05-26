@@ -88,5 +88,10 @@ namespace Pronets.Viev.MainWindows
             BarcodeWindow win = new BarcodeWindow();
             win.ShowDialog();
         }
+
+        private void docuwiki_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://192.168.91.100:88/");
+        }
     }
 }

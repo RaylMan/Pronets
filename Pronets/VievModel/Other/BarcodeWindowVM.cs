@@ -24,6 +24,7 @@ namespace Pronets.VievModel.Other
     public class BarcodeWindowVM : VievModelBase
     {
         #region Properties
+        private string ipAdress = @"http://192.168.1.1/";
         private ZebraPrintLabel printer;
         TCPClient TCPClient;
         private ObservableCollection<Nomenclature> nomenclatures = new ObservableCollection<Nomenclature>();
@@ -71,7 +72,7 @@ namespace Pronets.VievModel.Other
         }
         private void SerBorderBrushColor()
         {
-            if(selectedLabel != null)
+            if (selectedLabel != null)
             {
                 SNBorderColor = selectedLabel.SNBorderColor;
                 MacBorderColor = selectedLabel.MacBorderColor;
@@ -177,6 +178,28 @@ namespace Pronets.VievModel.Other
             {
                 ponBorderColor = value;
                 RaisedPropertyChanged("PonBorderColor");
+            }
+        }
+        private bool isNTE = false; 
+        public bool IsNTE
+        {
+            get { return isNTE; }
+            set
+            {
+                isNTE = value;
+                if (isNTE) ipAdress = @"http://192.168.0.1/";
+                else ipAdress = @"http://192.168.1.1/";
+                RaisedPropertyChanged("IsNTE");
+            }
+        }
+        private bool enabled = true;
+        public bool Enabled
+        {
+            get { return enabled; }
+            set
+            {
+                enabled = value;
+                RaisedPropertyChanged("Enabled");
             }
         }
         #endregion
@@ -481,54 +504,94 @@ namespace Pronets.VievModel.Other
         }
         public async void FillFromDevice(object Parameter)
         {
+            Enabled = false;
             TextVisibility = Visibility.Visible;
             await Task.Factory.StartNew(FillInfo);
             TextVisibility = Visibility.Hidden;
+            Enabled = true;
         }
         private void FillInfo()
         {
-            string sHTML = "";
-            HTTPClient client = new HTTPClient("session");
-            HttpWebResponse httpWebResponse = client.Request(@"http://192.168.1.1/");
-            if (httpWebResponse != null && httpWebResponse.StatusCode == HttpStatusCode.OK)
+            try
             {
-                httpWebResponse.Close();
-                httpWebResponse = client.Request_Post(@"http://192.168.1.1/login", "username=user&password=user");
-                if (httpWebResponse != null && httpWebResponse.StatusCode == HttpStatusCode.OK)
+                string sHTML = "";
+                HTTPClient client = new HTTPClient("session");
+                HttpWebResponse httpWebResponse = client.Request(ipAdress);//@"http://192.168.1.1/"
+                if (httpWebResponse != null) //&& httpWebResponse.StatusCode == HttpStatusCode.OK
                 {
-                    Stream stream = httpWebResponse.GetResponseStream();
-                    using (StreamReader reader = new StreamReader(stream, System.Text.Encoding.GetEncoding(1251)))
+                    httpWebResponse.Close();
+                    try
                     {
-                        sHTML = reader.ReadToEnd();
+                        httpWebResponse = client.Request_Post($"{ipAdress}login", "username=user&password=user");
+                        if (httpWebResponse != null && httpWebResponse.StatusCode == HttpStatusCode.OK)
+                        {
+                            Stream stream = httpWebResponse.GetResponseStream();
+                            using (StreamReader reader = new StreamReader(stream, System.Text.Encoding.GetEncoding(1251)))
+                            {
+                                sHTML = reader.ReadToEnd();
+                            }
+                        }
+                    }
+                    catch (System.IO.IOException)
+                    {
+                        GetRevCHTML(client, httpWebResponse);
                     }
                 }
-            }
-            if (httpWebResponse != null && httpWebResponse.StatusCode == HttpStatusCode.OK)
-            {
-                httpWebResponse.Close();
-                //папка входящие, доступна после авторизации
-                httpWebResponse = client.Request(@"http://192.168.1.1/info.html");
+                if (!string.IsNullOrWhiteSpace(sHTML))
+                {
+                    GetRevCHTML(client, httpWebResponse);
+                }
                 if (httpWebResponse != null && httpWebResponse.StatusCode == HttpStatusCode.OK)
                 {
-                    Stream stream = httpWebResponse.GetResponseStream();
-                    using (StreamReader reader = new StreamReader(stream, System.Text.Encoding.GetEncoding(1251)))
+                    httpWebResponse.Close();
+                    //папка входящие, доступна после авторизации
+                    httpWebResponse = client.Request($"{ipAdress}info.html");
+                    if (httpWebResponse != null && httpWebResponse.StatusCode == HttpStatusCode.OK)
                     {
-                        sHTML = reader.ReadToEnd();
+                        Stream stream = httpWebResponse.GetResponseStream();
+                        using (StreamReader reader = new StreamReader(stream, System.Text.Encoding.GetEncoding(1251)))
+                        {
+                            sHTML = reader.ReadToEnd();
+                        }
                     }
                 }
+                if (sHTML.Length > 0)
+                {
+                    var nomenclature = GetNomenclature(HTMLParser.GetNomenclature(sHTML).Result);
+                    if (nomenclature != null)
+                        SelectedNomenclature = nomenclature;
+                    SerialNumber = HTMLParser.GetSerial(sHTML).Result;
+                    PonSerial = IsNTE ? HTMLParser.GetPonSerialNTE(sHTML).Result.Replace(":", "") : HTMLParser.GetPonSerial(sHTML).Result.Replace("454C5458", "ELTX");
+                    MacAdress = HTMLParser.GetMac(sHTML).Result;
+                }
+                else
+                    MessageBox.Show("Нет соединения с оборудованием");
             }
-            if (sHTML.Length > 0)
+            catch (Exception e)
             {
-                var nomenclature = GetNomenclature(HTMLParser.GetNomenclature(sHTML).Result);
-                if (nomenclature != null)
-                    SelectedNomenclature = nomenclature;
-                SerialNumber = HTMLParser.GetSerial(sHTML).Result;
-                PonSerial = HTMLParser.GetPonSerial(sHTML).Result.Replace("454C5458", "ELTX");
-                MacAdress = HTMLParser.GetMac(sHTML).Result;
+                MessageBox.Show($"{e.Message}\nПопробуйте еще раз", "Ошибка");
             }
-            else
-                MessageBox.Show("Нет соединения с оборудованием");
         }
+        /// <summary>
+        /// Авторизация и получение страницы на NTP-RG-1402G-W RevC
+        /// </summary>
+        /// <param name="client"></param>
+        /// <param name="httpWebResponse"></param>
+        /// <returns></returns>
+        private string GetRevCHTML(HTTPClient client, HttpWebResponse httpWebResponse)
+        {
+            httpWebResponse = client.Request_Post($"{ipAdress}login?username=user&password=user", "username=user&password=user");
+            if (httpWebResponse != null && httpWebResponse.StatusCode == HttpStatusCode.OK)
+            {
+                Stream stream = httpWebResponse.GetResponseStream();
+                using (StreamReader reader = new StreamReader(stream, System.Text.Encoding.GetEncoding(1251)))
+                {
+                    return reader.ReadToEnd();
+                }
+            }
+            return "";
+        }
+
         private Nomenclature GetNomenclature(string name)
         {
             if (name != null)

@@ -20,7 +20,7 @@
                 <MenuItem Header="Повторное соединение с принтером" Command="{Binding ConnectPrinterCommand}"/>
             </MenuItem>-->
         </Menu>
-        
+
         <Label Content="Тип" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="14,38,0,0" Grid.Row="1"/>
         <ComboBox x:Name="comboBoxType" ItemsSource="{Binding Nomenclature_Types, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                   SelectedValue="{Binding SelectedType}" Grid.Row="1"
@@ -43,18 +43,34 @@
         <Label Content="Pon serial" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="14,148,0,0" Grid.Row="1"/>
         <TextBox Text="{Binding PonSerial}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="86,150,0,0" Width="183" Grid.Row="1"
                  BorderBrush="{Binding PonBorderColor,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-        
+
         <Label Content="Кол-во" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="272,148,0,0" Grid.Row="1"/>
         <TextBox Text="{Binding Count}"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="320,150,0,0" Width="35" Grid.Row="1"/>
-        
+
         <Label Content="Этикетка" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="14,7,0,0" Grid.Row="1"/>
         <ComboBox x:Name="comboBoxLabel" ItemsSource="{Binding Labels, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                   SelectedValue="{Binding SelectedLabel}" Grid.Row="1"
                    HorizontalAlignment="Left" Margin="86,10,0,0" VerticalAlignment="Top" Width="183"
                    IsTextSearchEnabled="True" TextSearch.TextPath="LabelName" IsEditable="True" DisplayMemberPath="LabelName"/>
+        <CheckBox Content="Заполнить из NTE" IsChecked="{Binding IsNTE, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="274,104,0,0" Grid.Row="1" Height="14"
+                  IsEnabled="{Binding Enabled, UpdateSourceTrigger=PropertyChanged}"/>
+        <Button Content=" Заполнить из устройства " Command="{Binding FillFromDeviceCommand}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="274,121,0,0" Grid.Row="1"
+                IsEnabled="{Binding Enabled, UpdateSourceTrigger=PropertyChanged}">
+            <Button.ToolTip>
+                <ToolTip>
+                    <StackPanel>
+                        <TextBlock>Работает с:</TextBlock>
+                        <TextBlock>NTU-2W(V)</TextBlock>
+                        <TextBlock>NTU-RG-1402G-W</TextBlock>
+                        <TextBlock>NTU-RG-1421G-Wac</TextBlock>
+                        <TextBlock>NTP-RG-1402G-W(Rev.C)</TextBlock>
+                        <TextBlock>NTE-RG-1402G-Wac</TextBlock>
+                    </StackPanel>
+                </ToolTip>
+            </Button.ToolTip>
+        </Button>
 
-        <Button Content=" Заполнить из устройства " Command="{Binding FillFromDeviceCommand}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="274,121,0,0" Grid.Row="1"/>
-        
         <Button Content=" Печать " Command="{Binding PrintCommand}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="372,150,0,0" Grid.Row="1"/>
 
         <!--<Button Content=" Таблица для наклеек " Command="{Binding CreateExampleCommand}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="285,10,0,0" Grid.Row="1"/>-->

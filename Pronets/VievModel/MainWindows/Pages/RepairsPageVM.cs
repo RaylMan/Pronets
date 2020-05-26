@@ -1,10 +1,12 @@
-﻿using Pronets.Data;
+﻿using AngleSharp.Common;
+using Pronets.Data;
 using Pronets.EntityRequests;
 using Pronets.EntityRequests.Clients_f;
 using Pronets.EntityRequests.Other;
 using Pronets.EntityRequests.Repairs_f;
 using Pronets.EntityRequests.Users_f;
 using Pronets.Model;
+using Pronets.Repository;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -21,6 +23,7 @@ namespace Pronets.VievModel.MainWindows.Pages
     class RepairsPageVM : RepairsModel
     {
         #region Properties
+       // RepairsPageRepository repo;
         Dispatcher _dispatcher;
         private v_Repairs v_Repair = new Data.v_Repairs();
         private Engineers engineer;
@@ -102,7 +105,7 @@ namespace Pronets.VievModel.MainWindows.Pages
                 {
                     GetRepairInfo();
                     GetStatus();
-                    GetCategory();
+                    //GetCategory();
                     GetRepairInfo();
                 }
             }
@@ -166,8 +169,8 @@ namespace Pronets.VievModel.MainWindows.Pages
         {
             Repair_Date = DateTime.Now;
             _dispatcher = Dispatcher.CurrentDispatcher;
+           // repo = new RepairsPageRepository();
             GetContentAsync();
-            GetEngineer();
         }
 
         private void SetStatus()
@@ -196,6 +199,8 @@ namespace Pronets.VievModel.MainWindows.Pages
         }
         private async void GetContentAsync()
         {
+            Repair_Categories.Clear();
+            Statuses.Clear();
             await Task.Run(() => GetContent());
         }
         private void GetContent()
@@ -204,6 +209,17 @@ namespace Pronets.VievModel.MainWindows.Pages
             {
                 Repair_Categories = RepairCategoriesRequests.FillList();
                 Statuses = StatusesRequests.FillList();
+                GetEngineer();
+                //try
+                //{
+                //    Repair_Categories = repo.GetRepairsCategories();
+                //    Statuses = repo.GetStatuses();
+                //    this.engineer = repo.GetEngineer(Properties.Settings.Default.DefaultUserId);
+                //}
+                //catch (Exception e )
+                //{
+                //    MessageBox.Show(e.InnerException.Message, "Ошибка");
+                //}
             }));
         }
 
@@ -246,6 +262,7 @@ namespace Pronets.VievModel.MainWindows.Pages
                 try
                 {
                     var repairs = RepairsRequest.SearchItem(engWord).OrderByDescending(r => r.RepairId);
+                   // var repairs =  repo.SearchItem(engWord).OrderByDescending(r => r.RepairId); // RepairsRequest.SearchItem(engWord).OrderByDescending(r => r.RepairId);
                     if (repairs != null)
                     {
                         foreach (var repair in repairs)
@@ -258,15 +275,14 @@ namespace Pronets.VievModel.MainWindows.Pages
                         if (V_Repairs.Count > 0)
                             SelectedIndex = 0;
                     }
+                    SearchText = string.Empty;
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
+                    MessageBox.Show(e.InnerException.Message, "Ошибка");
                 }
             }
-            SearchText = string.Empty;
         }
-
-
         #endregion
 
         #region EditCommand
@@ -288,38 +304,47 @@ namespace Pronets.VievModel.MainWindows.Pages
             }
         }
 
+        
         public void EditItem(object Parameter)
         {
             if (SelectedRepair != null)
             {
                 if (selectedRepair.RepairId != -10)
                 {
-
-                    repair = RepairsRequest.GetRepair(SelectedRepair.RepairId);
-                    repair.Engineer = engineer != null ? engineer.Id : 0;
-                    repair.Identifie_Fault = Identifie_Fault;
-                    repair.Work_Done = Work_Done;
-                    repair.Note = Note;
-                    repair.Repair_Date = Repair_Date;
-                    repair.Repair_Category = SelectedCategory != null ? SelectedCategory.Category : null;
-                    repair.Status = SelectedStatus != null ? SelectedStatus.Status : "Готово";
-
-                    var result = MessageBox.Show("Вы действительно хотите редактировать?", "Редактирование", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                    if (result == MessageBoxResult.Yes)
+                    try
                     {
-                        if (SelectedStatus.Status != "Принято" && SelectedCategory != null)
+                        var repair = RepairsRequest.GetRepair(SelectedRepair.RepairId);
+                        repair.Engineer = engineer != null ? engineer.Id : 0;
+                        repair.Identifie_Fault = Identifie_Fault;
+                        repair.Work_Done = Work_Done;
+                        repair.Note = Note;
+                        repair.Repair_Date = Repair_Date;
+                        repair.Repair_Category = SelectedCategory != null ? SelectedCategory.Category : null;
+                        repair.Status = SelectedStatus != null ? SelectedStatus.Status : "Готово";
+
+                        var result = MessageBox.Show("Вы действительно хотите редактировать?", "Редактирование", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                        if (result == MessageBoxResult.Yes)
                         {
-                            if (repair != null)
+                            if (SelectedStatus.Status != "Принято" && SelectedCategory != null)
                             {
-                                TextVisibility = Visibility.Visible;
-                                RepairsRequest.EditItem(repair);
-                                ReceiptDocumentRequest.SetStatus((int)repair.DocumentId, "В ремонте");
-                                FillList();//обновляет таблицу серийных номеров
-                                TextVisibility = Visibility.Hidden;
+                                if (repair != null)
+                                {
+                                    TextVisibility = Visibility.Visible;
+                                    RepairsRequest.EditItem(repair);
+                                    //repo.EditRepair(repair);
+                                    //repo.SetDocumentStatus((int)repair.DocumentId, "В ремонте");
+                                    ReceiptDocumentRequest.SetStatus((int)repair.DocumentId, "В ремонте");
+                                    FillList();//обновляет таблицу серийных номеров
+                                    TextVisibility = Visibility.Hidden;
+                                }
                             }
+                            else
+                                MessageBox.Show("Установите статус и категорию ремонта!", "Ошибка");
                         }
-                        else
-                            MessageBox.Show("Установите статус и категорию ремонта!", "Ошибка");
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(e.Message, "Ошибка");
                     }
                 }
             }
@@ -340,6 +365,7 @@ namespace Pronets.VievModel.MainWindows.Pages
                 try
                 {
                     var repairs = RepairsRequest.SearchItem(engWord).OrderByDescending(r => r.RepairId);
+                    //var repairs = repo.SearchItem(engWord).OrderByDescending(r => r.RepairId);  //RepairsRequest.SearchItem(engWord).OrderByDescending(r => r.RepairId);
                     
                     if (repairs != null)
                     {
@@ -351,8 +377,9 @@ namespace Pronets.VievModel.MainWindows.Pages
                             SelectedIndex = 0;
                     }
                 }
-                catch (Exception)
+                catch (Exception e )
                 {
+                    MessageBox.Show(e.InnerException.Message, "Ошибка");
                 }
             }
             if (V_Repairs.Count == 0)
@@ -397,7 +424,15 @@ namespace Pronets.VievModel.MainWindows.Pages
         public void GetEngineer()
         {
             var user = UsersRequest.GetUser(Properties.Settings.Default.DefaultUserId);
-            this.engineer = UsersRequest.GetEngineer(user.LastName);
+            this.engineer = UsersRequest.GetEngineer(Properties.Settings.Default.DefaultUserId);
+            //try
+            //{
+            //    this.engineer = repo.GetEngineer(Properties.Settings.Default.DefaultUserId);
+            //}
+            //catch (Exception e)
+            //{
+            //    MessageBox.Show(e.InnerException.Message, "Ошибка");
+            //}
         }
         public void GetCategory()
         {

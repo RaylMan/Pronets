@@ -18,6 +18,7 @@ namespace Pronets.Model.Labels
             labels.Add(new EltexONTLabelGepon());
             labels.Add(new EltexNTE2Label());
             labels.Add(new EltexTAULabel());
+            labels.Add(new STBLabel());
             labels.Add(new HuaweiLabel());
             labels.Add(new MacAdressLabel());
             labels.Add(new DLinkServiceUserInfoLabel());

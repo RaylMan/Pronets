@@ -63,15 +63,21 @@ namespace Pronets.Viev
                     }
                     catch (Exception)
                     {
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            button.Content = "Войти";
+                            button.IsEnabled = true;
+                            btnSettings.IsEnabled = true;
+                        });
                         MessageBox.Show("Ошибка подключения к серверу!", "Ошибка");
                     }
 
-                    this.Dispatcher.Invoke(() =>
-                    {
-                        button.Content = "Войти";
-                        button.IsEnabled = true;
-                        btnSettings.IsEnabled = true;
-                    });
+                    //this.Dispatcher.Invoke(() =>
+                    //{
+                    //    button.Content = "Войти";
+                    //    button.IsEnabled = true;
+                    //    btnSettings.IsEnabled = true;
+                    //});
                 });
 
                 if (user != null)
@@ -102,6 +108,12 @@ namespace Pronets.Viev
                     }
                     else
                     {
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            button.Content = "Войти";
+                            button.IsEnabled = true;
+                            btnSettings.IsEnabled = true;
+                        });
                         if (!Properties.Settings.Default.SaveLogin)
                             tbxLogin.Clear();
                         tbxPassword.Clear();
@@ -121,6 +133,12 @@ namespace Pronets.Viev
                     $"{ex.StackTrace}\n" +
                     $"{ex.TargetSite}\n";
                 MessageBox.Show(er);
+                this.Dispatcher.Invoke(() =>
+                {
+                    button.Content = "Войти";
+                    button.IsEnabled = true;
+                    btnSettings.IsEnabled = true;
+                });
             }
         }
 

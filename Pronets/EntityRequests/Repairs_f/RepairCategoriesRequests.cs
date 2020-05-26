@@ -29,7 +29,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.InnerException.Message, "Ошибка");
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
             return repair_Categories;
@@ -59,7 +59,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.InnerException.Message, "Ошибка");
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
         }
@@ -87,7 +87,7 @@ namespace Pronets.EntityRequests.Repairs_f
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show(e.InnerException.Message, "Ошибка");
+                        MessageBox.Show(e.Message, "Ошибка");
                         isExeption = false;
                     }
                 }

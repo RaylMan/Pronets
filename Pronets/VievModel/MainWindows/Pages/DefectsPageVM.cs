@@ -2,6 +2,7 @@
 using Pronets.EntityRequests.Clients_f;
 using Pronets.EntityRequests.Repairs_f;
 using Pronets.Model;
+using Pronets.Repository;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,6 +17,7 @@ namespace Pronets.VievModel.MainWindows.Pages
     public class DefectsPageVM : VievModelBase
     {
         #region Properties
+       // BaseRepository repo;
         private ObservableCollection<v_Repairs> v_Repairs = new ObservableCollection<v_Repairs>();
         public ObservableCollection<v_Repairs> V_Repairs
         {
@@ -143,6 +145,8 @@ namespace Pronets.VievModel.MainWindows.Pages
         #endregion
         public DefectsPageVM()
         {
+            //repo = new BaseRepository();
+            //Clients = repo.GetClients();
             Clients = ClientsRequests.FillList();
             SetDocumentTypes();
         }

@@ -8,7 +8,7 @@ namespace Pronets.Model.Labels.LabelSamples
 
         public Brush SNBorderColor => Brushes.Green;
 
-        public Brush MacBorderColor => Brushes.Green;
+        public Brush MacBorderColor => Brushes.Red;
 
         public Brush PonBorderColor => Brushes.Green;
 

@@ -1,6 +1,7 @@
 ﻿using Pronets.Data;
 using Pronets.Navigation;
 using Pronets.Viev.Other;
+using Pronets.Viev.Other.DefectiveStatement_fw;
 using Pronets.VievModel.Repairs_f;
 using System;
 using System.Collections;
@@ -165,6 +166,13 @@ namespace Pronets.Viev.Repairs_f
         {
             if (Docunents1.SelectedItem != null)
                 Docunents1.ScrollIntoView(Docunents1.SelectedItem);
+        }
+
+        private void DefectiveStatements_Click(object sender, RoutedEventArgs e)
+        {
+            DefectiveStatementWindow win = new DefectiveStatementWindow(document.Document_Id);
+            win.Show();
+            win.Focus();
         }
     }
 }

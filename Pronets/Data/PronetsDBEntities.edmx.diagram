@@ -4,40 +4,49 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="e9999a5c2a774d4eb2a457cf01aaaa9b" Name="Diagram1">
-        <EntityTypeShape EntityType="PronetsDBModel.Clients" Width="1.5" PointX="0.75" PointY="2.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="PronetsDBModel.Defects" Width="1.5" PointX="5.75" PointY="8.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="PronetsDBModel.Engineers" Width="1.5" PointX="3" PointY="6.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="PronetsDBModel.No_in_Repairs" Width="1.5" PointX="7.75" PointY="8.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="PronetsDBModel.Nomenclature" Width="1.5" PointX="3" PointY="16.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="PronetsDBModel.Nomenclature_Types" Width="1.5" PointX="0.75" PointY="16.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="PronetsDBModel.OverTime" Width="1.5" PointX="9.75" PointY="4.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="PronetsDBModel.Parts" Width="1.5" PointX="7.75" PointY="1.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="PronetsDBModel.PartsOrder" Width="1.5" PointX="10" PointY="0.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="PronetsDBModel.Positions" Width="1.5" PointX="1.5" PointY="13.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="PronetsDBModel.ReceiptDocument" Width="1.5" PointX="3" PointY="2.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="PronetsDBModel.ReceiptOfParts" Width="1.5" PointX="7.75" PointY="5" IsExpanded="true" />
-        <EntityTypeShape EntityType="PronetsDBModel.Repair_Categories" Width="1.5" PointX="3" PointY="10.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="PronetsDBModel.Repairs" Width="1.5" PointX="5.25" PointY="1.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="PronetsDBModel.Statuses" Width="1.5" PointX="3" PointY="19.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="PronetsDBModel.sysdiagrams" Width="1.5" PointX="9.75" PointY="7.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="PronetsDBModel.Users" Width="1.5" PointX="0.75" PointY="8.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="PronetsDBModel.v_Receipt_Document" Width="1.5" PointX="9.75" PointY="10.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="PronetsDBModel.v_Repairs" Width="1.5" PointX="11.75" PointY="4.75" IsExpanded="true" />
-        <AssociationConnector Association="PronetsDBModel.FK_ReceiptDocument_Clients" ManuallyRouted="false" />
-        <AssociationConnector Association="PronetsDBModel.FK_Repairs_Clients" ManuallyRouted="false" />
-        <AssociationConnector Association="PronetsDBModel.FK_Repairs_Engineers" ManuallyRouted="false" />
-        <AssociationConnector Association="PronetsDBModel.FK_Nomenclature_Nomenclature_Types" ManuallyRouted="false" />
-        <AssociationConnector Association="PronetsDBModel.FK_Repairs_Nomenclature" ManuallyRouted="false" />
-        <AssociationConnector Association="PronetsDBModel.FK_PartsOrder_Parts" ManuallyRouted="false" />
-        <AssociationConnector Association="PronetsDBModel.FK_PartsOrder_ReceiptOfParts" ManuallyRouted="false" />
-        <AssociationConnector Association="PronetsDBModel.FK_Users_Positions" ManuallyRouted="false" />
-        <AssociationConnector Association="PronetsDBModel.FK_ReceiptDocument_Users" ManuallyRouted="false" />
-        <AssociationConnector Association="PronetsDBModel.FK_Repairs_ReceiptDocument" ManuallyRouted="false" />
-        <AssociationConnector Association="PronetsDBModel.FK_Repairs_Repair_Categories" ManuallyRouted="false" />
-        <AssociationConnector Association="PronetsDBModel.FK_Repairs_Statuses" ManuallyRouted="false" />
-        <AssociationConnector Association="PronetsDBModel.FK_Repairs_Users_Inspector_" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="PronetsDBModel.BaseFromExcel" Width="1.5" PointX="12.375" PointY="0.75" />
+      <Diagram DiagramId="ff593ee9da3a4c619187c03fb506cddf" Name="Diagram1">
+        <EntityTypeShape EntityType="PronetsDBEntities.BaseFromExcel" Width="1.5" PointX="5.75" PointY="14" IsExpanded="true" />
+        <EntityTypeShape EntityType="PronetsDBEntities.Clients" Width="1.5" PointX="0.75" PointY="6.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="PronetsDBEntities.DefectiveStatementRepairs" Width="1.5" PointX="8.25" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="PronetsDBEntities.DefectiveStatements" Width="1.5" PointX="3" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="PronetsDBEntities.Defects" Width="1.5" PointX="5.75" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="PronetsDBEntities.Engineers" Width="1.5" PointX="9" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="PronetsDBEntities.No_in_Repairs" Width="1.5" PointX="11.75" PointY="13" IsExpanded="true" />
+        <EntityTypeShape EntityType="PronetsDBEntities.Nomenclature" Width="1.5" PointX="9" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="PronetsDBEntities.Nomenclature_Types" Width="1.5" PointX="6.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PronetsDBEntities.OverTime" Width="1.5" PointX="2.75" PointY="15" IsExpanded="true" />
+        <EntityTypeShape EntityType="PronetsDBEntities.Parts" Width="1.5" PointX="0.75" PointY="11.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="PronetsDBEntities.PartsOrder" Width="1.5" PointX="3" PointY="11.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="PronetsDBEntities.Positions" Width="1.5" PointX="1.5" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="PronetsDBEntities.ReceiptDocument" Width="1.5" PointX="6" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PronetsDBEntities.ReceiptOfParts" Width="1.5" PointX="0.75" PointY="14.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="PronetsDBEntities.Repair_Categories" Width="1.5" PointX="9" PointY="14.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="PronetsDBEntities.Repairs" Width="1.5" PointX="11.25" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="PronetsDBEntities.Statuses" Width="1.5" PointX="9" PointY="16.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="PronetsDBEntities.sysdiagrams" Width="1.5" PointX="13.75" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="PronetsDBEntities.Users" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PronetsDBEntities.v_DefectiveStatements" Width="1.5" PointX="13.75" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="PronetsDBEntities.v_Receipt_Document" Width="1.5" PointX="13.75" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="PronetsDBEntities.v_Repairs" Width="1.5" PointX="13.75" PointY="13" IsExpanded="true" />
+        <AssociationConnector Association="PronetsDBEntities.FK_DefectiveStatements_Clients" ManuallyRouted="false" />
+        <AssociationConnector Association="PronetsDBEntities.FK_ReceiptDocument_Clients" ManuallyRouted="false" />
+        <AssociationConnector Association="PronetsDBEntities.FK_Repairs_Clients" ManuallyRouted="false" />
+        <AssociationConnector Association="PronetsDBEntities.FK_DefectiveStatementRepairs_DefectiveStatements" ManuallyRouted="false" />
+        <AssociationConnector Association="PronetsDBEntities.FK_DefectiveStatementRepairs_Repairs" ManuallyRouted="false" />
+        <AssociationConnector Association="PronetsDBEntities.FK_DefectiveStatements_ReceiptDocument" ManuallyRouted="false" />
+        <AssociationConnector Association="PronetsDBEntities.FK_DefectiveStatements_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="PronetsDBEntities.FK_Engineers_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="PronetsDBEntities.FK_Repairs_Engineers" ManuallyRouted="false" />
+        <AssociationConnector Association="PronetsDBEntities.FK_Nomenclature_Nomenclature_Types" ManuallyRouted="false" />
+        <AssociationConnector Association="PronetsDBEntities.FK_Repairs_Nomenclature" ManuallyRouted="false" />
+        <AssociationConnector Association="PronetsDBEntities.FK_PartsOrder_Parts" ManuallyRouted="false" />
+        <AssociationConnector Association="PronetsDBEntities.FK_PartsOrder_ReceiptOfParts" ManuallyRouted="false" />
+        <AssociationConnector Association="PronetsDBEntities.FK_Users_Positions" ManuallyRouted="false" />
+        <AssociationConnector Association="PronetsDBEntities.FK_ReceiptDocument_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="PronetsDBEntities.FK_Repairs_ReceiptDocument" ManuallyRouted="false" />
+        <AssociationConnector Association="PronetsDBEntities.FK_Repairs_Repair_Categories" ManuallyRouted="false" />
+        <AssociationConnector Association="PronetsDBEntities.FK_Repairs_Statuses" ManuallyRouted="false" />
+        <AssociationConnector Association="PronetsDBEntities.FK_Repairs_Users_Inspector_" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

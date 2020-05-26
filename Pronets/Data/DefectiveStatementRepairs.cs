@@ -12,21 +12,13 @@ namespace Pronets.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class Engineers
+    public partial class DefectiveStatementRepairs
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Engineers()
-        {
-            this.Repairs = new HashSet<Repairs>();
-        }
-    
         public int Id { get; set; }
-        public Nullable<int> UserId { get; set; }
-        public string LastName { get; set; }
-        public string Position { get; set; }
+        public int DefectiveStatementId { get; set; }
+        public int RepairId { get; set; }
     
-        public virtual Users Users { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Repairs> Repairs { get; set; }
+        public virtual DefectiveStatements DefectiveStatements { get; set; }
+        public virtual Repairs Repairs { get; set; }
     }
 }

@@ -189,10 +189,17 @@ namespace Pronets.VievModel.Users_f
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    UsersRequest.RemoveFromBase(SelectedItem, out bool ex);
-                    UsersRequest.RemoveFromBaseEngineer(SelectedItem.LastName, out bool ex1);
-                    if (ex && ex1)
-                        Users.RemoveAt(SelectedIndex);
+                    try
+                    {
+                        UsersRequest.RemoveFromBaseEngineer(SelectedItem.UserId);
+                        UsersRequest.RemoveFromBase(SelectedItem);
+                        Users.Remove(SelectedItem);
+
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(e.Message,"Ошибка");
+                    }
                 }
             }
             else

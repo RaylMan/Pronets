@@ -7,19 +7,24 @@
         mc:Ignorable="d"
         Title="Печать документа" Height="595" Width="800" MinHeight="595" MinWidth="800" Background="Gainsboro"  WindowStartupLocation="CenterScreen">
     <Grid>
-        <Button x:Name="btnPrint" Click="BtnPrint_Click" Command="{Binding AddRecipientCommand}"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10" Height="25" Width="74">
+        <Button x:Name="btnSavePrint" Click="BtnPrint_Click" Command="{Binding AddAndSaveRecipientCommand}"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,10,0,0" Height="25" Width="130">
+            <Viewbox>
+                <TextBlock Text="  Сохранить и распечатать  "  />
+            </Viewbox>
+        </Button>
+        <Button x:Name="btnPrint" Click="BtnPrint_Click" Command="{Binding AddRecipientCommand}"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="150,10,0,0" Height="25" Width="74">
             <Viewbox>
                 <TextBlock Text="  Печать  "  />
             </Viewbox>
         </Button>
-        <Button x:Name="btnSaveXls" Click="BtnSaveXls_Click" Command="{Binding ExportToExcelCommand}"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="89,10,0,0" Height="25" Width="132">
+        <Button x:Name="btnSaveXls" Click="BtnSaveXls_Click" Command="{Binding ExportToExcelCommand}"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="233,10,0,0" Height="25" Width="132">
             <Viewbox>
                 <TextBlock Text="  Сохранить в Excel  "  />
             </Viewbox>
         </Button>
-        <Label Content="Размер шрифта" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="231,10,0,0"/>
+        <Label Content="Размер шрифта" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="365,10,0,0"/>
         <ComboBox x:Name="comboBoxWarranty" ItemsSource="{Binding FontSizes}" SelectedValue="{Binding SelectedSize}" 
-                  HorizontalAlignment="Left" Margin="332,12,0,0" VerticalAlignment="Top" Width="57">
+                  HorizontalAlignment="Left" Margin="466,12,0,0" VerticalAlignment="Top" Width="57">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding FontSize}"/>

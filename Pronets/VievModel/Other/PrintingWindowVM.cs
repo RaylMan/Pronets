@@ -1,6 +1,8 @@
 ﻿using Pronets.Data;
 using Pronets.EntityRequests.Clients_f;
+using Pronets.EntityRequests.DefectiveStatements_f;
 using Pronets.EntityRequests.Repairs_f;
+using Pronets.EntityRequests.Users_f;
 using Pronets.Model;
 using System;
 using System.Collections.Generic;
@@ -9,6 +11,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Windows.Input;
 
 namespace Pronets.VievModel.Other
@@ -19,11 +22,12 @@ namespace Pronets.VievModel.Other
         private v_Receipt_Document document;
         private Clients clientPronets;
         private Clients client;
+        private Users user;
         public Clients ClientInstance
         {
             get { return client; }
         }
-     
+
         private ObservableCollection<v_Repairs> repairsTable = new ObservableCollection<v_Repairs>();
         public ObservableCollection<v_Repairs> RepairsTable
         {
@@ -197,6 +201,7 @@ namespace Pronets.VievModel.Other
             RepairsTable = RepairsRequest.FillReportList(document.Document_Id);
             if (clientId > 0)
                 client = ClientsRequests.GetClient(clientId);
+            GetDefaultUser();
             GetInfo();
             SetFontSizes();
             fontSize = 10;
@@ -204,15 +209,22 @@ namespace Pronets.VievModel.Other
         }
         public PrintingWindowVM(List<int> repairsId, int clientId)
         {
+            GetDefaultUser();
+            if (clientId > 0)
+                client = ClientsRequests.GetClient(clientId);
             GetRepairsFromList(repairsId, clientId);
             GetInfo();
             SetFontSizes();
             fontSize = 10;
             titleFontSize = fontSize + 5;
         }
+        private void GetDefaultUser()
+        {
+            user = UsersRequest.GetDefauldUser();
+        }
         private void GetRepairsFromList(List<int> repairsId, int clientId)
         {
-            if(repairsId != null)
+            if (repairsId != null)
             {
                 foreach (var Id in repairsId)
                 {
@@ -277,6 +289,10 @@ namespace Pronets.VievModel.Other
                 RaisedPropertyChanged("AddRecipientCommand");
             }
         }
+        /// <summary>
+        /// Добавляет новый экземпляр дефектовки, с ремонтами. В ремонте устанавливает отправителя и дату отправки
+        /// </summary>
+        /// <param name="Parameter"></param>
         public void AddRecipient(object Parameter)
         {
             if (repairsTable.Count > 0 && client != null)
@@ -289,6 +305,58 @@ namespace Pronets.VievModel.Other
         }
         #endregion
 
+        #region AddAndSaveRecipientCommand
+        private ICommand addAndSaveRecipientCommand;
+        public ICommand AddAndSaveRecipientCommand
+        {
+            get
+            {
+                if (addAndSaveRecipientCommand == null)
+                {
+                    addAndSaveRecipientCommand = new RelayCommand(new Action<object>(AddAndSaveRecipient));
+                }
+                return addAndSaveRecipientCommand;
+            }
+            set
+            {
+                addAndSaveRecipientCommand = value;
+                RaisedPropertyChanged("AddAndSaveRecipientCommand");
+            }
+        }
+        /// <summary>
+        /// Добавляет новый экземпляр дефектовки, с ремонтами. В ремонте устанавливает отправителя и дату отправки
+        /// </summary>
+        /// <param name="Parameter"></param>
+        public void AddAndSaveRecipient(object Parameter)
+        {
+            if (repairsTable.Count > 0 && client != null)
+            {
+                try
+                {
+                    DefectiveStatements ds = new DefectiveStatements();
+                    ds.ClientId = client.ClientId;
+                    ds.UserId = user.UserId;
+                    ds.DocumentId = repairsTable[0].DocumentId ?? 0;
+                    ds.Date = DateTime.Now;
+                    DefectiveStatementsRequests.AddStatements(ds);
+
+                    foreach (var repair in repairsTable)
+                    {
+                        var statementRepair = new DefectiveStatementRepairs();
+                        statementRepair.DefectiveStatementId = ds.Id;
+                        statementRepair.RepairId = repair.RepairId;
+
+                        DefectiveStatementsRequests.AddStatementRepairs(statementRepair);
+                        RepairsRequest.SetRepairRecipient(repair.RepairId, client.ClientName);
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.InnerException.Message, "Ошибка");
+                }
+            }
+        }
+        #endregion
         #region ExportToExcelCommand
         private ICommand exportToExcelCommand;
         public ICommand ExportToExcelCommand

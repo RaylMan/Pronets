@@ -14,8 +14,14 @@ namespace Pronets.Data
     
     public partial class Repairs
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Repairs()
+        {
+            this.DefectiveStatementRepairs = new HashSet<DefectiveStatementRepairs>();
+        }
+    
         public int RepairId { get; set; }
-        public Nullable<int> DocumentId { get; set; }
+        public int DocumentId { get; set; }
         public string Nomenclature { get; set; }
         public string Serial_Number { get; set; }
         public string Claimed_Malfunction { get; set; }
@@ -34,6 +40,8 @@ namespace Pronets.Data
         public string Note { get; set; }
     
         public virtual Clients Clients { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DefectiveStatementRepairs> DefectiveStatementRepairs { get; set; }
         public virtual Engineers Engineers { get; set; }
         public virtual Nomenclature Nomenclature1 { get; set; }
         public virtual ReceiptDocument ReceiptDocument { get; set; }

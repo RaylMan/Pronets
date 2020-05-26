@@ -52,8 +52,9 @@
                 <MenuItem Name="Overtime" Header="Переработка" Click="Overtime_Click"/>
                 <MenuItem Name="Settings" Header="Настройки" Click="Settings_Click"/>
             </MenuItem>
-            <MenuItem Header="Клиенты" Click="Open_ClientsWindow_Click">
-                <!--<MenuItem Name="Clients" Header="Клиенты" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type clients:ClientsWindow}"></MenuItem>-->
+            <MenuItem Header="Клиенты">
+                <MenuItem Header="Список клиентов" Click="Open_ClientsWindow_Click"/>
+                <MenuItem Header="Дефектные ведомости" Click="Open_DefectiveStatementWindow_Click"/>
             </MenuItem>
             <MenuItem Header="Заказ запчастей" Click="Open_PartsOrder_Click">
                 <!--<MenuItem Name="Parts" Header="Заказ запчастей" Command="{Binding OpenWindowCommand}" CommandParameter="{x:Type other:PartsWindow}"></MenuItem>-->
@@ -70,6 +71,7 @@
                 <MenuItem Name="export" Header="Выгрузка из Excel" Click="Open_Export_Click"></MenuItem>
             </MenuItem>
             <MenuItem Name="barcode" Header="Этикетки" Click="barcode_Click"/>
+            <MenuItem Name="docuwiki" Header="База знаний" Click="docuwiki_Click"/>
         </Menu>
 
 

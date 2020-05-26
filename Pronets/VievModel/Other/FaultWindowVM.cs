@@ -12,12 +12,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace Pronets.VievModel.Other
 {
     public class FaultWindowVM : VievModelBase
     {
         #region Properties
+        Dispatcher _dispatcher;
         private ObservableCollection<Defects> defects = new ObservableCollection<Defects>();
         public ObservableCollection<Defects> Defects
         {
@@ -107,23 +109,57 @@ namespace Pronets.VievModel.Other
 
         public FaultWindowVM(RepairsPage page)
         {
+            _dispatcher = Dispatcher.CurrentDispatcher;
             baseRepairPage = page;
-            GetDeffects();
-            Repair_Categories = RepairCategoriesRequests.FillList();
+            GetDeffectsAsync();
+            GetCategories();
         }
         public FaultWindowVM(RepairsTableEngineer page)
         {
+            _dispatcher = Dispatcher.CurrentDispatcher;
             baseRepairTablePage = page;
-            GetDeffects();
-            Repair_Categories = RepairCategoriesRequests.FillList();
+            GetDeffectsAsync();
+            GetCategories();
         }
+        private async void GetCategories()
+        {
+            Repair_Categories.Clear();
+            await Task.Run(() =>
+            {
+                try
+                {
+                    foreach (var category in RepairCategoriesRequests.FillList())
+                    {
+                        _dispatcher.Invoke(new Action(() =>
+                        {
+                            Repair_Categories.Add(category);
 
+                        }));
+                    }
+                }
+                catch { }
+            });
+        }
+        private async void GetDeffectsAsync()
+        {
+            Defects.Clear();
+            await Task.Run(() => GetDeffects());
+        }
         private void GetDeffects()
         {
-            defects.Clear();
-            Defects = DefectsRequests.FillList();
-            selectedDefectIndex = -1;
+            try
+            {
+                foreach (var defect in DefectsRequests.FillList())
+                {
+                    _dispatcher.Invoke(new Action(() =>
+                    {
+                        Defects.Add(defect);
 
+                    }));
+                }
+                selectedDefectIndex = -1;
+            }
+            catch { }
         }
         /// <summary>
         /// Автозаполнение текстбоксов для изменения элементов из выбранного элемента
@@ -314,7 +350,7 @@ namespace Pronets.VievModel.Other
                     MessageBox.Show(ex.Message);
                 }
             }
-           
+
         }
         /// <summary>
         /// Устновка значения  списка с категорией ремонта в окне ремонта или таблицы ремонтов на "Сложный ремонт"
@@ -401,7 +437,7 @@ namespace Pronets.VievModel.Other
                 selectedDefect = null;
                 Defect = string.Empty;
                 Work = string.Empty;
-                GetDeffects();
+                GetDeffectsAsync();
             }
             else
                 MessageBox.Show("Введите неисправность, проделанную работу и выберете категорию ремонта", "Ошибка");
@@ -441,7 +477,7 @@ namespace Pronets.VievModel.Other
                     selectedDefect.Work = Work;
                     selectedDefect.Repair_Category = SelectedCategory.Category;
                     DefectsRequests.EditItem(selectedDefect);
-                    GetDeffects();
+                    GetDeffectsAsync();
                     MessageBox.Show("Успешное изменение!");
                 }
                 else

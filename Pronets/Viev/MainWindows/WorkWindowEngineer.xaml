@@ -28,9 +28,10 @@
                 <MenuItem Name="Settings" Header="Настройки" Click="Settings_Click"/>
             </MenuItem>
             <MenuItem Header="Заказ запчастей" Click="Open_PartsOrder_Click"/>
-            <MenuItem Header="Список ремонтов" Click="Open_AllRepairsWindow_Click"/>
+            <!--<MenuItem Header="Список ремонтов" Click="Open_AllRepairsWindow_Click"/>-->
             <MenuItem Header="Подсчет ремонтов" Click="CalculateRepairs_Click"/>
             <MenuItem Name="barcode" Header="Этикетки" Click="barcode_Click"/>
+            <MenuItem Name="docuwiki" Header="База знаний" Click="docuwiki_Click"/>
         </Menu>
         <Frame x:Name="frame" Grid.Row="1" Source="Pages\RepairsPage.xaml"></Frame>
 

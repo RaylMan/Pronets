@@ -20,6 +20,7 @@ using Pronets.Viev.Users_f;
 using Pronets.Viev.Clients_f;
 using Pronets.Viev.Nomenclature_f;
 using Pronets.Viev.ConvertToSQL;
+using Pronets.Viev.Other.DefectiveStatement_fw;
 
 namespace Pronets.Viev.MainWindows
 {
@@ -151,6 +152,18 @@ namespace Pronets.Viev.MainWindows
         {
             BarcodeWindow win = new BarcodeWindow();
             win.ShowDialog();
+        }
+
+        private void docuwiki_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://192.168.91.100:88/");
+        }
+
+        private void Open_DefectiveStatementWindow_Click(object sender, RoutedEventArgs e)
+        {
+            DefectiveStatementWindow win = DefectiveStatementWindow.Instance;
+            win.Show();
+            win.Focus();
         }
     }
 }

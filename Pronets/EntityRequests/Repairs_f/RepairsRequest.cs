@@ -30,7 +30,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.InnerException.Message, "Ошибка");
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
             return repairs;
@@ -46,7 +46,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.InnerException.Message, "Ошибка");
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
             return repairs;
@@ -66,7 +66,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.InnerException.Message, "Ошибка");
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
             return v_RepairsAll;
@@ -88,7 +88,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.InnerException.Message, "Ошибка");
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
             return v_Repairs;
@@ -110,7 +110,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.InnerException.Message, "Ошибка");
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
             return v_Repairs;
@@ -133,7 +133,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.InnerException.Message, "Ошибка");
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
             return v_Repairs;
@@ -156,7 +156,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.InnerException.Message, "Ошибка");
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
             return v_Repairs;
@@ -176,7 +176,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.InnerException.Message, "Ошибка");
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
             return repairs;
@@ -196,7 +196,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.InnerException.Message, "Ошибка");
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
             return repairs;
@@ -220,7 +220,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.InnerException.Message, "Ошибка");
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
             return v_Repairs;
@@ -243,7 +243,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.InnerException.Message, "Ошибка");
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
             return repairsTable;
@@ -266,7 +266,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.InnerException.Message, "Ошибка");
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
             return v_Repairs;
@@ -302,7 +302,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.InnerException.Message, "Ошибка");
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
             return v_Repairs;
@@ -337,7 +337,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.InnerException.Message, "Ошибка");
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
             return v_Repairs;
@@ -374,7 +374,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.InnerException.Message, "Ошибка");
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
             return v_Repairs;
@@ -410,7 +410,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.InnerException.Message, "Ошибка");
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
             return v_Repairs;
@@ -446,7 +446,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.InnerException.Message, "Ошибка");
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
             return v_Repairs;
@@ -484,7 +484,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.InnerException.Message, "Ошибка");
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
             return v_Repairs;
@@ -522,7 +522,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.InnerException.Message, "Ошибка");
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
             return v_Repairs;
@@ -562,7 +562,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.InnerException.Message, "Ошибка");
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
             return v_Repairs;
@@ -589,7 +589,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.InnerException.Message, "Ошибка");
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
             return v_Repairs;
@@ -613,7 +613,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.InnerException.Message, "Ошибка");
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
             return v_Repairs;
@@ -638,7 +638,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.InnerException.Message, "Ошибка");
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
             return v_Repairs;
@@ -667,7 +667,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.InnerException.Message, "Ошибка");
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
             return repairs;
@@ -693,7 +693,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.InnerException.Message, "Ошибка");
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
             return v_RepairsCopy;
@@ -712,7 +712,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.InnerException.Message, "Ошибка");
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
             return repair;
@@ -731,7 +731,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.InnerException.Message, "Ошибка");
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
             return v_Repair;
@@ -754,7 +754,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.InnerException.Message);
+                    MessageBox.Show(e.Message);
                 }
             }
         }
@@ -808,7 +808,7 @@ namespace Pronets.EntityRequests.Repairs_f
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show(e.InnerException.Message, "Ошибка");
+                        MessageBox.Show(e.Message, "Ошибка");
                     }
 
                 }
@@ -848,7 +848,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.InnerException.Message);
+                    MessageBox.Show(e.Message);
                 }
             }
         }
@@ -867,7 +867,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.InnerException.Message);
+                    MessageBox.Show(e.Message);
                 }
             }
         }
@@ -888,7 +888,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.InnerException.Message);
+                    MessageBox.Show(e.Message);
                 }
             }
         }
@@ -912,7 +912,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.InnerException.Message);
+                    MessageBox.Show(e.Message);
                 }
             }
         }
@@ -932,7 +932,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.InnerException.Message);
+                    MessageBox.Show(e.Message);
                 }
             }
         }
@@ -960,7 +960,7 @@ namespace Pronets.EntityRequests.Repairs_f
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show(e.InnerException.Message, "Ошибка");
+                        MessageBox.Show(e.Message, "Ошибка");
                         isExeption = false;
                     }
                 }
@@ -993,7 +993,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.InnerException.Message, "Ошибка");
+                    MessageBox.Show(e.Message, "Ошибка");
                     isExeption = false;
                 }
             }
@@ -1017,7 +1017,7 @@ namespace Pronets.EntityRequests.Repairs_f
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show(e.InnerException.Message, "Ошибка");
+                        MessageBox.Show(e.Message, "Ошибка");
                         isExeption = false;
                     }
                 }
@@ -1060,7 +1060,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.InnerException.Message, "Ошибка");
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
             return v_Repairs;
@@ -1096,7 +1096,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.InnerException.Message, "Ошибка");
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
             return v_Repairs;
@@ -1122,7 +1122,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.InnerException.Message, "Ошибка");
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
             return v_Repairs;

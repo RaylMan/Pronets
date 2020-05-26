@@ -11,7 +11,7 @@ namespace Pronets.Model
 {
     public class RepairsModel : VievModelBase
     {
-        protected Repairs repair = new Data.Repairs();
+        //protected Repairs repair = new Data.Repairs();
         protected ObservableCollection<Repairs> repairs = new ObservableCollection<Repairs>();
         public ObservableCollection<Repairs> Repairs
         {

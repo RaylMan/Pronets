@@ -4,6 +4,7 @@ using Pronets.EntityRequests.Clients_f;
 using Pronets.EntityRequests.Other;
 using Pronets.EntityRequests.Repairs_f;
 using Pronets.Navigation.WindowsNavigation;
+using Pronets.Repository;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -19,6 +20,7 @@ namespace Pronets.VievModel.MainWindows.Pages
     public class ReceiptDocumentPagePronetsVM : VievModelBase
     {
         #region Properties
+        //ReceiptDocumentRepository repo;
         object e = new object();
         Dispatcher _dispatcher;
         public OpenWindowCommand OpenWindowCommand { get; set; }
@@ -195,6 +197,7 @@ namespace Pronets.VievModel.MainWindows.Pages
 
         public ReceiptDocumentPagePronetsVM()
         {
+            //repo = new ReceiptDocumentRepository();
             _dispatcher = Dispatcher.CurrentDispatcher;
            // GetDocumentsAsync(null); //Загрузка данных в датагрид происходит в selectedClient, selectedstatus, allclients, allstatuese
             GetContent();
@@ -208,6 +211,16 @@ namespace Pronets.VievModel.MainWindows.Pages
             Clients = ClientsRequests.FillList();
             AllClients = true;
             AllStatuses = true;
+            //try
+            //{
+            //    Statuses = repo.GetStatuses();
+            //    Clients = repo.GetClients();
+
+            //}
+            //catch (Exception e)
+            //{
+            //    MessageBox.Show(e.InnerException.Message, "Ошибка");
+            //}
             GetDocumentsAsync(null);
         }
         private async void GetDocumentsAsync(string status)
@@ -227,7 +240,10 @@ namespace Pronets.VievModel.MainWindows.Pages
                     }));
                 }
             }
-            catch (Exception) { }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.InnerException.Message, "Ошибка");
+            }
 
             // ReceiptDocuments = new ObservableCollection<v_Receipt_Document>(ReceiptDocuments.OrderByDescending(i => i.Document_Id));
         }
@@ -293,8 +309,17 @@ namespace Pronets.VievModel.MainWindows.Pages
                     ReceiptDocumentRequest.RemoveFromBase(SelectedItem.Document_Id, out bool ex0);
                     if (ex && ex0)
                         ReceiptDocuments.RemoveAt(selectedIndex);
+                    //try
+                    //{
+                    //    repo.RemoveRepairs(SelectedItem.Document_Id);
+                    //    repo.RemoveDocument(SelectedItem.Document_Id);
+                    //    ReceiptDocuments.RemoveAt(selectedIndex);
+                    //}
+                    //catch (Exception e)
+                    //{
+                    //    MessageBox.Show(e.InnerException.Message, "Ошибка");
+                    //}
                 }
-
             }
             else
                 MessageBox.Show("Необходимо выбрать элемент в списке!", "Ошибка");

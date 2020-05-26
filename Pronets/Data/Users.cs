@@ -17,6 +17,8 @@ namespace Pronets.Data
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Users()
         {
+            this.DefectiveStatements = new HashSet<DefectiveStatements>();
+            this.Engineers = new HashSet<Engineers>();
             this.ReceiptDocument = new HashSet<ReceiptDocument>();
             this.Repairs = new HashSet<Repairs>();
         }
@@ -31,13 +33,17 @@ namespace Pronets.Data
         public Nullable<System.DateTime> Birthday { get; set; }
         public string Telephone { get; set; }
         public string Adress { get; set; }
-        public Nullable<double> SalaryPerDay { get; set; }
         public Nullable<double> SalaryPerHour { get; set; }
+        public Nullable<double> SalaryPerDay { get; set; }
         public string CopyBuffer { get; set; }
         public string BufferSerial { get; set; }
         public string BufferMac { get; set; }
         public string BufferPonMac { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DefectiveStatements> DefectiveStatements { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Engineers> Engineers { get; set; }
         public virtual Positions Positions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ReceiptDocument> ReceiptDocument { get; set; }

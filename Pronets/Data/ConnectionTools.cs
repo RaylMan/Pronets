@@ -65,9 +65,9 @@ namespace Pronets.Data
             }
         }
 
-        public static PronetsDBEntities GetConnection()
+        public static PronetsDBEntities1 GetConnection()
         {
-            var selectedDb = new PronetsDBEntities();
+            var selectedDb = new PronetsDBEntities1();
             selectedDb.ChangeDatabase
                     (
                         initialCatalog: Properties.Settings.Default.BaseName,

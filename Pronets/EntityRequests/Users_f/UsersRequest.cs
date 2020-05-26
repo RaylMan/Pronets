@@ -25,7 +25,7 @@ namespace Pronets.EntityRequests.Users_f
 
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.InnerException.Message, "Ошибка");
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
             return allUsers;
@@ -47,7 +47,7 @@ namespace Pronets.EntityRequests.Users_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.InnerException.Message, "Ошибка");
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
             return engineers;
@@ -69,7 +69,7 @@ namespace Pronets.EntityRequests.Users_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.InnerException.Message, "Ошибка");
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
             return engineers;
@@ -110,7 +110,7 @@ namespace Pronets.EntityRequests.Users_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.InnerException.Message, "Ошибка");
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
             return user;
@@ -130,14 +130,33 @@ namespace Pronets.EntityRequests.Users_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.InnerException.Message, "Ошибка");
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
             return engineer;
         }
 
         /// <summary>
-        /// <para>Возращает экземпляр Engineers по фамилии</para>
+        /// <para>Возращает экземпляр Engineers по userID</para>
+        /// </summary>
+        public static Engineers GetEngineer(int userId)
+        {
+            Engineers engineer = new Engineers();
+            using (var db = ConnectionTools.GetConnection())
+            {
+                try
+                {
+                    engineer = db.Engineers.Where(e => e.UserId == userId).Include(e => e.Repairs).FirstOrDefault();
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Ошибка");
+                }
+            }
+            return engineer;
+        }
+        /// <summary>
+        /// <para>Возращает экземпляр Engineers по userID</para>
         /// </summary>
         public static Engineers GetEngineer(string lastName)
         {
@@ -150,7 +169,7 @@ namespace Pronets.EntityRequests.Users_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.InnerException.Message, "Ошибка");
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
             return engineer;
@@ -169,7 +188,7 @@ namespace Pronets.EntityRequests.Users_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.InnerException.Message, "Ошибка");
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
             return positions;
@@ -191,7 +210,7 @@ namespace Pronets.EntityRequests.Users_f
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show(e.InnerException.Message, "Ошибка");
+                        MessageBox.Show(e.Message, "Ошибка");
                     }
                 }
             }
@@ -221,9 +240,8 @@ namespace Pronets.EntityRequests.Users_f
         /// <summary>
         /// <para>Удаляет из базы экземпляр Users</para>
         /// </summary>
-        public static void RemoveFromBase(Users user, out bool isExeption)
+        public static void RemoveFromBase(Users user)
         {
-            isExeption = true;
             using (var db = ConnectionTools.GetConnection())
             {
                 if (user != null)
@@ -234,15 +252,13 @@ namespace Pronets.EntityRequests.Users_f
                         db.Users.Remove(user);
                         db.SaveChanges();
                     }
-                    catch (System.Data.Entity.Infrastructure.DbUpdateException)
+                    catch (System.Data.Entity.Infrastructure.DbUpdateException e)
                     {
-                        MessageBox.Show("Невозможно удалить , так как есть связи с данными!", "Ошибка");
-                        isExeption = false;
+                        throw new Exception("В базе данных есть связи с этим пользователем", e.InnerException);
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show(e.InnerException.Message, "Ошибка");
-                        isExeption = false;
+                       throw new Exception(e.InnerException.Message, e.InnerException);
                     }
                 }
             }
@@ -250,28 +266,25 @@ namespace Pronets.EntityRequests.Users_f
         /// <summary>
         /// <para>Удаляет из базы экземпляр Engineers по фамилии</para>
         /// </summary>
-        public static void RemoveFromBaseEngineer(string name, out bool isExeption)
+        public static void RemoveFromBaseEngineer(int userId)
         {
-            isExeption = true;
             using (var db = ConnectionTools.GetConnection())
             {
-                if (name != null)
+                if (userId != 0)
                 {
                     try
                     {
-                        db.Engineers.Attach(db.Engineers.Where(e => e.LastName == name).FirstOrDefault());
-                        db.Engineers.Remove(db.Engineers.Where(e => e.LastName == name).FirstOrDefault());
+                        db.Engineers.Attach(db.Engineers.Where(e => e.UserId == userId).FirstOrDefault());
+                        db.Engineers.Remove(db.Engineers.Where(e => e.UserId == userId).FirstOrDefault());
                         db.SaveChanges();
                     }
-                    catch (System.Data.Entity.Infrastructure.DbUpdateException)
+                    catch (System.Data.Entity.Infrastructure.DbUpdateException e)
                     {
-                        MessageBox.Show("Невозможно удалить , так как есть связи с данными!", "Ошибка");
-                        isExeption = false;
+                        throw new Exception("В базе данных есть связи с этим пользователем", e.InnerException);
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show(e.InnerException.Message, "Ошибка");
-                        isExeption = false;
+                        throw new Exception(e.InnerException.Message, e.InnerException);
                     }
                 }
             }
@@ -306,7 +319,7 @@ namespace Pronets.EntityRequests.Users_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.InnerException.Message, "Ошибка");
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
         }
@@ -328,7 +341,7 @@ namespace Pronets.EntityRequests.Users_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.InnerException.Message, "Ошибка");
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
         }
@@ -357,7 +370,7 @@ namespace Pronets.EntityRequests.Users_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.InnerException.Message, "Ошибка");
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
             }
             return searchUsers;
@@ -384,7 +397,7 @@ namespace Pronets.EntityRequests.Users_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.InnerException.Message);
+                    MessageBox.Show(e.Message);
                     ex = false;
                 }
                 return loginUser;
@@ -420,7 +433,7 @@ namespace Pronets.EntityRequests.Users_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.InnerException.Message);
+                    MessageBox.Show(e.Message);
                 }
             }
         }
@@ -442,7 +455,7 @@ namespace Pronets.EntityRequests.Users_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.InnerException.Message);
+                    MessageBox.Show(e.Message);
                 }
 
             }
@@ -464,7 +477,7 @@ namespace Pronets.EntityRequests.Users_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.InnerException.Message);
+                    MessageBox.Show(e.Message);
                 }
             }
             return isSame;

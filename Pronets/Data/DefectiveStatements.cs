@@ -12,28 +12,24 @@ namespace Pronets.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class ReceiptDocument
+    public partial class DefectiveStatements
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public ReceiptDocument()
+        public DefectiveStatements()
         {
-            this.DefectiveStatements = new HashSet<DefectiveStatements>();
-            this.Repairs = new HashSet<Repairs>();
+            this.DefectiveStatementRepairs = new HashSet<DefectiveStatementRepairs>();
         }
     
-        public int DocumentId { get; set; }
+        public int Id { get; set; }
+        public int UserId { get; set; }
         public int ClientId { get; set; }
-        public int InspectorId { get; set; }
-        public Nullable<System.DateTime> Date { get; set; }
-        public Nullable<System.DateTime> DepartureDate { get; set; }
-        public string Status { get; set; }
-        public string Note { get; set; }
+        public int DocumentId { get; set; }
+        public System.DateTime Date { get; set; }
     
         public virtual Clients Clients { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DefectiveStatements> DefectiveStatements { get; set; }
+        public virtual ICollection<DefectiveStatementRepairs> DefectiveStatementRepairs { get; set; }
+        public virtual ReceiptDocument ReceiptDocument { get; set; }
         public virtual Users Users { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Repairs> Repairs { get; set; }
     }
 }

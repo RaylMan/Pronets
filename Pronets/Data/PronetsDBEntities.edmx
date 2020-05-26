@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="Хранилище PronetsDBModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="Хранилище PronetsDBEntities" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="BaseFromExcel">
           <Key>
             <PropertyRef Name="Id" />
@@ -36,6 +36,24 @@
           <Property Name="Email" Type="nvarchar" MaxLength="50" />
           <Property Name="Adress" Type="nvarchar" MaxLength="200" />
         </EntityType>
+        <EntityType Name="DefectiveStatementRepairs">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DefectiveStatementId" Type="int" Nullable="false" />
+          <Property Name="RepairId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DefectiveStatements">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="ClientId" Type="int" Nullable="false" />
+          <Property Name="DocumentId" Type="int" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+        </EntityType>
         <EntityType Name="Defects">
           <Key>
             <PropertyRef Name="Id" />
@@ -50,6 +68,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" />
           <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Position" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
@@ -149,8 +168,8 @@
           <Key>
             <PropertyRef Name="RepairId" />
           </Key>
-          <Property Name="RepairId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="DocumentId" Type="int" />
+          <Property Name="RepairId" Type="int" Nullable="false" />
+          <Property Name="DocumentId" Type="int" Nullable="false" />
           <Property Name="Nomenclature" Type="nvarchar" MaxLength="50" />
           <Property Name="Serial_Number" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Claimed_Malfunction" Type="nvarchar" MaxLength="200" />
@@ -206,6 +225,23 @@
           <Property Name="BufferPonMac" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "PronetsDB.dbo.v_DefectiveStatements" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="v_DefectiveStatements">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="ClientName" />
+            <PropertyRef Name="Date" />
+            <PropertyRef Name="ClientId" />
+            <PropertyRef Name="DocumentId" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="ClientName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="ClientId" Type="int" Nullable="false" />
+          <Property Name="DocumentId" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
 предупреждение 6002: В таблице или представлении "PronetsDB.dbo.v_Receipt_Document" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
         <EntityType Name="v_Receipt_Document">
           <Key>
@@ -254,6 +290,78 @@
           <Property Name="Note" Type="nvarchar" MaxLength="200" />
           <Property Name="Recipient" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <Association Name="FK_DefectiveStatementRepairs_DefectiveStatements">
+          <End Role="DefectiveStatements" Type="Self.DefectiveStatements" Multiplicity="1" />
+          <End Role="DefectiveStatementRepairs" Type="Self.DefectiveStatementRepairs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DefectiveStatements">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DefectiveStatementRepairs">
+              <PropertyRef Name="DefectiveStatementId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DefectiveStatementRepairs_Repairs">
+          <End Role="Repairs" Type="Self.Repairs" Multiplicity="1" />
+          <End Role="DefectiveStatementRepairs" Type="Self.DefectiveStatementRepairs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Repairs">
+              <PropertyRef Name="RepairId" />
+            </Principal>
+            <Dependent Role="DefectiveStatementRepairs">
+              <PropertyRef Name="RepairId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DefectiveStatements_Clients">
+          <End Role="Clients" Type="Self.Clients" Multiplicity="1" />
+          <End Role="DefectiveStatements" Type="Self.DefectiveStatements" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clients">
+              <PropertyRef Name="ClientId" />
+            </Principal>
+            <Dependent Role="DefectiveStatements">
+              <PropertyRef Name="ClientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DefectiveStatements_ReceiptDocument">
+          <End Role="ReceiptDocument" Type="Self.ReceiptDocument" Multiplicity="1" />
+          <End Role="DefectiveStatements" Type="Self.DefectiveStatements" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReceiptDocument">
+              <PropertyRef Name="DocumentId" />
+            </Principal>
+            <Dependent Role="DefectiveStatements">
+              <PropertyRef Name="DocumentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DefectiveStatements_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="DefectiveStatements" Type="Self.DefectiveStatements" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="DefectiveStatements">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Engineers_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Engineers" Type="Self.Engineers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Engineers">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Nomenclature_Nomenclature_Types">
           <End Role="Nomenclature_Types" Type="Self.Nomenclature_Types" Multiplicity="1" />
           <End Role="Nomenclature" Type="Self.Nomenclature" Multiplicity="*" />
@@ -351,7 +459,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Repairs_ReceiptDocument">
-          <End Role="ReceiptDocument" Type="Self.ReceiptDocument" Multiplicity="0..1" />
+          <End Role="ReceiptDocument" Type="Self.ReceiptDocument" Multiplicity="1" />
           <End Role="Repairs" Type="Self.Repairs" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ReceiptDocument">
@@ -410,9 +518,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="Хранилище PronetsDBModelContainer">
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="Хранилище PronetsDBEntitiesContainer">
           <EntitySet Name="BaseFromExcel" EntityType="Self.BaseFromExcel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Clients" EntityType="Self.Clients" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DefectiveStatementRepairs" EntityType="Self.DefectiveStatementRepairs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DefectiveStatements" EntityType="Self.DefectiveStatements" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Defects" EntityType="Self.Defects" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Engineers" EntityType="Self.Engineers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="No_in_Repairs" EntityType="Self.No_in_Repairs" Schema="dbo" store:Type="Tables" />
@@ -429,6 +570,16 @@
           <EntitySet Name="Statuses" EntityType="Self.Statuses" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="v_DefectiveStatements" EntityType="Self.v_DefectiveStatements" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [v_DefectiveStatements].[Id] AS [Id], 
+    [v_DefectiveStatements].[ClientName] AS [ClientName], 
+    [v_DefectiveStatements].[LastName] AS [LastName], 
+    [v_DefectiveStatements].[Date] AS [Date], 
+    [v_DefectiveStatements].[ClientId] AS [ClientId], 
+    [v_DefectiveStatements].[DocumentId] AS [DocumentId]
+    FROM [dbo].[v_DefectiveStatements] AS [v_DefectiveStatements]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="v_Receipt_Document" EntityType="Self.v_Receipt_Document" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [v_Receipt_Document].[Document Id] AS [Document Id], 
@@ -465,6 +616,30 @@
     [v_Repairs].[Recipient] AS [Recipient]
     FROM [dbo].[v_Repairs] AS [v_Repairs]</DefiningQuery>
           </EntitySet>
+          <AssociationSet Name="FK_DefectiveStatementRepairs_DefectiveStatements" Association="Self.FK_DefectiveStatementRepairs_DefectiveStatements">
+            <End Role="DefectiveStatements" EntitySet="DefectiveStatements" />
+            <End Role="DefectiveStatementRepairs" EntitySet="DefectiveStatementRepairs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DefectiveStatementRepairs_Repairs" Association="Self.FK_DefectiveStatementRepairs_Repairs">
+            <End Role="Repairs" EntitySet="Repairs" />
+            <End Role="DefectiveStatementRepairs" EntitySet="DefectiveStatementRepairs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DefectiveStatements_Clients" Association="Self.FK_DefectiveStatements_Clients">
+            <End Role="Clients" EntitySet="Clients" />
+            <End Role="DefectiveStatements" EntitySet="DefectiveStatements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DefectiveStatements_ReceiptDocument" Association="Self.FK_DefectiveStatements_ReceiptDocument">
+            <End Role="ReceiptDocument" EntitySet="ReceiptDocument" />
+            <End Role="DefectiveStatements" EntitySet="DefectiveStatements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DefectiveStatements_Users" Association="Self.FK_DefectiveStatements_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="DefectiveStatements" EntitySet="DefectiveStatements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Engineers_Users" Association="Self.FK_Engineers_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Engineers" EntitySet="Engineers" />
+          </AssociationSet>
           <AssociationSet Name="FK_Nomenclature_Nomenclature_Types" Association="Self.FK_Nomenclature_Nomenclature_Types">
             <End Role="Nomenclature_Types" EntitySet="Nomenclature_Types" />
             <End Role="Nomenclature" EntitySet="Nomenclature" />
@@ -518,10 +693,28 @@
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="PronetsDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="PronetsDBEntities" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="BaseFromExcel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SerialNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Claimed_Malfunction" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Client" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DateOfReceipt" Type="DateTime" Precision="0" />
+          <Property Name="Warranty" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IdentifyFault" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="WorkDone" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Engineer" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
         <EntityType Name="Clients">
           <Key>
             <PropertyRef Name="ClientId" />
@@ -535,8 +728,33 @@
           <Property Name="Telephone_3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Adress" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="DefectiveStatements" Relationship="Self.FK_DefectiveStatements_Clients" FromRole="Clients" ToRole="DefectiveStatements" />
           <NavigationProperty Name="ReceiptDocument" Relationship="Self.FK_ReceiptDocument_Clients" FromRole="Clients" ToRole="ReceiptDocument" />
           <NavigationProperty Name="Repairs" Relationship="Self.FK_Repairs_Clients" FromRole="Clients" ToRole="Repairs" />
+        </EntityType>
+        <EntityType Name="DefectiveStatementRepairs">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DefectiveStatementId" Type="Int32" Nullable="false" />
+          <Property Name="RepairId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DefectiveStatements" Relationship="Self.FK_DefectiveStatementRepairs_DefectiveStatements" FromRole="DefectiveStatementRepairs" ToRole="DefectiveStatements" />
+          <NavigationProperty Name="Repairs" Relationship="Self.FK_DefectiveStatementRepairs_Repairs" FromRole="DefectiveStatementRepairs" ToRole="Repairs" />
+        </EntityType>
+        <EntityType Name="DefectiveStatements">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="ClientId" Type="Int32" Nullable="false" />
+          <Property Name="DocumentId" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Clients" Relationship="Self.FK_DefectiveStatements_Clients" FromRole="DefectiveStatements" ToRole="Clients" />
+          <NavigationProperty Name="DefectiveStatementRepairs" Relationship="Self.FK_DefectiveStatementRepairs_DefectiveStatements" FromRole="DefectiveStatements" ToRole="DefectiveStatementRepairs" />
+          <NavigationProperty Name="ReceiptDocument" Relationship="Self.FK_DefectiveStatements_ReceiptDocument" FromRole="DefectiveStatements" ToRole="ReceiptDocument" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_DefectiveStatements_Users" FromRole="DefectiveStatements" ToRole="Users" />
         </EntityType>
         <EntityType Name="Defects">
           <Key>
@@ -552,8 +770,10 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" />
           <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Position" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_Engineers_Users" FromRole="Engineers" ToRole="Users" />
           <NavigationProperty Name="Repairs" Relationship="Self.FK_Repairs_Engineers" FromRole="Engineers" ToRole="Repairs" />
         </EntityType>
         <EntityType Name="No_in_Repairs">
@@ -606,8 +826,8 @@
           </Key>
           <Property Name="Part_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Part_Price" Type="Decimal" Precision="19" Scale="4" />
-          <NavigationProperty Name="PartsOrder" Relationship="Self.FK_PartsOrder_Parts" FromRole="Parts" ToRole="PartsOrder" />
           <Property Name="Part_Info" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="PartsOrder" Relationship="Self.FK_PartsOrder_Parts" FromRole="Parts" ToRole="PartsOrder" />
         </EntityType>
         <EntityType Name="PartsOrder">
           <Key>
@@ -639,6 +859,7 @@
           <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Note" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Clients" Relationship="Self.FK_ReceiptDocument_Clients" FromRole="ReceiptDocument" ToRole="Clients" />
+          <NavigationProperty Name="DefectiveStatements" Relationship="Self.FK_DefectiveStatements_ReceiptDocument" FromRole="ReceiptDocument" ToRole="DefectiveStatements" />
           <NavigationProperty Name="Users" Relationship="Self.FK_ReceiptDocument_Users" FromRole="ReceiptDocument" ToRole="Users" />
           <NavigationProperty Name="Repairs" Relationship="Self.FK_Repairs_ReceiptDocument" FromRole="ReceiptDocument" ToRole="Repairs" />
         </EntityType>
@@ -664,8 +885,8 @@
           <Key>
             <PropertyRef Name="RepairId" />
           </Key>
-          <Property Name="RepairId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="DocumentId" Type="Int32" />
+          <Property Name="RepairId" Type="Int32" Nullable="false" />
+          <Property Name="DocumentId" Type="Int32" Nullable="false" />
           <Property Name="Nomenclature" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Serial_Number" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Claimed_Malfunction" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
@@ -683,6 +904,7 @@
           <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Note" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Clients" Relationship="Self.FK_Repairs_Clients" FromRole="Repairs" ToRole="Clients" />
+          <NavigationProperty Name="DefectiveStatementRepairs" Relationship="Self.FK_DefectiveStatementRepairs_Repairs" FromRole="Repairs" ToRole="DefectiveStatementRepairs" />
           <NavigationProperty Name="Engineers" Relationship="Self.FK_Repairs_Engineers" FromRole="Repairs" ToRole="Engineers" />
           <NavigationProperty Name="Nomenclature1" Relationship="Self.FK_Repairs_Nomenclature" FromRole="Repairs" ToRole="Nomenclature" />
           <NavigationProperty Name="ReceiptDocument" Relationship="Self.FK_Repairs_ReceiptDocument" FromRole="Repairs" ToRole="ReceiptDocument" />
@@ -721,15 +943,32 @@
           <Property Name="Birthday" Type="DateTime" Precision="0" />
           <Property Name="Telephone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Adress" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Positions" Relationship="Self.FK_Users_Positions" FromRole="Users" ToRole="Positions" />
-          <NavigationProperty Name="ReceiptDocument" Relationship="Self.FK_ReceiptDocument_Users" FromRole="Users" ToRole="ReceiptDocument" />
-          <NavigationProperty Name="Repairs" Relationship="Self.FK_Repairs_Users_Inspector_" FromRole="Users" ToRole="Repairs" />
-          <Property Name="SalaryPerDay" Type="Double" />
           <Property Name="SalaryPerHour" Type="Double" />
+          <Property Name="SalaryPerDay" Type="Double" />
           <Property Name="CopyBuffer" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="BufferSerial" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="BufferMac" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="BufferPonMac" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="DefectiveStatements" Relationship="Self.FK_DefectiveStatements_Users" FromRole="Users" ToRole="DefectiveStatements" />
+          <NavigationProperty Name="Engineers" Relationship="Self.FK_Engineers_Users" FromRole="Users" ToRole="Engineers" />
+          <NavigationProperty Name="Positions" Relationship="Self.FK_Users_Positions" FromRole="Users" ToRole="Positions" />
+          <NavigationProperty Name="ReceiptDocument" Relationship="Self.FK_ReceiptDocument_Users" FromRole="Users" ToRole="ReceiptDocument" />
+          <NavigationProperty Name="Repairs" Relationship="Self.FK_Repairs_Users_Inspector_" FromRole="Users" ToRole="Repairs" />
+        </EntityType>
+        <EntityType Name="v_DefectiveStatements">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="ClientName" />
+            <PropertyRef Name="Date" />
+            <PropertyRef Name="ClientId" />
+            <PropertyRef Name="DocumentId" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="ClientName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ClientId" Type="Int32" Nullable="false" />
+          <Property Name="DocumentId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="v_Receipt_Document">
           <Key>
@@ -776,6 +1015,18 @@
           <Property Name="Note" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="Recipient" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
+        <Association Name="FK_DefectiveStatements_Clients">
+          <End Role="Clients" Type="Self.Clients" Multiplicity="1" />
+          <End Role="DefectiveStatements" Type="Self.DefectiveStatements" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clients">
+              <PropertyRef Name="ClientId" />
+            </Principal>
+            <Dependent Role="DefectiveStatements">
+              <PropertyRef Name="ClientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ReceiptDocument_Clients">
           <End Role="Clients" Type="Self.Clients" Multiplicity="1" />
           <End Role="ReceiptDocument" Type="Self.ReceiptDocument" Multiplicity="*" />
@@ -797,6 +1048,66 @@
             </Principal>
             <Dependent Role="Repairs">
               <PropertyRef Name="Client" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DefectiveStatementRepairs_DefectiveStatements">
+          <End Role="DefectiveStatements" Type="Self.DefectiveStatements" Multiplicity="1" />
+          <End Role="DefectiveStatementRepairs" Type="Self.DefectiveStatementRepairs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DefectiveStatements">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DefectiveStatementRepairs">
+              <PropertyRef Name="DefectiveStatementId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DefectiveStatementRepairs_Repairs">
+          <End Role="Repairs" Type="Self.Repairs" Multiplicity="1" />
+          <End Role="DefectiveStatementRepairs" Type="Self.DefectiveStatementRepairs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Repairs">
+              <PropertyRef Name="RepairId" />
+            </Principal>
+            <Dependent Role="DefectiveStatementRepairs">
+              <PropertyRef Name="RepairId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DefectiveStatements_ReceiptDocument">
+          <End Role="ReceiptDocument" Type="Self.ReceiptDocument" Multiplicity="1" />
+          <End Role="DefectiveStatements" Type="Self.DefectiveStatements" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReceiptDocument">
+              <PropertyRef Name="DocumentId" />
+            </Principal>
+            <Dependent Role="DefectiveStatements">
+              <PropertyRef Name="DocumentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DefectiveStatements_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="DefectiveStatements" Type="Self.DefectiveStatements" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="DefectiveStatements">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Engineers_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Engineers" Type="Self.Engineers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Engineers">
+              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -885,7 +1196,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Repairs_ReceiptDocument">
-          <End Role="ReceiptDocument" Type="Self.ReceiptDocument" Multiplicity="0..1" />
+          <End Role="ReceiptDocument" Type="Self.ReceiptDocument" Multiplicity="1" />
           <End Role="Repairs" Type="Self.Repairs" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ReceiptDocument">
@@ -932,8 +1243,11 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="PronetsDBEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="PronetsDBEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="BaseFromExcel" EntityType="Self.BaseFromExcel" />
           <EntitySet Name="Clients" EntityType="Self.Clients" />
+          <EntitySet Name="DefectiveStatementRepairs" EntityType="Self.DefectiveStatementRepairs" />
+          <EntitySet Name="DefectiveStatements" EntityType="Self.DefectiveStatements" />
           <EntitySet Name="Defects" EntityType="Self.Defects" />
           <EntitySet Name="Engineers" EntityType="Self.Engineers" />
           <EntitySet Name="No_in_Repairs" EntityType="Self.No_in_Repairs" />
@@ -950,8 +1264,13 @@
           <EntitySet Name="Statuses" EntityType="Self.Statuses" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <EntitySet Name="Users" EntityType="Self.Users" />
+          <EntitySet Name="v_DefectiveStatements" EntityType="Self.v_DefectiveStatements" />
           <EntitySet Name="v_Receipt_Document" EntityType="Self.v_Receipt_Document" />
           <EntitySet Name="v_Repairs" EntityType="Self.v_Repairs" />
+          <AssociationSet Name="FK_DefectiveStatements_Clients" Association="Self.FK_DefectiveStatements_Clients">
+            <End Role="Clients" EntitySet="Clients" />
+            <End Role="DefectiveStatements" EntitySet="DefectiveStatements" />
+          </AssociationSet>
           <AssociationSet Name="FK_ReceiptDocument_Clients" Association="Self.FK_ReceiptDocument_Clients">
             <End Role="Clients" EntitySet="Clients" />
             <End Role="ReceiptDocument" EntitySet="ReceiptDocument" />
@@ -959,6 +1278,26 @@
           <AssociationSet Name="FK_Repairs_Clients" Association="Self.FK_Repairs_Clients">
             <End Role="Clients" EntitySet="Clients" />
             <End Role="Repairs" EntitySet="Repairs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DefectiveStatementRepairs_DefectiveStatements" Association="Self.FK_DefectiveStatementRepairs_DefectiveStatements">
+            <End Role="DefectiveStatements" EntitySet="DefectiveStatements" />
+            <End Role="DefectiveStatementRepairs" EntitySet="DefectiveStatementRepairs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DefectiveStatementRepairs_Repairs" Association="Self.FK_DefectiveStatementRepairs_Repairs">
+            <End Role="Repairs" EntitySet="Repairs" />
+            <End Role="DefectiveStatementRepairs" EntitySet="DefectiveStatementRepairs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DefectiveStatements_ReceiptDocument" Association="Self.FK_DefectiveStatements_ReceiptDocument">
+            <End Role="ReceiptDocument" EntitySet="ReceiptDocument" />
+            <End Role="DefectiveStatements" EntitySet="DefectiveStatements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DefectiveStatements_Users" Association="Self.FK_DefectiveStatements_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="DefectiveStatements" EntitySet="DefectiveStatements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Engineers_Users" Association="Self.FK_Engineers_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Engineers" EntitySet="Engineers" />
           </AssociationSet>
           <AssociationSet Name="FK_Repairs_Engineers" Association="Self.FK_Repairs_Engineers">
             <End Role="Engineers" EntitySet="Engineers" />
@@ -1004,33 +1343,63 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="Repairs" EntitySet="Repairs" />
           </AssociationSet>
-          <EntitySet Name="BaseFromExcel" EntityType="PronetsDBModel.BaseFromExcel" />
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
         </EntityContainer>
-        <EntityType Name="BaseFromExcel">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="SerialNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Claimed_Malfunction" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="Client" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="DateOfReceipt" Type="DateTime" Precision="0" />
-          <Property Name="Warranty" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="IdentifyFault" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="WorkDone" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="Engineer" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Date" Type="DateTime" Precision="0" />
-          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Хранилище PronetsDBModelContainer" CdmEntityContainer="PronetsDBEntities">
+        <EntityContainerMapping StorageEntityContainer="Хранилище PronetsDBEntitiesContainer" CdmEntityContainer="PronetsDBEntities1">
+          <EntitySetMapping Name="BaseFromExcel">
+            <EntityTypeMapping TypeName="PronetsDBEntities.BaseFromExcel">
+              <MappingFragment StoreEntitySet="BaseFromExcel">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+                <ScalarProperty Name="Claimed_Malfunction" ColumnName="Claimed_Malfunction" />
+                <ScalarProperty Name="Client" ColumnName="Client" />
+                <ScalarProperty Name="DateOfReceipt" ColumnName="DateOfReceipt" />
+                <ScalarProperty Name="Warranty" ColumnName="Warranty" />
+                <ScalarProperty Name="IdentifyFault" ColumnName="IdentifyFault" />
+                <ScalarProperty Name="WorkDone" ColumnName="WorkDone" />
+                <ScalarProperty Name="Engineer" ColumnName="Engineer" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Clients">
-            <EntityTypeMapping TypeName="PronetsDBModel.Clients">
+            <EntityTypeMapping TypeName="PronetsDBEntities.Clients">
               <MappingFragment StoreEntitySet="Clients">
                 <ScalarProperty Name="ClientId" ColumnName="ClientId" />
                 <ScalarProperty Name="ClientName" ColumnName="ClientName" />
@@ -1044,27 +1413,48 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="DefectiveStatementRepairs">
+            <EntityTypeMapping TypeName="PronetsDBEntities.DefectiveStatementRepairs">
+              <MappingFragment StoreEntitySet="DefectiveStatementRepairs">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DefectiveStatementId" ColumnName="DefectiveStatementId" />
+                <ScalarProperty Name="RepairId" ColumnName="RepairId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DefectiveStatements">
+            <EntityTypeMapping TypeName="PronetsDBEntities.DefectiveStatements">
+              <MappingFragment StoreEntitySet="DefectiveStatements">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+                <ScalarProperty Name="DocumentId" ColumnName="DocumentId" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Defects">
-            <EntityTypeMapping TypeName="PronetsDBModel.Defects">
+            <EntityTypeMapping TypeName="PronetsDBEntities.Defects">
               <MappingFragment StoreEntitySet="Defects">
-                <ScalarProperty Name="Repair_Category" ColumnName="Repair_Category" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Defect" ColumnName="Defect" />
                 <ScalarProperty Name="Work" ColumnName="Work" />
+                <ScalarProperty Name="Repair_Category" ColumnName="Repair_Category" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Engineers">
-            <EntityTypeMapping TypeName="PronetsDBModel.Engineers">
+            <EntityTypeMapping TypeName="PronetsDBEntities.Engineers">
               <MappingFragment StoreEntitySet="Engineers">
                 <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="Position" ColumnName="Position" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="No_in_Repairs">
-            <EntityTypeMapping TypeName="PronetsDBModel.No_in_Repairs">
+            <EntityTypeMapping TypeName="PronetsDBEntities.No_in_Repairs">
               <MappingFragment StoreEntitySet="No_in_Repairs">
                 <ScalarProperty Name="RepairId" ColumnName="RepairId" />
                 <ScalarProperty Name="Nomenclature" ColumnName="Nomenclature" />
@@ -1081,7 +1471,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Nomenclature">
-            <EntityTypeMapping TypeName="PronetsDBModel.Nomenclature">
+            <EntityTypeMapping TypeName="PronetsDBEntities.Nomenclature">
               <MappingFragment StoreEntitySet="Nomenclature">
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
@@ -1090,14 +1480,14 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Nomenclature_Types">
-            <EntityTypeMapping TypeName="PronetsDBModel.Nomenclature_Types">
+            <EntityTypeMapping TypeName="PronetsDBEntities.Nomenclature_Types">
               <MappingFragment StoreEntitySet="Nomenclature_Types">
                 <ScalarProperty Name="Type" ColumnName="Type" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="OverTime">
-            <EntityTypeMapping TypeName="PronetsDBModel.OverTime">
+            <EntityTypeMapping TypeName="PronetsDBEntities.OverTime">
               <MappingFragment StoreEntitySet="OverTime">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
@@ -1109,16 +1499,16 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Parts">
-            <EntityTypeMapping TypeName="PronetsDBModel.Parts">
+            <EntityTypeMapping TypeName="PronetsDBEntities.Parts">
               <MappingFragment StoreEntitySet="Parts">
-                <ScalarProperty Name="Part_Info" ColumnName="Part_Info" />
                 <ScalarProperty Name="Part_Name" ColumnName="Part_Name" />
                 <ScalarProperty Name="Part_Price" ColumnName="Part_Price" />
+                <ScalarProperty Name="Part_Info" ColumnName="Part_Info" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PartsOrder">
-            <EntityTypeMapping TypeName="PronetsDBModel.PartsOrder">
+            <EntityTypeMapping TypeName="PronetsDBEntities.PartsOrder">
               <MappingFragment StoreEntitySet="PartsOrder">
                 <ScalarProperty Name="OrderId" ColumnName="OrderId" />
                 <ScalarProperty Name="DocumentId" ColumnName="DocumentId" />
@@ -1128,14 +1518,14 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Positions">
-            <EntityTypeMapping TypeName="PronetsDBModel.Positions">
+            <EntityTypeMapping TypeName="PronetsDBEntities.Positions">
               <MappingFragment StoreEntitySet="Positions">
                 <ScalarProperty Name="Position" ColumnName="Position" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ReceiptDocument">
-            <EntityTypeMapping TypeName="PronetsDBModel.ReceiptDocument">
+            <EntityTypeMapping TypeName="PronetsDBEntities.ReceiptDocument">
               <MappingFragment StoreEntitySet="ReceiptDocument">
                 <ScalarProperty Name="DocumentId" ColumnName="DocumentId" />
                 <ScalarProperty Name="ClientId" ColumnName="ClientId" />
@@ -1148,7 +1538,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ReceiptOfParts">
-            <EntityTypeMapping TypeName="PronetsDBModel.ReceiptOfParts">
+            <EntityTypeMapping TypeName="PronetsDBEntities.ReceiptOfParts">
               <MappingFragment StoreEntitySet="ReceiptOfParts">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Order_Date" ColumnName="Order_Date" />
@@ -1158,7 +1548,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Repair_Categories">
-            <EntityTypeMapping TypeName="PronetsDBModel.Repair_Categories">
+            <EntityTypeMapping TypeName="PronetsDBEntities.Repair_Categories">
               <MappingFragment StoreEntitySet="Repair_Categories">
                 <ScalarProperty Name="Category" ColumnName="Category" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
@@ -1166,7 +1556,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Repairs">
-            <EntityTypeMapping TypeName="PronetsDBModel.Repairs">
+            <EntityTypeMapping TypeName="PronetsDBEntities.Repairs">
               <MappingFragment StoreEntitySet="Repairs">
                 <ScalarProperty Name="RepairId" ColumnName="RepairId" />
                 <ScalarProperty Name="DocumentId" ColumnName="DocumentId" />
@@ -1190,14 +1580,14 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Statuses">
-            <EntityTypeMapping TypeName="PronetsDBModel.Statuses">
+            <EntityTypeMapping TypeName="PronetsDBEntities.Statuses">
               <MappingFragment StoreEntitySet="Statuses">
                 <ScalarProperty Name="Status" ColumnName="Status" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="PronetsDBModel.sysdiagrams">
+            <EntityTypeMapping TypeName="PronetsDBEntities.sysdiagrams">
               <MappingFragment StoreEntitySet="sysdiagrams">
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="principal_id" ColumnName="principal_id" />
@@ -1208,14 +1598,8 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="PronetsDBModel.Users">
+            <EntityTypeMapping TypeName="PronetsDBEntities.Users">
               <MappingFragment StoreEntitySet="Users">
-                <ScalarProperty Name="BufferPonMac" ColumnName="BufferPonMac" />
-                <ScalarProperty Name="BufferMac" ColumnName="BufferMac" />
-                <ScalarProperty Name="BufferSerial" ColumnName="BufferSerial" />
-                <ScalarProperty Name="CopyBuffer" ColumnName="CopyBuffer" />
-                <ScalarProperty Name="SalaryPerHour" ColumnName="SalaryPerHour" />
-                <ScalarProperty Name="SalaryPerDay" ColumnName="SalaryPerDay" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Login" ColumnName="Login" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
@@ -1226,11 +1610,29 @@
                 <ScalarProperty Name="Birthday" ColumnName="Birthday" />
                 <ScalarProperty Name="Telephone" ColumnName="Telephone" />
                 <ScalarProperty Name="Adress" ColumnName="Adress" />
+                <ScalarProperty Name="SalaryPerHour" ColumnName="SalaryPerHour" />
+                <ScalarProperty Name="SalaryPerDay" ColumnName="SalaryPerDay" />
+                <ScalarProperty Name="CopyBuffer" ColumnName="CopyBuffer" />
+                <ScalarProperty Name="BufferSerial" ColumnName="BufferSerial" />
+                <ScalarProperty Name="BufferMac" ColumnName="BufferMac" />
+                <ScalarProperty Name="BufferPonMac" ColumnName="BufferPonMac" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="v_DefectiveStatements">
+            <EntityTypeMapping TypeName="PronetsDBEntities.v_DefectiveStatements">
+              <MappingFragment StoreEntitySet="v_DefectiveStatements">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ClientName" ColumnName="ClientName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+                <ScalarProperty Name="DocumentId" ColumnName="DocumentId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="v_Receipt_Document">
-            <EntityTypeMapping TypeName="PronetsDBModel.v_Receipt_Document">
+            <EntityTypeMapping TypeName="PronetsDBEntities.v_Receipt_Document">
               <MappingFragment StoreEntitySet="v_Receipt_Document">
                 <ScalarProperty Name="Document_Id" ColumnName="Document Id" />
                 <ScalarProperty Name="Client" ColumnName="Client" />
@@ -1243,7 +1645,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="v_Repairs">
-            <EntityTypeMapping TypeName="PronetsDBModel.v_Repairs">
+            <EntityTypeMapping TypeName="PronetsDBEntities.v_Repairs">
               <MappingFragment StoreEntitySet="v_Repairs">
                 <ScalarProperty Name="RepairId" ColumnName="RepairId" />
                 <ScalarProperty Name="DocumentId" ColumnName="DocumentId" />
@@ -1269,24 +1671,13 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="BaseFromExcel">
-            <EntityTypeMapping TypeName="PronetsDBModel.BaseFromExcel">
-              <MappingFragment StoreEntitySet="BaseFromExcel">
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="Engineer" ColumnName="Engineer" />
-                <ScalarProperty Name="WorkDone" ColumnName="WorkDone" />
-                <ScalarProperty Name="IdentifyFault" ColumnName="IdentifyFault" />
-                <ScalarProperty Name="Warranty" ColumnName="Warranty" />
-                <ScalarProperty Name="DateOfReceipt" ColumnName="DateOfReceipt" />
-                <ScalarProperty Name="Client" ColumnName="Client" />
-                <ScalarProperty Name="Claimed_Malfunction" ColumnName="Claimed_Malfunction" />
-                <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="Хранилище PronetsDBEntities.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="Хранилище PronetsDBEntities.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="Хранилище PronetsDBEntities.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="Хранилище PronetsDBEntities.sp_helpdiagramdefinition" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="Хранилище PronetsDBEntities.sp_helpdiagrams" />
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="Хранилище PronetsDBEntities.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="Хранилище PronetsDBEntities.sp_upgraddiagrams" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
