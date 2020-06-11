@@ -23,8 +23,10 @@ namespace Pronets.Data
         public string Part_Name { get; set; }
         public Nullable<decimal> Part_Price { get; set; }
         public string Part_Info { get; set; }
+        public string Equipment { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PartsOrder> PartsOrder { get; set; }
+        public virtual Nomenclature Nomenclature { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Pronets.Data;
+using Pronets.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -25,7 +26,7 @@ namespace Pronets.EntityRequests.Other
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return partsOrder;
@@ -46,7 +47,7 @@ namespace Pronets.EntityRequests.Other
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return partsOrder;
@@ -61,17 +62,12 @@ namespace Pronets.EntityRequests.Other
             {
                 try
                 {
-                    db.PartsOrder.Add(new PartsOrder
-                    {
-                        DocumentId = partOrder.DocumentId,
-                        PartName = partOrder.PartName,
-                        Count = partOrder.Count
-                    });
+                    db.PartsOrder.Add(partOrder);
                     db.SaveChanges();
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
         }
@@ -85,13 +81,11 @@ namespace Pronets.EntityRequests.Other
                     {
                         var result = db.PartsOrder.FirstOrDefault(o => o.OrderId == partOrder.OrderId);
                         result.DocumentId = partOrder.DocumentId;
+                        result.Equipment = partOrder.Equipment;
                         result.PartName = partOrder.PartName;
                         result.Count = partOrder.Count;
                         db.SaveChanges();
                     }
-                    
-                    
-                    db.SaveChanges();
                 }
                 catch (Exception e)
                 {
@@ -122,7 +116,7 @@ namespace Pronets.EntityRequests.Other
                     //}
                     catch(Exception e)
                     {
-                        MessageBox.Show(e.Message, "Ошибка");
+                        MessageBox.Show(ExceptionMessanger.Message(e));
                         isExeption = false;
                     }
                 }
@@ -147,7 +141,7 @@ namespace Pronets.EntityRequests.Other
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show(e.Message, "Ошибка");
+                        MessageBox.Show(ExceptionMessanger.Message(e));
                         isExeption = false;
                     }
                 }

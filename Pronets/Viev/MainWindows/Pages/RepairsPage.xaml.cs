@@ -52,7 +52,7 @@ namespace Pronets.Viev.MainWindows.Pages
             }
         }
         #endregion
-        
+
 
         private void BtnSearch_Click(object sender, RoutedEventArgs e)
         {
@@ -171,19 +171,13 @@ namespace Pronets.Viev.MainWindows.Pages
 
         private void OpenEditRepairWindow(object sender, RoutedEventArgs e)
         {
-            if (IsInspectorOrAdmin())
+            if (Docunents.SelectedItem != null)
             {
-                if (Docunents.SelectedItem != null)
-                {
-                    EditRepairWindow window = new EditRepairWindow((v_Repairs)Docunents.SelectedItem);
-                    window.Show();
-
-                }
+                EditRepairWindow window = new EditRepairWindow((v_Repairs)Docunents.SelectedItem);
+                window.Show();
             }
-            else
-                MessageBox.Show("Нет доступа!", "Редактирование");
         }
-       
+
         private bool IsInspectorOrAdmin()
         {
             int.TryParse(Properties.Settings.Default.DefaultUserId.ToString(), out int userId);

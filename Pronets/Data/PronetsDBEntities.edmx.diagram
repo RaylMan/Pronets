@@ -47,6 +47,8 @@
         <AssociationConnector Association="PronetsDBEntities.FK_Repairs_Repair_Categories" ManuallyRouted="false" />
         <AssociationConnector Association="PronetsDBEntities.FK_Repairs_Statuses" ManuallyRouted="false" />
         <AssociationConnector Association="PronetsDBEntities.FK_Repairs_Users_Inspector_" ManuallyRouted="false" />
+        <AssociationConnector Association="PronetsDBEntities.FK_Parts_Nomenclature" />
+        <AssociationConnector Association="PronetsDBEntities.FK_PartsOrder_Nomenclature" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

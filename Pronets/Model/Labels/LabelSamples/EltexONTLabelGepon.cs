@@ -20,11 +20,11 @@ namespace Pronets.Model.Labels
                    "^FB230,1,0,C,0" +
                    $"^A0,32,19^FD{nomenclature}^FS" +
                    "^FO230,1" +
-                   "^A0,15,15^FDhttp://192.168.0.1^FS" +
+                   "^A0,15,16^FDhttp://192.168.0.1^FS" +
                    "^FO230,15" +
-                   "^A0,15,15^FDUsername: user ^FS" +
+                   "^A0,15,16^FDUsername: user ^FS" +
                    "^FO230,30" +
-                   "^A0,15,15^FDPassword: user ^FS" +
+                   "^A0,15,16^FDPassword: user ^FS" +
                    "^FO345,45,1" +
                    "^BY2" +
                    "^BCN,45,N,N,N" +

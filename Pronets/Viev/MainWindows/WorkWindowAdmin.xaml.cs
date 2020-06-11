@@ -150,8 +150,9 @@ namespace Pronets.Viev.MainWindows
 
         private void barcode_Click(object sender, RoutedEventArgs e)
         {
-            BarcodeWindow win = new BarcodeWindow();
-            win.ShowDialog();
+            BarcodeWindow win = BarcodeWindow.Instance;
+            win.Show();
+            win.Focus();
         }
 
         private void docuwiki_Click(object sender, RoutedEventArgs e)

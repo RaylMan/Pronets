@@ -93,6 +93,7 @@ namespace Pronets.VievModel.Users_f
             {
                 foreach (var item in UsersRequest.FillListEngineersWithRepairs())
                 {
+                    item.IsChecked = true;
                     if (item.LastName != "admin" && item.LastName != "Не выбран")
                     {
                         dispatcher.Invoke(new Action(() =>

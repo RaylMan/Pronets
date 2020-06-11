@@ -1,4 +1,5 @@
 ﻿using Pronets.Data;
+using Pronets.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -30,7 +31,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return repairs;
@@ -46,7 +47,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return repairs;
@@ -66,7 +67,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return v_RepairsAll;
@@ -88,7 +89,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return v_Repairs;
@@ -110,7 +111,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return v_Repairs;
@@ -133,7 +134,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return v_Repairs;
@@ -156,7 +157,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return v_Repairs;
@@ -176,7 +177,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return repairs;
@@ -196,7 +197,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return repairs;
@@ -220,7 +221,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return v_Repairs;
@@ -243,7 +244,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return repairsTable;
@@ -266,7 +267,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return v_Repairs;
@@ -302,7 +303,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return v_Repairs;
@@ -337,7 +338,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return v_Repairs;
@@ -374,7 +375,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return v_Repairs;
@@ -410,7 +411,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return v_Repairs;
@@ -446,7 +447,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return v_Repairs;
@@ -484,7 +485,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return v_Repairs;
@@ -522,7 +523,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return v_Repairs;
@@ -562,7 +563,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return v_Repairs;
@@ -589,7 +590,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return v_Repairs;
@@ -613,7 +614,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return v_Repairs;
@@ -638,7 +639,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return v_Repairs;
@@ -651,23 +652,23 @@ namespace Pronets.EntityRequests.Repairs_f
         /// <param name="firstDate"></param>
         /// <param name="secondDate"></param>
         /// <returns></returns>
-        public static ObservableCollection<Repairs> CalculateRepairs(int clientId, string status, DateTime firstDate, DateTime secondDate)
+        public static ObservableCollection<v_Repairs> CalculateRepairs(int clientId, string status, DateTime firstDate, DateTime secondDate)
         {
-            ObservableCollection<Repairs> repairs = new ObservableCollection<Repairs>();
+            ObservableCollection<v_Repairs> repairs = new ObservableCollection<v_Repairs>();
             using (var db = ConnectionTools.GetConnection())
             {
                 try
                 {
-                    var result = from repair in db.Repairs
-                                 where repair.Client == clientId &&
+                    var result = from repair in db.v_Repairs
+                                 where repair.Client_Id == clientId &&
                                  repair.Status == status &&
                                  repair.Repair_Date >= firstDate && repair.Repair_Date <= secondDate
                                  select repair;
-                    repairs = new ObservableCollection<Repairs>(result);
+                    repairs = new ObservableCollection<v_Repairs>(result);
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return repairs;
@@ -693,7 +694,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return v_RepairsCopy;
@@ -712,7 +713,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return repair;
@@ -731,7 +732,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return v_Repair;
@@ -771,6 +772,8 @@ namespace Pronets.EntityRequests.Repairs_f
                     {
                         foreach (var repair in repairs)
                         {
+                            if (repair.NotMapped) continue;
+
                             db.Repairs.Add(new Repairs
                             {
                                 DocumentId = repair.DocumentId,
@@ -808,7 +811,7 @@ namespace Pronets.EntityRequests.Repairs_f
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show(e.Message, "Ошибка");
+                        MessageBox.Show(ExceptionMessanger.Message(e));
                     }
 
                 }
@@ -960,7 +963,7 @@ namespace Pronets.EntityRequests.Repairs_f
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show(e.Message, "Ошибка");
+                        MessageBox.Show(ExceptionMessanger.Message(e));
                         isExeption = false;
                     }
                 }
@@ -993,7 +996,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                     isExeption = false;
                 }
             }
@@ -1017,7 +1020,7 @@ namespace Pronets.EntityRequests.Repairs_f
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show(e.Message, "Ошибка");
+                        MessageBox.Show(ExceptionMessanger.Message(e));
                         isExeption = false;
                     }
                 }
@@ -1060,7 +1063,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return v_Repairs;
@@ -1096,10 +1099,30 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return v_Repairs;
+        }
+        /// <summary>
+        /// Возвражает true если есть повторный ремонт
+        /// </summary>
+        public static bool IsPronetsOldRepair(string serial)
+        {
+            ObservableCollection<v_Repairs> v_Repairs = new ObservableCollection<v_Repairs>();
+            using (var db = ConnectionTools.GetConnection())
+            {
+                try
+                {
+                    var result = db.Repairs.FirstOrDefault(r => r.Serial_Number == serial && r.Client == 7);
+                    if (result == null) return false;
+                }
+                catch (Exception e)
+                {
+                    throw;
+                }
+            }
+            return true;
         }
         /// <summary>
         /// <para>Возращает коллекцию v_Repairs(Представление SQL), поиск по серийному нрмепу, номеру документа или номеру ремонта</para>
@@ -1122,7 +1145,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return v_Repairs;

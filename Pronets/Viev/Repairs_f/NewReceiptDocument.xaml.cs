@@ -31,6 +31,11 @@ namespace Pronets.Viev.Repairs_f
             InitializeComponent();
             DataContext = new NewReceiptDocumentVM();
         }
+        public NewReceiptDocument(string clientName)
+        {
+            InitializeComponent();
+            DataContext = new NewReceiptDocumentVM(clientName);
+        }
         public NewReceiptDocument(int documentId)
         {
             InitializeComponent();

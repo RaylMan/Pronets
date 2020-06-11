@@ -1,7 +1,10 @@
 ﻿using Pronets.Data;
 using Pronets.EntityRequests.Users_f;
+using Pronets.Model;
+using Pronets.Model.Printer;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +18,19 @@ namespace Pronets.VievModel.Other
 
         #region Properties
         Users user;
+
+        private ObservableCollection<IPrint> printers = new ObservableCollection<IPrint>();
+        public ObservableCollection<IPrint> Printers
+        {
+            get { return printers; }
+            set
+            {
+                printers = value;
+                RaisedPropertyChanged("Printers");
+            }
+
+        }
+
         private string login;
         public string Login
         {
@@ -106,16 +122,47 @@ namespace Pronets.VievModel.Other
                 RaisedPropertyChanged("PrinterServerHost");
             }
         }
+        private string serverHost;
+        public string ServerHost
+        {
+            get { return serverHost; }
+            set
+            {
+                serverHost = value;
+                RaisedPropertyChanged("ServerHost");
+            }
+        }
+        private IPrint selectedPrinter;
+        public IPrint SelectedPrinter
+        {
+            get { return selectedPrinter; }
+            set
+            {
+                selectedPrinter = value;
+                RaisedPropertyChanged("SelectedPrinter");
+            }
+        }
         #endregion
         public SettingsWindowVM(Users user)
         {
             this.user = user;
             login = user.Login;
+            serverHost = Properties.Settings.Default.ServerHost.ToString();
             printerServerHost = Properties.Settings.Default.PrinterServerHost.ToString();
             chiefEngineer = Properties.Settings.Default.ChiefEngineer.ToString();
             responsiblePerson = Properties.Settings.Default.ResponsiblePerson.ToString();
             pricePerDay = user.SalaryPerDay.ToString();
             pricePerHour = user.SalaryPerHour.ToString();
+            try
+            {
+                Printers = PrintersRepository.GetPrinters();
+                SelectedPrinter = PrintersRepository.GetDefaultPrinter();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(ExceptionMessanger.Message(e));
+            }
+           
         }
 
         #region SaveCommand
@@ -177,6 +224,20 @@ namespace Pronets.VievModel.Other
             }
             else
                 errors += "\n-IP адрес принтера: Невозможно сохранить пустое поле";
+
+            if (!string.IsNullOrWhiteSpace(serverHost))
+            {
+                Properties.Settings.Default.ServerHost = serverHost;
+            }
+            else
+                errors += "\n-IP адрес сервера: Невозможно сохранить пустое поле";
+
+            if (SelectedPrinter !=null)
+            {
+                Properties.Settings.Default.DefaultPrinterName = SelectedPrinter.Name;
+            }
+            else
+                errors += "\n-Не выбран принтер по умолчанию";
 
             Properties.Settings.Default.Save();
 

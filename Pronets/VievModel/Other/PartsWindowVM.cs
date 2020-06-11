@@ -4,11 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using Microsoft.Win32;
+using Pronets.Model;
+using Pronets.Model.Excel.Documents;
 
 namespace Pronets.VievModel.Other
 {
@@ -299,7 +299,7 @@ namespace Pronets.VievModel.Other
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message, "Ошибка");
+                MessageBox.Show(ExceptionMessanger.Message(e));
             }
         }
         #region Parts
@@ -408,10 +408,17 @@ namespace Pronets.VievModel.Other
         {
             if (document != null && document.Id != 0)
             {
+                if (document.Status != "Ожидает заказа")
+                {
+                    MessageBox.Show("Некорректный статус заказа.\nДобавить запчасть возможно в заказ со статусом \"Ожидает заказа\"", "Ошибка");
+                    return;
+                }
+
                 if (!HasCopy(selectedPart.Part_Name, PartsOrder))
                     PartsOrder.Add(new PartsOrder
                     {
-                        PartName = selectedPart.Part_Name
+                        PartName = selectedPart.Part_Name,
+                        Equipment = selectedPart.Equipment
                     });
                 else MessageBox.Show("Уже есть в заказе");
             }
@@ -538,6 +545,7 @@ namespace Pronets.VievModel.Other
         {
             if (partsOrder != null && document != null && document.Id != 0)
             {
+                if (!IsValid()) return;
 
                 var result = MessageBox.Show("Вы действительно хотете сохранить?\nПроверьте правильность данных!", "Сохранение", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
@@ -567,6 +575,23 @@ namespace Pronets.VievModel.Other
                     GetDocument(document.Id);
                 }
             }
+        }
+        private bool IsValid()
+        {
+            foreach (var item in partsOrder)
+            {
+                if (string.IsNullOrWhiteSpace(item.Equipment))
+                {
+                    MessageBox.Show($"В поле \"{item.PartName}\" отсутствует оборудование!");
+                    return false;
+                }
+                if (item.Count == null || item.Count < 1)
+                {
+                    MessageBox.Show($"В поле \"{item.PartName}\" отсутствует колличество!");
+                    return false;
+                }
+            }
+            return true;
         }
         #endregion
 
@@ -687,6 +712,54 @@ namespace Pronets.VievModel.Other
         }
         #endregion
 
+        #endregion
+
+        #region Export To Excel
+        protected ICommand exportToExcelCommand;
+        public ICommand ExportToExcelCommand
+        {
+            get
+            {
+                if (exportToExcelCommand == null)
+                {
+                    exportToExcelCommand = new RelayCommand(new Action<object>(Export));
+                }
+                return exportToExcelCommand;
+            }
+            set
+            {
+                exportToExcelCommand = value;
+                RaisedPropertyChanged("ExportToExcelCommand");
+            }
+        }
+        public void Export(object Parameter)
+        {
+            if (partsOrder.Count > 0)
+            {
+                XlsxPartsDocument doc = new XlsxPartsDocument(partsOrder);
+
+                string date = DateTime.Now.ToString("MM dd yyyy");
+                string FilePath = null;
+                SaveFileDialog showDialog = new SaveFileDialog();
+                showDialog.Filter = ".xlsx Files (*.xlsx)|*.xlsx";
+                showDialog.FileName = $"Заказ запчастей ООО Пронетс от {date}";
+                if (showDialog.ShowDialog() == true)
+                {
+                    FilePath = showDialog.FileName;
+                }
+                if (FilePath != null)
+                {
+                    try
+                    {
+                        doc.GenerateFile(FilePath);
+                    }
+                    catch (System.IO.IOException e)
+                    {
+                        MessageBox.Show(e.Message, "Ошибка");
+                    }
+                }  
+            }
+        }
         #endregion
     }
 }

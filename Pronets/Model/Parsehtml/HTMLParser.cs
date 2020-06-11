@@ -88,17 +88,17 @@ namespace Pronets.Model.Parsehtml
             var document = await context.OpenAsync(req => req.Content(source));
 
             var scripts= document.All.Where(i => i.LocalName == "script");
-            var element = scripts?.FirstOrDefault(i => i.InnerHtml.Contains("GP") || i.InnerHtml.Contains("TG"));
+            var element = scripts?.FirstOrDefault(i => i.InnerHtml.Contains("GP"));
             if (element != null)
             {
                 string[] words = element.InnerHtml.Split(' ');
                 foreach (var item in words)
                 {
-                    if (item.Contains("GP") || item.Contains("TG"))
+                    if (item.Contains("GP"))
                     {
 
-                        string pattern = @"\w{17}";
-                        Regex rx = new Regex(@"\w{17}");
+                        string pattern = @"\w{10}";
+                        Regex rx = new Regex(@"\w{10}");
                         foreach (Match match in Regex.Matches(item, pattern))
                         {
                             return match.Value;
@@ -106,12 +106,12 @@ namespace Pronets.Model.Parsehtml
                     }
                 }
             }
-
+            // если не нашло в тэгах <script> ищнм в тэгах <td>
             var td = document.All.Where(i => i.LocalName == "td");
             
             foreach (var item in td)
             {
-                if (item.InnerHtml.Length == 10 && item.InnerHtml.Contains("GP") || item.InnerHtml.Contains("TG"))
+                if (item.InnerHtml.Length == 10 && item.InnerHtml.Contains("GP"))
                     return item.InnerHtml;
             }
 

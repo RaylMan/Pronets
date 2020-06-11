@@ -1,5 +1,6 @@
 ﻿using Pronets.Data;
 using Pronets.EntityRequests.DefectiveStatements_f;
+using Pronets.Model;
 using Pronets.Viev.Other;
 using System;
 using System.Collections.Generic;
@@ -83,7 +84,7 @@ namespace Pronets.VievModel.Other.DefectiveStatement_f
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message, "Ошибка");
+                MessageBox.Show(ExceptionMessanger.Message(e));
             }
         }
         #endregion
@@ -116,7 +117,7 @@ namespace Pronets.VievModel.Other.DefectiveStatement_f
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message, "Ошибка");
+                MessageBox.Show(ExceptionMessanger.Message(e));
             }
         }
         #endregion

@@ -17,7 +17,7 @@ namespace Pronets.VievModel.MainWindows.Pages
     public class DefectsPageVM : VievModelBase
     {
         #region Properties
-       // BaseRepository repo;
+        // BaseRepository repo;
         private ObservableCollection<v_Repairs> v_Repairs = new ObservableCollection<v_Repairs>();
         public ObservableCollection<v_Repairs> V_Repairs
         {
@@ -193,7 +193,7 @@ namespace Pronets.VievModel.MainWindows.Pages
                 foreach (var serial in serialNumbers)
                 {
                     var repairs = RepairsRequest.v_FillList(serial.Serial);
-                    if(repairs != null)
+                    if (repairs != null)
                     {
                         if (repairs.Count > 0)
                         {
@@ -208,8 +208,8 @@ namespace Pronets.VievModel.MainWindows.Pages
                 }
                 if (error != null)
                 {
-                   
-                    MessageBox.Show($"В базе данных отсутствуют:{error.Remove(error.Length -1)}", "");
+
+                    MessageBox.Show($"В базе данных отсутствуют:{error.Remove(error.Length - 1)}", "");
                 }
             }
             else
@@ -218,7 +218,7 @@ namespace Pronets.VievModel.MainWindows.Pages
                 {
                     int.TryParse(serial.Serial, out int documentId);
                     var repairs = RepairsRequest.v_FillList(documentId);
-                    if(repairs != null)
+                    if (repairs != null)
                     {
                         foreach (var repair in repairs)
                         {
@@ -368,7 +368,8 @@ namespace Pronets.VievModel.MainWindows.Pages
                     {
                         v_Repairs.Remove(repair);
                     }
-                    serialNumbers.RemoveAt(SelectedSerialIndex);
+                    if (SelectedSerialIndex < serialNumbers.Count)
+                        serialNumbers.RemoveAt(SelectedSerialIndex);
                 }
                 else
                 {
@@ -378,7 +379,8 @@ namespace Pronets.VievModel.MainWindows.Pages
                     {
                         v_Repairs.Remove(repair);
                     }
-                    serialNumbers.RemoveAt(SelectedSerialIndex);
+                    if (SelectedSerialIndex < serialNumbers.Count)
+                        serialNumbers.RemoveAt(SelectedSerialIndex);
                 }
 
             }

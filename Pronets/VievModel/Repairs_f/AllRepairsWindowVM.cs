@@ -4,6 +4,7 @@ using Pronets.Model;
 using Pronets.Navigation.WindowsNavigation;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -55,6 +56,11 @@ namespace Pronets.VievModel.Repairs_f
             _dispatcher = Dispatcher.CurrentDispatcher;
             GetRepairsAsync();
             OpenWindowCommand = new OpenWindowCommand();
+        }
+        public AllRepairsWindowVM(ObservableCollection<v_Repairs> repairs)
+        {
+            _dispatcher = Dispatcher.CurrentDispatcher;
+            V_Repairs = repairs;
         }
         private async void GetRepairsAsync()
         {

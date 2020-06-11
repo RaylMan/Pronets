@@ -4,6 +4,7 @@ using Pronets.EntityRequests.Users_f;
 using Pronets.VievModel.Repairs_f;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -41,6 +42,11 @@ namespace Pronets.Viev.Repairs_f
             InitializeComponent();
             DataContext = new AllRepairsWindowVM();
         }
+        public AllRepairsWindow(ObservableCollection<v_Repairs> repairs)
+        {
+            InitializeComponent();
+            DataContext = new AllRepairsWindowVM(repairs);
+        }
         private bool isFocused;
         private void TbxSearch_GotFocus(object sender, RoutedEventArgs e)
         {
@@ -61,45 +67,38 @@ namespace Pronets.Viev.Repairs_f
             if (Docunents1.SelectedItem != null)
                 Docunents1.ScrollIntoView(Docunents1.SelectedItem);
         }
-        private bool IsInspectorOrAdmin()
-        {
-            int.TryParse(Properties.Settings.Default.DefaultUserId.ToString(), out int userId);
-            var user = UsersRequest.GetUser(userId);
-            if(user != null && user.Position != "Инженер")
-            {
-                return true;
-            }
-            return false;
-        }
+
         private void BtnOpenDocument_Click(object sender, RoutedEventArgs e)
         {
-            if (IsInspectorOrAdmin())
+            try
             {
-                v_Repairs repair = (v_Repairs)Docunents1.SelectedItem;
-                if (repair != null)
+                if (UsersRequest.IsAdmin())
                 {
-                    v_Receipt_Document document = ReceiptDocumentRequest.GetDocument((int)repair.DocumentId);
-                    ReceiptDocumentInspector window = new ReceiptDocumentInspector(document);
-                    window.Show();
+                    v_Repairs repair = (v_Repairs)Docunents1.SelectedItem;
+                    if (repair != null)
+                    {
+                        v_Receipt_Document document = ReceiptDocumentRequest.GetDocument((int)repair.DocumentId);
+                        ReceiptDocumentInspector window = new ReceiptDocumentInspector(document);
+                        window.Show();
+                    }
                 }
+                else
+                    MessageBox.Show("Нет доступа!", "Открыть документ");
             }
-            else
-                MessageBox.Show("Нет доступа!","Открыть документ");
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.InnerException.Message, "Ошибка");
+            }
         }
 
         private void OpenEditRepairWindow(object sender, RoutedEventArgs e)
         {
-            if (IsInspectorOrAdmin())
+            if (Docunents1.SelectedItem != null)
             {
-                if (Docunents1.SelectedItem != null)
-                {
-                    EditRepairWindow window = new EditRepairWindow((v_Repairs)Docunents1.SelectedItem); 
-                    window.Show();
-                   
-                }
+                EditRepairWindow window = new EditRepairWindow((v_Repairs)Docunents1.SelectedItem);
+                window.Show();
+
             }
-            else
-                MessageBox.Show("Нет доступа!", "Редактирование");
         }
 
         private void Window_Closed(object sender, EventArgs e)

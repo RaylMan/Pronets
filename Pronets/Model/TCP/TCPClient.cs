@@ -1,20 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Pronets.Model.Printer;
+using System;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Pronets.Model.TCP
 {
-    public class TCPClient
+    public class TCPClient : IPrint
     {
-        private string host = Properties.Settings.Default.PrinterServerHost.ToString();
+        private string host = Properties.Settings.Default.ServerHost.ToString();
         private const int port = 8888;
         static TcpClient client;
         static NetworkStream stream;
 
-        public void SendMessage(string message)
+        public string Name => "Принтер на сервере";
+
+        public void Print(string message)
         {
             client = new TcpClient();
             try

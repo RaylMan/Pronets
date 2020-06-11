@@ -30,8 +30,8 @@
     <UpdateUrl>\\ANDREY\Pronets\</UpdateUrl>
     <ProductName>Pronets</ProductName>
     <PublisherName>Pronets ©</PublisherName>
-    <ApplicationRevision>51</ApplicationRevision>
-    <ApplicationVersion>1.6.141.%2a</ApplicationVersion>
+    <ApplicationRevision>60</ApplicationRevision>
+    <ApplicationVersion>1.8.141.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -245,6 +245,7 @@
     <Compile Include="Data\Parts.cs">
       <DependentUpon>PronetsDBEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\PartsMe.cs" />
     <Compile Include="Data\PartsOrder.cs">
       <DependentUpon>PronetsDBEntities.tt</DependentUpon>
     </Compile>
@@ -325,6 +326,13 @@
     <Compile Include="Model\DocumentPaginatorWrapper.cs" />
     <Compile Include="Model\DocumentType.cs" />
     <Compile Include="Model\EditChars.cs" />
+    <Compile Include="Model\Excel\AbstractExcelGenerator.cs" />
+    <Compile Include="Model\Excel\Documents\XlsxDefectiveStatementsDocument.cs" />
+    <Compile Include="Model\Excel\Documents\XlsxLabelsDocument.cs" />
+    <Compile Include="Model\Excel\Documents\XlsxPartsDocument.cs" />
+    <Compile Include="Model\Excel\ExcelStyles.cs" />
+    <Compile Include="Model\Excel\XslxReader.cs" />
+    <Compile Include="Model\ExceptionMessenger.cs" />
     <Compile Include="Model\FittedDocumentPaginator.cs" />
     <Compile Include="Model\FontSizes.cs" />
     <Compile Include="Model\FromXlsxToSQL\DeviceForLabel.cs" />
@@ -343,16 +351,21 @@
     <Compile Include="Model\Labels\LabelRepository.cs" />
     <Compile Include="Model\Labels\LabelSamples\MacAdressLabel.cs" />
     <Compile Include="Model\Labels\LabelSamples\STBLabel.cs" />
-    <Compile Include="Model\Labels\XlsxLabels.cs" />
     <Compile Include="Model\Labels\ZebraPrintLabel.cs" />
     <Compile Include="Model\Logging.cs" />
     <Compile Include="Model\OvertimeHours.cs" />
     <Compile Include="Model\Parsehtml\HTMLParser.cs" />
     <Compile Include="Model\Parsehtml\HTTPClient.cs" />
+    <Compile Include="Model\Printer\IConnection.cs" />
+    <Compile Include="Model\Printer\IPrint.cs" />
+    <Compile Include="Model\Printer\PrintersRepository.cs" />
+    <Compile Include="Model\Printer\ZebraPrinter.cs" />
+    <Compile Include="Model\Printer\ZebraTCPConnection.cs" />
     <Compile Include="Model\RepairsModel.cs" />
     <Compile Include="Model\SerialNumbers.cs" />
     <Compile Include="Model\SortingRepair.cs" />
     <Compile Include="Model\TCP\TCPClient.cs" />
+    <Compile Include="Model\Validations.cs" />
     <Compile Include="Model\XLSWriter.cs" />
     <Compile Include="Navigation\IPageResolver.cs" />
     <Compile Include="Navigation\ItemTemplateFind.cs" />
@@ -382,6 +395,7 @@
     <Compile Include="VievModel\Other\BarcodeWindowVM.cs" />
     <Compile Include="VievModel\Other\CopyBufferWindowVM.cs" />
     <Compile Include="VievModel\Other\DefectiveStatement_f\DefectiveStatementWindowVM.cs" />
+    <Compile Include="VievModel\Other\EditPartInfoWindowVM.cs" />
     <Compile Include="VievModel\Other\FaultWindowVM.cs" />
     <Compile Include="VievModel\Other\OvertimeWindowVM.cs" />
     <Compile Include="VievModel\Other\PartsWindowVM.cs" />

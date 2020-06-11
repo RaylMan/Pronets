@@ -28,7 +28,7 @@ namespace Pronets.Viev.MainWindows.Pages
         }
         private void BtnCreate_Click(object sender, RoutedEventArgs e)
         {
-            NewReceiptDocument win = new NewReceiptDocument();
+            NewReceiptDocument win = new NewReceiptDocument("Пронетс");
             win.Show();
         }
         private void Row_DoubleClick(object sender, MouseButtonEventArgs e)

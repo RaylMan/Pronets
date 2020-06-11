@@ -5,10 +5,13 @@ using Pronets.EntityRequests.Nomenclature_f;
 using Pronets.EntityRequests.Other;
 using Pronets.EntityRequests.Repairs_f;
 using Pronets.EntityRequests.Users_f;
+using Pronets.Model;
 using Pronets.Navigation.WindowsNavigation;
 using Pronets.Viev.Repairs_f;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -314,6 +317,11 @@ namespace Pronets.VievModel.Repairs_f
         {
             GetContent();
         }
+        public NewReceiptDocumentVM(string clientName)
+        {
+            GetContent();
+            GetClient(clientName);
+        }
         public NewReceiptDocumentVM(int documentId)
         {
             DocumentId = documentId;
@@ -369,6 +377,14 @@ namespace Pronets.VievModel.Repairs_f
                     SelectClientItem = item;
             }
         }
+        private void GetClient(string clientName)
+        {
+            foreach (var item in clients)
+            {
+                if (item.ClientName == clientName)
+                    SelectClientItem = item;
+            }
+        }
 
         private ObservableCollection<v_Repairs> GetCopyRepairs(ObservableCollection<Repairs> repairs)
         {
@@ -396,7 +412,7 @@ namespace Pronets.VievModel.Repairs_f
             {
                 if (addItem == null)
                 {
-                    addItem = new RelayCommand(new Action<object>(AddRepair));
+                    addItem = new RelayCommand(new Action<object>(AddRepairAsync));
                 }
                 return addItem;
             }
@@ -405,6 +421,10 @@ namespace Pronets.VievModel.Repairs_f
                 addItem = value;
                 RaisedPropertyChanged("AddCommand");
             }
+        }
+        public async void AddRepairAsync(object Parameter)
+        {
+            await Task.Factory.StartNew(AddRepair);
         }
         public void AddRepair(object Parameter)
         {
@@ -418,93 +438,133 @@ namespace Pronets.VievModel.Repairs_f
         /// </summary>
         public void AddRepair()
         {
-            if (selectClientItem != null && defaultUser != null && SelectedStatus != null)
+            try
             {
-                if (IsAllHaveNomenclature(out string error))
+                string textError = "В базе данных уже приняты: ";
+                if (selectClientItem == null && defaultUser == null && SelectedStatus == null)
                 {
-                    var result = MessageBox.Show("Вы действительно хотете записать в базу?\nПроверьте правильность данных!", "Создание экземпляра", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                    if (result == MessageBoxResult.Yes)
-                    {
-                        var defaultEngineer = UsersRequest.GetEngineer("Не выбран");
-                        ReceiptDocument newReceiptDocument = new ReceiptDocument
-                        {
-                            ClientId = selectClientItem.ClientId,
-                            InspectorId = defaultUser.UserId,
-                            Date = DateTime.Now,
-                            Status = SelectedStatus.Status,
-                            Note = NoteOfDocument
-                        };
-                        ReceiptDocumentRequest.AddToBase(newReceiptDocument);
-                        DocumentId = ReceiptDocumentRequest.GetDocumentID();
-                        string nm, wt;
-                        for (int i = 0; i < repairs.Count; i++)
-                        {
-                            nm = repairs[i].Nomenclature1 != null ? repairs[i].Nomenclature1.Name : "Отсутствует";
-                            wt = repairs[i].Warrantys != null ? repairs[i].Warrantys.Warranty : "Нет";
-
-                            repairs[i].DocumentId = DocumentId;
-                            repairs[i].Nomenclature = nm;
-                            repairs[i].Client = selectClientItem.ClientId;
-                            repairs[i].Status = SelectedStatus.Status;
-                            repairs[i].Date_Of_Receipt = date_Of_Receipt;
-                            repairs[i].Engineer = defaultEngineer.Id;
-                            repairs[i].Inspector = defaultUser.UserId;
-                            repairs[i].Warranty = wt;
-                        }
-
-                        RepairsRequest.AddToBase(repairs);
-                        MessageBox.Show("Произведена успешная запись в базу данных!", "Результат");
-                    }
+                    MessageBox.Show("Необходимо выбрать клиента и статус!", "Ошибка");
+                    return;
                 }
-                else
+                if (!IsAllHaveNomenclature(out string error))
                 {
                     MessageBox.Show($"Установите номенклатуру: {error}", "Ошибка");
+                    return;
+                }
+
+                var result = MessageBox.Show("Вы действительно хотете записать в базу?\nПроверьте правильность данных!", "Создание экземпляра", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.Yes)
+                {
+                    var defaultEngineer = UsersRequest.GetEngineer("Не выбран");
+                    ReceiptDocument newReceiptDocument = new ReceiptDocument
+                    {
+                        ClientId = selectClientItem.ClientId,
+                        InspectorId = defaultUser.UserId,
+                        Date = DateTime.Now,
+                        Status = SelectedStatus.Status,
+                        Note = NoteOfDocument
+                    };
+                    ReceiptDocumentRequest.AddToBase(newReceiptDocument);
+                    DocumentId = ReceiptDocumentRequest.GetDocumentID();
+                    string nm, wt;
+                    for (int i = 0; i < repairs.Count; i++)
+                    {
+                        if (selectClientItem.ClientName == "Пронетс" && RepairsRequest.IsPronetsOldRepair(repairs[i].Serial_Number))
+                        {
+                            textError += $"{repairs[i].Serial_Number}, ";
+                            repairs[i].NotMapped = true;
+                        }
+
+
+                        nm = repairs[i].Nomenclature1 != null ? repairs[i].Nomenclature1.Name : "Отсутствует";
+                        wt = repairs[i].Warrantys != null ? repairs[i].Warrantys.Warranty : "Нет";
+
+                        repairs[i].DocumentId = DocumentId;
+                        repairs[i].Nomenclature = nm;
+                        repairs[i].Client = selectClientItem.ClientId;
+                        repairs[i].Status = SelectedStatus.Status;
+                        repairs[i].Date_Of_Receipt = date_Of_Receipt;
+                        repairs[i].Engineer = defaultEngineer.Id;
+                        repairs[i].Inspector = defaultUser.UserId;
+                        repairs[i].Warranty = wt;
+                    }
+
+                    RepairsRequest.AddToBase(repairs);
+                    if (textError.Length > 28)
+                    {
+                        MessageBox.Show(textError);
+                    }
+                    MessageBox.Show("Произведена успешная запись в базу данных!", "Результат");
                 }
             }
-            else
-                MessageBox.Show("Необходимо выбрать клиента и статус!", "Ошибка");
+            catch (Exception e)
+            {
+                MessageBox.Show(ExceptionMessanger.Message(e));
+            }
+            
         }
+
+
         /// <summary>
         /// Добавляет в базу данных ремонты к существующему документу
         /// </summary>
         public void AddRepairInOldDocument()
         {
-            if (selectClientItem != null && defaultUser != null)
+            string textError = "В базе данных уже приняты: ";
+            try
             {
-                if (IsAllHaveNomenclature(out string error))
+                if (selectClientItem != null && defaultUser != null)
                 {
-                    var result = MessageBox.Show("Вы действительно хотете записать в базу?\nПроверьте правильность данных!", "Создание экземпляра", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                    if (result == MessageBoxResult.Yes)
+                    if (IsAllHaveNomenclature(out string error))
                     {
-                        var defaultEngineer = UsersRequest.GetEngineer("Не выбран");
-
-                        string nm, wt;
-                        for (int i = 0; i < repairs.Count; i++)
+                        var result = MessageBox.Show("Вы действительно хотете записать в базу?\nПроверьте правильность данных!", "Создание экземпляра", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                        if (result == MessageBoxResult.Yes)
                         {
-                            nm = repairs[i].Nomenclature1 != null ? repairs[i].Nomenclature1.Name : "Отсутствует";
-                            wt = repairs[i].Warrantys != null ? repairs[i].Warrantys.Warranty : "Нет";
+                            var defaultEngineer = UsersRequest.GetEngineer("Не выбран");
 
-                            repairs[i].DocumentId = DocumentId;
-                            repairs[i].Nomenclature = nm;
-                            repairs[i].Client = selectClientItem.ClientId;
-                            repairs[i].Status = "Принято";
-                            repairs[i].Date_Of_Receipt = date_Of_Receipt;
-                            repairs[i].Engineer = defaultEngineer.Id;
-                            repairs[i].Inspector = defaultUser.UserId;
-                            repairs[i].Warranty = wt;
+                            string nm, wt;
+                            for (int i = 0; i < repairs.Count; i++)
+                            {
+                                if (selectClientItem.ClientName == "Пронетс" && RepairsRequest.IsPronetsOldRepair(repairs[i].Serial_Number))
+                                {
+                                    textError += $"{repairs[i].Serial_Number}, ";
+                                    repairs[i].NotMapped = true;
+                                }
+
+                                nm = repairs[i].Nomenclature1 != null ? repairs[i].Nomenclature1.Name : "Отсутствует";
+                                wt = repairs[i].Warrantys != null ? repairs[i].Warrantys.Warranty : "Нет";
+
+                                repairs[i].DocumentId = DocumentId;
+                                repairs[i].Nomenclature = nm;
+                                repairs[i].Client = selectClientItem.ClientId;
+                                repairs[i].Status = "Принято";
+                                repairs[i].Date_Of_Receipt = date_Of_Receipt;
+                                repairs[i].Engineer = defaultEngineer.Id;
+                                repairs[i].Inspector = defaultUser.UserId;
+                                repairs[i].Warranty = wt;
+                            }
+
+                            RepairsRequest.AddToBase(repairs);
+                            if (textError.Length > 28)
+                            {
+                                MessageBox.Show(textError + "\nВ базу данных не внесены.");
+                            }
+                            
+                            MessageBox.Show("Произведена успешная запись в базу данных!", "Результат");
                         }
-
-                        RepairsRequest.AddToBase(repairs);
-                        MessageBox.Show("Произведена успешная запись в базу данных!", "Результат");
+                    }
+                    else
+                    {
+                        MessageBox.Show($"Установите номенклатуру: {error}", "Ошибка");
                     }
                 }
                 else
-                {
-                    MessageBox.Show($"Установите номенклатуру: {error}", "Ошибка");
-                }
+                    MessageBox.Show("Необходимо выбрать клиента!", "Ошибка");
             }
-            else
-                MessageBox.Show("Необходимо выбрать клиента!", "Ошибка");
+            catch (Exception e)
+            {
+                MessageBox.Show(ExceptionMessanger.Message(e));
+            }
         }
         /// <summary>
         /// Проверка на неустановленное поле номенклатура

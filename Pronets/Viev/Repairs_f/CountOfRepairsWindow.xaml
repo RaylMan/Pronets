@@ -32,11 +32,15 @@
         </ComboBox>
 
         <Label Content="{Binding TotalAmount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,145,0,0"/>
+        <!--<Button Content="  Открыть ремонты  " Command="{Binding OpenRepairsCommand}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="202,172,0,0"/>-->
         <Button x:Name="btnCalculate" Content="  Расчет  " Command="{Binding CalculateRepairsCommand}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="265,145,0,0"/>
-        <DataGrid ItemsSource="{Binding SortingEquipments, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedSortingEquipent}"
+        <DataGrid x:Name="dtgCounts" ItemsSource="{Binding SortingEquipments, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedSortingEquipent}"
                   AutoGenerateColumns="False" IsReadOnly="True" Grid.Column="0" CanUserAddRows="False" CanUserDeleteRows="False" 
                    SelectionMode="Single"  HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999" Margin="325,10,10,10" >
             <DataGrid.Resources>
+                <Style TargetType="DataGridRow">
+                    <EventSetter Event="MouseDoubleClick" Handler="Row_DoubleClick"/>
+                </Style>
                 <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="White" />
                 <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#0078D7"/>
             </DataGrid.Resources>

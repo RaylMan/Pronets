@@ -110,6 +110,7 @@ namespace Pronets.Viev.Other
         /// <returns></returns>
         private ObservableCollection<v_Repairs> GetSortingRepairs(ObservableCollection<v_Repairs> repairs)
         {
+            int index = 1;
             ObservableCollection<v_Repairs> repairsTable = new ObservableCollection<v_Repairs>();
             if (repairs != null)
             {
@@ -120,23 +121,22 @@ namespace Pronets.Viev.Other
                         repair.Status != "Не смогли починить" &&
                         repair.Status != "Утеряно")
                     {
+                        repair.Index = index++;
                         repairsTable.Add(repair);
                     }
                 }
 
-
                 foreach (var repair in repairs)
                 {
-                    if(repair.Status == "Восстановлению не подлежит" ||
+                    if (repair.Status == "Восстановлению не подлежит" ||
                         repair.Status == "Донор" ||
                         repair.Status == "Не смогли починить" ||
                         repair.Status == "Утеряно")
                     {
+                        repair.Index = index++;
                         repairsTable.Add(repair);
                     }
                 }
-
-               
             }
             return repairsTable;
         }
@@ -160,6 +160,26 @@ namespace Pronets.Viev.Other
 
             foreach (DataColumn column in dataTable.Columns)
             {
+                string columnName = "";
+                if (column.ColumnName == "Index")
+                {
+                    columnName = "№";
+                    var tableColumn = new TableColumn();
+
+                    //configure width and such
+                    Table1.Columns.Add(tableColumn);
+                    var cell = new TableCell(new Paragraph(new Run(columnName)));
+                    cell.Background = (Brush)brushConverter.ConvertFrom("#FFFFFF");
+                    cell.TextAlignment = TextAlignment.Center;
+                    cell.Padding = new Thickness(2);
+                    header.Cells.Add(cell);
+                }
+            }
+
+            foreach (DataColumn column in dataTable.Columns)
+            {
+                string columnName = "";
+
                 if (column.ColumnName == "Nomenclature" ||
                     column.ColumnName == "Serial_Number" ||
                     column.ColumnName == "Claimed_Malfunction" ||
@@ -167,7 +187,7 @@ namespace Pronets.Viev.Other
                     column.ColumnName == "Identifie_Fault" ||
                     column.ColumnName == "Work_Done")
                 {
-                    string columnName = "";
+
                     switch (column.ColumnName)
                     {
                         case "Nomenclature":
@@ -200,7 +220,7 @@ namespace Pronets.Viev.Other
                     header.Cells.Add(cell);
                 }
             }
-
+            Table1.Columns[0].Width = new GridLength(30);
             foreach (DataRow row in dataTable.Rows)
             {
 
@@ -211,12 +231,24 @@ namespace Pronets.Viev.Other
 
                 foreach (DataColumn column in dataTable.Columns)
                 {
+                    if (column.ColumnName == "Index")
+                    {
+                        var value = row[column].ToString();//mayby some formatting is in order
+                        var cell = new TableCell(new Paragraph(new Run(value)));
+                        cell.Background = (Brush)brushConverter.ConvertFrom("#FFFFFF");
+                        cell.TextAlignment = TextAlignment.Center;
+                        cell.Padding = new Thickness(2);
+                        tableRow.Cells.Add(cell);
+                    }
+                }
+                foreach (DataColumn column in dataTable.Columns)
+                {
                     if (column.ColumnName == "Nomenclature" ||
-                   column.ColumnName == "Serial_Number" ||
-                   column.ColumnName == "Claimed_Malfunction" ||
-                   column.ColumnName == "Warranty" ||
-                   column.ColumnName == "Identifie_Fault" ||
-                   column.ColumnName == "Work_Done")
+                        column.ColumnName == "Serial_Number" ||
+                        column.ColumnName == "Claimed_Malfunction" ||
+                        column.ColumnName == "Warranty" ||
+                        column.ColumnName == "Identifie_Fault" ||
+                        column.ColumnName == "Work_Done")
                     {
                         var value = row[column].ToString();//mayby some formatting is in order
                         var cell = new TableCell(new Paragraph(new Run(value)));

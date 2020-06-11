@@ -344,7 +344,7 @@ namespace Pronets.VievModel.MainWindows.Pages
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show(e.Message, "Ошибка");
+                        MessageBox.Show(ExceptionMessanger.Message(e));
                     }
                 }
             }

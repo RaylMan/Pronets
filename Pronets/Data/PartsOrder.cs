@@ -18,8 +18,10 @@ namespace Pronets.Data
         public Nullable<int> DocumentId { get; set; }
         public string PartName { get; set; }
         public Nullable<int> Count { get; set; }
+        public string Equipment { get; set; }
     
         public virtual Parts Parts { get; set; }
         public virtual ReceiptOfParts ReceiptOfParts { get; set; }
+        public virtual Nomenclature Nomenclature { get; set; }
     }
 }

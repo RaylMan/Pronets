@@ -3,6 +3,7 @@ using Pronets.EntityRequests;
 using Pronets.EntityRequests.Clients_f;
 using Pronets.EntityRequests.Repairs_f;
 using Pronets.Model;
+using Pronets.Viev.Repairs_f;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -27,8 +28,8 @@ namespace Pronets.VievModel.Repairs_f
                 RaisedPropertyChanged("SortingEquipments");
             }
         }
-        private ObservableCollection<Repairs> repairs = new ObservableCollection<Repairs>();
-        public ObservableCollection<Repairs> Repairs
+        private ObservableCollection<v_Repairs> repairs = new ObservableCollection<v_Repairs>();
+        public ObservableCollection<v_Repairs> Repairs
         {
             get { return repairs; }
 
@@ -218,5 +219,40 @@ namespace Pronets.VievModel.Repairs_f
             TotalAmount = $"Общее количество: {count} шт.";
         }
         #endregion
+
+        #region OpenRepairsCommand
+        private ICommand openRepairsCommand;
+        public ICommand OpenRepairsCommand
+        {
+            get
+            {
+                if (openRepairsCommand == null)
+                {
+                    openRepairsCommand = new RelayCommand(new Action<object>(OpenRepairs));
+                }
+                return openRepairsCommand;
+            }
+            set
+            {
+                openRepairsCommand = value;
+                RaisedPropertyChanged("OpenRepairsCommand");
+            }
+        }
+
+        public void OpenRepairs(object parametr)
+        {
+            if(repairs.Count > 0)
+            {
+                var sort = (ObservableCollection<v_Repairs>)Repairs.Where(r => r.Nomenclature == SelectedSortingEquipent.NomenclatureName);
+
+                AllRepairsWindow win = new AllRepairsWindow(sort);
+                win.Show();
+            }
+        }
+        #endregion
+        public ObservableCollection<v_Repairs> GetRepairsByNomenclarute()
+        {
+            return  new ObservableCollection<v_Repairs>(Repairs.Where(r => r.Nomenclature == SelectedSortingEquipent.NomenclatureName));
+        }
     }
 }

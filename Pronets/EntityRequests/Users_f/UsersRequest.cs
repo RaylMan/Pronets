@@ -25,7 +25,7 @@ namespace Pronets.EntityRequests.Users_f
 
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return allUsers;
@@ -47,7 +47,7 @@ namespace Pronets.EntityRequests.Users_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return engineers;
@@ -69,7 +69,7 @@ namespace Pronets.EntityRequests.Users_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return engineers;
@@ -95,6 +95,44 @@ namespace Pronets.EntityRequests.Users_f
             }
             return user;
         }
+        public static bool IsAdmin()
+        {
+            Users user = new Users();
+            int.TryParse(Properties.Settings.Default.DefaultUserId.ToString(), out int userId);
+            using (var db = ConnectionTools.GetConnection())
+            {
+                try
+                {
+                    user = db.Users.Where(u => u.UserId == userId).FirstOrDefault();
+                    if (user.Position == "Администратор" || user.Position == "Директор") return true;
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+            return false;
+        }
+        public static bool IsInspector()
+        {
+            Users user = new Users();
+            int.TryParse(Properties.Settings.Default.DefaultUserId.ToString(), out int userId);
+            using (var db = ConnectionTools.GetConnection())
+            {
+                try
+                {
+                    user = db.Users.Where(u => u.UserId == userId).FirstOrDefault();
+                    if (user.Position == "Приемщик") return true;
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+            return false;
+        }
+
+
 
         /// <summary>
         /// <para>Возращает экземпляр Users по Id</para>
@@ -110,7 +148,7 @@ namespace Pronets.EntityRequests.Users_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return user;
@@ -130,7 +168,7 @@ namespace Pronets.EntityRequests.Users_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return engineer;
@@ -150,7 +188,7 @@ namespace Pronets.EntityRequests.Users_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return engineer;
@@ -169,7 +207,7 @@ namespace Pronets.EntityRequests.Users_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return engineer;
@@ -188,7 +226,7 @@ namespace Pronets.EntityRequests.Users_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return positions;
@@ -210,7 +248,7 @@ namespace Pronets.EntityRequests.Users_f
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show(e.Message, "Ошибка");
+                        MessageBox.Show(ExceptionMessanger.Message(e));
                     }
                 }
             }
@@ -319,7 +357,7 @@ namespace Pronets.EntityRequests.Users_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
         }
@@ -341,7 +379,7 @@ namespace Pronets.EntityRequests.Users_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
         }
@@ -370,7 +408,7 @@ namespace Pronets.EntityRequests.Users_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return searchUsers;

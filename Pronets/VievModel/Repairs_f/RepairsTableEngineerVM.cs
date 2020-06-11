@@ -538,7 +538,7 @@ namespace Pronets.VievModel.Repairs_f
                         }
                         catch (ArgumentException e)
                         {
-                            MessageBox.Show(e.Message, "Ошибка");
+                            MessageBox.Show(ExceptionMessanger.Message(e));
                         }
                         AddToTable(this);
                     }

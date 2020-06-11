@@ -26,16 +26,25 @@ namespace Pronets.Viev.Other
     /// </summary>
     public partial class BarcodeWindow : Window
     {
+        private static BarcodeWindow instance;
+        public static BarcodeWindow Instance
+        {
+            get
+            {
+                if (instance == null)
+                    instance = new BarcodeWindow();
+
+                return instance;
+            }
+        }
         public BarcodeWindow()
         {
             InitializeComponent();
             DataContext = new BarcodeWindowVM();
         }
-        private void BufferItem_Click(object sender, RoutedEventArgs e)
+        private void Window_Closed(object sender, EventArgs e)
         {
-            CopyBufferWindow win = CopyBufferWindow.CopyBufferWindowInstance;
-            win.Show();
-            win.Focus();
+            instance = null;
         }
     }
 }

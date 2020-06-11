@@ -1,4 +1,5 @@
 ﻿using Pronets.Data;
+using Pronets.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -26,7 +27,7 @@ namespace Pronets.EntityRequests.Other
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return parts;
@@ -42,13 +43,7 @@ namespace Pronets.EntityRequests.Other
             {
                 try
                 {
-                    db.Parts.Add(new Parts
-                    {
-                        Part_Name = part.Part_Name,
-                        Part_Price = part.Part_Price,
-                        Part_Info = part.Part_Info,
-                        PartsOrder = part.PartsOrder
-                    });
+                    db.Parts.Add(part);
                     db.SaveChanges();
                 }
                 catch (DbUpdateException)
@@ -58,7 +53,7 @@ namespace Pronets.EntityRequests.Other
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                     isExeption = false;
                 }
             }
@@ -87,7 +82,7 @@ namespace Pronets.EntityRequests.Other
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show(e.Message, "Ошибка");
+                        MessageBox.Show(ExceptionMessanger.Message(e));
                         isExeption = false;
                     }
                 }
@@ -105,7 +100,7 @@ namespace Pronets.EntityRequests.Other
                     try
                     {
                         var part = db.Parts.Where(n => n.Part_Name == name).FirstOrDefault();
-                        if(part != null)
+                        if (part != null)
                         {
                             part.Part_Info = info;
                             db.SaveChanges();
@@ -113,8 +108,32 @@ namespace Pronets.EntityRequests.Other
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show(e.Message, "Ошибка");
+                        MessageBox.Show(ExceptionMessanger.Message(e));
                     }
+                }
+            }
+        }
+        /// <summary>
+        /// <para>Удаляет из базы экземпляр Parts</para>
+        /// </summary>
+        public static void EditPart(Parts part)
+        {
+            using (var db = ConnectionTools.GetConnection())
+            {
+                if (part == null) throw new ArgumentNullException();
+                try
+                {
+                    var result = db.Parts.FirstOrDefault(n => n.Part_Name == part.Part_Name);
+                    if (part != null)
+                    {
+                        result.Equipment = part.Equipment;
+                        result.Part_Info = part.Part_Info;
+                        db.SaveChanges();
+                    }
+                }
+                catch 
+                {
+                    throw;
                 }
             }
         }

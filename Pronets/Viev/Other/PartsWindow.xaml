@@ -9,7 +9,7 @@
         Title="Заказ запчастей" Height="595" Width="1020" MinHeight="595" MinWidth="1020" Background="Gainsboro" WindowStartupLocation="CenterScreen" Closed="Window_Closed">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="400"></ColumnDefinition>
+            <ColumnDefinition MinWidth="400"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -20,7 +20,7 @@
         <Grid Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" >
             <DataGrid x:Name="grdParts" ItemsSource="{Binding Parts}" AutoGenerateColumns="False" SelectedIndex="{Binding SelectedIndex}" 
                       SelectedValue="{Binding SelectedPart}"  SelectionMode="Single" HorizontalGridLinesBrush="#FF999999" VerticalGridLinesBrush="#FF999999"
-                      HorizontalAlignment="Left" Margin="5,125,0,5" CanUserAddRows="False" CanUserDeleteRows="False" SelectionChanged="DataGrid_SelectionChanged">
+                      HorizontalAlignment="Left" Margin="5,37,0,5" CanUserAddRows="False" CanUserDeleteRows="False" SelectionChanged="DataGrid_SelectionChanged">
 
                 <DataGrid.InputBindings>
                     <MouseBinding  MouseAction="LeftDoubleClick" Command="{Binding DoubleClickCommand}"/>
@@ -37,20 +37,16 @@
                 </DataGrid.ContextMenu>
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Название" Binding="{Binding Path=Part_Name, UpdateSourceTrigger=PropertyChanged}" Width="*" IsReadOnly="True" />
+                    <DataGridTextColumn Header="Оборудование" Binding="{Binding Path=Equipment, UpdateSourceTrigger=PropertyChanged}" Width="*" IsReadOnly="True"/>
                     <DataGridTextColumn Header="Описание" Binding="{Binding Path=Part_Info, UpdateSourceTrigger=PropertyChanged}" Width="*" IsReadOnly="True"/>
                 </DataGrid.Columns>
             </DataGrid>
-            <Label Content=" Добавить запчасть " HorizontalAlignment="Left" VerticalAlignment="Top"  Height="28" Margin="32,0,0,0" FontWeight="Bold"/>
-            <Label Content=" Название " HorizontalAlignment="Left" VerticalAlignment="Top"  Height="28" Margin="25,15,0,0"/>
-            <TextBox Text="{Binding Part_Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Left" MaxLength="49" VerticalAlignment="Top" Width="150" Margin="25,36,0,0"/>
-            <Label Content=" Описание " HorizontalAlignment="Left" VerticalAlignment="Top"  Height="28" Margin="25,52,0,0"/>
-            <TextBox Text="{Binding Part_Info, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Left" MaxLength="49" VerticalAlignment="Top" Width="150" Margin="25,73,0,0"/>
-            <Button Content=" Добавить " Command="{Binding AddPartCommand}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="65,100,0,0"  />
+            <Button x:Name="btnNewPart" Content=" Добавить Запчасть " Click="btnNewPart_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,10,0,0"  />
             <TextBox TextWrapping="Wrap" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" GotFocus="TbxSearch_GotFocus"
-                     SelectionChanged="TbxSearch_SelectionChanged" HorizontalAlignment="Right" VerticalAlignment="Top" Width="150" Margin="0,71,25,0" RenderTransformOrigin="0.667,0.41"/>
-            <Button Content="  Поиск  " Command="{Binding SearchCommand}" HorizontalAlignment="Right" VerticalAlignment="Top"  Grid.Row="0" Margin="0,98,122,0" RenderTransformOrigin="0.792,0.545"/>
-            <Button Content="  Далее  " Command="{Binding SearchNextCommand}" HorizontalAlignment="Right" VerticalAlignment="Top"  Grid.Row="0" RenderTransformOrigin="5.26,4.85" Margin="0,98,25,0"/>
-            <Label Content=" Поиск " HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,45,129,0" Height="26"/>
+                     SelectionChanged="TbxSearch_SelectionChanged" HorizontalAlignment="Right" VerticalAlignment="Top" Width="150" Margin="0,10,121,0" RenderTransformOrigin="0.667,0.41"/>
+            <Button Content="  Поиск  " Command="{Binding SearchCommand}" HorizontalAlignment="Right" VerticalAlignment="Top"  Grid.Row="0" Margin="0,10,61,0" RenderTransformOrigin="0.792,0.545"/>
+            <Button Content="  Далее  " Command="{Binding SearchNextCommand}" HorizontalAlignment="Right" VerticalAlignment="Top"  Grid.Row="0" RenderTransformOrigin="5.26,4.85" Margin="0,10,0,0"/>
+            <Label Content=" Поиск " HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,6,271,0" Height="26"/>
         </Grid>
         <!--Receipt of Parts-->
         <Grid Grid.Row="0" Grid.Column="1"  >
@@ -96,6 +92,7 @@
         <!--Parts Order-->
         <Grid Grid.Column="1" Grid.Row="1" >
             <TextBlock Text="{Binding OrderTitleName, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="5" />
+            <Button Content=" В Excel " Command="{Binding ExportToExcelCommand}" HorizontalAlignment="Right" VerticalAlignment="Bottom"  Height="22" Margin="0,0,93,8"/>
             <Button Content=" Сохранить " Command="{Binding AddPartOrderCommand}" HorizontalAlignment="Right" VerticalAlignment="Bottom"  Height="22" Margin="0,0,10,8"/>
             <ComboBox ItemsSource="{Binding Statuses}" SelectedItem="{Binding SelectedStatus, Mode=TwoWay}" Text="Select Option" 
                       HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="130" Margin="20,0,0,8"/>
@@ -115,7 +112,8 @@
                 </DataGrid.ContextMenu>
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Запчасть" Binding="{Binding Path=PartName, UpdateSourceTrigger=PropertyChanged}" Width="*" />
-                    <DataGridTextColumn Header="Количество" Binding="{Binding Path=Count, UpdateSourceTrigger=PropertyChanged}" />
+                    <DataGridTextColumn Header="Оборудование" Binding="{Binding Path=Equipment, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+                    <DataGridTextColumn Header="Количество" Binding="{Binding Path=Count, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>

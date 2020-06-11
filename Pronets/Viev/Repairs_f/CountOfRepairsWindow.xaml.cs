@@ -1,6 +1,9 @@
-﻿using Pronets.VievModel.Repairs_f;
+﻿using Pronets.Data;
+using Pronets.Model;
+using Pronets.VievModel.Repairs_f;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +23,7 @@ namespace Pronets.Viev.Repairs_f
     /// </summary>
     public partial class CountOfRepairsWindow : Window
     {
+        public CountOfRepairsWindowVM vm => (CountOfRepairsWindowVM)DataContext;
         private static CountOfRepairsWindow instance;
         public static CountOfRepairsWindow Instance
         {
@@ -40,6 +44,16 @@ namespace Pronets.Viev.Repairs_f
         private void Window_Closed(object sender, EventArgs e)
         {
             instance = null;
+        }
+
+        private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if(dtgCounts.SelectedItem != null)
+            {
+                var sort = vm.GetRepairsByNomenclarute();
+                AllRepairsWindow win = new AllRepairsWindow(sort);
+                win.Show();
+            }
         }
     }
 }

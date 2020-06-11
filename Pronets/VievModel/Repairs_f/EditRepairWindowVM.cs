@@ -4,6 +4,7 @@ using Pronets.EntityRequests.Clients_f;
 using Pronets.EntityRequests.Nomenclature_f;
 using Pronets.EntityRequests.Repairs_f;
 using Pronets.EntityRequests.Users_f;
+using Pronets.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -423,6 +424,16 @@ namespace Pronets.VievModel.Repairs_f
         }
         #endregion
 
+        private bool isAdmin;
+        public bool IsAdmin
+        {
+            get { return isAdmin; }
+            set
+            {
+                isAdmin = value;
+                RaisedPropertyChanged("IsAdmin");
+            }
+        }
         private Repairs defaultRepair;
         private string title;
         public string Title
@@ -442,8 +453,16 @@ namespace Pronets.VievModel.Repairs_f
         {
             if (repair != null)
             {
-                Title = $"Изменить ремонт №{repair.RepairId}";
-                GetContent(repair.RepairId);
+                try
+                {
+                    Title = $"Изменить ремонт №{repair.RepairId}";
+                    GetContent(repair.RepairId);
+                    IsAdmin = UsersRequest.IsAdmin() || UsersRequest.IsInspector();
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.InnerException.Message, "Ошибка");
+                }
             }
         }
         #region Get Content
@@ -631,7 +650,7 @@ namespace Pronets.VievModel.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
         }

@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using Pronets.Data;
+using Pronets.Model;
 
 namespace Pronets.EntityRequests
 {
@@ -24,7 +25,7 @@ namespace Pronets.EntityRequests
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return statuses;
@@ -52,7 +53,7 @@ namespace Pronets.EntityRequests
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show(e.Message, "Ошибка");
+                        MessageBox.Show(ExceptionMessanger.Message(e));
                     }
                 }
             }
@@ -80,7 +81,7 @@ namespace Pronets.EntityRequests
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show(e.Message, "Ошибка");
+                        MessageBox.Show(ExceptionMessanger.Message(e));
                         isExeption = false;
                     }
                 }

@@ -25,11 +25,11 @@ namespace Pronets.Model.Labels
                    "^FB230,1,0,C,0" +
                    $"^A0,32,19^FD{nomenclature}^FS" +
                    "^FO230,1" +
-                   "^A0,15,15^FDhttp://192.168.1.1^FS" +
-                   "^FO230,15" +
-                   "^A0,15,15^FDUsername: user ^FS" +
+                   "^A0,15,16^FDhttp://192.168.1.1^FS" +
+                   "^FO230,16" +
+                   "^A0,15,16^FDUsername: user ^FS" +
                    "^FO230,30" +
-                   "^A0,15,15^FDPassword: user ^FS" +
+                   "^A0,15,16^FDPassword: user ^FS" +
                    "^FO345,45,1" +
                    "^BY2" +
                    "^BCN,45,N,N,N" +
@@ -76,11 +76,11 @@ namespace Pronets.Model.Labels
                     "^FO10,10" +
                     "^A0,35,20^FD{nomenclature}^FS" +
                     "^FO230,1" +
-                    "^A0,15,15^FDhttp://192.168.1.1^FS" +
+                    "^A0,15,16^FDhttp://192.168.1.1^FS" +
                     "^FO230,15" +
-                    "^A0,15,15^FDUsername: user^FS" +
+                    "^A0,15,16^FDUsername: user^FS" +
                     "^FO230,30" +
-                    "^A0,15,15^FDPassword: user^FS" +
+                    "^A0,15,16^FDPassword: user^FS" +
                     "^FO52,45" +
                     "^BY2" +
                     "^BCN,45,N,N,N" +
@@ -102,11 +102,11 @@ namespace Pronets.Model.Labels
                                 "^FB230,1,0,C,0" +
                                 "^A0,35,20^FD{nomenclature}^FS" +
                                 "^FO230,1" +
-                                "^A0,15,15^FD http://192.168.1.1 ^FS" +
+                                "^A0,15,16^FD http://192.168.1.1 ^FS" +
                                 "^FO230,15" +
-                                "^A0,15,15^FD Username: user ^FS" +
+                                "^A0,15,16^FD Username: user ^FS" +
                                 "^FO230,30" +
-                                "^A0,15,15^FD Password: user ^FS" +
+                                "^A0,15,16^FD Password: user ^FS" +
                                 "^FO345,45,1" +
                                 "^BY2" +
                                 "^BCN,45,N,N,N" +

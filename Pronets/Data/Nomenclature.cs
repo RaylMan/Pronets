@@ -18,6 +18,8 @@ namespace Pronets.Data
         public Nomenclature()
         {
             this.Repairs = new HashSet<Repairs>();
+            this.Parts = new HashSet<Parts>();
+            this.PartsOrder = new HashSet<PartsOrder>();
         }
     
         public string Name { get; set; }
@@ -27,5 +29,9 @@ namespace Pronets.Data
         public virtual Nomenclature_Types Nomenclature_Types { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Repairs> Repairs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Parts> Parts { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PartsOrder> PartsOrder { get; set; }
     }
 }

@@ -4,12 +4,10 @@ using Pronets.EntityRequests.DefectiveStatements_f;
 using Pronets.EntityRequests.Repairs_f;
 using Pronets.EntityRequests.Users_f;
 using Pronets.Model;
+using Pronets.Model.Excel.Documents;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -350,13 +348,14 @@ namespace Pronets.VievModel.Other
                         RepairsRequest.SetRepairRecipient(repair.RepairId, client.ClientName);
                     }
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
-                    MessageBox.Show(e.InnerException.Message, "Ошибка");
+                    throw;
                 }
             }
         }
         #endregion
+
         #region ExportToExcelCommand
         private ICommand exportToExcelCommand;
         public ICommand ExportToExcelCommand
@@ -375,10 +374,18 @@ namespace Pronets.VievModel.Other
                 RaisedPropertyChanged("ExportToExcelCommand");
             }
         }
-        public void ExportToExcel(object Parameter)
+        public async void ExportToExcel(object Parameter)
         {
-            XLSWriter writer = new XLSWriter(clientPronets, client, ResponsiblePerson, ChiefEngineer);
-            writer.GenerateFile(FilePath, RepairsTable);
+            try
+            {
+                AddAndSaveRecipient(new object());
+                XlsxDefectiveStatementsDocument doc = new XlsxDefectiveStatementsDocument(client, RepairsTable);
+                await Task.Factory.StartNew(() => doc.GenerateFile(FilePath));
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Ошибка");
+            }
         }
         #endregion
     }

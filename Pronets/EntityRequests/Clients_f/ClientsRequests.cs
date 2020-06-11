@@ -1,10 +1,12 @@
 ﻿using Pronets.Data;
+using Pronets.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace Pronets.EntityRequests.Clients_f
@@ -25,7 +27,7 @@ namespace Pronets.EntityRequests.Clients_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return allClients;
@@ -45,7 +47,7 @@ namespace Pronets.EntityRequests.Clients_f
                 catch (Exception e)
                 {
 
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
                 return client;
             }
@@ -68,7 +70,7 @@ namespace Pronets.EntityRequests.Clients_f
                 catch (Exception e)
                 {
 
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
         }
@@ -96,7 +98,7 @@ namespace Pronets.EntityRequests.Clients_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                     isExeption = false;
                 }
             }
@@ -142,7 +144,7 @@ namespace Pronets.EntityRequests.Clients_f
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show(e.Message, "Ошибка");
+                        MessageBox.Show(ExceptionMessanger.Message(e));
                     }
 
                 }
@@ -170,7 +172,7 @@ namespace Pronets.EntityRequests.Clients_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return searchClients;
@@ -189,7 +191,7 @@ namespace Pronets.EntityRequests.Clients_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return client;

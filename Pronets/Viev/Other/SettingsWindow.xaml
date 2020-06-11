@@ -5,39 +5,61 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pronets.Viev.Other"
         mc:Ignorable="d"
-        Title="Настройки" Height="290" Width="340" Background="Gainsboro" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Closed="Window_Closed">
+        Title="Настройки" Height="290" Width="560" Background="Gainsboro" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Closed="Window_Closed">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="340"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
 
+        <Label Content="Логин"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,8,0,0" Grid.Column="0"/>
+        <TextBox Text="{Binding Login, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Top" HorizontalAlignment="Left" 
+                 Width="120" Margin="10,30,0,0" Background="Gainsboro" IsReadOnly="True" Grid.Column="0"/>
 
-        <Label Content="Логин"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,8,0,0"/>
-        <TextBox Text="{Binding Login, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Top" HorizontalAlignment="Left" Width="120" Margin="10,30,0,0" Background="Gainsboro" IsReadOnly="True" />
+        <Label Content="Старый пароль"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,47,0,0" Grid.Column="0"/>
+        <TextBox Text="{Binding OldPassword, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Top" HorizontalAlignment="Left" 
+                 Width="120" Margin="10,70,0,0" Grid.Column="0" />
 
-        <Label Content="Старый пароль"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,47,0,0"/>
-        <TextBox Text="{Binding OldPassword, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Top" HorizontalAlignment="Left" Width="120" Margin="10,70,0,0" />
+        <Label Content="Новый пароль"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,88,0,0" Grid.Column="0"/>
+        <TextBox Text="{Binding NewPassword, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Top" HorizontalAlignment="Left" 
+                 Width="120" Margin="10,109,0,0" Grid.Column="0"/>
 
-        <Label Content="Новый пароль"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,88,0,0"/>
-        <TextBox Text="{Binding NewPassword, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Top" HorizontalAlignment="Left" Width="120" Margin="10,109,0,0" />
+        <Label Content="Повторить пароль"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,127,0,0" Grid.Column="0"/>
+        <TextBox Text="{Binding VerifiedPassword, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Top" HorizontalAlignment="Left" 
+                 Width="120" Margin="10,151,0,0" Grid.Column="0"/>
 
-        <Label Content="Повторить пароль"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,127,0,0"/>
-        <TextBox Text="{Binding VerifiedPassword, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Top" HorizontalAlignment="Left" Width="120" Margin="10,151,0,0" />
-
-        <Label Content="Зарплата за день (По умолчанию)"  VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,8,5,0"/>
-        <TextBox Text="{Binding PricePerDay, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Top" HorizontalAlignment="Right" Width="120" Margin="0,30,10,0" Background="Gainsboro" IsReadOnly="True" />
+        <Label Content="Зарплата за день (По умолчанию)"  VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,8,5,0" Grid.Column="0"/>
+        <TextBox Text="{Binding PricePerDay, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Top" HorizontalAlignment="Right" 
+                 Width="120" Margin="0,30,10,0" Background="Gainsboro" IsReadOnly="True" Grid.Column="0"/>
 
         <Label Content="Зарплата за час (По умолчанию)"  VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,48,5,0"/>
-        <TextBox Text="{Binding PricePerHour, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Top" HorizontalAlignment="Right" Width="120" Margin="0,70,10,0"  Background="Gainsboro" IsReadOnly="True" 
-                 />
+        <TextBox Text="{Binding PricePerHour, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Top" HorizontalAlignment="Right" Width="120" 
+                 Margin="0,70,10,0"  Background="Gainsboro" IsReadOnly="True" Grid.Column="0" />
 
-        <Label Content="Инженер (Для печати)"  VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,88,5,0"/>
-        <TextBox Text="{Binding ChiefEngineer, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Top" HorizontalAlignment="Right" Width="120" Margin="0,109,10,0" />
+        <Label Content="Инженер (Для печати)"  VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,88,5,0" Grid.Column="0"/>
+        <TextBox Text="{Binding ChiefEngineer, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Top" HorizontalAlignment="Right"
+                 Width="120" Margin="0,109,10,0" Grid.Column="0"/>
 
-        <Label Content="Ответственное лицо (Для печати)"  VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,127,4,0"/>
-        <TextBox Text="{Binding ResponsiblePerson, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Top" HorizontalAlignment="Right" Width="120" Margin="0,151,10,0" />
+        <Label Content="Ответственное лицо (Для печати)"  VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,127,4,0" Grid.Column="0"/>
+        <TextBox Text="{Binding ResponsiblePerson, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Top" HorizontalAlignment="Right" 
+                 Width="120" Margin="0,151,10,0" Grid.Column="0"/>
 
-        <Button Content="  Изменить пароль  " Command="{Binding ChangePasswordCommand}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10"/>
-        <Button Content="  Сохранить  " Command="{Binding SaveCommand}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="10" />
+        <Button Content="  Изменить пароль  " Command="{Binding ChangePasswordCommand}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10" Grid.Column="0"/>
+        <Button Content="  Сохранить  " Command="{Binding SaveCommand}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="10" Grid.Column="1"/>
+
+        <Label Content="IP адрес сервера"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,169,0,0" Grid.Column="0"/>
+        <TextBox Text="{Binding ServerHost, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" HorizontalAlignment="Left" 
+                 Width="120" Margin="10,193,0,0" Grid.Column="0"/>
         
-        <Label Content="IP адрес принтера"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,169,0,0"/>
-        <TextBox Text="{Binding PrinterServerHost, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" HorizontalAlignment="Left" Width="120" Margin="10,193,0,0" />
+        <!--Column 1-->
+        <Label Content="IP адрес принтера"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,8,0,0" Grid.Column="1"/>
+        <TextBox Text="{Binding PrinterServerHost, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" HorizontalAlignment="Left"
+                 Width="183" Margin="10,30,0,0" Grid.Column="1" />
+
+        <Label Content="Принтер по умолчанию" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,47,0,0" Grid.Column="1" />
+        <ComboBox ItemsSource="{Binding Printers, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                  SelectedValue="{Binding SelectedPrinter}" Grid.Column="1"
+                   HorizontalAlignment="Left" Margin="10,70,0,0" VerticalAlignment="Top" Width="183"
+                    IsEditable="True" DisplayMemberPath="Name"/>
     </Grid>
 </Window>

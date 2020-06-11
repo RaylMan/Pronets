@@ -3,11 +3,8 @@ using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using Pronets.Data;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace Pronets.Model
@@ -91,8 +88,6 @@ namespace Pronets.Model
                         }
 
                         worksheetPart.Worksheet.InsertAfter(mergeCells, worksheetPart.Worksheet.Elements<SheetData>().First());
-
-
                         #endregion
 
                         SetTableHeaderRow(sheetData);

@@ -113,7 +113,7 @@ namespace Pronets.VievModel.Other
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             } 
         }
@@ -151,7 +151,7 @@ namespace Pronets.VievModel.Other
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
         }

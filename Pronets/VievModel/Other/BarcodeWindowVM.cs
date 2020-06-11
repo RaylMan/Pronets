@@ -2,9 +2,12 @@
 using Pronets.Data;
 using Pronets.EntityRequests.Nomenclature_f;
 using Pronets.EntityRequests.Users_f;
+using Pronets.Model;
+using Pronets.Model.Excel.Documents;
 using Pronets.Model.FromXlsxToSQL;
 using Pronets.Model.Labels;
 using Pronets.Model.Parsehtml;
+using Pronets.Model.Printer;
 using Pronets.Model.TCP;
 using System;
 using System.Collections.Generic;
@@ -24,9 +27,8 @@ namespace Pronets.VievModel.Other
     public class BarcodeWindowVM : VievModelBase
     {
         #region Properties
+        XlsxLabelsDocument doc = new XlsxLabelsDocument();
         private string ipAdress = @"http://192.168.1.1/";
-        private ZebraPrintLabel printer;
-        TCPClient TCPClient;
         private ObservableCollection<Nomenclature> nomenclatures = new ObservableCollection<Nomenclature>();
         public ObservableCollection<Nomenclature> Nomenclatures
         {
@@ -48,6 +50,17 @@ namespace Pronets.VievModel.Other
             }
 
         }
+        private ObservableCollection<IPrint> printers = new ObservableCollection<IPrint>();
+        public ObservableCollection<IPrint> Printers
+        {
+            get { return printers; }
+            set
+            {
+                printers = value;
+                RaisedPropertyChanged("Printers");
+            }
+
+        }
         private ObservableCollection<ILabel> labels = new ObservableCollection<ILabel>();
         public ObservableCollection<ILabel> Labels
         {
@@ -58,6 +71,16 @@ namespace Pronets.VievModel.Other
                 RaisedPropertyChanged("Labels");
             }
 
+        }
+        private IPrint selectedPrinter;
+        public IPrint SelectedPrinter
+        {
+            get { return selectedPrinter; }
+            set
+            {
+                selectedPrinter = value;
+                RaisedPropertyChanged("SelectedPrinter");
+            }
         }
         private ILabel selectedLabel;
         public ILabel SelectedLabel
@@ -205,38 +228,30 @@ namespace Pronets.VievModel.Other
         #endregion
         public BarcodeWindowVM()
         {
-            TCPClient = new TCPClient();
-            DefaultType();
             Labels = LabelRepository.GetLabels();
-            SelectedLabel = Labels[0];
+            GetPrinters();
+            DefaultType();
         }
-        void TestLabel()
-        {
-            selectedLabel = labels[0];
-            selectedNomenclature = nomenclatures.FirstOrDefault(n => n.Name.Contains("NTU-RG"));
-            SerialNumber = "GP21073997";
-            MacAdress = "A8:F9:4B:CA:45:64";
-            PonSerial = "ELTX5C0483E0";
-        }
-        private void InitializePrinter()
+        private void GetPrinters()
         {
             try
             {
-                printer = new ZebraPrintLabel();
-                printer.Connect();
-                Status = "Принтер готов к работе";
+                Printers = PrintersRepository.GetPrinters();
             }
-            catch (Exception)
+            catch (Exception e )
             {
-                Status = "Ошибка подключения принтера!";
+                MessageBox.Show(ExceptionMessanger.Message(e));
             }
         }
+        
         private void DefaultType()
         {
             Nomenclature_Types = Nomenclature_TypesRequest.FillList();
             var defaultType = Nomenclature_Types.FirstOrDefault(t => t.Type == "ONT");
+            SelectedLabel = Labels[0];
             SelectedType = defaultType;
             selectedNomenclature = nomenclatures[0];
+            SelectedPrinter = PrintersRepository.GetDefaultPrinter();
         }
         private void FillNomenclaturete(Nomenclature_Types type)
         {
@@ -279,15 +294,14 @@ namespace Pronets.VievModel.Other
                             var printLabel = selectedLabel.GetZPLCodeLabel(selectedNomenclature.Name.ToUpper(), SerialNumber?.ToUpper().Replace(" ", ""), MacAdress?.ToUpper(), PonSerial?.ToUpper().Replace(" ", ""));
                             for (int i = 0; i < numCount; i++)
                             {
-                                //printer.Print(printLabel);
                                 Status = "Подключение к серверу и печать.";
-                                await Task.Factory.StartNew(() => TCPClient.SendMessage(printLabel));
+                                await Task.Factory.StartNew(() => SelectedPrinter.Print(printLabel));//TCPClient.Print(printLabel)
                             }
                             Status = "Печать завершена!";
                         }
                         catch (Exception e)
                         {
-                            MessageBox.Show(e.Message, "Ошибка");
+                            MessageBox.Show(ExceptionMessanger.Message(e));
                             Status = "Ошибка!";
                         }
                         TextVisibility = Visibility.Hidden;
@@ -340,7 +354,7 @@ namespace Pronets.VievModel.Other
             TextVisibility = Visibility.Visible;
             try
             {
-                List<DeviceForLabel> devices = XlsxLabels.GetDevices(filepath);
+                List<DeviceForLabel> devices = doc.GetDevices(filepath);
                 if (devices != null)
                 {
                     foreach (var item in devices)
@@ -348,9 +362,8 @@ namespace Pronets.VievModel.Other
                         if (!string.IsNullOrWhiteSpace(item.Nomenclature) && item.Nomenclature != "0")
                         {
                             var printLabel = label.GetZPLCodeLabel(item.Nomenclature.ToUpper(), item.SerialNumber.ToUpper(), item.MacAdress.ToUpper(), item.PonSerial.ToUpper());
-                            //printer.Print(printLabel);
                             Status = "Подключение к серверу и печать.";
-                            TCPClient.SendMessage(printLabel);
+                            SelectedPrinter.Print(printLabel);
                         }
                     }
                 }
@@ -386,6 +399,7 @@ namespace Pronets.VievModel.Other
         }
         public void CreateExample(object Parameter)
         {
+           
             string FilePath = null;
             SaveFileDialog showDialog = new SaveFileDialog();
             showDialog.Filter = ".xlsx Files (*.xlsx)|*.xlsx";
@@ -395,58 +409,17 @@ namespace Pronets.VievModel.Other
                 FilePath = showDialog.FileName;
             }
             if (FilePath != null)
-                XlsxLabels.GenerateExampleFile(FilePath);
-
-        }
-        #endregion
-
-        #region CloseConnectionCommand
-        private ICommand closeConnectionCommand;
-        public ICommand CloseConnectionCommand
-        {
-            get
             {
-                if (closeConnectionCommand == null)
+                try
                 {
-                    closeConnectionCommand = new RelayCommand(new Action<object>(CloseConnection));
+                    doc.GenerateFile(FilePath);
                 }
-                return closeConnectionCommand;
-            }
-            set
-            {
-                closeConnectionCommand = value;
-                RaisedPropertyChanged("CloseConnectionCommand");
-            }
-        }
-        public void CloseConnection(object Parameter)
-        {
-            printer.Close();
-            Status = "Соединение закрыто";
-        }
-        #endregion
-
-        #region ConnectPrinterCommand
-        private ICommand connectPrinterCommand;
-        public ICommand ConnectPrinterCommand
-        {
-            get
-            {
-                if (connectPrinterCommand == null)
+                catch (IOException e)
                 {
-                    connectPrinterCommand = new RelayCommand(new Action<object>(ConnectPrinter));
+                    MessageBox.Show(e.Message, "Ошибка");
                 }
-                return connectPrinterCommand;
+                
             }
-            set
-            {
-                connectPrinterCommand = value;
-                RaisedPropertyChanged("ConnectPrinterCommand");
-            }
-        }
-        public void ConnectPrinter(object Parameter)
-        {
-            if (!printer.Connected)
-                InitializePrinter();
         }
         #endregion
 
@@ -479,7 +452,7 @@ namespace Pronets.VievModel.Other
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message, "Ошибка");
+                MessageBox.Show(ExceptionMessanger.Message(e));
             }
         }
         #endregion

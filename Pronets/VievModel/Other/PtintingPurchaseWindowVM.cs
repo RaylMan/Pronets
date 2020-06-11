@@ -183,9 +183,17 @@ namespace Pronets.VievModel.Other
             if (clientId > 0)
                 client = ClientsRequests.GetClient(clientId);
             GetInfo();
+            GetIndexes();
             SetFontSizes();
         }
-
+        private void GetIndexes()
+        {
+            int count = 1;
+            foreach (var item in RepairsTable)
+            {
+                item.Index = count++;
+            }
+        }
         private void SetFontSizes()
         {
             for (int i = 6; i < 25; i++)

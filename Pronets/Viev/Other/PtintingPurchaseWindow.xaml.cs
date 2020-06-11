@@ -88,8 +88,6 @@ namespace Pronets.Viev.Other
                 document.PagePadding = pageMargins;
             }
         }
-
-
         private void GetTable()
         {
             System.Data.DataTable dataTable = vm.ToDataTable<v_Repairs>(vm.RepairsTable);
@@ -99,9 +97,26 @@ namespace Pronets.Viev.Other
             var header = new TableRow();
             rowGroup.Rows.Add(header);
             Table1.CellSpacing = 1;
-
             foreach (DataColumn column in dataTable.Columns)
             {
+                string columnName = "";
+                if (column.ColumnName == "Index")
+                {
+                    columnName = "№";
+                    var tableColumn = new TableColumn();
+
+                    //configure width and such
+                    Table1.Columns.Add(tableColumn);
+                    var cell = new TableCell(new Paragraph(new Run(columnName)));
+                    cell.Background = (Brush)brushConverter.ConvertFrom("#FFFFFF");
+                    cell.TextAlignment = TextAlignment.Center;
+                    cell.Padding = new Thickness(2);
+                    header.Cells.Add(cell);
+                }
+            }
+            foreach (DataColumn column in dataTable.Columns)
+            {
+
                 if (column.ColumnName == "Nomenclature" ||
                     column.ColumnName == "Serial_Number" ||
                     column.ColumnName == "Claimed_Malfunction" ||
@@ -136,11 +151,23 @@ namespace Pronets.Viev.Other
                     header.Cells.Add(cell);
                 }
             }
-
+            Table1.Columns[0].Width = new GridLength(30);
             foreach (DataRow row in dataTable.Rows)
             {
                 var tableRow = new TableRow();
                 rowGroup.Rows.Add(tableRow);
+                foreach (DataColumn column in dataTable.Columns)
+                {
+                    if (column.ColumnName == "Index")
+                    {
+                        var value = row[column].ToString();//mayby some formatting is in order
+                        var cell = new TableCell(new Paragraph(new Run(value)));
+                        cell.Background = (Brush)brushConverter.ConvertFrom("#FFFFFF");
+                        cell.TextAlignment = TextAlignment.Center;
+                        cell.Padding = new Thickness(2);
+                        tableRow.Cells.Add(cell);
+                    }
+                }
                 foreach (DataColumn column in dataTable.Columns)
                 {
                     if (column.ColumnName == "Nomenclature" ||

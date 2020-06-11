@@ -1,4 +1,5 @@
 ﻿using Pronets.Data;
+using Pronets.Model;
 using System;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
@@ -24,7 +25,7 @@ namespace Pronets.EntityRequests.Other
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return receiptDocuments;
@@ -47,7 +48,7 @@ namespace Pronets.EntityRequests.Other
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return receiptDocuments;
@@ -70,7 +71,7 @@ namespace Pronets.EntityRequests.Other
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return receiptDocuments;
@@ -103,7 +104,7 @@ namespace Pronets.EntityRequests.Other
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return v_ReceiptDocuments;
@@ -161,7 +162,7 @@ namespace Pronets.EntityRequests.Other
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return v_ReceiptDocuments;
@@ -266,7 +267,7 @@ namespace Pronets.EntityRequests.Other
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return v_ReceiptDocuments;
@@ -300,7 +301,7 @@ namespace Pronets.EntityRequests.Other
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return lastId;
@@ -330,7 +331,7 @@ namespace Pronets.EntityRequests.Other
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show(e.Message, "Ошибка");
+                        MessageBox.Show(ExceptionMessanger.Message(e));
                     }
                 }
             }
@@ -359,7 +360,7 @@ namespace Pronets.EntityRequests.Other
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show(e.Message, "Ошибка");
+                        MessageBox.Show(ExceptionMessanger.Message(e));
                         isExeption = false;
                     }
                 }
@@ -391,7 +392,7 @@ namespace Pronets.EntityRequests.Other
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show(e.Message, "Ошибка");
+                        MessageBox.Show(ExceptionMessanger.Message(e));
                         isExeption = false;
                     }
                 }
@@ -419,7 +420,7 @@ namespace Pronets.EntityRequests.Other
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
         }
@@ -442,7 +443,7 @@ namespace Pronets.EntityRequests.Other
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Ошибка");
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
         }

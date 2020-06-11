@@ -25,7 +25,7 @@ namespace Pronets.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("192.168.91.100")]
+        [global::System.Configuration.DefaultSettingValueAttribute("192.168.91.186")]
         public string PrinterServerHost {
             get {
                 return ((string)(this["PrinterServerHost"]));
@@ -37,13 +37,13 @@ namespace Pronets.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int ReceiptDocumentId {
+        [global::System.Configuration.DefaultSettingValueAttribute("192.168.91.100")]
+        public string ServerHost {
             get {
-                return ((int)(this["ReceiptDocumentId"]));
+                return ((string)(this["ServerHost"]));
             }
             set {
-                this["ReceiptDocumentId"] = value;
+                this["ServerHost"] = value;
             }
         }
         
@@ -200,6 +200,18 @@ namespace Pronets.Properties {
             }
             set {
                 this["Password"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Сетевой принтер")]
+        public string DefaultPrinterName {
+            get {
+                return ((string)(this["DefaultPrinterName"]));
+            }
+            set {
+                this["DefaultPrinterName"] = value;
             }
         }
     }

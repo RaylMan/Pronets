@@ -3,10 +3,10 @@
   <Profiles />
   <Settings>
     <Setting Name="PrinterServerHost" Type="System.String" Scope="User">
-      <Value Profile="(Default)">192.168.91.100</Value>
+      <Value Profile="(Default)">192.168.91.186</Value>
     </Setting>
-    <Setting Name="ReceiptDocumentId" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
+    <Setting Name="ServerHost" Type="System.String" Scope="User">
+      <Value Profile="(Default)">192.168.91.100</Value>
     </Setting>
     <Setting Name="ChiefEngineer" Type="System.String" Scope="User">
       <Value Profile="(Default)">Литвинов М.Я.</Value>
@@ -46,6 +46,9 @@
     </Setting>
     <Setting Name="Password" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="DefaultPrinterName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Сетевой принтер</Value>
     </Setting>
   </Settings>
 </SettingsFile>

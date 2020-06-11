@@ -18,7 +18,7 @@ namespace Pronets.Model.Labels
                     "^LH0,10" +
                     "^FO0,10" +
                     "^FB370,1,0,C,0" +
-                    $"^A0,35,20^FDHuawei {nomenclature}^FS" +
+                    $"^A0,35,25^FDHuawei {nomenclature}^FS" +
                     "^FO75,45" +
                     "^BY1" +
                     "^BCN,50,N,N,N" +

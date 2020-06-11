@@ -27,13 +27,11 @@ namespace Pronets.Viev.Other
         public EditPartInfoWindow(Parts part, PartsWindowVM partsWindowVM)
         {
             InitializeComponent();
-            if (part != null)
+            if (!part.IsNew)
             {
-                this.part = part;
-                this.partsWindowVM = partsWindowVM;
-                tbxName.Text = part.Part_Name.ToString();
-                tbxInfo.Text = part.Part_Info?.ToString();
+                tbxName.IsReadOnly = true;
             }
+            DataContext = new EditPartInfoWindowVM(part, partsWindowVM);
         }
 
         private void BtnEdit_Click(object sender, RoutedEventArgs e)

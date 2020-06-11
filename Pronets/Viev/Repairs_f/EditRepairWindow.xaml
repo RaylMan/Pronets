@@ -24,16 +24,16 @@
 
         <Label Content="Серийный номер" Grid.Row="0" Grid.Column="0" Margin="0,23,0,0"   VerticalAlignment="Top" HorizontalAlignment="Left" />
         <TextBox Text="{Binding Serial_Number}" Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Left"
-                 MaxLength="50" Margin="108,28,0,0" Width="197" TextWrapping="Wrap"/>
+                 MaxLength="50" Margin="108,28,0,0" Width="197" TextWrapping="Wrap" />
         <Label Content="Номенклатура" Grid.Row="0" Grid.Column="0"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,44,0,0"/>
         <ComboBox ItemsSource="{Binding Nomenclatures}"
-                  SelectedValue="{Binding SelectedNomenclatureItem}"
+                  SelectedValue="{Binding SelectedNomenclatureItem}" IsEnabled="{Binding IsAdmin}"
                   HorizontalAlignment="Left"  Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" Width="197"
                   IsTextSearchEnabled="True" TextSearch.TextPath="Name" IsEditable="True" DisplayMemberPath="Name" Margin="108,48,0,0"/>
 
 
         <Label Content="Заявленная неисправность" Grid.Column="0"   VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,62,0,0" Grid.RowSpan="2"/>
-        <TextBox Text="{Binding Claimed_Malfunction}" Grid.Row="1" Grid.Column="0"  TextWrapping="Wrap"
+        <TextBox Text="{Binding Claimed_Malfunction}" Grid.Row="1" Grid.Column="0"  TextWrapping="Wrap" IsEnabled="{Binding IsAdmin}"
                  MaxLength="200" Margin="5,0,5,20" />
         <Label Content="Выявленная неисправность" Grid.Row="1" Grid.Column="0"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,58,0,0"/>
         <TextBox Text="{Binding Identifie_Fault}" Grid.Row="2" Grid.Column="0"  TextWrapping="Wrap"
@@ -47,29 +47,29 @@
 
         <!--Column 1-->
         <Label Content="Клиент " Grid.Row="0"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,1,0,0" Grid.Column="1"/>
-        <ComboBox ItemsSource="{Binding Clients}" SelectedValue="{Binding SelectedClientItem}"
+        <ComboBox ItemsSource="{Binding Clients}" SelectedValue="{Binding SelectedClientItem}" IsEnabled="{Binding IsAdmin}"
                   HorizontalAlignment="Left"  Grid.Row="0" VerticalAlignment="Top" Width="206"
                   IsTextSearchEnabled="True" TextSearch.TextPath="ClientName" IsEditable="True" DisplayMemberPath="ClientName" Margin="74,4,0,0" Grid.Column="1"/>
 
         <Label Content="Приемщик " Grid.Row="0"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,31,0,0" Grid.Column="1"/>
-        <ComboBox ItemsSource="{Binding Users}" SelectedValue="{Binding SelectedUser}"
+        <ComboBox ItemsSource="{Binding Users}" SelectedValue="{Binding SelectedUser}" IsEnabled="{Binding IsAdmin}"
                   HorizontalAlignment="Left"  Grid.Row="0" VerticalAlignment="Top" Width="206"
                   IsTextSearchEnabled="True" TextSearch.TextPath="LastName" IsEditable="True" DisplayMemberPath="LastName" Margin="74,35,0,0" Grid.Column="1"/>
         <Label Content="Дата приема" Grid.Row="2" Grid.Column="1"  VerticalAlignment="Top" HorizontalAlignment="Left" Height="25" Margin="2,67,0,0" Grid.RowSpan="2" />
         <Label Content="Получатель" Grid.Row="0"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,62,0,0" Grid.Column="1" Grid.RowSpan="2"/>
-        <ComboBox ItemsSource="{Binding Recipients}" SelectedValue="{Binding SelectedRecipient}"
+        <ComboBox ItemsSource="{Binding Recipients}" SelectedValue="{Binding SelectedRecipient}" IsEnabled="{Binding IsAdmin}"
             HorizontalAlignment="Left"  Grid.Row="0" VerticalAlignment="Top" Width="206"
             IsTextSearchEnabled="True" TextSearch.TextPath="ClientName" IsEditable="True" DisplayMemberPath="ClientName" Margin="74,66,0,0" Grid.Column="1" Grid.RowSpan="2"/>
-        <DatePicker Grid.Column="1" Grid.Row="2" SelectedDate="{Binding Path=Date_Of_Receipt, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
-                  ValidatesOnExceptions=true, NotifyOnValidationError=true}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="94,67,0,0" Width="186" Grid.RowSpan="2"  />
+        <DatePicker Grid.Column="1" Grid.Row="2" SelectedDate="{Binding Path=Date_Of_Receipt, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, 
+                  ValidatesOnExceptions=true, NotifyOnValidationError=true}" IsEnabled="{Binding IsAdmin}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="94,67,0,0" Width="186" Grid.RowSpan="2"  />
         <Label Content="Дата отправки" Grid.Row="3"  VerticalAlignment="Top" HorizontalAlignment="Left" Height="25" Margin="2,18,0,0" Grid.Column="1" />
-        <DatePicker Grid.Column="1" Grid.Row="3" SelectedDate="{Binding Path=Departure_Date, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
-                  ValidatesOnExceptions=true, NotifyOnValidationError=true}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="94,19,0,0" Width="186"  />
+        <DatePicker Grid.Column="1" Grid.Row="3" SelectedDate="{Binding Path=Departure_Date, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, 
+                  ValidatesOnExceptions=true, NotifyOnValidationError=true}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="94,19,0,0" Width="186"  IsEnabled="{Binding IsAdmin}" />
         <Label Content="Дата ремонта" Grid.Row="3"  VerticalAlignment="Top" HorizontalAlignment="Left" Height="25" Grid.Column="1" Margin="2,59,0,0" />
         <DatePicker Grid.Column="1" Grid.Row="3" SelectedDate="{Binding Path=Repair_Date, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
                   ValidatesOnExceptions=true, NotifyOnValidationError=true}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="94,59,0,0" Width="186"  />
         <Label Content="Инженер" Grid.Row="1"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,10,0,0" Grid.Column="1"/>
-        <ComboBox ItemsSource="{Binding Engineers}" SelectedValue="{Binding SelectedEngineer}"
+        <ComboBox ItemsSource="{Binding Engineers}" SelectedValue="{Binding SelectedEngineer}" 
             HorizontalAlignment="Left"  Grid.Row="1" VerticalAlignment="Top" Width="206"
             IsTextSearchEnabled="True" TextSearch.TextPath="LastName" IsEditable="True" DisplayMemberPath="LastName" Margin="74,14,0,0" Grid.Column="1"/>
         <Label Content="Статус" Grid.Row="1"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,45,0,0" Grid.Column="1"/>
@@ -81,7 +81,7 @@
             HorizontalAlignment="Left"  Grid.Row="2" VerticalAlignment="Top" Width="206"
             IsTextSearchEnabled="True" TextSearch.TextPath="Category" IsEditable="True" DisplayMemberPath="Category" Margin="74,0,0,0" Grid.Column="1"/>
         <Label Content="Гарантия" Grid.Row="2"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,29,0,0" Grid.Column="1"/>
-        <ComboBox ItemsSource="{Binding Warrantys}" SelectedValue="{Binding SelectedWarrantyItem}"
+        <ComboBox ItemsSource="{Binding Warrantys}" SelectedValue="{Binding SelectedWarrantyItem}" IsEnabled="{Binding IsAdmin}"
             HorizontalAlignment="Left"  Grid.Row="2" VerticalAlignment="Top" Width="206"
             IsTextSearchEnabled="True" TextSearch.TextPath="Warranty" IsEditable="True" DisplayMemberPath="Warranty" Margin="74,33,0,0" Grid.Column="1"/>
 

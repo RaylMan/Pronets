@@ -85,13 +85,14 @@ namespace Pronets.Viev.MainWindows
 
         private void barcode_Click(object sender, RoutedEventArgs e)
         {
-            BarcodeWindow win = new BarcodeWindow();
-            win.ShowDialog();
+            BarcodeWindow win = BarcodeWindow.Instance;
+            win.Show();
+            win.Focus();
         }
 
         private void docuwiki_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Process.Start("http://192.168.91.100:88/");
+            System.Diagnostics.Process.Start($"http://{Properties.Settings.Default.ServerHost}:88/");
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Pronets.Data;
 using Pronets.EntityRequests.Users_f;
+using Pronets.Model;
 using Pronets.Viev.MainWindows;
 using System;
 using System.Collections.Generic;
@@ -34,7 +35,6 @@ namespace Pronets.Viev
                 tbxLogin.Text = Properties.Settings.Default.Login;
                 tbxPassword.Password = Properties.Settings.Default.Password;
             }
-
         }
         private async void Login()
         {
@@ -61,7 +61,7 @@ namespace Pronets.Viev
                             user.UserId = -1;
                         }
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
                         this.Dispatcher.Invoke(() =>
                         {
@@ -69,7 +69,8 @@ namespace Pronets.Viev
                             button.IsEnabled = true;
                             btnSettings.IsEnabled = true;
                         });
-                        MessageBox.Show("Ошибка подключения к серверу!", "Ошибка");
+                        MessageBox.Show(ExceptionMessanger.Message(e));
+                        //MessageBox.Show("Ошибка подключения к серверу!", "Ошибка");
                     }
 
                     //this.Dispatcher.Invoke(() =>
@@ -139,6 +140,7 @@ namespace Pronets.Viev
                     button.IsEnabled = true;
                     btnSettings.IsEnabled = true;
                 });
+                
             }
         }
 
