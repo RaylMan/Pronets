@@ -3,6 +3,7 @@ using Pronets.EntityRequests;
 using Pronets.EntityRequests.Clients_f;
 using Pronets.EntityRequests.Other;
 using Pronets.EntityRequests.Repairs_f;
+using Pronets.EntityRequests.Users_f;
 using Pronets.Model;
 using System;
 using System.Collections.Generic;
@@ -181,6 +182,16 @@ namespace Pronets.VievModel.Repairs_f
                 RaisedPropertyChanged("SearchText");
             }
         }
+        private bool isAdminOrInspector;
+        public bool IsAdminOrInspector
+        {
+            get { return isAdminOrInspector; }
+            set
+            {
+                isAdminOrInspector = value;
+                RaisedPropertyChanged("IsAdminOrInspector");
+            }
+        }
         #endregion
         public ReceiptDocumentInspectorVM(v_Receipt_Document document)
         {
@@ -200,11 +211,11 @@ namespace Pronets.VievModel.Repairs_f
                 GetRepairsAsync();
                 DepartureDate = DateTime.Now;
                 _dispatcher = Dispatcher.CurrentDispatcher;
+                IsAdminOrInspector = UsersRequest.IsAdminOrInspector();
             }
             else
                 MessageBox.Show("Не передан экземпляр класса в конструктор!", "Системаня ошибка!");
         }
-
         #region Select
 
         /// <summary>
@@ -406,6 +417,7 @@ namespace Pronets.VievModel.Repairs_f
                 MessageBox.Show("Необходимо выбрать элемент в списке!", "Ошибка");
         }
         #endregion
+
         #region Remove Few From Base
         private ICommand removeSelectedCommand;
         public ICommand RemoveSelectedCommand
@@ -443,6 +455,7 @@ namespace Pronets.VievModel.Repairs_f
                 MessageBox.Show("Необходимо выбрать элемент в списке!", "Ошибка");
         }
         #endregion
+
         #region Search
 
         #region Test search

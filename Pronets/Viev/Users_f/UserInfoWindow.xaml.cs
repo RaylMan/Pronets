@@ -1,4 +1,5 @@
 ﻿using Pronets.Data;
+using Pronets.Model;
 using Pronets.VievModel.Users_f;
 using System;
 using System.Collections.Generic;
@@ -22,9 +23,9 @@ namespace Pronets.Viev.Users_f
     public partial class UserInfoWindow : Window
     {
         Users user;
+        public UserInfoWindowVM vm => (UserInfoWindowVM)DataContext;
         public UserInfoWindow(Users user)
         {
-            
             InitializeComponent();
             if (user != null)
                 this.user = user;
@@ -41,6 +42,15 @@ namespace Pronets.Viev.Users_f
         private void CmbCategory_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             chbxAllCategory.IsChecked = false;
+        }
+
+        private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if(sortingGrid.SelectedItem != null)
+            {
+                SortingRepair repair = (SortingRepair)sortingGrid.SelectedItem;
+                vm.OpenRepairs(repair.NomenclatureName);
+            }
         }
     }
 }

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pronets.Viev.Users_f"
         mc:Ignorable="d"
-        Title="Проделанные работы" Height="185" Width="543" Background="Gainsboro" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Title="Проделанные работы" Height="210" Width="543" Background="Gainsboro" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
         <Button x:Name="btnGenerate" Content="  Сформировать  " Command="{Binding GenerateReportCommand}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="41,89,0,0" Width="124" />
 
@@ -16,8 +16,29 @@
         <DatePicker x:Name="endDatePicker" SelectedDate="{Binding SecondDate, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,60,0,0" Width="190" Grid.Column="0" />
 
 
-        <TextBox x:Name="tbxReportInfo" Text="{Binding ReportInfo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="210,10,0,0" IsReadOnly="True" Height="128" Width="305" Background="#FFEEEEEE"/>
+        <TextBox x:Name="tbxReportInfo" Text="{Binding ReportInfo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="210,10,0,0" IsReadOnly="True" Height="155" Width="305" Background="#FFEEEEEE"/>
 
         <Button x:Name="btnGenerateLastMonth" Content="  За прошлый месяц  " Command="{Binding GenerateLastMonthReportCommand}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="41,116,0,0" />
+        <Button  Content="  Открыть ремонты  " Command="{Binding GetRepairsCommand}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="41,143,0,0" Width="124" />
+        
+        <Image Source="/Content/Loading.gif"  Width="24" Height="24" Visibility="{Binding TextVisibility, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+               VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Image.RenderTransform>
+                <RotateTransform x:Name="rotate"
+                         CenterX="12"
+                         CenterY="12"/>
+            </Image.RenderTransform>
+            <Image.Triggers>
+                <EventTrigger RoutedEvent="Loaded">
+                    <BeginStoryboard>
+                        <Storyboard RepeatBehavior="Forever">
+                            <DoubleAnimation Storyboard.TargetName="rotate"
+                                     Storyboard.TargetProperty="Angle"
+                                     By="360" Duration="0:0:1"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Image.Triggers>
+        </Image>
     </Grid>
 </Window>

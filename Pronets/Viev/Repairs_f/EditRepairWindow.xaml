@@ -19,8 +19,12 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <Label Content="Номер Документа" Grid.Row="0" Grid.Column="0"  VerticalAlignment="Top" HorizontalAlignment="Left"/>
-        <TextBox Text="{Binding DocumentId}" Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Left"
-                 Margin="108,5,0,0" Width="197" IsReadOnly="True" TextWrapping="Wrap"/>
+        <!--<TextBox Text="{Binding DocumentId}" Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Left"
+                 Margin="108,5,0,0" Width="197" IsReadOnly="True" TextWrapping="Wrap"/>-->
+        <ComboBox ItemsSource="{Binding ReceiptDocuments}"
+                  SelectedValue="{Binding SelectedDocument}" IsEnabled="{Binding IsAdmin}"
+                  HorizontalAlignment="Left"  Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" Margin="108,5,0,0" Width="197"
+                  IsTextSearchEnabled="True" TextSearch.TextPath="DocumentId" IsEditable="True" DisplayMemberPath="DocumentId"/>
 
         <Label Content="Серийный номер" Grid.Row="0" Grid.Column="0" Margin="0,23,0,0"   VerticalAlignment="Top" HorizontalAlignment="Left" />
         <TextBox Text="{Binding Serial_Number}" Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Left"

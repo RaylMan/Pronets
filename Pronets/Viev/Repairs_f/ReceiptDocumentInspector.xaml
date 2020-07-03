@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Pronets.Viev.Repairs_f"
         mc:Ignorable="d"
         Title="{Binding TitleName}" Height="595" Width="1020" MinHeight="595" MinWidth="1020" Background="Gainsboro" WindowStartupLocation="CenterScreen">
-    <Grid>
+    <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="35"/>
             <RowDefinition Height="90"/>
@@ -19,17 +19,17 @@
         <TextBlock HorizontalAlignment="Left"  FontSize="18" VerticalAlignment="Center" Margin="5,5,0,6"
                    Text="Клиент: " Grid.Row="0"></TextBlock>
         <ComboBox ItemsSource="{Binding Clients, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedItem="{Binding SelectedClientItem}"
-                  HorizontalAlignment="Left" Margin="71,7,0,6" Grid.Row="0" VerticalAlignment="Center" Width="180"
+                  HorizontalAlignment="Left" Margin="71,7,0,6" Grid.Row="0" VerticalAlignment="Center" Width="180" IsEnabled="{Binding IsAdminOrInspector}"
                       IsTextSearchEnabled="True" TextSearch.TextPath="ClientName" IsEditable="True" DisplayMemberPath="ClientName" />
         <TextBlock  HorizontalAlignment="Left" Grid.Row="0" FontSize="18" VerticalAlignment="Center" Margin="266,5,0,6"
                    Text="Получатель: "/>
         <ComboBox  ItemsSource="{Binding Recipients, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedItem="{Binding SelectedRecipientItem}"
-                  HorizontalAlignment="Left" Margin="376,7,0,6" Grid.Row="0" VerticalAlignment="Center" Width="180"
+                  HorizontalAlignment="Left" Margin="376,7,0,6" Grid.Row="0" VerticalAlignment="Center" Width="180" IsEnabled="{Binding IsAdminOrInspector}"
                       IsTextSearchEnabled="True" TextSearch.TextPath="ClientName" IsEditable="True" DisplayMemberPath="ClientName" />
 
 
 
-        <Menu Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right">
+        <Menu Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" IsEnabled="{Binding IsAdminOrInspector}">
             <MenuItem Header="Данные">
                 <MenuItem Header="Добавить оборудование" Click="AddRepairs_Click"></MenuItem>
                 <MenuItem Header="Дефектовки документа" Click="DefectiveStatements_Click"></MenuItem>
@@ -38,29 +38,33 @@
         </Menu>
         <!--Row 1-->
         <Button x:Name="Edit1" Command="{Binding EditCommand}" Content="Записать" Grid.Row="1" HorizontalAlignment="Left" Margin="5,16,0,49"
-                RenderTransformOrigin="0.566,-0.08" Width="60" />
+                RenderTransformOrigin="0.566,-0.08" Width="60" IsEnabled="{Binding IsAdminOrInspector}"/>
 
         <TextBlock x:Name="textBlock2" HorizontalAlignment="Left" Margin="381,0,0,0" TextWrapping="Wrap" Text="Заметка" VerticalAlignment="Top"
                    RenderTransformOrigin="-1.286,-0.188" Grid.Row="1"/>
         <TextBox x:Name="textBox1" Text="{Binding NoteOfDocument, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="74" 
-                 Margin="294,16,0,0" Grid.Row="1" TextWrapping="Wrap"  MaxLength="200" VerticalAlignment="Top" Width="225"/>
-        
+                 Margin="294,16,0,0" Grid.Row="1" TextWrapping="Wrap"  MaxLength="200" VerticalAlignment="Top" Width="225" IsEnabled="{Binding IsAdminOrInspector}"/>
+
         <ComboBox x:Name="comboBox1" ItemsSource="{Binding Statuses, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedItem="{Binding SelectedStatusItem}"
-                  HorizontalAlignment="Left" Margin="70,16,0,0" Grid.Row="1" VerticalAlignment="Top" Width="210" Height="25">
+                  HorizontalAlignment="Left" Margin="70,16,0,0" Grid.Row="1" VerticalAlignment="Top" Width="210" Height="25" IsEnabled="{Binding IsAdminOrInspector}">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Status}"/>
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
-        
+
         <TextBlock x:Name="textBlock_Copy1" HorizontalAlignment="Left" Margin="124,0,0,0" TextWrapping="Wrap" Text="Статус документа" VerticalAlignment="Top" 
                    RenderTransformOrigin="-1.286,-0.188" Grid.Row="1"/>
-        <GroupBox Header="Печать" HorizontalAlignment="Left" Height="85" Margin="535,5,0,0" Grid.Row="1" VerticalAlignment="Top" Width="116">
+        <GroupBox Header="Печать" HorizontalAlignment="Left" Height="85" Margin="535,5,0,0" Grid.Row="1" VerticalAlignment="Top" Width="116" IsEnabled="{Binding IsAdminOrInspector}">
             <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="10*"/>
+                </Grid.ColumnDefinitions>
                 <Button x:Name="newDefectsDoc"  Content=" Дефектовка " Click="NewDefectsDoc_Click"  HorizontalAlignment="Left" 
-                 Width="87" VerticalAlignment="Top" Margin="7,7,0,0" Height="24"/>
-                <Button x:Name="newPurchaseDoc"  Content=" Акт приема " Click="NewPurchaseDoc_Click" HorizontalAlignment="Left" Margin="7,35,0,5" Width="87" />
+                 Width="87" VerticalAlignment="Top" Margin="7,7,0,0" Height="24" Grid.ColumnSpan="2"/>
+                <Button x:Name="newPurchaseDoc"  Content=" Акт приема " Click="NewPurchaseDoc_Click" HorizontalAlignment="Left" Margin="7,35,0,5" Width="87" Grid.ColumnSpan="2" />
             </Grid>
         </GroupBox>
 
@@ -68,7 +72,7 @@
 
         <Label Content="Дата отправки" Margin="5,44,0,18" HorizontalAlignment="Left" Grid.Row="1"/>
         <DatePicker HorizontalAlignment="Left" Margin="5,66,0,0" Grid.Row="1" VerticalAlignment="Top" Width="156" SelectedDate="{Binding Path=DepartureDate,
-            UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}"/>
+            UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" IsEnabled="{Binding IsAdminOrInspector}"/>
 
         <Label Content="Поиск по серийному номеру"  HorizontalAlignment="Right" Height="28" Margin="0,5,26,0" VerticalAlignment="Top" Grid.Row="1"/>
         <TextBox x:Name="tbxSearch" HorizontalAlignment="Right" Height="23" Margin="0,38,10,0" TextWrapping="Wrap"
@@ -81,7 +85,7 @@
         <!--<Button x:Name="addRepairs" Content="  Добавить оборудование  " Click="AddRepairs_Click" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,63,6"/>-->
         <!--Row 2-->
 
-        <DataGrid x:Name="Docunents1" ItemsSource="{Binding V_Repairs}" SelectedIndex="{Binding SelectedIndex}" SelectedValue="{Binding SelectedRepair}" 
+        <DataGrid x:Name="Docunents1" ItemsSource="{Binding V_Repairs}" SelectedIndex="{Binding SelectedIndex}" SelectedValue="{Binding SelectedItem,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                   FrozenColumnCount="4"  Grid.Row="2" Margin="5,5,5,0" AutoGenerateColumns="False" SelectionMode="Single" HorizontalGridLinesBrush="#FF999999"
                   VerticalGridLinesBrush="#FF999999" CanUserAddRows="False" CanUserDeleteRows="False" SelectionChanged="Docunents1_SelectionChanged">
 
@@ -120,8 +124,8 @@
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Редактировать" Click="OpenEditRepairWindow"/>
-                    <MenuItem Header="Удалить" Command="{Binding RemoveCommand}" CommandParameter="{Binding SelectedIndex}"/>
-                    <MenuItem Header="Удалить выделенные" Command="{Binding RemoveSelectedCommand}" />
+                    <MenuItem Header="Удалить" Command="{Binding RemoveCommand}" CommandParameter="{Binding SelectedIndex}" IsEnabled="{Binding IsAdminOrInspector}"/>
+                    <MenuItem Header="Удалить выделенные" Command="{Binding RemoveSelectedCommand}" IsEnabled="{Binding IsAdminOrInspector}" />
                 </ContextMenu>
             </DataGrid.ContextMenu>
             <DataGrid.Columns>

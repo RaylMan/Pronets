@@ -1,18 +1,12 @@
-﻿using AngleSharp.Common;
-using Pronets.Data;
+﻿using Pronets.Data;
 using Pronets.EntityRequests;
-using Pronets.EntityRequests.Clients_f;
 using Pronets.EntityRequests.Other;
 using Pronets.EntityRequests.Repairs_f;
 using Pronets.EntityRequests.Users_f;
 using Pronets.Model;
-using Pronets.Repository;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -164,7 +158,6 @@ namespace Pronets.VievModel.MainWindows.Pages
         }
 
         #endregion
-
         public RepairsPageVM()
         {
             Repair_Date = DateTime.Now;
@@ -172,7 +165,7 @@ namespace Pronets.VievModel.MainWindows.Pages
            // repo = new RepairsPageRepository();
             GetContentAsync();
         }
-
+        #region Methods
         private void SetStatus()
         {
             if (SelectedStatus != null)
@@ -222,6 +215,7 @@ namespace Pronets.VievModel.MainWindows.Pages
                 //}
             }));
         }
+        #endregion
 
         #region Search Command
         private ICommand searchItem;

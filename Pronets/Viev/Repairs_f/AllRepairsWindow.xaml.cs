@@ -1,6 +1,7 @@
 ﻿using Pronets.Data;
 using Pronets.EntityRequests.Other;
 using Pronets.EntityRequests.Users_f;
+using Pronets.Model;
 using Pronets.VievModel.Repairs_f;
 using System;
 using System.Collections.Generic;
@@ -72,22 +73,17 @@ namespace Pronets.Viev.Repairs_f
         {
             try
             {
-                if (UsersRequest.IsAdmin())
+                v_Repairs repair = (v_Repairs)Docunents1.SelectedItem;
+                if (repair != null)
                 {
-                    v_Repairs repair = (v_Repairs)Docunents1.SelectedItem;
-                    if (repair != null)
-                    {
-                        v_Receipt_Document document = ReceiptDocumentRequest.GetDocument((int)repair.DocumentId);
-                        ReceiptDocumentInspector window = new ReceiptDocumentInspector(document);
-                        window.Show();
-                    }
+                    v_Receipt_Document document = ReceiptDocumentRequest.GetDocument((int)repair.DocumentId);
+                    ReceiptDocumentInspector window = new ReceiptDocumentInspector(document);
+                    window.Show();
                 }
-                else
-                    MessageBox.Show("Нет доступа!", "Открыть документ");
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.InnerException.Message, "Ошибка");
+                MessageBox.Show(ExceptionMessanger.Message(ex), "Ошибка");
             }
         }
 

@@ -6,6 +6,7 @@ namespace Pronets.Model.Labels.LabelSamples
     public class DLinkLoginPassLabel : ILabel
     {
         public string LabelName => "D-Link Login/Password";
+        public string NomenclatureType => "Станционное оборудование ";
         public Brush SNBorderColor => Brushes.Red;
 
         public Brush MacBorderColor => Brushes.Red;

@@ -2,13 +2,9 @@
 using Pronets.EntityRequests.Clients_f;
 using Pronets.EntityRequests.Repairs_f;
 using Pronets.Model;
-using Pronets.Repository;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 

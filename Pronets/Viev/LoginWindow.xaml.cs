@@ -51,6 +51,7 @@ namespace Pronets.Viev
                         button.Content = "Загрузка";
                         button.IsEnabled = false;
                         btnSettings.IsEnabled = false;
+                        imgLoading.Visibility = Visibility.Visible;
                     });
                     try
                     {
@@ -68,17 +69,10 @@ namespace Pronets.Viev
                             button.Content = "Войти";
                             button.IsEnabled = true;
                             btnSettings.IsEnabled = true;
+                            imgLoading.Visibility = Visibility.Hidden;
                         });
                         MessageBox.Show(ExceptionMessanger.Message(e));
-                        //MessageBox.Show("Ошибка подключения к серверу!", "Ошибка");
                     }
-
-                    //this.Dispatcher.Invoke(() =>
-                    //{
-                    //    button.Content = "Войти";
-                    //    button.IsEnabled = true;
-                    //    btnSettings.IsEnabled = true;
-                    //});
                 });
 
                 if (user != null)
@@ -114,6 +108,7 @@ namespace Pronets.Viev
                             button.Content = "Войти";
                             button.IsEnabled = true;
                             btnSettings.IsEnabled = true;
+                            imgLoading.Visibility = Visibility.Hidden;
                         });
                         if (!Properties.Settings.Default.SaveLogin)
                             tbxLogin.Clear();
@@ -139,8 +134,8 @@ namespace Pronets.Viev
                     button.Content = "Войти";
                     button.IsEnabled = true;
                     btnSettings.IsEnabled = true;
+                    imgLoading.Visibility = Visibility.Hidden;
                 });
-                
             }
         }
 

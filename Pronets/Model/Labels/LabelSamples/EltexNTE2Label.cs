@@ -5,7 +5,7 @@ namespace Pronets.Model.Labels.LabelSamples
     public class EltexNTE2Label : ILabel
     {
         public string LabelName => "Eltex NTE-2";
-
+        public string NomenclatureType => "GEPON";
         public Brush SNBorderColor => Brushes.Green;
 
         public Brush MacBorderColor => Brushes.Red;

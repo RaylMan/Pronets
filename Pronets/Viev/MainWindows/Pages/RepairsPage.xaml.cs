@@ -155,38 +155,33 @@ namespace Pronets.Viev.MainWindows.Pages
 
         private void BtnOpenDocument_Click(object sender, RoutedEventArgs e)
         {
-            if (IsInspectorOrAdmin())
+            if (Docunents.SelectedItem != null) //IsInspectorOrAdmin()
             {
                 v_Repairs repair = (v_Repairs)Docunents.SelectedItem;
                 if (repair != null)
                 {
+                    if (repair.RepairId == -10) return;
+
                     v_Receipt_Document document = ReceiptDocumentRequest.GetDocument((int)repair.DocumentId);
                     ReceiptDocumentInspector window = new ReceiptDocumentInspector(document);
                     window.Show();
                 }
             }
-            else
-                MessageBox.Show("Нет доступа!", "Открыть документ");
         }
 
         private void OpenEditRepairWindow(object sender, RoutedEventArgs e)
         {
             if (Docunents.SelectedItem != null)
             {
-                EditRepairWindow window = new EditRepairWindow((v_Repairs)Docunents.SelectedItem);
-                window.Show();
-            }
-        }
+                v_Repairs repair = (v_Repairs)Docunents.SelectedItem;
+                if (repair != null)
+                {
+                    if (repair.RepairId == -10) return;
 
-        private bool IsInspectorOrAdmin()
-        {
-            int.TryParse(Properties.Settings.Default.DefaultUserId.ToString(), out int userId);
-            var user = UsersRequest.GetUser(userId);
-            if (user != null && user.Position != "Инженер")
-            {
-                return true;
+                    EditRepairWindow window = new EditRepairWindow((v_Repairs)Docunents.SelectedItem);
+                    window.Show();
+                }
             }
-            return false;
         }
     }
 }

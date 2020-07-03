@@ -1,11 +1,14 @@
 ﻿using Pronets.Data;
 using Pronets.EntityRequests.Users_f;
+using Pronets.Model;
+using Pronets.Viev.Repairs_f;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Pronets.VievModel.Users_f
@@ -109,6 +112,44 @@ namespace Pronets.VievModel.Users_f
             ReportInfo = null;
             ReportInfo = $"С {firstDateLastMonth.ToShortDateString()} по {secondDateLastMonth.ToShortDateString()}\n";
             ReportInfo += engineer.GetRepairsCountInfo(firstDateLastMonth, secondDateLastMonth);
+        }
+        #endregion
+
+        #region Get Repairs
+        private ICommand getRepairsCommand;
+        public ICommand GetRepairsCommand
+        {
+            get
+            {
+                if (getRepairsCommand == null)
+                {
+                    getRepairsCommand = new RelayCommand(new Action<object>(GetRepairsAsync));
+                }
+                return getRepairsCommand;
+            }
+            set
+            {
+                getRepairsCommand = value;
+                RaisedPropertyChanged("GetRepairsCommand");
+            }
+        }
+        public async void GetRepairsAsync(object parametr)
+        {
+            TextVisibility = Visibility.Visible;
+            try
+            {
+                var repairs = await engineer.GetRepairsFromDate(firstDate, secondDate);
+                if (repairs.Count > 0)
+                {
+                    AllRepairsWindow win = new AllRepairsWindow(repairs);
+                    win.Show();
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(ExceptionMessanger.Message(e), "Ошибка");
+            }
+            TextVisibility = Visibility.Hidden;
         }
         #endregion
     }

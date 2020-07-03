@@ -30,8 +30,8 @@
     <UpdateUrl>\\ANDREY\Pronets\</UpdateUrl>
     <ProductName>Pronets</ProductName>
     <PublisherName>Pronets ©</PublisherName>
-    <ApplicationRevision>60</ApplicationRevision>
-    <ApplicationVersion>1.8.141.%2a</ApplicationVersion>
+    <ApplicationRevision>66</ApplicationRevision>
+    <ApplicationVersion>1.8.144.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -320,8 +320,6 @@
     <Compile Include="EntityRequests\Repairs_f\RepairsRequest.cs" />
     <Compile Include="EntityRequests\Repairs_f\StatusesRequests.cs" />
     <Compile Include="EntityRequests\Users_f\UsersRequest.cs" />
-    <Compile Include="Model\BufferView.cs" />
-    <Compile Include="Model\DefectsTextModel.cs" />
     <Compile Include="Model\DevicePrefix.cs" />
     <Compile Include="Model\DocumentPaginatorWrapper.cs" />
     <Compile Include="Model\DocumentType.cs" />
@@ -345,11 +343,13 @@
     <Compile Include="Model\Labels\LabelSamples\EltexNTE2Label.cs" />
     <Compile Include="Model\Labels\LabelSamples\EltexONTLabelGepon.cs" />
     <Compile Include="Model\Labels\LabelSamples\EltexONTLabelGpon.cs" />
+    <Compile Include="Model\Labels\LabelSamples\EltexSMGLabel.cs" />
     <Compile Include="Model\Labels\LabelSamples\EltexTAULabel.cs" />
     <Compile Include="Model\Labels\LabelSamples\HuaweiLabel.cs" />
     <Compile Include="Model\Labels\ILabel.cs" />
     <Compile Include="Model\Labels\LabelRepository.cs" />
     <Compile Include="Model\Labels\LabelSamples\MacAdressLabel.cs" />
+    <Compile Include="Model\Labels\LabelSamples\SmlLabel.cs" />
     <Compile Include="Model\Labels\LabelSamples\STBLabel.cs" />
     <Compile Include="Model\Labels\ZebraPrintLabel.cs" />
     <Compile Include="Model\Logging.cs" />
@@ -364,7 +364,7 @@
     <Compile Include="Model\RepairsModel.cs" />
     <Compile Include="Model\SerialNumbers.cs" />
     <Compile Include="Model\SortingRepair.cs" />
-    <Compile Include="Model\TCP\TCPClient.cs" />
+    <Compile Include="Model\Printer\ServerPrinter.cs" />
     <Compile Include="Model\Validations.cs" />
     <Compile Include="Model\XLSWriter.cs" />
     <Compile Include="Navigation\IPageResolver.cs" />
@@ -372,10 +372,6 @@
     <Compile Include="Navigation\Navigation.cs" />
     <Compile Include="Navigation\PagesResolver.cs" />
     <Compile Include="Navigation\WindowsNavigation\OpenWindowCommand.cs" />
-    <Compile Include="Repository\BaseRepository.cs" />
-    <Compile Include="Repository\IRepository.cs" />
-    <Compile Include="Repository\ReceiptDocumentRepository.cs" />
-    <Compile Include="Repository\RepairsPageRepository.cs" />
     <Compile Include="VievModel\Clients_f\AddClientVM.cs" />
     <Compile Include="VievModel\Clients_f\ClientInfoWIndowVM.cs" />
     <Compile Include="VievModel\Clients_f\ClientsVM.cs" />
@@ -393,7 +389,6 @@
     <Compile Include="VievModel\Nomenclature_f\Nomenclature_TypesVM.cs" />
     <Compile Include="VievModel\Other\AdminOvertimeWindowVM.cs" />
     <Compile Include="VievModel\Other\BarcodeWindowVM.cs" />
-    <Compile Include="VievModel\Other\CopyBufferWindowVM.cs" />
     <Compile Include="VievModel\Other\DefectiveStatement_f\DefectiveStatementWindowVM.cs" />
     <Compile Include="VievModel\Other\EditPartInfoWindowVM.cs" />
     <Compile Include="VievModel\Other\FaultWindowVM.cs" />
@@ -475,9 +470,6 @@
     </Compile>
     <Compile Include="Viev\Other\BarcodeWindow.xaml.cs">
       <DependentUpon>BarcodeWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Viev\Other\CopyBufferWindow.xaml.cs">
-      <DependentUpon>CopyBufferWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Viev\Other\DefectiveStatement_fw\DefectiveStatementWindow.xaml.cs">
       <DependentUpon>DefectiveStatementWindow.xaml</DependentUpon>
@@ -671,10 +663,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Viev\Other\CopyBufferWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Viev\Other\DefectiveStatement_fw\DefectiveStatementWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -770,13 +758,11 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Viev\Other\bigLogo.jpg" />
-    <Resource Include="Notes.txt" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Viev\Users_f\Loading.gif" />
     <Resource Include="Viev\MainWindows\Pages\Loading.gif" />
     <Resource Include="Content\Loading.gif" />
-    <Resource Include="Readme.txt" />
     <Resource Include="Viev\Settings.png" />
   </ItemGroup>
   <ItemGroup>

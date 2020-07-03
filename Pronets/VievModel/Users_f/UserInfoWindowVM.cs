@@ -2,6 +2,7 @@
 using Pronets.EntityRequests.Repairs_f;
 using Pronets.EntityRequests.Users_f;
 using Pronets.Model;
+using Pronets.Viev.Repairs_f;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,7 +14,7 @@ using System.Windows.Input;
 
 namespace Pronets.VievModel.Users_f
 {
-    class UserInfoWindowVM : VievModelBase
+    public class UserInfoWindowVM : VievModelBase
     {
         #region Properties
         Users user;
@@ -57,6 +58,16 @@ namespace Pronets.VievModel.Users_f
             {
                 selectedPosition = value;
                 RaisedPropertyChanged("SelectedPosition");
+            }
+        }
+        private SortingRepair selectedRepairItem;
+        public SortingRepair SelectedRepairItem
+        {
+            get { return selectedRepairItem; }
+            set
+            {
+                selectedRepairItem = value;
+                RaisedPropertyChanged("SelectedRepairItem");
             }
         }
         private ObservableCollection<Repair_Categories> repair_Categories;
@@ -322,7 +333,7 @@ namespace Pronets.VievModel.Users_f
             Patronymic = user.Patronymic;
             Birthday = user.Birthday;
             Adress = user.Adress;
-            SalaryPerDay = user.SalaryPerDay.ToString() ;
+            SalaryPerDay = user.SalaryPerDay.ToString();
             SalaryPerHour = user.SalaryPerHour.ToString();
             GetPosition();
             FirstDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
@@ -364,14 +375,14 @@ namespace Pronets.VievModel.Users_f
         private void StartInfo()
         {
             var repairs = RepairsRequest.SortUserList(engineer.Id, firstDate, secondDate);
-            if(repairs != null)
+            if (repairs != null)
             {
                 foreach (var item in repairs)
                 {
                     V_Repairs.Add(item);
                 }
             }
-            
+
             if (V_Repairs != null)
             {
                 var result = from equip in V_Repairs
@@ -422,14 +433,14 @@ namespace Pronets.VievModel.Users_f
                 if (!AllCategory && selectedCategory != null)
                 {
                     var repairs = RepairsRequest.SortUserList(engineer.Id, firstDate, secondDate, selectedCategory.Category);
-                    if(repairs != null)
+                    if (repairs != null)
                     {
                         foreach (var item in repairs)
                         {
                             V_Repairs.Add(item);
                         }
                     }
-                   
+
                     if (V_Repairs != null)
                     {
                         var result = from equip in V_Repairs
@@ -544,5 +555,20 @@ namespace Pronets.VievModel.Users_f
         }
 
         #endregion
+
+        
+        public void OpenRepairs(string nomenclature)
+        {
+            if (nomenclature != null)
+            {
+                var repairs = V_Repairs.Where(r => r.Nomenclature == nomenclature);
+                if (repairs.Count() > 0)
+                {
+                    AllRepairsWindow win = new AllRepairsWindow(new ObservableCollection<v_Repairs>(repairs));
+                    win.Show();
+                }
+            }
+        }
+        
     }
 }

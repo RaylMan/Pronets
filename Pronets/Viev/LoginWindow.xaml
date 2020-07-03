@@ -21,5 +21,25 @@
         <Button x:Name="btnSettings"   HorizontalAlignment="Left" VerticalAlignment="Top" Margin="144,127,0,0" Click="BtnSettings_Click" Height="24">
             <Image Source="Settings.png" Height="18" Width="19"/>
         </Button>
+
+        <Image x:Name="imgLoading" Source="/Content/Loading.gif"  Width="24" Height="24" Visibility="Hidden"
+               VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Image.RenderTransform>
+                <RotateTransform x:Name="rotate"
+                         CenterX="12"
+                         CenterY="12"/>
+            </Image.RenderTransform>
+            <Image.Triggers>
+                <EventTrigger RoutedEvent="Loaded">
+                    <BeginStoryboard>
+                        <Storyboard RepeatBehavior="Forever">
+                            <DoubleAnimation Storyboard.TargetName="rotate"
+                                     Storyboard.TargetProperty="Angle"
+                                     By="360" Duration="0:0:1"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Image.Triggers>
+        </Image>
     </Grid>
 </Window>

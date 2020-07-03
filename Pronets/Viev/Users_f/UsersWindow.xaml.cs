@@ -35,22 +35,14 @@ namespace Pronets.Viev.Users_f
         public UsersWindow()
         {
             InitializeComponent();
-            Style rowStyle = new Style(typeof(DataGridRow));
-            rowStyle.Setters.Add(new EventSetter(DataGridRow.MouseDoubleClickEvent,
-                                     new MouseButtonEventHandler(Row_DoubleClick)));
-            dataGrid.RowStyle = rowStyle;
         }
         private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
         {
-            try
+            if(dataGrid.SelectedItem != null)
             {
                 Users user = (Users)dataGrid.SelectedItem;
                 UserInfoWindow win = new UserInfoWindow(user);
                 win.Show();
-            }
-            catch (System.InvalidCastException)
-            {
-                MessageBox.Show("Как вы собираетесь открыть строку без работника?", "Ошибка");
             }
         }
 

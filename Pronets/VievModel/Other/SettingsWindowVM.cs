@@ -156,7 +156,7 @@ namespace Pronets.VievModel.Other
             try
             {
                 Printers = PrintersRepository.GetPrinters();
-                SelectedPrinter = PrintersRepository.GetDefaultPrinter();
+                SelectedPrinter = PrintersRepository.GetDefaultPrinterName();
             }
             catch (Exception e)
             {

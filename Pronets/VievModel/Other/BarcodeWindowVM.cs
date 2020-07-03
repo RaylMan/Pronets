@@ -89,19 +89,12 @@ namespace Pronets.VievModel.Other
             set
             {
                 selectedLabel = value;
-                SerBorderBrushColor();
+                SetBorderBrushColor();
+                SetNomenclatureType();
                 RaisedPropertyChanged("SelectedLabel");
             }
         }
-        private void SerBorderBrushColor()
-        {
-            if (selectedLabel != null)
-            {
-                SNBorderColor = selectedLabel.SNBorderColor;
-                MacBorderColor = selectedLabel.MacBorderColor;
-                PonBorderColor = selectedLabel.PonBorderColor;
-            }
-        }
+
         private Nomenclature_Types selectedType;
         public Nomenclature_Types SelectedType
         {
@@ -203,7 +196,7 @@ namespace Pronets.VievModel.Other
                 RaisedPropertyChanged("PonBorderColor");
             }
         }
-        private bool isNTE = false; 
+        private bool isNTE = false;
         public bool IsNTE
         {
             get { return isNTE; }
@@ -228,30 +221,29 @@ namespace Pronets.VievModel.Other
         #endregion
         public BarcodeWindowVM()
         {
-            Labels = LabelRepository.GetLabels();
-            GetPrinters();
-            DefaultType();
+            Init();
         }
+        #region Methods
         private void GetPrinters()
         {
             try
             {
                 Printers = PrintersRepository.GetPrinters();
             }
-            catch (Exception e )
+            catch (Exception e)
             {
                 MessageBox.Show(ExceptionMessanger.Message(e));
             }
         }
-        
-        private void DefaultType()
+
+        private void Init()
         {
+            GetPrinters();
+            Labels = LabelRepository.GetLabels();
             Nomenclature_Types = Nomenclature_TypesRequest.FillList();
-            var defaultType = Nomenclature_Types.FirstOrDefault(t => t.Type == "ONT");
+            SelectedPrinter = PrintersRepository.GetDefaultPrinterName();
             SelectedLabel = Labels[0];
-            SelectedType = defaultType;
-            selectedNomenclature = nomenclatures[0];
-            SelectedPrinter = PrintersRepository.GetDefaultPrinter();
+            SetNomenclatureType();
         }
         private void FillNomenclaturete(Nomenclature_Types type)
         {
@@ -259,8 +251,33 @@ namespace Pronets.VievModel.Other
             {
                 Nomenclatures.Clear();
                 Nomenclatures = NomenclatureRequest.GetNomenclaturesByType(type);
+                if (Nomenclatures.Count > 0) SelectedNomenclature = Nomenclatures[0];
             }
         }
+        private void SetBorderBrushColor()
+        {
+            if (selectedLabel != null)
+            {
+                SNBorderColor = selectedLabel.SNBorderColor;
+                MacBorderColor = selectedLabel.MacBorderColor;
+                PonBorderColor = selectedLabel.PonBorderColor;
+            }
+        }
+        private void SetNomenclatureType()
+        {
+            if (selectedLabel != null)
+            {
+                var type = Nomenclature_Types.FirstOrDefault(t => t.Type == selectedLabel.NomenclatureType);
+                if (type != null)
+                {
+                    SelectedType = type;
+                    Nomenclatures = NomenclatureRequest.GetNomenclaturesByType(type);
+                    if (Nomenclatures.Count > 0) SelectedNomenclature = Nomenclatures[0];
+                }
+            }
+        }
+        #endregion
+
         #region PrintCommand
         private ICommand printCommand;
         public ICommand PrintCommand
@@ -399,7 +416,7 @@ namespace Pronets.VievModel.Other
         }
         public void CreateExample(object Parameter)
         {
-           
+
             string FilePath = null;
             SaveFileDialog showDialog = new SaveFileDialog();
             showDialog.Filter = ".xlsx Files (*.xlsx)|*.xlsx";
@@ -418,7 +435,7 @@ namespace Pronets.VievModel.Other
                 {
                     MessageBox.Show(e.Message, "Ошибка");
                 }
-                
+
             }
         }
         #endregion

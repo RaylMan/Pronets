@@ -94,7 +94,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTextColumn Header="Серийный номер" Width="160" Binding="{Binding Path=Serial_Number, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" CanUserSort="False" >
+                <DataGridTextColumn x:Name="serial" Header="Серийный номер" Width="160" Binding="{Binding Serial_Number, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" CanUserSort="False" >
                     <DataGridTextColumn.EditingElementStyle>
                         <Style TargetType="{x:Type TextBox}">
                             <Setter Property="MaxLength" Value="50"/>

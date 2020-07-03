@@ -95,6 +95,24 @@ namespace Pronets.EntityRequests.Users_f
             }
             return user;
         }
+        public static bool IsAdminOrInspector()
+        {
+            Users user = new Users();
+            int.TryParse(Properties.Settings.Default.DefaultUserId.ToString(), out int userId);
+            using (var db = ConnectionTools.GetConnection())
+            {
+                try
+                {
+                    user = db.Users.Where(u => u.UserId == userId).FirstOrDefault();
+                    if (user.Position == "Администратор" || user.Position == "Директор" || user.Position == "Приемщик") return true;
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+            return false;
+        }
         public static bool IsAdmin()
         {
             Users user = new Users();
@@ -520,91 +538,5 @@ namespace Pronets.EntityRequests.Users_f
             }
             return isSame;
         }
-
-        #region CopyBuffer
-        /// <summary>
-        /// Возращает CopyBuffer по UserID
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public static string GetCopyBufer(int id)
-        {
-            using (var db = ConnectionTools.GetConnection())
-            {
-                try
-                {
-                    return db.Users.FirstOrDefault(u => u.UserId == id).CopyBuffer;
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
-            }
-        }
-        public static BufferView GetBufer(int id)
-        {
-            BufferView buffer = new BufferView();
-            using (var db = ConnectionTools.GetConnection())
-            {
-                try
-                {
-                    var user = db.Users.FirstOrDefault(u => u.UserId == id);
-                    if (user == null)
-                        throw new ArgumentNullException("Ошибка БД.\nНет пользователя с таким ID: " + id);
-                    buffer.CopyBuffer = user.CopyBuffer;
-                    buffer.BufferSerial = user.BufferSerial;
-                    buffer.BufferMac = user.BufferMac;
-                    buffer.BufferPonMac = user.BufferPonMac;
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
-            }
-            return buffer;
-        }
-        public static void SaveBuffer(int id, BufferView buffer)
-        {
-            using (var db = ConnectionTools.GetConnection())
-            {
-                try
-                {
-                    var user = db.Users.FirstOrDefault(u => u.UserId == id);
-                    if (user == null)
-                        throw new ArgumentNullException("Ошибка БД.\nНет пользователя с таким ID: " + id);
-                    user.CopyBuffer = buffer.CopyBuffer;
-                    user.BufferSerial = buffer.BufferSerial;
-                    user.BufferMac = buffer.BufferMac;
-                    user.BufferPonMac = buffer.BufferPonMac;
-
-                    db.SaveChanges();
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
-            }
-        }
-
-        public static void SetCopyBufer(int id, string buffer)
-        {
-            using (var db = ConnectionTools.GetConnection())
-            {
-                try
-                {
-                    var user = db.Users.FirstOrDefault(u => u.UserId == id);
-                    if (user == null)
-                        throw new ArgumentNullException("Ошибка БД.\nНет пользователя с таким ID: " + id);
-                    user.CopyBuffer = buffer;
-                    db.SaveChanges();
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
-            }
-        }
-        #endregion
-
     }
 }

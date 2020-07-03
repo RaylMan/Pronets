@@ -4,7 +4,9 @@ namespace Pronets.Model.Labels.LabelSamples
 {
     public class STBLabel : ILabel
     {
-        public string LabelName { get { return "Приставки"; } }
+        public string LabelName => "Приставки";
+        public string NomenclatureType => "Приставка";
+
         public Brush SNBorderColor => Brushes.Green;
 
         public Brush MacBorderColor => Brushes.Green;

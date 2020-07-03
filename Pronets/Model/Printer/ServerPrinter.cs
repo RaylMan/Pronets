@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Pronets.Model.TCP
 {
-    public class TCPClient : IPrint
+    public class ServerPrinter : IPrint
     {
         private string host = Properties.Settings.Default.ServerHost.ToString();
         private const int port = 8888;
@@ -19,10 +19,8 @@ namespace Pronets.Model.TCP
             client = new TcpClient();
             try
             {
-                client.Connect(host, port); //подключение клиента
-                stream = client.GetStream(); // получаем поток
-
-                Random r = new Random();
+                client.Connect(host, port); 
+                stream = client.GetStream();
                 byte[] data = Encoding.Unicode.GetBytes(message);
                 stream.Write(data, 0, data.Length);
             }

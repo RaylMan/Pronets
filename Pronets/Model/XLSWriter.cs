@@ -9,6 +9,9 @@ using System.Windows;
 
 namespace Pronets.Model
 {
+    /// <summary>
+    /// Don't user it!!!
+    /// </summary>
     public class XLSWriter
     {
         private string responsiblePerson = null;
@@ -17,6 +20,8 @@ namespace Pronets.Model
         private Clients client;
         public XLSWriter(Clients pronetsClient, Clients client, string responsiblePerson, string chiefEngineer)
         {
+            throw new NotSupportedException("Старый класс. НЕ использовать!!");
+
             this.responsiblePerson = responsiblePerson;
             this.chiefEngineer = chiefEngineer;
             this.pronetsClient = pronetsClient;

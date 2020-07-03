@@ -2,6 +2,7 @@
 using Pronets.EntityRequests;
 using Pronets.EntityRequests.Clients_f;
 using Pronets.EntityRequests.Nomenclature_f;
+using Pronets.EntityRequests.Other;
 using Pronets.EntityRequests.Repairs_f;
 using Pronets.EntityRequests.Users_f;
 using Pronets.Model;
@@ -246,6 +247,30 @@ namespace Pronets.VievModel.Repairs_f
         }
         #endregion
 
+        #region ReceiptDocuments properties
+        private ObservableCollection<ReceiptDocument> receiptDocuments = new ObservableCollection<ReceiptDocument>();
+        public ObservableCollection<ReceiptDocument> ReceiptDocuments
+        {
+            get { return receiptDocuments; }
+
+            set
+            {
+                receiptDocuments = value;
+                RaisedPropertyChanged("ReceiptDocuments");
+            }
+        }
+        private ReceiptDocument selectedDocument;
+        public ReceiptDocument SelectedDocument
+        {
+            get { return selectedDocument; }
+            set
+            {
+                selectedDocument = value;
+                RaisedPropertyChanged("SelectedDocument");
+            }
+        }
+        #endregion
+
         #region Nomenclatures properties
         private ObservableCollection<Nomenclature> nomenclatures = new ObservableCollection<Nomenclature>();
         public ObservableCollection<Nomenclature> Nomenclatures
@@ -473,6 +498,7 @@ namespace Pronets.VievModel.Repairs_f
             {
                 RepairId = defaultRepair.RepairId;
                 DocumentId = defaultRepair.DocumentId;
+                GetReceiptDocument();
                 GetNomenclature(defaultRepair.Nomenclature);
                 Serial_Number = defaultRepair.Serial_Number;
                 Claimed_Malfunction = defaultRepair.Claimed_Malfunction;
@@ -490,6 +516,13 @@ namespace Pronets.VievModel.Repairs_f
                 GetStatuses(defaultRepair.Status);
                 Note = defaultRepair.Note;
             }
+        }
+        private void GetReceiptDocument()
+        {
+            ReceiptDocuments = ReceiptDocumentRequest.FillList();
+            ReceiptDocument doc = ReceiptDocuments.First(d => d.DocumentId == defaultRepair.DocumentId);
+            if (doc != null)
+                SelectedDocument = doc;
         }
         private void GetWarrantys(string warranty)
         {
@@ -608,7 +641,8 @@ namespace Pronets.VievModel.Repairs_f
                               SelectedClientItem != null &&
                               SelectedUser != null &&
                               SelectedWarrantyItem != null &&
-                              SelectedStatusItem != null
+                              SelectedStatusItem != null &&
+                              SelectedDocument != null
                              )
                     {
                         string recipient = SelectedRecipient != null ? SelectedRecipient.ClientName : null;
@@ -618,7 +652,7 @@ namespace Pronets.VievModel.Repairs_f
                         Repairs editingRepair = new Repairs
                         {
                             RepairId = defaultRepair.RepairId,
-                            DocumentId = defaultRepair.DocumentId,
+                            DocumentId = SelectedDocument.DocumentId,
                             Nomenclature = SelectedNomenclatureItem.Name,
                             Serial_Number = this.Serial_Number,
                             Claimed_Malfunction = this.Claimed_Malfunction,
@@ -641,6 +675,7 @@ namespace Pronets.VievModel.Repairs_f
                     else
                     {
                         MessageBox.Show("Необходимо установить:\n" +
+                        "- № документа\n" +
                         "- Номеклатура\n" +
                         "- Гарантия\n" +
                         "- Приемщик\n" +

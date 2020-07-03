@@ -26,7 +26,7 @@ namespace Pronets.Model.Printer
             }
             catch (ConnectionException e)
             {
-                throw new ArgumentException("Нет подключения к принтеру.\nПодключите принтер или установите IP принтера:\nЛичные данные -> Настройки -> IP Адрес принтера");
+                throw new ArgumentException("Нет подключения к принтеру.\nПодключите принтер или установите IP адрес принтера:\nЛичные данные -> Настройки -> IP Адрес принтера");
             }
             catch (Exception e)
             {

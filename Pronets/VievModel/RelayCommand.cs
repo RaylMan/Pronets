@@ -37,7 +37,6 @@ namespace Pronets.VievModel
 
         #endregion
 
-
         #region Constructors
 
         public RelayCommand(Action<T> execute)
@@ -58,21 +57,17 @@ namespace Pronets.VievModel
 
         #endregion
 
-
         #region ICommand Implementation
-
         [DebuggerStepThrough]
         public bool CanExecute(object parameter)
         {
             return _canExecute == null ? true : _canExecute(parameter);
         }
-
         public event EventHandler CanExecuteChanged
         {
             add { CommandManager.RequerySuggested += value; }
             remove { CommandManager.RequerySuggested -= value; }
         }
-
         public void Execute(object parameter)
         {
             if (parameter is T)
@@ -81,7 +76,6 @@ namespace Pronets.VievModel
                 _execute(typedParameter);
             }
         }
-
         #endregion
     }
 }

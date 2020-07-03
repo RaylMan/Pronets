@@ -16,7 +16,7 @@ namespace Pronets.Model.Printer
             printers.Clear();
             try
             {
-                printers.Add(new TCPClient());
+                printers.Add(new ServerPrinter());
                 printers.Add(new ZebraPrinter(new ZebraTCPConnection(Properties.Settings.Default.PrinterServerHost.ToString())));
             }
             catch
@@ -26,7 +26,7 @@ namespace Pronets.Model.Printer
 
             return printers;
         }
-        public static IPrint GetDefaultPrinter()
+        public static IPrint GetDefaultPrinterName()
         {
             var printerName = Properties.Settings.Default.DefaultPrinterName.ToString();
             if (string.IsNullOrWhiteSpace(printerName)) return null;

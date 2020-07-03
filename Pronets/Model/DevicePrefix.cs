@@ -8,6 +8,10 @@ namespace Pronets.Model
 {
     public enum DevicePrefix
     {
-       NTU,NTP,NTE,TAU,RG
+        NTU,
+        NTP,
+        NTE,
+        TAU,
+        RG
     }
 }

@@ -5,7 +5,7 @@ namespace Pronets.Model.Labels
     class HuaweiLabel : ILabel
     {
         public string LabelName => "Huawei";
-
+        public string NomenclatureType => "GPON";
         public Brush SNBorderColor => Brushes.Green;
 
         public Brush MacBorderColor => Brushes.Green;

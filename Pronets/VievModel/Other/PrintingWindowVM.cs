@@ -52,11 +52,9 @@ namespace Pronets.VievModel.Other
         }
 
         private FontSizes selectedSize;
-
         public FontSizes SelectedSize
         {
             get { return selectedSize; }
-
             set
             {
                 selectedSize = value;
@@ -331,11 +329,13 @@ namespace Pronets.VievModel.Other
             {
                 try
                 {
-                    DefectiveStatements ds = new DefectiveStatements();
-                    ds.ClientId = client.ClientId;
-                    ds.UserId = user.UserId;
-                    ds.DocumentId = repairsTable[0].DocumentId ?? 0;
-                    ds.Date = DateTime.Now;
+                    DefectiveStatements ds = new DefectiveStatements
+                    {
+                        ClientId = client.ClientId,
+                        UserId = user.UserId,
+                        DocumentId = repairsTable[0].DocumentId ?? 0,
+                        Date = DateTime.Now
+                    };
                     DefectiveStatementsRequests.AddStatements(ds);
 
                     foreach (var repair in repairsTable)

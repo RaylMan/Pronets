@@ -5,7 +5,7 @@ namespace Pronets.Model.Labels.LabelSamples
     public class DLinkServiceUserInfoLabel : ILabel
     {
         public string LabelName => "D-Link сервисный аккаунт";
-
+        public string NomenclatureType => "Станционное оборудование ";
         public Brush SNBorderColor => Brushes.Red;
 
         public Brush MacBorderColor => Brushes.Red;

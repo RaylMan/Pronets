@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pronets.Viev.Users_f"
         mc:Ignorable="d"
-        Title="{Binding TitleName}" Height="595" Width="630" MinHeight="595" MinWidth="630" Background="Gainsboro" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Topmost="True">
+        Title="{Binding TitleName}" Height="595" Width="630" MinHeight="595" MinWidth="630" Background="Gainsboro" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid Margin="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="35"></RowDefinition>
@@ -116,16 +116,19 @@
                   ItemsSource="{Binding SortingRepair}" SelectedIndex="{Binding SelectedIndex}" SelectedValue="{Binding SelectedRepairItem}"
                   FrozenColumnCount="3"  AutoGenerateColumns="False" SelectionMode="Single" HorizontalGridLinesBrush="#FF999999"
                   VerticalGridLinesBrush="#FF999999" CanUserAddRows="False" CanUserDeleteRows="False">
+                <DataGrid.Resources>
+                    <Style TargetType="DataGridRow">
+                        <EventSetter Event="MouseDoubleClick" Handler="Row_DoubleClick"/>
+                    </Style>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="White" />
+                    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#0078D7"/>
+                </DataGrid.Resources>
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Номенклатура" Binding="{Binding NomenclatureName }" Width="*" IsReadOnly="True"/>
                     <DataGridTextColumn Header="Количество" Binding="{Binding RepairsCount}" IsReadOnly="True"/>
                 </DataGrid.Columns>
             </DataGrid>
             <TextBox x:Name="textBlock" Text="{Binding Information, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" IsReadOnly="True" Margin="0,5,5,5" TextWrapping="Wrap" Background="Gainsboro"/>
-
         </Grid>
-
-
-
     </Grid>
 </Window>

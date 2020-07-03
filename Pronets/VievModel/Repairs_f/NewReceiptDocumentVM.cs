@@ -329,7 +329,7 @@ namespace Pronets.VievModel.Repairs_f
             GetContent();
             GetClient();
         }
-        #region methods
+        #region Methods
 
         private void GetContent()
         {
@@ -424,19 +424,19 @@ namespace Pronets.VievModel.Repairs_f
         }
         public async void AddRepairAsync(object Parameter)
         {
-            await Task.Factory.StartNew(AddRepair);
+            await Task.Factory.StartNew(() => AddRepair(Parameter));
         }
         public void AddRepair(object Parameter)
         {
             if (!isOldDocument)
-                AddRepair();
+                AddRepairNew();
             else
                 AddRepairInOldDocument();
         }
         /// <summary>
         /// Добавляет в базу данных новый документ и ремонты к нему
         /// </summary>
-        public void AddRepair()
+        public void AddRepairNew()
         {
             try
             {
@@ -482,7 +482,7 @@ namespace Pronets.VievModel.Repairs_f
                         repairs[i].DocumentId = DocumentId;
                         repairs[i].Nomenclature = nm;
                         repairs[i].Client = selectClientItem.ClientId;
-                        repairs[i].Status = SelectedStatus.Status;
+                        repairs[i].Status = SelectedStatus.Status ?? "Принято";
                         repairs[i].Date_Of_Receipt = date_Of_Receipt;
                         repairs[i].Engineer = defaultEngineer.Id;
                         repairs[i].Inspector = defaultUser.UserId;
@@ -501,7 +501,6 @@ namespace Pronets.VievModel.Repairs_f
             {
                 MessageBox.Show(ExceptionMessanger.Message(e));
             }
-            
         }
 
 
@@ -533,11 +532,10 @@ namespace Pronets.VievModel.Repairs_f
 
                                 nm = repairs[i].Nomenclature1 != null ? repairs[i].Nomenclature1.Name : "Отсутствует";
                                 wt = repairs[i].Warrantys != null ? repairs[i].Warrantys.Warranty : "Нет";
-
                                 repairs[i].DocumentId = DocumentId;
                                 repairs[i].Nomenclature = nm;
                                 repairs[i].Client = selectClientItem.ClientId;
-                                repairs[i].Status = "Принято";
+                                repairs[i].Status = SelectedStatus.Status ?? "Принято";
                                 repairs[i].Date_Of_Receipt = date_Of_Receipt;
                                 repairs[i].Engineer = defaultEngineer.Id;
                                 repairs[i].Inspector = defaultUser.UserId;
@@ -585,6 +583,7 @@ namespace Pronets.VievModel.Repairs_f
             return isHave;
         }
         #endregion
+
         #region FindCopiesCommand
         private ICommand findCopiesCommand;
         public ICommand FindCopiesCommand
@@ -725,6 +724,40 @@ namespace Pronets.VievModel.Repairs_f
         {
             repairs.Clear();
             NoteOfDocument = string.Empty;
+        }
+        #endregion
+
+        #region EditChars command
+        private ICommand editCharsCommand;
+        public ICommand EditCharsCommand
+        {
+            get
+            {
+                if (editCharsCommand == null)
+                {
+                    editCharsCommand = new RelayCommand(new Action<object>(EditCharsToEng));
+                }
+                return editCharsCommand;
+            }
+            set
+            {
+                editCharsCommand = value;
+                RaisedPropertyChanged("EditCharsCommand");
+            }
+        }
+        /// <summary>
+        /// Обновляет данные на странице
+        /// </summary>
+        /// <param name="parametr"></param>
+        public void EditCharsToEng(object parametr)
+        {
+            foreach (var repair in repairs)
+            {
+                if(!string.IsNullOrWhiteSpace(repair.Serial_Number))
+                {
+                    repair.Serial_Number = EditChars.ToEnglish(repair.Serial_Number.Replace(" ", ""));
+                }
+            }
         }
         #endregion
     }

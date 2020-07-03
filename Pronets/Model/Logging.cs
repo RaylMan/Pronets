@@ -11,7 +11,7 @@ namespace Pronets.Model
     {
         public static void NewLog(string message)
         {
-            using (StreamWriter sr = new StreamWriter("ErrLog.txt", true))
+            using (StreamWriter sr = new StreamWriter("C:\\PronetsErrLog.txt", true))
             {
                 sr.WriteLine($"{DateTime.Now}: {message}");
             }

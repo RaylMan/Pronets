@@ -5,7 +5,7 @@ namespace Pronets.Model.Labels.LabelSamples
     public class MacAdressLabel : ILabel
     {
         public string LabelName => "MAC адрес";
-
+        public string NomenclatureType => "GPON";
         public Brush SNBorderColor => Brushes.Red;
 
         public Brush MacBorderColor => Brushes.Green;
@@ -16,11 +16,13 @@ namespace Pronets.Model.Labels.LabelSamples
         {
             return $@"^XA
                     ^LH0,10
-                    ^FO10,45
+                    ^FO95,45
+                    ^BY1
+                    ^BCN,70,N,N,N
+                    ^FD {macAdress}^FS
+                    ^FO10,120
                     ^FB350,1,10,C,40
-                    ^BY2
-                    ^BCN,70,Y,N,N
-                    ^FD{macAdress}^FS
+                    ^A0,14,14^FDMAC {macAdress}^FS
                     ^XZ";
         }
     }

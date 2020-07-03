@@ -79,12 +79,13 @@ namespace Pronets.VievModel.Users_f
             FirstDate = month.AddMonths(-1); 
             SecondDate = month.AddDays(-1).AddHours(23);
             GetEngineersAsync();
-
+           
         }
         private async void GetEngineersAsync()
         {
             Engineers.Clear();
             await Task.Run(() => GetEngineers());
+            await Task.Run(() => GenerateReport(this));
             TextVisibility = Visibility.Hidden;
         }
         private void GetEngineers()

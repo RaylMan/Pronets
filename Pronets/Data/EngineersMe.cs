@@ -1,5 +1,9 @@
-﻿using System;
+﻿using Pronets.EntityRequests.Repairs_f;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Pronets.Data
 {
@@ -31,6 +35,28 @@ namespace Pronets.Data
             }
 
             return reportInfo;
+        }
+
+        public async Task<ObservableCollection<v_Repairs>> GetRepairsFromDate(DateTime firstDate, DateTime secondDate)
+        {
+            ObservableCollection<v_Repairs> repairs = new ObservableCollection<v_Repairs>();
+            var query = from repair in this.Repairs
+                        where repair.Repair_Date >= firstDate && repair.Repair_Date <= secondDate
+                        select repair;
+            List<Repairs> rep = new List<Repairs>(query);
+            if(query != null)
+            {
+                try
+                {
+                    return await RepairsRequest.GetViewOfRepairs(rep);
+                }
+                catch
+                {
+                    throw;
+                }
+              
+            }
+            return repairs;
         }
     }
 }

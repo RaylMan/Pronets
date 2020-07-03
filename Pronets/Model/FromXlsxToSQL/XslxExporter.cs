@@ -123,7 +123,7 @@ namespace Pronets.Model.FromXlsxToSQL
             return true;
         }
 
-        public DateTime ConvToDate(string date) //Конвертирует строку в дату ConvToDate(IsDigitsOnly(date)) 
+        public DateTime ConvToDate(string date) //Конвертирует строку в дату  
         {
             if (date != null && IsDigitsOnly(date) && date != "" && date != "")
             {

@@ -10,7 +10,7 @@ namespace Pronets.Model.Labels
     public class EltexONTLabelGpon : ILabel
     {
         public string LabelName { get { return "Eltex GPON"; } }
-
+        public string NomenclatureType => "GPON";
         public Brush SNBorderColor => Brushes.Green;
 
         public Brush MacBorderColor => Brushes.Green;

@@ -4,7 +4,8 @@ namespace Pronets.Model.Labels.LabelSamples
 {
     class EltexTAULabel : ILabel
     {
-        public string LabelName { get { return "Eltex TAU"; } }
+        public string LabelName => "Eltex TAU"; 
+        public string NomenclatureType => "VoIP";
         public Brush SNBorderColor => Brushes.Green;
 
         public Brush MacBorderColor => Brushes.Green;

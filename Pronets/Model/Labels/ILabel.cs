@@ -9,6 +9,7 @@ namespace Pronets.Model.Labels
     public interface ILabel
     {
         string LabelName { get; }
+        string NomenclatureType { get; }
         System.Windows.Media.Brush SNBorderColor { get; }
         System.Windows.Media.Brush MacBorderColor { get; }
         System.Windows.Media.Brush PonBorderColor { get; }

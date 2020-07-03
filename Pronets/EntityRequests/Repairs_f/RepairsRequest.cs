@@ -36,6 +36,30 @@ namespace Pronets.EntityRequests.Repairs_f
             }
             return repairs;
         }
+        /// <summary>
+        /// Возвращает коллекцию v_Repairs на основе коллекции Repairs
+        /// </summary>
+        /// <param name="repairs"></param>
+        /// <returns></returns>
+        public async static Task<ObservableCollection<v_Repairs>> GetViewOfRepairs(IList<Repairs> repairs)
+        {
+            ObservableCollection<v_Repairs> result = new ObservableCollection<v_Repairs>();
+            using (var db = ConnectionTools.GetConnection())
+            {
+                try
+                {
+                    foreach (var repair in repairs)
+                    {
+                        result.Add(await db.v_Repairs.FirstOrDefaultAsync(r => r.RepairId == repair.RepairId));
+                    }
+                }
+                catch
+                {
+                    throw;
+                }
+            }
+            return result;
+        }
         public static ObservableCollection<Repairs> FillListDocument(int documentId)
         {
             ObservableCollection<Repairs> repairs = new ObservableCollection<Repairs>();
@@ -778,7 +802,7 @@ namespace Pronets.EntityRequests.Repairs_f
                             {
                                 DocumentId = repair.DocumentId,
                                 Nomenclature = repair.Nomenclature,
-                                Serial_Number = repair.Serial_Number,
+                                Serial_Number = EditChars.ToEnglish(repair.Serial_Number.Replace(" ", "")).ToUpper(),
                                 Claimed_Malfunction = repair.Claimed_Malfunction,
                                 Client = repair.Client,
                                 Date_Of_Receipt = repair.Date_Of_Receipt,
@@ -830,6 +854,7 @@ namespace Pronets.EntityRequests.Repairs_f
                     var result = db.Repairs.SingleOrDefault(r => r.RepairId == repair.RepairId);
                     if (result != null)
                     {
+                        result.DocumentId = repair.DocumentId;
                         result.Nomenclature = repair.Nomenclature;
                         result.Serial_Number = repair.Serial_Number;
                         result.Client = repair.Client;
@@ -1117,7 +1142,7 @@ namespace Pronets.EntityRequests.Repairs_f
                     var result = db.Repairs.FirstOrDefault(r => r.Serial_Number == serial && r.Client == 7);
                     if (result == null) return false;
                 }
-                catch (Exception e)
+                catch
                 {
                     throw;
                 }
