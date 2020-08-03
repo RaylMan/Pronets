@@ -63,24 +63,37 @@ namespace Pronets.Viev.Repairs_f
 
         private void AllChecked_Checked(object sender, RoutedEventArgs e)
         {
-            var row = GetDataGridRows(Docunents1);
-            foreach (DataGridRow r in row)
+            try
             {
-                FrameworkElement elmchbx = Docunents1.Columns[0].GetCellContent(r);
-                CheckBox checkBox = ItemTemplateFind.FindChild<CheckBox>(elmchbx, "chkbx");
-                checkBox.IsChecked = true;
+                var row = GetDataGridRows(Docunents1);
+                foreach (DataGridRow r in row)
+                {
+                    FrameworkElement elmchbx = Docunents1.Columns[0].GetCellContent(r);
+                    CheckBox checkBox = ItemTemplateFind.FindChild<CheckBox>(elmchbx, "chkbx");
+                    checkBox.IsChecked = true;
+                }
             }
-
+            catch (Exception)
+            {
+                MessageBox.Show("Повторите еще раз.", "Ошибка");
+            }
         }
 
         private void AllChecked_Unchecked(object sender, RoutedEventArgs e)
         {
-            var row = GetDataGridRows(Docunents1);
-            foreach (DataGridRow r in row)
+            try
             {
-                FrameworkElement elmchbx = Docunents1.Columns[0].GetCellContent(r);
-                CheckBox checkBox = ItemTemplateFind.FindChild<CheckBox>(elmchbx, "chkbx");
-                checkBox.IsChecked = false;
+                var row = GetDataGridRows(Docunents1);
+                foreach (DataGridRow r in row)
+                {
+                    FrameworkElement elmchbx = Docunents1.Columns[0].GetCellContent(r);
+                    CheckBox checkBox = ItemTemplateFind.FindChild<CheckBox>(elmchbx, "chkbx");
+                    checkBox.IsChecked = false;
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Повторите еще раз.", "Ошибка");
             }
         }
 
@@ -173,6 +186,43 @@ namespace Pronets.Viev.Repairs_f
             DefectiveStatementWindow win = new DefectiveStatementWindow(document.Document_Id);
             win.Show();
             win.Focus();
+        }
+
+        private void AllCheckedCopy_Checked(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var row = GetDataGridRows(Docunents1);
+                foreach (DataGridRow r in row)
+                {
+                    FrameworkElement elmchbx = Docunents1.Columns[0].GetCellContent(r);
+                    CheckBox checkBox = ItemTemplateFind.FindChild<CheckBox>(elmchbx, "chkbx");
+                    checkBox.IsChecked = true;
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Повторите еще раз.", "Ошибка");
+            }
+           
+        }
+
+        private void AllCheckedCopy_Unchecked(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var row = GetDataGridRows(Docunents1);
+                foreach (DataGridRow r in row)
+                {
+                    FrameworkElement elmchbx = Docunents1.Columns[0].GetCellContent(r);
+                    CheckBox checkBox = ItemTemplateFind.FindChild<CheckBox>(elmchbx, "chkbx");
+                    checkBox.IsChecked = false;
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Повторите еще раз.", "Ошибка");
+            }
         }
     }
 }

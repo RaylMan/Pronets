@@ -30,7 +30,7 @@
     <UpdateUrl>\\ANDREY\Pronets\</UpdateUrl>
     <ProductName>Pronets</ProductName>
     <PublisherName>Pronets ©</PublisherName>
-    <ApplicationRevision>66</ApplicationRevision>
+    <ApplicationRevision>70</ApplicationRevision>
     <ApplicationVersion>1.8.144.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -337,6 +337,7 @@
     <Compile Include="Model\FromXlsxToSQL\SheetsId.cs" />
     <Compile Include="Model\FromXlsxToSQL\WorkList.cs" />
     <Compile Include="Model\FromXlsxToSQL\XslxExporter.cs" />
+    <Compile Include="Model\Labels\LabelSamples\CameraLabel.cs" />
     <Compile Include="Model\Labels\LabelSamples\CanNotBeRestoredLabel.cs" />
     <Compile Include="Model\Labels\LabelSamples\DLinkLoginPassLabel.cs" />
     <Compile Include="Model\Labels\LabelSamples\DLinkServiceUserInfoLabel.cs" />
@@ -473,6 +474,9 @@
     </Compile>
     <Compile Include="Viev\Other\DefectiveStatement_fw\DefectiveStatementWindow.xaml.cs">
       <DependentUpon>DefectiveStatementWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Viev\Other\EditNomenclatureWindow.xaml.cs">
+      <DependentUpon>EditNomenclatureWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Viev\Other\EditPartInfoWindow.xaml.cs">
       <DependentUpon>EditPartInfoWindow.xaml</DependentUpon>
@@ -664,6 +668,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Viev\Other\DefectiveStatement_fw\DefectiveStatementWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Viev\Other\EditNomenclatureWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

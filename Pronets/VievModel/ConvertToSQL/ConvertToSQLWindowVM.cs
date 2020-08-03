@@ -7,6 +7,7 @@ using Pronets.EntityRequests.Nomenclature_f;
 using Pronets.EntityRequests.Other;
 using Pronets.EntityRequests.Repairs_f;
 using Pronets.EntityRequests.Users_f;
+using Pronets.Model;
 using Pronets.Model.FromXlsxToSQL;
 using System;
 using System.Collections.Generic;
@@ -385,7 +386,7 @@ namespace Pronets.VievModel.ConvertToSQL
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message);
+                   MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
         }

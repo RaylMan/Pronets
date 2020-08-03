@@ -1,6 +1,7 @@
 ﻿using Pronets.Data;
 using Pronets.EntityRequests.Nomenclature_f;
 using Pronets.EntityRequests.Other;
+using Pronets.Viev.Other;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,6 +17,7 @@ namespace Pronets.VievModel.Other
     {
         #region Properties
         private Parts part;
+        private EditPartInfoWindow baseWindow;
         private PartsWindowVM partsWindowVM;
 
 
@@ -72,11 +74,18 @@ namespace Pronets.VievModel.Other
 
 
         #endregion
-        public EditPartInfoWindowVM(Parts part, PartsWindowVM partsWindowVM)
+        public EditPartInfoWindowVM(Parts part, EditPartInfoWindow baseWindow, PartsWindowVM partsWindowVM)
         {
             this.part = part;
+            this.baseWindow = baseWindow;
             this.partsWindowVM = partsWindowVM;
             GetContetnt();
+        }
+        public EditPartInfoWindowVM()
+        {
+            nomenclatures = NomenclatureRequest.FillList();
+            if (nomenclatures.Count > 0)
+                SelectedNomenclature = nomenclatures[0];
         }
         private void GetContetnt()
         {
@@ -88,6 +97,7 @@ namespace Pronets.VievModel.Other
                 SelectedNomenclature = (Nomenclature)nomenclatures.FirstOrDefault(n => n.Name == part.Equipment);
             }
         }
+
         #region Edit Part
         private ICommand savePart;
         public ICommand SavePartCommand
@@ -124,12 +134,12 @@ namespace Pronets.VievModel.Other
             if (part.IsNew)
             {
                 PartsRequest.AddToBase(part, out bool ex);
-                if (ex) MessageBox.Show("Успешно добавлено в базу данных", "Запись");
+                if (ex) baseWindow.Close();
             }
             else
             {
                 PartsRequest.EditPart(part);
-                MessageBox.Show("Успешно изменено в базе данных", "Изменение");
+                baseWindow.Close();
             }
             partsWindowVM.FillPartsList();
         }

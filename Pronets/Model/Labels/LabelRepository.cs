@@ -26,7 +26,7 @@ namespace Pronets.Model.Labels
             labels.Add(new DLinkServiceUserInfoLabel());
             labels.Add(new DLinkLoginPassLabel());
             labels.Add(new CanNotBeRestoredLabel());
-
+            labels.Add(new CameraLabel());
             return labels;
         }
     }

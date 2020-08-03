@@ -89,7 +89,7 @@ namespace Pronets.EntityRequests.Other
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message);
+                   MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
         }

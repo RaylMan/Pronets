@@ -1,6 +1,4 @@
-﻿using Pronets.Data;
-using Pronets.EntityRequests.Other;
-using Pronets.VievModel.Other;
+﻿using Pronets.VievModel.Other;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,18 +16,19 @@ using System.Windows.Shapes;
 namespace Pronets.Viev.Other
 {
     /// <summary>
-    /// Логика взаимодействия для EditPartInfoWindow.xaml
+    /// Логика взаимодействия для EditNomenclatureWindow.xaml
     /// </summary>
-    public partial class EditPartInfoWindow : Window
+    public partial class EditNomenclatureWindow : Window
     {
-        public EditPartInfoWindow(Parts part, PartsWindowVM partsWindowVM)
+        public EditNomenclatureWindow()
         {
             InitializeComponent();
-            if (!part.IsNew)
-            {
-                tbxName.IsReadOnly = true;
-            }
-            DataContext = new EditPartInfoWindowVM(part, this, partsWindowVM);
+            DataContext = new EditPartInfoWindowVM();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

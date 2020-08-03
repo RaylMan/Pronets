@@ -779,7 +779,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message);
+                   MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
         }
@@ -837,7 +837,6 @@ namespace Pronets.EntityRequests.Repairs_f
                     {
                         MessageBox.Show(ExceptionMessanger.Message(e));
                     }
-
                 }
             }
         }
@@ -876,7 +875,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message);
+                   MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
         }
@@ -895,7 +894,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message);
+                   MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
         }
@@ -916,7 +915,39 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message);
+                   MessageBox.Show(ExceptionMessanger.Message(e));
+                }
+            }
+        }
+        public static void EditItemWarranty(int repairId, string warranty)
+        {
+            using (var db = ConnectionTools.GetConnection())
+            {
+                try
+                {
+                    var result = db.Repairs.FirstOrDefault(r => r.RepairId == repairId);
+                    result.Warranty = warranty;
+                    db.SaveChanges();
+                }
+                catch
+                {
+                    throw;
+                }
+            }
+        }
+        public static void EditItemNomenclature(int repairId, string nomenclature)
+        {
+            using (var db = ConnectionTools.GetConnection())
+            {
+                try
+                {
+                    var result = db.Repairs.FirstOrDefault(r => r.RepairId == repairId);
+                    result.Nomenclature = nomenclature;
+                    db.SaveChanges();
+                }
+                catch
+                {
+                    throw;
                 }
             }
         }
@@ -940,7 +971,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message);
+                   MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
         }
@@ -960,7 +991,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message);
+                   MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
         }
@@ -1007,7 +1038,7 @@ namespace Pronets.EntityRequests.Repairs_f
                 {
                     var result = db.Repairs.Where(r => r.RepairId == repairId).FirstOrDefault();
                     repair = (Repairs)result;
-                    if(result != null)
+                    if (result != null)
                     {
                         db.Repairs.Attach(repair);
                         db.Repairs.Remove(repair);

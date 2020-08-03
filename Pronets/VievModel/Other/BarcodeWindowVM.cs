@@ -390,7 +390,7 @@ namespace Pronets.VievModel.Other
             {
                 Status = "Ошибка!";
 
-                MessageBox.Show(e.Message);
+               MessageBox.Show(ExceptionMessanger.Message(e));
             }
             TextVisibility = Visibility.Hidden;
         }

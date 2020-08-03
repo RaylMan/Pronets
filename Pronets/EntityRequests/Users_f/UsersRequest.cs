@@ -453,7 +453,7 @@ namespace Pronets.EntityRequests.Users_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message);
+                   MessageBox.Show(ExceptionMessanger.Message(e));
                     ex = false;
                 }
                 return loginUser;
@@ -489,7 +489,7 @@ namespace Pronets.EntityRequests.Users_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message);
+                   MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
         }
@@ -511,7 +511,7 @@ namespace Pronets.EntityRequests.Users_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message);
+                   MessageBox.Show(ExceptionMessanger.Message(e));
                 }
 
             }
@@ -533,7 +533,7 @@ namespace Pronets.EntityRequests.Users_f
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message);
+                   MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return isSame;

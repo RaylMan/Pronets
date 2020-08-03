@@ -5,6 +5,7 @@ using Pronets.EntityRequests.Other;
 using Pronets.EntityRequests.Repairs_f;
 using Pronets.EntityRequests.Users_f;
 using Pronets.Model;
+using Pronets.Viev.Other;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -23,7 +24,36 @@ namespace Pronets.VievModel.Repairs_f
     public class ReceiptDocumentInspectorVM : RepairsModel
     {
         #region Properties
-
+        private string noWarranty = "Нет";
+        public string NoWarranty
+        {
+            get { return noWarranty; }
+            set
+            {
+                noWarranty = value;
+                RaisedPropertyChanged("NoWarranty");
+            }
+        }
+        private string warrantyPronets = "Наша Гарантия";
+        public string WarrantyPronets
+        {
+            get { return warrantyPronets; }
+            set
+            {
+                warrantyPronets = value;
+                RaisedPropertyChanged("WarrantyPronets");
+            }
+        }
+        private string warrantyEltex = "Гарантия Элтекс";
+        public string WarrantyEltex
+        {
+            get { return warrantyEltex; }
+            set
+            {
+                warrantyEltex = value;
+                RaisedPropertyChanged("WarrantyEltex");
+            }
+        }
         Dispatcher _dispatcher;
         private List<v_Repairs> searchRepairs = new List<v_Repairs>(); // список для поиска
         private ObservableCollection<Statuses> statuses = new ObservableCollection<Statuses>();
@@ -346,7 +376,6 @@ namespace Pronets.VievModel.Repairs_f
                         }
                     }
 
-
                     RepairsRequest.EditItemClient(Document.Document_Id, SelectedClientItem.ClientId);
                     ReceiptDocumentRequest.EditItem(editingDocument);
 
@@ -357,7 +386,7 @@ namespace Pronets.VievModel.Repairs_f
 
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message);
+                    MessageBox.Show(ExceptionMessanger.Message(e));
                 }
 
             }
@@ -646,6 +675,105 @@ namespace Pronets.VievModel.Repairs_f
         }
         #endregion
 
+        #region Edit Nomenclature
+        protected ICommand editNomenclature;
+        public ICommand EditNomenclature
+        {
+            get
+            {
+                if (editNomenclature == null)
+                {
+                    editNomenclature = new RelayCommand(new Action<object>(EditingNomenclatureAsync));
+                }
+                return editNomenclature;
+            }
+            set
+            {
+                editNomenclature = value;
+                RaisedPropertyChanged("EditNomenclature");
+            }
+        }
+        private async void EditingNomenclatureAsync(object parametr)
+        {
+            TextVisibility = Visibility.Visible;
+            var win = new EditNomenclatureWindow();
+            win.ShowDialog();
+            Nomenclature nomenclature = (Nomenclature)win.comboBoxNomenclature.SelectedItem;
+            if (nomenclature != null)
+            {
+                await Task.Run(() => EditingNomenclature(nomenclature.Name));
+                V_Repairs.Clear();
+                await Task.Run(() => GetRepairs());
+            }
+            TextVisibility = Visibility.Hidden;
+        }
+        private void EditingNomenclature(string nomenclature)
+        {
+            foreach (var repair in V_Repairs)
+            {
+                if (repair.IsChecked)
+                {
+                    try
+                    {
+                        RepairsRequest.EditItemNomenclature(repair.RepairId, nomenclature);
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(ExceptionMessanger.Message(e));
+                    }
+                }
+            }
+        }
+        #endregion
+
+        #region Edit Warranty
+        protected ICommand editWarranty;
+        public ICommand EditWarranty
+        {
+            get
+            {
+                if (editWarranty == null)
+                {
+                    editWarranty = new RelayCommand(new Action<object>(EditingWarrantyAsync));
+                }
+                return editWarranty;
+            }
+            set
+            {
+                editWarranty = value;
+                RaisedPropertyChanged("EditWarranty");
+            }
+        }
+        private async void EditingWarrantyAsync(object parametr)
+        {
+            TextVisibility = Visibility.Visible;
+            await Task.Run(() => EditingWarranty(parametr));
+            V_Repairs.Clear();
+            await Task.Run(() => GetRepairs());
+            TextVisibility = Visibility.Hidden;
+        }
+        private void EditingWarranty(object parametr)
+        {
+            foreach (var repairCopy in V_RepairsCopy)
+            {
+                if (repairCopy.IsChecked)
+                {
+                    var repair = V_Repairs.FirstOrDefault(r => r.Serial_Number == repairCopy.Serial_Number);
+                    if (repair != null)
+                    {
+                        try
+                        {
+                            RepairsRequest.EditItemWarranty(repair.RepairId, parametr.ToString());
+                        }
+                        catch (Exception e)
+                        {
+                            MessageBox.Show(ExceptionMessanger.Message(e));
+                        }
+                    }
+                }
+            }
+        }
+        #endregion
     }
 }
 

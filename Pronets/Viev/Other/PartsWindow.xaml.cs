@@ -72,8 +72,10 @@ namespace Pronets.Viev.Other
 
         private void btnNewPart_Click(object sender, RoutedEventArgs e)
         {
-            var newPart = new Parts();
-            newPart.IsNew = true;
+            var newPart = new Parts
+            {
+                IsNew = true
+            };
             EditPartInfoWindow win = new EditPartInfoWindow(newPart, (PartsWindowVM)this.DataContext);
             win.ShowDialog();
         }

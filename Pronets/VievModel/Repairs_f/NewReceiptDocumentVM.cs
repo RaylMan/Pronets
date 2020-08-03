@@ -441,9 +441,14 @@ namespace Pronets.VievModel.Repairs_f
             try
             {
                 string textError = "В базе данных уже приняты: ";
-                if (selectClientItem == null && defaultUser == null && SelectedStatus == null)
+                if (SelectClientItem == null)
                 {
-                    MessageBox.Show("Необходимо выбрать клиента и статус!", "Ошибка");
+                    MessageBox.Show("Необходимо выбрать клиента!", "Ошибка");
+                    return;
+                }
+                if (defaultUser == null && SelectedStatus == null)
+                {
+                    MessageBox.Show("Необходимо выбрать статус!", "Ошибка");
                     return;
                 }
                 if (!IsAllHaveNomenclature(out string error))

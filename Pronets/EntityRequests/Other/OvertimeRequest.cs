@@ -1,4 +1,5 @@
 ﻿using Pronets.Data;
+using Pronets.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -25,7 +26,7 @@ namespace Pronets.EntityRequests.Other
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message);
+                   MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return overtimeList;
@@ -46,7 +47,7 @@ namespace Pronets.EntityRequests.Other
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message);
+                   MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return overtimeList;
@@ -66,7 +67,7 @@ namespace Pronets.EntityRequests.Other
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message);
+                   MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
             return overtimeList;
@@ -90,7 +91,7 @@ namespace Pronets.EntityRequests.Other
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message);
+                   MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
         }
@@ -111,7 +112,7 @@ namespace Pronets.EntityRequests.Other
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message);
+                   MessageBox.Show(ExceptionMessanger.Message(e));
                 }
             }
         }
@@ -132,7 +133,7 @@ namespace Pronets.EntityRequests.Other
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show(e.Message);
+                       MessageBox.Show(ExceptionMessanger.Message(e));
                     }
                 }
             }
